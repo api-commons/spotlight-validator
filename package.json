@@ -1,0 +1,27 @@
+{
+  "name": "spotlight-validator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser-based OpenAPI/AsyncAPI/JSON Schema governance tool powered by Spotlight Rules.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "compile-rules": "node tools/compile-rules.mjs",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@spotlight-rules/spotlight-core": "^1.0.0",
+    "@spotlight-rules/spotlight-functions": "^1.0.0",
+    "@spotlight-rules/spotlight-parsers": "^1.0.0",
+    "@spotlight-rules/spotlight-rulesets": "^1.0.0",
+    "monaco-editor": "^0.52.2",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "vite": "^5.4.11",
+    "vite-plugin-node-polyfills": "^0.22.0",
+    "typescript": "^5.7.2"
+  }
+}

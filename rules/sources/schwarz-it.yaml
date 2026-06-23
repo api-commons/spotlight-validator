@@ -1,0 +1,25 @@
+extends:
+  - https://github.com/SchwarzIT/api-linter-rules/releases/download/latest/openapi.js
+rules:
+  tag-description: info # Rule enabled from spectral openapi ruleset
+  operation-tag-defined: off
+  common-responses-unauthorized: hint
+  no-http-verbs-in-resources: warn
+  info-description: warn
+  contact-information: warn
+  must-have-path: warn
+  must-define-example-schema: warn
+  path-must-specify-tags: warn
+
+  # We do not want to hinder anyone from deploying, therefore we overwrite all default rules from spectral with a severity of error to warning
+  operation-operationId-unique: warn
+  path-params: warn
+  no-$ref-siblings: warn
+  oas2-discriminator: warn
+  oas2-valid-schema-example: warn
+  oas2-valid-media-example: warn
+  oas2-schema: off
+  oas3-valid-media-example: warn
+  oas3-valid-schema-example: warn
+  oas3-schema: off
+  operation-description: off

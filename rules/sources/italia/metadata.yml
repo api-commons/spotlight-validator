@@ -1,0 +1,75 @@
+rules:
+  has-x-summary:
+    message: "The API info object must contain an `x-summary` field."
+    description: >-
+      The `#/info/x-summary` can be used to specify a brief, one-liner
+      description of your API: this is very useful for catalog purposes
+      (eg. this can be shown as your API subtitle in catalogs and developer
+      portals).
+
+      In OAS3.1 you can use the standard `#/info/summary` field.
+    given: $
+    severity: error
+    recommended: true
+    type: style
+    formats:
+    - oas3
+    then:
+      field: "info.x-summary"
+      function: truthy
+
+  has-termsOfService:
+    message: "The API info object should contain a `termsOfService` URL."
+    description: >-
+      API SHOULD reference the URL of the Terms of Service
+      in `#/info/termsOfService`
+    given: $
+    severity: warn
+    recommended: true
+    type: style
+    formats:
+    - oas3
+    then:
+      field: "info.termsOfService"
+      function: truthy
+
+  has-contact:
+    message: "The API info object must contain a `contact` object with contact information."
+    description: >-
+      API MUST reference a contact, either url or email in #/info/contact
+    given: $
+    severity: error
+    recommended: true
+    type: style
+    formats:
+    - oas3
+    then:
+      field: "info.contact"
+      function: truthy
+
+  has-x-api-id:
+    message: "The API info object should contain an `x-api-id` for tracking purposes."
+    description: |-
+      The `#/info/x-api-id` field can be used to associate an identifier
+      to an API.
+      This is useful to track an API even when its `#/info/title` changes.
+    given: $
+    severity: hint
+    recommended: true
+    type: style
+    then:
+      field: "info.x-api-id"
+      function: truthy
+
+  use-semver:
+    description: |-
+      The API version field should follow
+      [semantic versioning](https://semver.org/#semantic-versioning-specification-semver).
+    severity: error
+    recommended: true
+    message: "The version '{{value}}' is not valid; use semantic versioning (e.g., 1.0.0)."
+    given: $.info.version
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[0-9]+.[0-9]+.[0-9]+(-[a-z0-9+.-]+)?"

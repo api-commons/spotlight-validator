@@ -1,0 +1,180 @@
+functions:
+  - oas-verify-mocks
+  - aas-verify-mocks
+
+extends: [[spectral:oas, off], [spectral:asyncapi, off]]
+
+rules:
+  microcks-info-extension-valid:
+    description: x-microcks extension must be valid
+    message: "x-microcks extension must be valid"
+    formats:
+      - oas3
+      - aas2
+      - aas3
+    severity: warn
+    given: "$.info.x-microcks"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+          required:
+            - labels
+          additionalProperties: false
+
+  microcks-operation-extension-valid:
+    description: x-microcks-operation extension must be valid
+    message: "x-microcks-operation extension must be valid"
+    formats:
+      - oas3
+      - aas2
+      - aas3
+    severity: warn
+    given: 
+      - "$.paths.*.*.x-microcks-operation"
+      - "$.channels.*.[publish,subscribe].x-microcks-operation"
+      - "$.operations.*.x-microcks-operation"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            delay:
+              type: number
+              format: int32
+            frequency:
+              type: number
+              format: int32
+            dispatcher:
+              type: string
+            dispatcherRules:
+              type: string
+            parameterConstraints:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  in:
+                    type: string
+                    enum: [path, query, header]
+                  required:
+                    type: boolean
+                  recopy:
+                    type: boolean
+                  mustMatchRegexp:
+                    type: string
+                required:
+                  - name
+                  - in
+          additionalProperties: false
+
+  oas3-valid-media-example: true
+  oas3-valid-schema-example: true
+
+  microcks-examples-in-required-parameter:
+    description: Required param must have examples
+    message: "Required param must have examples"
+    formats:
+      - oas3
+    severity: warn
+    given: "$..parameters[?(@ && @.required == true)]"
+    then:
+      field: examples
+      function: truthy
+
+  microcks-examples-in-optional-parameter:
+    description: Optional param should have examples
+    message: "Optional param should have examples"
+    formats:
+      - oas3
+    severity: info
+    given: "$..parameters[?(@ && @.required != true)]"
+    then:
+      field: examples
+      function: truthy
+
+  microcks-examples-in-request-content:
+    description: Request with content must have examples
+    message: "Request with content must have examples"
+    formats:
+      - oas3
+    severity: warn
+    given: "$.paths..requestBody..content.*"
+    then:
+      field: examples
+      function: truthy
+
+  microcks-examples-in-response-content:
+    description: Response with content must have examples
+    message: "Response with content must have examples"
+    formats:
+      - oas3
+    severity: warn
+    given: "$.paths..responses..content.*"
+    then:
+      field: examples
+      function: truthy
+
+  microcks-examples-fragments-to-complete-mocks:
+    description: Response example must match required params examples to form full mocks
+    message: "{{error}}"
+    formats:
+      - oas3
+    severity: warn
+    given: "$.paths.*.*"
+    then:
+      function: oas-verify-mocks
+          
+  asyncapi-message-examples: true
+
+  microcks-aas-examples-in-messages:
+    description: Message must have examples
+    message: "Message must have examples"
+    formats:
+      - aas2
+    severity: warn
+    given: "$.channels.*.[publish,subscribe].message"
+    then:
+      field: examples
+      function: truthy
+
+  microcks-aas3-examples-in-messages:
+    description: Message must have examples
+    message: "Message must have examples"
+    formats:
+      - aas3
+    severity: warn
+    given: "$.components.messages.*"
+    then:
+      field: examples
+      function: truthy
+
+  microcks-aas-examples-in-parameter:
+    description: Parameter must have examples
+    message: "Parameter must have examples"
+    formats:
+      - aas2
+    severity: warn
+    given: "$.channels.*.parameters.*.schema"
+    then:
+      field: examples
+      function: truthy
+
+  microcks-aas-examples-fragments-to-complete-mocks:
+    description: Message example must match params examples to form full mocks
+    message: "{{error}}"
+    formats:
+      - aas2
+    severity: warn
+    given: "$.channels.*"
+    then:
+      function: aas-verify-mocks

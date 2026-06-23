@@ -1,0 +1,66 @@
+rules:
+  paths-kebab-case:
+    description: |
+      Paths should be kebab-case (e.g. `path-parameter`).
+
+      See Italian recommendation RAC_REST_NAME_002.
+    message: '[RAC_REST_NAME_002] Path "{{property}}" must be kebab-case (e.g., /my-resource-name).'
+    severity: warn
+    recommended: true
+    given: $.paths[*]
+    then:
+      field: "@property"
+      function: pattern
+      functionOptions:
+        match: "^(\/[a-z0-9-.]+|\/{[a-zA-Z0-9_]+})+$"
+
+  request-headers-train-case: &request-headers-train-case
+    description: |
+      Headers should be Train-Case / HTTP-Header-Case (e.g. `X-Header-Name`).
+
+      See Italian recommendation RAC_REST_NAME_003.
+    message: '[RAC_REST_NAME_003] Header "{{value}}" must be Train-Case / HTTP-Header-Case.'
+    severity: hint
+    recommended: true
+    given:
+    - $..[parameters][?(@ && @.in=="header")].name
+    then:
+      function: pattern
+      functionOptions:
+        match: "^([A-Z][a-zA-Z0-9]*(-[A-Z][a-zA-Z0-9]*)*)$"
+  response-headers-train-case:
+    <<: *request-headers-train-case
+    message: '[RAC_REST_NAME_003] Response header "{{property}}" must be Train-Case / HTTP-Header-Case.'
+    given:
+    - $..[responses][*].headers.*~
+
+  schema-camel-case:
+    description: |-
+      Schema definitions should be CamelCase
+      (pascal case with blank separator char).
+
+      This improves readability and avoid
+      confusion between schema names and properties.
+
+      ```
+      Website:
+        type: string
+        format: url
+      Person:
+        type: object
+        properties:
+          website:
+            $ref: "#/components/schemas/Website"
+      ``` 
+    message: 'Schema name "{{property}}" should be PascalCase (e.g., MySchema).'
+    severity: hint
+    recommended: true
+    given: >-
+      $.components.schemas[*]
+    then:
+      field: "@property"
+      function: casing
+      functionOptions:
+        type: pascal
+        separator:
+          char: ""

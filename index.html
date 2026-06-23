@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spotlight Validator — API Governance Playground</title>
+    <meta name="description" content="Lint OpenAPI, AsyncAPI, and JSON Schema in the browser with Spotlight rules. Select best-of-breed governance rules by tag, or edit your own." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <img src="/favicon.svg" alt="" width="24" height="24" />
+        <strong>Spotlight Validator</strong>
+        <span class="tag">governance playground</span>
+      </div>
+      <nav>
+        <label>Format
+          <select id="format">
+            <option value="openapi">OpenAPI</option>
+            <option value="asyncapi">AsyncAPI</option>
+            <option value="jsonschema">JSON Schema</option>
+          </select>
+        </label>
+        <a href="https://github.com/api-commons/spotlight-validator" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://spotlight-rules.com" target="_blank" rel="noopener">Spotlight Rules</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section class="pane">
+        <div class="pane-head"><span>Artifact</span><span id="doc-status" class="muted"></span></div>
+        <div id="doc-editor" class="editor"></div>
+        <div class="results">
+          <div class="pane-head"><span>Results</span><span id="result-count" class="muted">—</span></div>
+          <ul id="results"></ul>
+        </div>
+      </section>
+
+      <section class="pane">
+        <div class="pane-head">
+          <span>Ruleset</span>
+          <span class="toggle">
+            <button id="mode-best" class="active">Best-of-breed</button>
+            <button id="mode-custom">Custom</button>
+          </span>
+        </div>
+
+        <div id="best-panel">
+          <p class="muted small">Select rules by tag — <span id="active-count">0</span> rules active. Compiled from public Spectral rulesets (SPS Commerce, Italian Gov, Adidas, Trimble, Paystack, DigitalOcean, Microcks, Baloise, Team Digitale, Schwarz IT).</p>
+          <div id="tag-groups"></div>
+        </div>
+
+        <div id="custom-panel" hidden>
+          <p class="muted small">Edit a ruleset (YAML). Use <code>extends: ["spotlight:oas"]</code> for the built-in OpenAPI rules.</p>
+          <div id="ruleset-editor" class="editor"></div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

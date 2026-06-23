@@ -1,0 +1,31 @@
+rules:
+  servers-description:
+    description: |-
+      Servers must have a description.
+    message: "Server should have a description explaining its purpose (e.g., Production, Sandbox)."
+    given:
+    - $.servers[*]
+    - $.paths..servers[*]
+    severity: warn
+    recommended: true
+    then:
+      field: description
+      function: truthy
+
+  servers-use-https:
+    description: |-
+      Servers must use https to ensure the origin of the responses
+      and protect the integrity and the  confidentiality of the communication.
+
+      You can use `http://` only on sandboxes environment.
+      Use `x-sandbox: true` to skip this kind of check.
+    message: "Non-sandbox URL '{{value}}' must use https. Set 'x-sandbox: true' to skip this check for development environments."
+    given:
+    -  $.servers[?(@ && @["x-sandbox"] != true)].url
+    -  $.paths..servers[?(@ && @["x-sandbox"] != true)].url
+    severity: error
+    recommended: true
+    then:
+      function: pattern
+      functionOptions:
+        match: ^https://.*

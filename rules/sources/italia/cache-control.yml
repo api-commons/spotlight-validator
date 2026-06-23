@@ -1,0 +1,66 @@
+rules:
+  cache-control-parameter-undocumented: &cache-control
+    description: |-
+      Cache usage SHOULD be extensively detailed in the `description` property
+      to avoid data leaks or the usage of stale data.
+
+      This rule should ensure in some way that the api provider
+      documented extensively the cache usage to avoid data leaks
+      or usage of stale data.
+      The `no-transform` directive can
+      be used in responses to avoid transforming proxies to
+      modify (eg. compress) the content.
+
+      For now this ruleset tests:
+      * the presence of following keywords
+        in the `description`: `max-age`, `private`, `no-store`, `no-cache`,
+        `no-transform`.
+      * that one and only one between Expires and Cache-Control is used.
+
+      `Cache-Control` and `Expires` should not be used in conjunction,
+      because `Cache-Control` overrides `Expires` when `max-age` is set.
+      Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
+      like described in RFC7234.
+
+    message: "[RFC7234] Cache usage must be documented in the description (include keywords like max-age, no-store, etc.)."
+    formats:
+      - oas3
+    severity: warn
+    recommended: true
+    given: >-
+      $..[parameters][?(@ && @.in == "header" && @.name && @.name.match && @.name.match(/Cache-Control/i))]
+    then:
+    -  field: description
+       function: truthy
+    -  field: description
+       function: pattern
+       functionOptions:
+         match: >-
+           .*(max-age|private|no-store|no-cache|no-transform).*
+
+  cache-responses-undocumented:
+    <<: *cache-control
+    severity: info
+    message: "[RFC7234] Cache usage for response header must be documented in its description."
+    given: >-
+      $..[responses][?(@property[0] == "2" )][headers].[?(@property && @property.match && @property.match(/Cache-Control|Expires/i))]
+
+  cache-responses-indeterminate-behavior:
+    <<: *cache-control
+    message: "[RFC7234] Use either 'Cache-Control' or 'Expires' header, but not both or neither."
+    severity: info
+    recommended: true
+    given: >-
+      $..[responses][?(@property[0] == "2")][headers]
+    then:
+      - function: schema
+        functionOptions:
+          schema:
+            type: object
+            oneOf:
+              - required: [Cache-Control]
+                not:
+                  required: [Expires]
+              - required: [Expires]
+                not:
+                  required: [Cache-Control]
