@@ -1,6 +1,6 @@
-description: Spotlight best-of-breed OpenAPI governance ruleset, compiled from
-  public Spectral rulesets. Built-in functions only; select rules with tags
-  (source:*, category:*, format:*).
+description: Spotlight best-of-breed API governance ruleset, compiled from
+  public Spectral rulesets. Select rules with tags (source:*, category:*,
+  format:*).
 documentationUrl: https://github.com/api-commons/spotlight-validator
 extends:
   - - spotlight:oas
@@ -634,6 +634,106 @@ rules:
       - source:baloise
       - format:openapi
       - category:errors
+  baloise/should-use-additional-well-understood-http-status-codes:
+    message: "{{error}}"
+    description: MUST use standard HTTP status codes [150]
+    documentationUrl: https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/should-use-additional-well-understood-http-status-codes.md
+    severity: warn
+    given: $.paths.*
+    then:
+      function: baloise:assert-http-codes-for-operation
+      functionOptions:
+        wellUnderstood:
+          "200":
+            - ALL
+          "201":
+            - POST
+            - PUT
+          "202":
+            - POST
+            - PUT
+            - DELETE
+            - PATCH
+          "204":
+            - PUT
+            - DELETE
+            - PATCH
+          "207":
+            - POST
+          "301":
+            - ALL
+          "303":
+            - PATCH
+            - POST
+            - PUT
+            - DELETE
+          "304":
+            - GET
+            - HEAD
+          "400":
+            - ALL
+          "401":
+            - ALL
+          "403":
+            - ALL
+          "404":
+            - ALL
+          "405":
+            - ALL
+          "406":
+            - ALL
+          "408":
+            - ALL
+          "409":
+            - POST
+            - PUT
+            - DELETE
+            - PATCH
+          "410":
+            - ALL
+          "412":
+            - PUT
+            - DELETE
+            - PATCH
+          "415":
+            - POST
+            - PUT
+            - DELETE
+            - PATCH
+          "422":
+            - ALL
+          "423":
+            - PUT
+            - DELETE
+            - PATCH
+          "428":
+            - ALL
+          "429":
+            - ALL
+          "500":
+            - ALL
+          "501":
+            - ALL
+          "503":
+            - ALL
+          default:
+            - ALL
+    tags:
+      - source:baloise
+      - format:openapi
+      - category:errors
+  baloise/must-use-tracing:
+    message: Header X-B3-Traceid, X-B3-Spanid or traceparent (w3c) missing
+    description: MUST use b3 or w3c tracing [233a]
+    documentationUrl: https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/requests-must-use-tracing.md
+    severity: error
+    given: $.paths.*
+    then:
+      function: baloise:validate-tracing
+    tags:
+      - source:baloise
+      - format:openapi
+      - category:general
   baloise/must-provide-baloise-api-audience:
     message: Missing or wrong `info.x-audience`.
     description: MUST provide API audience [219]
@@ -681,6 +781,17 @@ rules:
       - source:digitalocean
       - format:openapi
       - category:pagination
+  digitalocean/properties-must-include-examples:
+    description: Object properties must include examples
+    given: $..properties..properties.*
+    severity: error
+    message: "{{description}}; {{property}}"
+    then:
+      function: digitalocean:ensurePropertiesExample
+    tags:
+      - source:digitalocean
+      - format:openapi
+      - category:documentation
   digitalocean/params-must-include-examples:
     description: Parameters must include examples
     given: $..parameters.*
@@ -692,6 +803,17 @@ rules:
         properties:
           - example
           - examples
+    tags:
+      - source:digitalocean
+      - format:openapi
+      - category:documentation
+  digitalocean/headers-must-include-examples:
+    description: Headers must include examples
+    given: $..headers.*
+    severity: error
+    message: "{{description}}; missing {{property}}"
+    then:
+      function: digitalocean:ensurePropertiesExample
     tags:
       - source:digitalocean
       - format:openapi
@@ -785,6 +907,99 @@ rules:
       - source:digitalocean
       - format:openapi
       - category:errors
+  digitalocean/array-properties-must-have-items-with-type:
+    description: Array properties must have an items attribute with a type
+    given: $..*.properties[*]
+    severity: error
+    message: "{{error}}"
+    then:
+      function: digitalocean:ensureAllArraysHaveItemTypes
+    tags:
+      - source:digitalocean
+      - format:openapi
+      - category:general
+  digitalocean/array-params-must-have-items-with-type:
+    description: Array parameters must have an items attribute with a type
+    given: $..*.parameters[*]
+    severity: error
+    message: "{{error}}"
+    then:
+      function: digitalocean:ensureAllArraysHaveItemTypes
+    tags:
+      - source:digitalocean
+      - format:openapi
+      - category:structure
+  digitalocean/operationid-must-follow-new-naming-conventions:
+    description: operationIds must follow naming conventions for method
+    type: style
+    given: $.paths[*][*]
+    severity: error
+    message: "{{error}}"
+    then:
+      function: digitalocean:validateOpIDNaming
+    tags:
+      - source:digitalocean
+      - format:openapi
+      - category:naming
+  digitalocean/schema-key-must-be-snake-cased:
+    description: schema key must be snake cased (e.g. snake_case)
+    type: style
+    given: $.components['schemas'].*~
+    severity: error
+    message: "{{error}}"
+    then:
+      function: digitalocean:ensureSnakeCaseWithDigits
+    tags:
+      - source:digitalocean
+      - format:openapi
+      - category:naming
+  digitalocean/parameter-key-must-be-snake-cased:
+    description: parameter key must be snake cased (e.g. snake_case)
+    type: style
+    given: $.components['parameters'].*~
+    severity: error
+    message: "{{error}}"
+    then:
+      function: digitalocean:ensureSnakeCaseWithDigits
+    tags:
+      - source:digitalocean
+      - format:openapi
+      - category:naming
+  digitalocean/example-key-must-be-snake-cased:
+    description: example key must be snake cased (e.g. snake_case)
+    type: style
+    given: $.components['examples'].*~
+    severity: error
+    message: "{{error}}"
+    then:
+      function: digitalocean:ensureSnakeCaseWithDigits
+    tags:
+      - source:digitalocean
+      - format:openapi
+      - category:naming
+  digitalocean/response-key-must-be-snake-cased:
+    description: response key must be snake cased (e.g. snake_case)
+    type: style
+    given: $.components['responses'].*~
+    severity: error
+    message: "{{error}}"
+    then:
+      function: digitalocean:ensureSnakeCaseWithDigits
+    tags:
+      - source:digitalocean
+      - format:openapi
+      - category:naming
+  digitalocean/schema-properties-must-have-type:
+    description: Schema properties must have a type defined
+    given: $..properties.*
+    severity: error
+    message: "{{error}}"
+    then:
+      function: digitalocean:ensureSchemaHasType
+    tags:
+      - source:digitalocean
+      - format:openapi
+      - category:structure
   digitalocean/oas3-operation-security-defined:
     description: Check operation security is defined
     severity: error
@@ -950,6 +1165,19 @@ rules:
       - source:microcks
       - format:openapi
       - category:documentation
+  microcks/microcks-examples-fragments-to-complete-mocks:
+    description: Response example must match required params examples to form full mocks
+    message: "{{error}}"
+    formats:
+      - oas3
+    severity: warn
+    given: $.paths.*.*
+    then:
+      function: microcks:oas-verify-mocks
+    tags:
+      - source:microcks
+      - format:openapi
+      - category:documentation
   microcks/microcks-aas-examples-in-messages:
     description: Message must have examples
     message: Message must have examples
@@ -988,6 +1216,19 @@ rules:
     then:
       field: examples
       function: truthy
+    tags:
+      - source:microcks
+      - format:openapi
+      - category:documentation
+  microcks/microcks-aas-examples-fragments-to-complete-mocks:
+    description: Message example must match params examples to form full mocks
+    message: "{{error}}"
+    formats:
+      - aas2
+    severity: warn
+    given: $.channels.*
+    then:
+      function: microcks:aas-verify-mocks
     tags:
       - source:microcks
       - format:openapi
@@ -1164,12 +1405,12 @@ rules:
 
       like described in RFC7234.
     message: Cache usage SHOULD be documented when used.
-    formats: &a1
+    formats:
       - oas3
     severity: warn
     recommended: true
     given: $..[parameters][?(@.in == "header" && @.name.match(/Cache-Control/i))]
-    then: &a2
+    then:
       - field: description
         function: truthy
       - field: description
@@ -1211,12 +1452,19 @@ rules:
       like described in RFC7234.
     message: Cache usage in responses SHOULD be documented in Cache-Control and/or
       Expires. {{error}}
-    formats: *a1
+    formats:
+      - oas3
     severity: info
     recommended: true
     given: $.[responses][?(@property[0] == "2"
       )][headers].[?(@property.match(/Cache-Control|Expires/i))]]
-    then: *a2
+    then:
+      - field: description
+        function: truthy
+      - field: description
+        function: pattern
+        functionOptions:
+          match: .*(max-age|private|no-store|no-cache).*
     tags:
       - source:team-digitale
       - format:openapi
@@ -1251,7 +1499,8 @@ rules:
 
       like described in RFC7234.
     message: "{{error}}"
-    formats: *a1
+    formats:
+      - oas3
     severity: info
     recommended: true
     given: $.[responses][?(@property[0] == "2" )][headers]
@@ -2767,6 +3016,28 @@ rules:
       - source:team-digitale
       - format:openapi
       - category:general
+  trimble/tas-api-server-url-invalid:
+    description: API URLs should meet the Trimble API Standards
+    message: "{{error}}"
+    given: $.servers
+    severity: warn
+    then:
+      function: trimble:valid-url-checker
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:structure
+  trimble/tas-api-server-url-version-invalid:
+    description: API URLs versions should meet the Trimble API Standards
+    message: "{{error}}"
+    given: $.servers
+    severity: warn
+    then:
+      function: trimble:valid-version-checker
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:versioning
   trimble/tas-openapi-v3-schema-properties-names-camel-case:
     description: Ensuring that schema property names are camel case.
     message: All schema property names MUST be camel case.
@@ -2782,6 +3053,90 @@ rules:
       - source:trimble
       - format:openapi
       - category:naming
+  trimble/tas-no-http-verbs-in-path:
+    description: HTTP verbs should be not be in URL paths
+    message: "{{property}} has HTTP verb in path: {{error}}"
+    recommended: true
+    type: style
+    given: $.paths
+    then:
+      field: "@key"
+      function: trimble:no-http-verbs-in-path
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:structure
+  trimble/tas-structured-data-format:
+    description: All APIs returning structured data SHOULD support JSON as the
+      default format.
+    severity: error
+    message: "{{error}}"
+    given: $.paths.*.
+    then:
+      function: trimble:check-if-application-or-json-in-put-and-post-response
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:general
+  trimble/tas-structured-data-format-support-json-response-body:
+    description: All APIs returning structured data SHOULD support JSON as the
+      default format.
+    severity: warn
+    message: "{{error}}"
+    given: $.paths.*.
+    then:
+      function: trimble:check-if-response-body-json-in-get-response
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:structure
+  trimble/tdp-http-response-code:
+    description: All APIs should return a valid http response code.
+    severity: warn
+    message: "{{error}}"
+    given: $..responses
+    then:
+      field: "@key"
+      function: trimble:valid-http-response
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:structure
+  trimble/tas-check-queryparameter-in-endpoint:
+    description: Check if the given resource path has queryparameter.
+    severity: warn
+    message: "{{error}}"
+    given: $.paths
+    then:
+      field: "@key"
+      function: trimble:check-for-query-parameter-in-every-path
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:structure
+  trimble/tdp-does-spec-contains-valid-http-verbs:
+    description: All APIs MUST have a valid http verb.
+    severity: warn
+    message: "{{error}}"
+    given: $.paths.*
+    then:
+      field: "@key"
+      function: trimble:does-spec-contains-valid-http-verbs
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:general
+  trimble/tdp-spec-should-not-be-empty:
+    description: Spec should not be empty.
+    severity: error
+    message: "{{error}}"
+    given: $
+    then:
+      function: trimble:is-valid-spec
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:general
   trimble/tdp-tag-pascal-case:
     severity: warn
     recommended: true
@@ -2845,6 +3200,20 @@ rules:
       - source:trimble
       - format:openapi
       - category:versioning
+  trimble/tdp-operation-summary-description:
+    description: Operation summaries and description should not match
+    message: "{{error}}"
+    severity: warn
+    formats:
+      - oas3
+    given:
+      - $.paths[*].[get,post,put,patch,delete]
+    then:
+      function: trimble:operation-summary-description
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:documentation
   trimble/tas-operation-delete-204-status-code:
     description: All DELETE methods MUST have a 204 response.
     severity: error
@@ -2860,6 +3229,20 @@ rules:
       - source:trimble
       - format:openapi
       - category:errors
+  trimble/tdp-operation-post-201-202-status-code:
+    description: All POST methods MUST have a 201 or 202 response.
+    severity: error
+    recommended: true
+    formats:
+      - oas3
+    given:
+      - $.paths[*].post.responses
+    then:
+      function: trimble:operation-post-201-202-status-code
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:errors
   trimble/tas-operation-400-response-body:
     description: All 400 responses must include a response body.
     severity: error
@@ -2871,6 +3254,108 @@ rules:
     then:
       field: content
       function: truthy
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:structure
+  trimble/tas-check-content-type-for-206-get-response-code:
+    description: Check if the get response code 206 has content-type and content-range.
+    severity: warn
+    message: "{{error}}"
+    given: $.paths.*.
+    then:
+      function: trimble:check-content-type-for-206-get-response-code
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:structure
+  trimble/tas-standard-error-payload:
+    description: All 4XX and 5XX response codes must follow Trimble API Standard.
+    severity: error
+    given: $.paths.*.*.responses.
+    message: "{{error}}"
+    then:
+      function: trimble:check-standard-for-error-payload
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:errors
+  trimble/tas-check-description-for-all-error-responses:
+    description: Check if the response description is appropriate for all requests.
+    severity: warn
+    message: "{{error}}"
+    given: $.paths.*.*.responses.
+    then:
+      function: trimble:check-description-for-all-error-responses
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:documentation
+  trimble/tas-check-description-for-all-success-responses:
+    description: Check if the response description is appropriate for all requests.
+    severity: warn
+    message: "{{error}}"
+    given: $.paths.*.
+    then:
+      function: trimble:check-description-for-all-success-responses
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:documentation
+  trimble/tas-check-for-content-type-in-put-and-post-responses:
+    description: All API responses MUST include the Content-Type header in all responses
+    severity: error
+    message: "{{error}}"
+    given:
+      - $.paths[*].post.responses
+      - $.paths[*].put.responses
+    then:
+      function: trimble:check-for-content-type-in-put-and-post-responses
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:structure
+  trimble/tdp-check-for-path-parameters-in-parameter-block:
+    description: Check for the path parameter in the parameter block.
+    severity: error
+    message: "{{error}}"
+    given: $.paths.
+    then:
+      function: trimble:check-for-path-parameter
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:structure
+  trimble/tdp-check-for-response-in-every-request:
+    description: Check if every request has their respective responses.
+    severity: error
+    message: "{{error}}"
+    given: $.paths.*
+    then:
+      function: trimble:check-for-response-in-every-request
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:structure
+  trimble/tas-delete-must-not-return-body:
+    description: Check if the delete response does not have any body.
+    severity: warn
+    message: "{{error}}"
+    given: $.paths.*.
+    then:
+      function: trimble:delete-must-not-return-body
+    tags:
+      - source:trimble
+      - format:openapi
+      - category:general
+  trimble/tdp-invalid-symbol-in-path:
+    description: Check if the given endpoint has queryparameter.
+    severity: error
+    message: "{{error}}"
+    given: $.paths.
+    then:
+      field: "@key"
+      function: trimble:invalid-symbol-in-path
     tags:
       - source:trimble
       - format:openapi

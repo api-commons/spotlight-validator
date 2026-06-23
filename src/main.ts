@@ -3,7 +3,7 @@ import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import { parse as parseYaml } from 'yaml';
 import { lint, filterRulesByTags, collectTags } from './spotlight';
-import compiledRuleset from './compiled-ruleset.json';
+import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { SAMPLES } from './samples';
 import './style.css';
 

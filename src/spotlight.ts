@@ -5,8 +5,8 @@ import { Spotlight, Document, Ruleset } from '@spotlight-rules/spotlight-core';
 import type { RulesetDefinition, IRuleResult } from '@spotlight-rules/spotlight-core';
 import * as Parsers from '@spotlight-rules/spotlight-parsers';
 import { oas, asyncapi, arazzo } from '@spotlight-rules/spotlight-rulesets';
-import * as fns from '@spotlight-rules/spotlight-functions';
 import * as fmts from '@spotlight-rules/spotlight-formats';
+import { functions as FN_MAP } from './compiled-ruleset';
 
 const BUILTIN_RULESETS: Record<string, unknown> = {
   'spotlight:oas': oas,
@@ -33,7 +33,7 @@ function toJsForm(node: any): any {
   if (node && typeof node === 'object') {
     const out: any = {};
     for (const [k, v] of Object.entries(node)) {
-      if (k === 'function' && typeof v === 'string') out[k] = (fns as any)[v] ?? v;
+      if (k === 'function' && typeof v === 'string') out[k] = (FN_MAP as any)[v] ?? v;
       else if (k === 'formats' && Array.isArray(v)) out[k] = v.map((f) => (typeof f === 'string' ? lookupFormat(f) : f)).filter(Boolean);
       else out[k] = toJsForm(v);
     }
