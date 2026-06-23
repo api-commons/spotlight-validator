@@ -4246,7 +4246,9 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "category:structure",
+        "duplicate:true",
+        "dup-of:adidas/adidas-headers-hyphenated-pascal-case"
       ]
     },
     "sps-commerce/sps-no-x-headers": {
@@ -5559,7 +5561,9 @@ export const ruleset = {
       "tags": [
         "source:italia",
         "format:openapi",
-        "category:documentation"
+        "category:documentation",
+        "duplicate:true",
+        "dup-of:team-digitale/has-x-summary"
       ]
     },
     "italia/has-termsOfService": {
@@ -5579,7 +5583,9 @@ export const ruleset = {
       "tags": [
         "source:italia",
         "format:openapi",
-        "category:general"
+        "category:general",
+        "duplicate:true",
+        "dup-of:team-digitale/has-termsOfService"
       ]
     },
     "italia/has-contact": {
@@ -5599,7 +5605,9 @@ export const ruleset = {
       "tags": [
         "source:italia",
         "format:openapi",
-        "category:documentation"
+        "category:documentation",
+        "duplicate:true",
+        "dup-of:team-digitale/has-contact"
       ]
     },
     "italia/has-x-api-id": {
@@ -5616,7 +5624,9 @@ export const ruleset = {
       "tags": [
         "source:italia",
         "format:openapi",
-        "category:general"
+        "category:general",
+        "duplicate:true",
+        "dup-of:team-digitale/has-x-api-id"
       ]
     },
     "italia/use-semver": {
@@ -5634,7 +5644,9 @@ export const ruleset = {
       "tags": [
         "source:italia",
         "format:openapi",
-        "category:general"
+        "category:general",
+        "duplicate:true",
+        "dup-of:team-digitale/use-semver"
       ]
     },
     "italia/use-recommended-names-in-parameters": {
@@ -5801,7 +5813,9 @@ export const ruleset = {
       "tags": [
         "source:italia",
         "format:openapi",
-        "category:general"
+        "category:general",
+        "duplicate:true",
+        "dup-of:team-digitale/no-swagger-2"
       ]
     },
     "italia/oas3-valid-media-example": {

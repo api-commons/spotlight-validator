@@ -3977,6 +3977,8 @@ rules:
       - source:sps-commerce
       - format:openapi
       - category:structure
+      - duplicate:true
+      - dup-of:adidas/adidas-headers-hyphenated-pascal-case
   sps-commerce/sps-no-x-headers:
     description: Do not use headers with X-
     severity: warn
@@ -5160,6 +5162,8 @@ rules:
       - source:italia
       - format:openapi
       - category:documentation
+      - duplicate:true
+      - dup-of:team-digitale/has-x-summary
   italia/has-termsOfService:
     message: The API info object should contain a `termsOfService` URL.
     description: API SHOULD reference the URL of the Terms of Service in
@@ -5177,6 +5181,8 @@ rules:
       - source:italia
       - format:openapi
       - category:general
+      - duplicate:true
+      - dup-of:team-digitale/has-termsOfService
   italia/has-contact:
     message: The API info object must contain a `contact` object with contact
       information.
@@ -5194,6 +5200,8 @@ rules:
       - source:italia
       - format:openapi
       - category:documentation
+      - duplicate:true
+      - dup-of:team-digitale/has-contact
   italia/has-x-api-id:
     message: The API info object should contain an `x-api-id` for tracking purposes.
     description: |-
@@ -5211,6 +5219,8 @@ rules:
       - source:italia
       - format:openapi
       - category:general
+      - duplicate:true
+      - dup-of:team-digitale/has-x-api-id
   italia/use-semver:
     description: >-
       The API version field should follow
@@ -5230,6 +5240,8 @@ rules:
       - source:italia
       - format:openapi
       - category:general
+      - duplicate:true
+      - dup-of:team-digitale/use-semver
   italia/use-recommended-names-in-parameters:
     description: |-
       Use well defined parameter and schema names, deriving them
@@ -5446,6 +5458,8 @@ rules:
       - source:italia
       - format:openapi
       - category:general
+      - duplicate:true
+      - dup-of:team-digitale/no-swagger-2
   italia/oas3-valid-media-example:
     description: Ensure examples are valid against their schema.
     message: "Example value is invalid against the schema. Check for structural

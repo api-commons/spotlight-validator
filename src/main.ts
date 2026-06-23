@@ -2,7 +2,7 @@ import * as monaco from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import { parse as parseYaml } from 'yaml';
-import { lint, filterRulesByTags, collectTags } from './spotlight';
+import { lint, collectTags } from './spotlight';
 import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { SAMPLES } from './samples';
 import './style.css';
@@ -82,6 +82,21 @@ function renderTagGroups() {
 }
 renderTagGroups();
 
+// tag controls
+function allCheckboxes() {
+  return $('#tag-groups').querySelectorAll<HTMLInputElement>('input[type=checkbox]');
+}
+$('#sel-all').addEventListener('click', () => {
+  allCheckboxes().forEach((cb) => { cb.checked = true; activeTags.add(cb.value); });
+  runLint();
+});
+$('#sel-none').addEventListener('click', () => {
+  allCheckboxes().forEach((cb) => (cb.checked = false));
+  activeTags.clear();
+  runLint();
+});
+$('#hide-dupes').addEventListener('change', () => runLint());
+
 // ---- mode toggle ------------------------------------------------------------
 let mode: 'best' | 'custom' = 'best';
 function setMode(m: 'best' | 'custom') {
@@ -127,12 +142,21 @@ function activeRulesetDef(): any {
       return { __parseError: true, rules: {} };
     }
   }
-  // best-of-breed: compiled rules filtered by tag, plus the format's built-in ruleset
-  const filtered = filterRulesByTags(compiledRuleset, activeTags);
+  // best-of-breed: compiled rules gated by the selected format, the active tag
+  // filter (union; empty = all), and the hide-duplicates toggle; plus the
+  // format's built-in ruleset.
+  const hideDupes = ($('#hide-dupes') as HTMLInputElement)?.checked ?? true;
+  const rules: Record<string, any> = {};
+  for (const [name, rule] of Object.entries<any>((compiledRuleset as any).rules)) {
+    const tags: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
+    if (!tags.includes(`format:${format}`)) continue;
+    if (activeTags.size > 0 && !tags.some((t) => activeTags.has(t))) continue;
+    if (hideDupes && tags.includes('duplicate:true')) continue;
+    rules[name] = rule;
+  }
   const ext = EXTENDS_FOR[format];
-  const def: any = { ...filtered, extends: ext ? [[ext, 'recommended']] : [] };
-  $('#active-count').textContent = String(Object.keys(filtered.rules).length);
-  return def;
+  $('#active-count').textContent = String(Object.keys(rules).length);
+  return ext ? { extends: [[ext, 'recommended']], rules } : { rules };
 }
 
 let timer: number | undefined;

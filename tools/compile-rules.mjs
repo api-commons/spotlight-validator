@@ -159,6 +159,20 @@ for (let i = 0; i < 80; i++) {
     for (const k of bad) { delete compiled[k]; pruned++; }
   }
 }
+// ---- mark exact-duplicate rules (same given + same then) across sources.
+// Keep the first occurrence canonical; tag the rest `duplicate:true`.
+const sigSeen = new Map();
+let dupes = 0;
+for (const [key, rule] of Object.entries(compiled)) {
+  const sig = JSON.stringify([rule.given, rule.then]);
+  if (sigSeen.has(sig)) {
+    rule.tags = [...new Set([...(rule.tags || []), 'duplicate:true', `dup-of:${sigSeen.get(sig)}`])];
+    dupes++;
+  } else {
+    sigSeen.set(sig, key);
+  }
+}
+
 // drop now-unused custom imports (their rule may have been pruned)
 const stillUsed = new Set();
 for (const r of Object.values(compiled)) for (const t of (Array.isArray(r.then) ? r.then : [r.then])) if (t?.function && usedCustom.has(t.function)) stillUsed.add(t.function);
@@ -195,5 +209,5 @@ export const ruleset = ${JSON.stringify(ruleset, null, 2)} as const;
 writeFileSync(join(ROOT, 'src', 'compiled-ruleset.ts'), ts);
 writeFileSync(join(ROOT, 'rules', 'spotlight-recommended.yaml'), stringify(ruleset));
 
-console.log(`compiled ${Object.keys(compiled).length} rules (${stillUsed.size} custom functions, pruned ${pruned})`);
+console.log(`compiled ${Object.keys(compiled).length} rules (${stillUsed.size} custom functions, pruned ${pruned}, ${dupes} exact duplicates tagged)`);
 for (const [src, s] of Object.entries(stats)) console.log(`  ${src.padEnd(16)} kept ${s.kept}, skipped ${s.skipped}`);

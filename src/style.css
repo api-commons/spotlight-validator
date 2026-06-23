@@ -65,3 +65,7 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .tag-group { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 0.75rem; padding: 0.5rem 0.75rem; }
 .tag-group legend { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
 .chip { display: inline-flex; align-items: center; gap: 0.25rem; margin: 0.15rem 0.5rem 0.15rem 0; font-size: 0.85rem; }
+
+.controls { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--line); }
+.mini { background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 2px 8px; font-size: 0.8rem; cursor: pointer; }
+.mini:hover { border-color: var(--accent); }

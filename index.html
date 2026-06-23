@@ -48,6 +48,11 @@
 
         <div id="best-panel">
           <p class="muted small">Select rules by tag — <span id="active-count">0</span> rules active. Compiled from public Spectral rulesets (SPS Commerce, Italian Gov, Adidas, Trimble, Paystack, DigitalOcean, Microcks, Baloise, Team Digitale, Schwarz IT).</p>
+          <div class="controls">
+            <button id="sel-all" class="mini">Select all</button>
+            <button id="sel-none" class="mini">Clear</button>
+            <label class="chip"><input type="checkbox" id="hide-dupes" checked /> Hide duplicate rules</label>
+          </div>
           <div id="tag-groups"></div>
         </div>
 
