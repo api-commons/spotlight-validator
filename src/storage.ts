@@ -54,6 +54,16 @@ export function setActiveId(id: string | null): void {
 export function newId(): string {
   return globalThis.crypto?.randomUUID?.() ?? 'd' + Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
+// Wipe everything the validator stores (saved artifacts, active doc, saved rules).
+export function clearAll(): void {
+  try {
+    localStorage.removeItem(DOCS_KEY);
+    localStorage.removeItem(ACTIVE_KEY);
+    localStorage.removeItem(RULES_KEY);
+  } catch {
+    /* storage disabled */
+  }
+}
 
 // ---- saved rule overrides ----------------------------------------------------
 // A saved rule overrides the built-in/compiled rule of the same name for its

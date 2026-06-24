@@ -165,3 +165,6 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 
 .store-list li.rule-off .store-name { text-decoration: line-through; color: var(--muted); }
 .store-list li.rule-off .store-meta { color: var(--error); }
+
+.reset-btn { background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 4px 12px; font-size: 0.85rem; cursor: pointer; }
+.reset-btn:hover { color: #f14c4c; border-color: #f14c4c; }

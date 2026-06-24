@@ -6,7 +6,7 @@ import { lint, builtinDescriptions } from './spotlight';
 import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { ARTIFACTS, DEFAULT_RULESETS, SAMPLES, artifactById, type ArtifactType } from './artifacts';
 import { searchArtifacts, loadArtifactContent, type SearchHit } from './apisio';
-import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, loadRules, upsertRule, removeRule, getRule, type SavedDoc } from './storage';
+import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, loadRules, upsertRule, removeRule, getRule, clearAll, type SavedDoc } from './storage';
 import './style.css';
 
 self.MonacoEnvironment = {
@@ -553,6 +553,16 @@ function saveCurrent() {
   window.setTimeout(() => { btn.textContent = 'Save'; }, 1200);
 }
 $('#doc-save').addEventListener('click', saveCurrent);
+
+// Reset — clears ALL local storage (saved artifacts + rule overrides) after a confirm.
+$('#reset-storage').addEventListener('click', () => {
+  if (!window.confirm('Reset local storage? This permanently clears every saved artifact and rule override stored in this browser. This cannot be undone.')) return;
+  clearAll();
+  activeId = null;
+  renderSaved();
+  renderSavedRules();
+  setArtifact('openapi'); // start fresh from the default
+});
 
 // ---- boot -------------------------------------------------------------------
 docEditor.onDidChangeModelContent(() => {
