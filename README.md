@@ -1,3 +1,5 @@
+<p align="center"><a href="https://spotlight-rules.com"><img src="https://raw.githubusercontent.com/api-commons/spotlight-validator/main/spotlight-rules-logo.png" alt="Spotlight Rules" height="90"></a></p>
+
 # Spotlight Validator
 
 A browser-based API governance playground — lint **eleven artifact types**
@@ -37,3 +39,7 @@ npm run dev
 Rules use built-in Spotlight functions only (so the compiled set runs with no
 custom JS); rules needing custom functions are kept in `rules/sources/` for
 future curation. Deployed to GitHub Pages via `.github/workflows/pages.yml`.
+
+---
+
+Part of [Spotlight Rules](https://spotlight-rules.com) — a project of [API Evangelist](https://apievangelist.com), maintained openly under [API Commons](https://apicommons.org).
