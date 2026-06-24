@@ -21,7 +21,6 @@ const COMPILED_RULES: Record<string, any> = (compiledRuleset as any).rules;
 // ---- state ------------------------------------------------------------------
 let current: ArtifactType = artifactById('openapi');
 let docLang: 'yaml' | 'json' = 'yaml';
-let activeCategory = '';
 let activeId: string | null = null; // id of the localStorage doc being edited
 let suppressSave = false; // true while programmatically replacing editor content
 const labelForFormat = (fmt: string) => ARTIFACTS.find((a) => a.format === fmt)?.label ?? fmt;
@@ -107,57 +106,28 @@ function setArtifact(id: string) {
   loadDocIntoEditor(doc);
 }
 
-// ---- category selector (dynamic per artifact type) --------------------------
-const catSelect = $<HTMLSelectElement>('#category');
-function categoriesForType(): string[] {
-  const cats = new Set<string>();
-  const collect = (rule: any) => {
-    const t: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
-    for (const tag of t) if (tag.startsWith('category:')) cats.add(tag);
-  };
-  for (const rule of Object.values(COMPILED_RULES)) {
-    const t: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
-    if (t.includes(`format:${current.format}`)) collect(rule);
-  }
-  for (const rule of Object.values(defaultRules())) collect(rule);
-  return [...cats].sort();
+// ---- rule category lookup (for grouping results) ----------------------------
+function categoryOf(code: string): string {
+  const r = ruleDef(code);
+  const tags: string[] = Array.isArray(r?.tags) ? r.tags : [];
+  const cat = tags.find((t) => t.startsWith('category:'));
+  return cat ? cat.slice('category:'.length) : 'other';
 }
-function rebuildCategories() {
-  const cats = categoriesForType();
-  if (!cats.includes(activeCategory)) activeCategory = '';
-  catSelect.innerHTML = '<option value="">All categories</option>';
-  for (const t of cats) {
-    const o = document.createElement('option');
-    o.value = t;
-    o.textContent = t.split(':').slice(1).join(':');
-    if (t === activeCategory) o.selected = true;
-    catSelect.appendChild(o);
-  }
-}
-catSelect.addEventListener('change', () => {
-  activeCategory = catSelect.value;
-  runLint();
-});
+// categories the user has collapsed — preserved across re-lints
+const collapsedCats = new Set<string>();
 
 // ---- active ruleset ---------------------------------------------------------
 function activeRulesetDef(): any {
   const rules: Record<string, any> = {};
-  const passesCategory = (rule: any) => {
-    if (!activeCategory) return true;
-    const t: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
-    return t.includes(activeCategory);
-  };
   // compiled best-of-breed rules for this format
   for (const [name, rule] of Object.entries(COMPILED_RULES)) {
     const t: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
     if (!t.includes(`format:${current.format}`)) continue;
     if (t.includes('duplicate:true')) continue;
-    if (!passesCategory(rule)) continue;
     rules[name] = rule;
   }
   // per-type default starter rules
   for (const [name, rule] of Object.entries(defaultRules())) {
-    if (!passesCategory(rule)) continue;
     rules[name] = rule;
   }
   // saved rule overrides for this format take priority over the originals
@@ -290,7 +260,7 @@ async function runLint() {
   const model = docEditor.getModel()!;
   if (error) {
     monaco.editor.setModelMarkers(model, 'spotlight', []);
-    $('#results').innerHTML = `<li class="err">Ruleset/lint error: ${escapeHtml(error)}</li>`;
+    $('#results').innerHTML = `<div class="err">Ruleset/lint error: ${escapeHtml(error)}</div>`;
     $('#result-count').textContent = 'error';
     return;
   }
@@ -306,24 +276,58 @@ async function runLint() {
     })),
   );
 
-  diagnostics.sort((a: any, b: any) => a.range.start.line - b.range.start.line);
-  $('#results').innerHTML =
-    diagnostics
-      .map((d: any) => {
-        const sev = sevLabel[d.severity] ?? 'warning';
-        const code = String(d.code);
-        const desc = descriptionFor(code) || d.message;
-        return `<li class="${sev}" data-sl="${d.range.start.line + 1}" data-el="${d.range.end.line + 1}" data-code="${escapeHtml(code)}">
-          <span class="sev ${sev}" title="${sev}"></span>
-          <span class="rule-name" title="${escapeHtml(code)}">${escapeHtml(titleCase(code))}</span>
-          <span class="msg" title="${escapeHtml(desc)}">${escapeHtml(d.message)}</span>
-          <span class="loc">L${d.range.start.line + 1}</span>
-          <button class="edit-btn" title="Edit this rule">✎ edit</button>
-        </li>`;
-      })
-      .join('') || '<li class="ok">No problems found 🎉</li>';
+  const renderRow = (d: any) => {
+    const sev = sevLabel[d.severity] ?? 'warning';
+    const code = String(d.code);
+    const desc = descriptionFor(code) || d.message;
+    return `<li class="${sev}" data-sl="${d.range.start.line + 1}" data-el="${d.range.end.line + 1}" data-code="${escapeHtml(code)}">
+      <span class="sev ${sev}" title="${sev}"></span>
+      <span class="rule-name" title="${escapeHtml(code)}">${escapeHtml(titleCase(code))}</span>
+      <span class="msg" title="${escapeHtml(desc)}">${escapeHtml(d.message)}</span>
+      <span class="loc">L${d.range.start.line + 1}</span>
+      <button class="edit-btn" title="Edit this rule">✎ edit</button>
+    </li>`;
+  };
+
+  // group diagnostics by the category of the rule that produced them
+  const groups = new Map<string, any[]>();
+  for (const d of diagnostics) {
+    const cat = categoryOf(String(d.code));
+    (groups.get(cat) ?? groups.set(cat, []).get(cat)!).push(d);
+  }
+  // groups with errors first, then larger groups first
+  const ordered = [...groups.entries()].sort((a, b) => {
+    const aErr = a[1].some((d) => d.severity === 0) ? 0 : 1;
+    const bErr = b[1].some((d) => d.severity === 0) ? 0 : 1;
+    return aErr - bErr || b[1].length - a[1].length || a[0].localeCompare(b[0]);
+  });
+
+  $('#results').innerHTML = diagnostics.length
+    ? ordered
+        .map(([cat, ds]) => {
+          ds.sort((a, b) => a.range.start.line - b.range.start.line);
+          const errs = ds.filter((d) => d.severity === 0).length;
+          const open = collapsedCats.has(cat) ? '' : ' open';
+          return `<details class="rule-group"${open} data-cat="${escapeHtml(cat)}">
+            <summary>
+              <span class="group-name">${escapeHtml(titleCase(cat))}</span>
+              <span class="group-count">${ds.length}${errs ? ` · ${errs} error${errs === 1 ? '' : 's'}` : ''}</span>
+            </summary>
+            <ul class="group-results">${ds.map(renderRow).join('')}</ul>
+          </details>`;
+        })
+        .join('')
+    : '<div class="ok">No problems found 🎉</div>';
 
   $('#result-count').textContent = `${diagnostics.length} problem${diagnostics.length === 1 ? '' : 's'}`;
+  $('#results')
+    .querySelectorAll<HTMLDetailsElement>('details.rule-group')
+    .forEach((dEl) => {
+      dEl.addEventListener('toggle', () => {
+        if (dEl.open) collapsedCats.delete(dEl.dataset.cat!);
+        else collapsedCats.add(dEl.dataset.cat!);
+      });
+    });
   $('#results')
     .querySelectorAll<HTMLLIElement>('li[data-code]')
     .forEach((li) => {
@@ -412,7 +416,6 @@ function loadDocIntoEditor(doc: SavedDoc) {
   activeId = doc.id;
   setActiveId(doc.id);
   $('#doc-status').textContent = `${doc.name} · ${current.label}`;
-  rebuildCategories();
   renderSaved();
   runLint();
 }
