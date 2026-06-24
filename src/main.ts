@@ -6,6 +6,7 @@ import { lint, builtinDescriptions } from './spotlight';
 import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { ARTIFACTS, DEFAULT_RULESETS, SAMPLES, artifactById, type ArtifactType } from './artifacts';
 import { searchArtifacts, loadArtifactContent, type SearchHit } from './apisio';
+import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, type SavedDoc } from './storage';
 import './style.css';
 
 self.MonacoEnvironment = {
@@ -21,6 +22,8 @@ const COMPILED_RULES: Record<string, any> = (compiledRuleset as any).rules;
 let current: ArtifactType = artifactById('openapi');
 let docLang: 'yaml' | 'json' = 'yaml';
 let activeCategory = '';
+let activeId: string | null = null; // id of the localStorage doc being edited
+let suppressSave = false; // true while programmatically replacing editor content
 const userOverrides: Record<string, any> = {}; // ruleName -> definition
 
 // ---- editors ----------------------------------------------------------------
@@ -92,11 +95,16 @@ for (const a of ARTIFACTS) {
 typeSelect.addEventListener('change', () => setArtifact(typeSelect.value));
 
 function setArtifact(id: string) {
-  current = artifactById(id);
   hideResults();
-  setEditorText(SAMPLES[current.id] ?? '');
-  rebuildCategories();
-  runLint();
+  current = artifactById(id);
+  // Reuse this type's "Untitled" draft if one exists, else start a fresh one from the sample.
+  const name = `Untitled ${current.label}`;
+  let doc = findDoc(id, name);
+  if (!doc) {
+    doc = { id: newId(), name, type: id, lang: 'yaml', content: SAMPLES[id] ?? '', updatedAt: Date.now() };
+    upsertDoc(doc);
+  }
+  loadDocIntoEditor(doc);
 }
 
 // ---- category selector (dynamic per artifact type) --------------------------
@@ -161,19 +169,6 @@ function activeRulesetDef(): any {
 }
 
 // ---- YAML / JSON toggle -----------------------------------------------------
-function setEditorText(text: string) {
-  // Load arbitrary YAML/JSON content, then render it in the current language.
-  let out = text;
-  try {
-    const obj = parseYaml(text);
-    out = docLang === 'json' ? JSON.stringify(obj, null, 2) : stringifyYaml(obj);
-  } catch {
-    /* keep raw text if it doesn't parse */
-  }
-  const model = docEditor.getModel();
-  if (model) monaco.editor.setModelLanguage(model, docLang === 'json' ? 'json' : 'yaml');
-  docEditor.setValue(out);
-}
 function setLang(lang: 'yaml' | 'json') {
   if (lang === docLang) return;
   const text = docEditor.getValue();
@@ -190,6 +185,7 @@ function setLang(lang: 'yaml' | 'json') {
   docEditor.setValue(converted);
   $('#lang-yaml').classList.toggle('active', lang === 'yaml');
   $('#lang-json').classList.toggle('active', lang === 'json');
+  persistActive();
 }
 $('#lang-yaml').addEventListener('click', () => setLang('yaml'));
 $('#lang-json').addEventListener('click', () => setLang('json'));
@@ -241,13 +237,21 @@ async function selectHit(hit: SearchHit) {
       showResultsMessage(`“${hit.name || hit.aid}” links to an HTML page, not a machine-readable ${current.label} document — can’t load it.`);
       return;
     }
-    setEditorText(text);
-    $('#doc-status').textContent = `${hit.name || hit.aid} · ${current.label}`;
+    // Load as YAML and store it as a named local doc (reusing one if already loaded).
+    const yaml = toYaml(text);
+    const name = hit.name || hit.aid;
+    let doc = findDoc(current.id, name);
+    if (doc) Object.assign(doc, { content: yaml, lang: 'yaml' as const, updatedAt: Date.now() });
+    else doc = { id: newId(), name, type: current.id, lang: 'yaml', content: yaml, updatedAt: Date.now() };
+    upsertDoc(doc);
     hideResults();
-    runLint();
+    loadDocIntoEditor(doc);
   } catch (e) {
     showResultsMessage(`Could not load artifact: ${e instanceof Error ? e.message : String(e)}`);
   }
+}
+function toYaml(text: string): string {
+  try { return stringifyYaml(parseYaml(text)); } catch { return text; }
 }
 $('#artifact-search-btn').addEventListener('click', runSearch);
 searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') runSearch(); });
@@ -375,8 +379,103 @@ $('#rule-disable').addEventListener('click', () => {
   runLint();
 });
 
+// ---- documents (client-side local storage) ----------------------------------
+function loadDocIntoEditor(doc: SavedDoc) {
+  current = artifactById(doc.type);
+  typeSelect.value = current.id;
+  docLang = doc.lang;
+  $('#lang-yaml').classList.toggle('active', docLang === 'yaml');
+  $('#lang-json').classList.toggle('active', docLang === 'json');
+  suppressSave = true;
+  const model = docEditor.getModel();
+  if (model) monaco.editor.setModelLanguage(model, docLang === 'json' ? 'json' : 'yaml');
+  docEditor.setValue(doc.content);
+  suppressSave = false;
+  activeId = doc.id;
+  setActiveId(doc.id);
+  $('#doc-status').textContent = `${doc.name} · ${current.label}`;
+  rebuildCategories();
+  renderSaved();
+  runLint();
+}
+
+function persistActive() {
+  if (!activeId) return;
+  const docs = loadDocs();
+  const d = docs.find((x) => x.id === activeId);
+  if (!d) return;
+  d.content = docEditor.getValue();
+  d.lang = docLang;
+  d.updatedAt = Date.now();
+  saveDocs(docs);
+  renderSaved();
+}
+let saveTimer: number | undefined;
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = window.setTimeout(persistActive, 500);
+}
+
+function timeAgo(ts: number): string {
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 45) return 'just now';
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  return `${Math.floor(h / 24)}d ago`;
+}
+function renderSaved() {
+  const docs = loadDocs().sort((a, b) => b.updatedAt - a.updatedAt);
+  $('#saved-count').textContent = String(docs.length);
+  const list = $('#saved-list');
+  list.innerHTML = docs.length
+    ? docs
+        .map((d) => `<li class="${d.id === activeId ? 'active' : ''}" data-id="${d.id}">
+          <span class="saved-name" title="${escapeHtml(d.name)}">${escapeHtml(d.name)}</span>
+          <span class="saved-meta">${escapeHtml(artifactById(d.type).label)} · ${timeAgo(d.updatedAt)}</span>
+          <button class="saved-load" type="button">Load</button>
+          <button class="saved-del" type="button" title="Remove">&times;</button>
+        </li>`)
+        .join('')
+    : '<li class="saved-empty">No saved documents yet — your edits autosave here.</li>';
+  list.querySelectorAll<HTMLLIElement>('li[data-id]').forEach((li) => {
+    const id = li.dataset.id!;
+    li.querySelector<HTMLButtonElement>('.saved-load')?.addEventListener('click', () => {
+      const d = getDoc(id);
+      if (d) { loadDocIntoEditor(d); switchTab('results'); }
+    });
+    li.querySelector<HTMLButtonElement>('.saved-del')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      removeSaved(id);
+    });
+  });
+}
+function removeSaved(id: string) {
+  removeDoc(id);
+  if (id === activeId) {
+    activeId = null;
+    setActiveId(null);
+    const rest = loadDocs().sort((a, b) => b.updatedAt - a.updatedAt);
+    if (rest.length) loadDocIntoEditor(rest[0]);
+    else setArtifact('openapi');
+  } else {
+    renderSaved();
+  }
+}
+function switchTab(name: string) {
+  document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
+  ($('#tab-results') as HTMLElement).hidden = name !== 'results';
+  ($('#tab-saved') as HTMLElement).hidden = name !== 'saved';
+}
+document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.addEventListener('click', () => switchTab(t.dataset.tab!)));
+
 // ---- boot -------------------------------------------------------------------
-docEditor.onDidChangeModelContent(scheduleLint);
-$('#doc-status').textContent = `${ARTIFACTS.length} artifact types · ${Object.keys(COMPILED_RULES).length} compiled rules`;
-rebuildCategories();
-runLint();
+docEditor.onDidChangeModelContent(() => {
+  scheduleLint();
+  if (!suppressSave) scheduleSave();
+});
+const restoreId = getActiveId();
+const restored = restoreId ? getDoc(restoreId) : undefined;
+if (restored) loadDocIntoEditor(restored);
+else setArtifact('openapi');

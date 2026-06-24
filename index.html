@@ -41,19 +41,31 @@
       </section>
 
       <section class="pane">
-        <div class="pane-head">
-          <span>Rules &amp; Results</span>
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="results" type="button">Results</button>
+          <button class="tab" data-tab="saved" type="button">Saved <span class="badge" id="saved-count">0</span></button>
         </div>
-        <div class="cat-bar">
-          <label for="category">Rule category</label>
-          <select id="category"><option value="">All categories</option></select>
+
+        <div class="tab-panel" id="tab-results">
+          <div class="cat-bar">
+            <label for="category">Rule category</label>
+            <select id="category"><option value="">All categories</option></select>
+          </div>
+          <div class="rules-meta muted small">
+            <span id="active-count">0</span> rules active ·
+            <span id="result-count">—</span> ·
+            <span class="hint-text">click a result to edit its rule</span>
+          </div>
+          <ul id="results"></ul>
         </div>
-        <div class="rules-meta muted small">
-          <span id="active-count">0</span> rules active ·
-          <span id="result-count">—</span> ·
-          <span class="hint-text">click a result to edit its rule</span>
+
+        <div class="tab-panel" id="tab-saved" hidden>
+          <p class="saved-notice">
+            Your documents autosave to this browser's local storage as you edit — no account needed.
+            They'll <strong>disappear if you clear your browser cache</strong>. Saving to the cloud is coming soon.
+          </p>
+          <ul id="saved-list"></ul>
         </div>
-        <ul id="results"></ul>
       </section>
     </main>
 
