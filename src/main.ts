@@ -229,10 +229,18 @@ async function runSearch() {
     showResultsMessage(`APIs.io search unavailable (${msg}). The API must allow this origin (CORS) — deploy apis-io-aws.`);
   }
 }
+function looksLikeMarkup(text: string): boolean {
+  const t = text.trimStart().slice(0, 200).toLowerCase();
+  return t.startsWith('<!doctype') || /^<(html|head|body)[\s>]/.test(t);
+}
 async function selectHit(hit: SearchHit) {
   showResultsMessage(`Loading ${hit.name || hit.aid}…`);
   try {
     const text = await loadArtifactContent(hit);
+    if (looksLikeMarkup(text)) {
+      showResultsMessage(`“${hit.name || hit.aid}” links to an HTML page, not a machine-readable ${current.label} document — can’t load it.`);
+      return;
+    }
     setEditorText(text);
     $('#doc-status').textContent = `${hit.name || hit.aid} · ${current.label}`;
     hideResults();
