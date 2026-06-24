@@ -36,7 +36,7 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .results { display: flex; flex-direction: column; height: 40%; border-top: 1px solid var(--line); }
 .results ul { list-style: none; margin: 0; padding: 0; overflow: auto; flex: 1; }
 .results li {
-  display: grid; grid-template-columns: auto auto 1fr auto; gap: 0.5rem; align-items: baseline;
+  display: grid; grid-template-columns: 12px auto minmax(0, 1fr) auto auto; gap: 0.5rem; align-items: center;
   padding: 0.3rem 0.75rem; border-bottom: 1px solid #2a2a2a; cursor: pointer; font-size: 0.85rem;
 }
 .results li:hover { background: #2a2d2e; }
@@ -77,13 +77,23 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .hint-text { color: var(--accent); }
 #results { list-style: none; margin: 0; padding: 0; overflow: auto; flex: 1; min-height: 0; }
 #results li {
-  display: grid; grid-template-columns: auto auto 1fr auto; gap: 0.5rem; align-items: baseline;
+  display: grid; grid-template-columns: 12px auto minmax(0, 1fr) auto auto; gap: 0.5rem; align-items: center;
   padding: 0.35rem 0.75rem; border-bottom: 1px solid #2a2a2a; cursor: pointer; font-size: 0.85rem;
 }
 #results li:hover { background: #2a2d2e; }
 #results li.ok, #results li.err { display: block; color: var(--muted); }
 #results li.err { color: var(--error); }
 #results .loc { color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
+#results .msg { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+#results .sev { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+#results .sev.error { background: #f14c4c; }
+#results .sev.warning { background: #e3b341; }
+#results .sev.info { background: #3fb950; }
+#results .sev.hint { background: #3794ff; }
+#results .edit-btn { background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 1px 7px; font-size: 0.75rem; cursor: pointer; white-space: nowrap; }
+#results .edit-btn:hover { color: #000; background: var(--accent); border-color: var(--accent); }
+.lint-highlight { background: rgba(255, 193, 7, 0.18); }
+.lint-gutter { background: var(--accent); width: 3px !important; margin-left: 2px; }
 
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 50; }
 .modal[hidden] { display: none; }

@@ -14,6 +14,21 @@ const BUILTIN_RULESETS: Record<string, unknown> = {
   'spotlight:arazzo': arazzo,
 };
 
+// Rule descriptions from the built-in rulesets, so the UI can show a tooltip for
+// rules that aren't in the compiled set.
+function collectDescriptions(rs: any): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [name, rule] of Object.entries<any>(rs?.rules ?? {})) {
+    if (rule && typeof rule === 'object' && typeof rule.description === 'string') out[name] = rule.description;
+  }
+  return out;
+}
+export const builtinDescriptions: Record<string, string> = {
+  ...collectDescriptions(oas),
+  ...collectDescriptions(asyncapi),
+  ...collectDescriptions(arazzo),
+};
+
 // Normalize ruleset format strings to the format-function export names.
 const FORMAT_ALIASES: Record<string, string> = {
   'oas3.0': 'oas3_0', 'oas3.1': 'oas3_1', oas31: 'oas3_1', oas30: 'oas3_0',

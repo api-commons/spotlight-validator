@@ -2,7 +2,7 @@ import * as monaco from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
-import { lint, collectTags } from './spotlight';
+import { lint, collectTags, builtinDescriptions } from './spotlight';
 import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { SAMPLES } from './samples';
 import './style.css';
@@ -35,6 +35,20 @@ const ruleEditor = monaco.editor.create($('#rule-editor'), {
   fontSize: 13,
   scrollBeyondLastLine: false,
 });
+
+const highlightDecorations = docEditor.createDecorationsCollection();
+function highlightLines(startLine: number, endLine: number) {
+  highlightDecorations.set([
+    {
+      range: new monaco.Range(startLine, 1, Math.max(startLine, endLine), 1),
+      options: { isWholeLine: true, className: 'lint-highlight', linesDecorationsClassName: 'lint-gutter' },
+    },
+  ]);
+  docEditor.revealLineInCenter(startLine);
+}
+function descriptionFor(code: string): string {
+  return (COMPILED_RULES[code]?.description as string) ?? builtinDescriptions[code] ?? '';
+}
 
 // ---- category dropdown ------------------------------------------------------
 const tags = collectTags(compiledRuleset);
@@ -126,11 +140,14 @@ async function runLint() {
     diagnostics
       .map((d: any) => {
         const sev = sevLabel[d.severity] ?? 'warning';
-        return `<li class="${sev}" data-line="${d.range.start.line + 1}" data-code="${escapeHtml(String(d.code))}">
-          <span class="sev ${sev}">${sev}</span>
-          <code>${escapeHtml(String(d.code))}</code>
-          <span class="msg">${escapeHtml(d.message)}</span>
-          <span class="loc">L${d.range.start.line + 1} · edit ✎</span>
+        const code = String(d.code);
+        const desc = descriptionFor(code) || d.message;
+        return `<li class="${sev}" data-sl="${d.range.start.line + 1}" data-el="${d.range.end.line + 1}" data-code="${escapeHtml(code)}">
+          <span class="sev ${sev}" title="${sev}"></span>
+          <code>${escapeHtml(code)}</code>
+          <span class="msg" title="${escapeHtml(desc)}">${escapeHtml(d.message)}</span>
+          <span class="loc">L${d.range.start.line + 1}</span>
+          <button class="edit-btn" title="Edit this rule">✎ edit</button>
         </li>`;
       })
       .join('') || '<li class="ok">No problems found 🎉</li>';
@@ -138,12 +155,16 @@ async function runLint() {
   $('#result-count').textContent = `${diagnostics.length} problem${diagnostics.length === 1 ? '' : 's'}`;
   $('#results')
     .querySelectorAll<HTMLLIElement>('li[data-code]')
-    .forEach((li) =>
-      li.addEventListener('click', () => {
-        docEditor.revealLineInCenter(Number(li.dataset.line));
+    .forEach((li) => {
+      // a) click row -> reveal + highlight the line(s) the rule applies to
+      li.addEventListener('click', () => highlightLines(Number(li.dataset.sl), Number(li.dataset.el)));
+      // edit button -> popup to edit the rule YAML
+      li.querySelector<HTMLButtonElement>('.edit-btn')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        highlightLines(Number(li.dataset.sl), Number(li.dataset.el));
         openRuleModal(li.dataset.code!);
-      }),
-    );
+      });
+    });
 }
 
 function escapeHtml(s: string): string {
