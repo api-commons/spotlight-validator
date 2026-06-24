@@ -181,3 +181,12 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .rule-group > summary:hover { background: #2d2d2d; }
 .group-name { flex: 1; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; color: #cdd9e5; }
 .group-count { color: var(--muted); font-size: 0.75rem; white-space: nowrap; }
+
+/* ---- configuration tab ---- */
+.config-scroll { flex: 1; min-height: 0; overflow-y: auto; }
+.config-group .config-fields { padding: 0.7rem 0.75rem; display: flex; flex-direction: column; gap: 0.7rem; }
+.config-field { display: flex; flex-direction: column; gap: 0.25rem; }
+.config-field span { font-size: 0.78rem; color: var(--muted); }
+.config-field input { background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 5px; padding: 7px 9px; font-size: 0.85rem; font-family: "SF Mono", Menlo, Consolas, monospace; }
+.config-field input:focus { outline: none; border-color: var(--accent); }
+.config-show { display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 0.75rem; font-size: 0.8rem; color: var(--muted); cursor: pointer; }

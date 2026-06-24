@@ -6,7 +6,7 @@ import { lint, builtinDescriptions } from './spotlight';
 import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { ARTIFACTS, DEFAULT_RULESETS, SAMPLES, artifactById, type ArtifactType } from './artifacts';
 import { searchArtifacts, loadArtifactContent, type SearchHit } from './apisio';
-import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, loadRules, upsertRule, removeRule, getRule, clearAll, type SavedDoc } from './storage';
+import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, loadRules, upsertRule, removeRule, getRule, clearAll, loadConfig, saveConfig, type SavedDoc, type Config } from './storage';
 import './style.css';
 
 self.MonacoEnvironment = {
@@ -528,7 +528,35 @@ function switchTab(name: string) {
   ($('#tab-results') as HTMLElement).hidden = name !== 'results';
   ($('#tab-saved') as HTMLElement).hidden = name !== 'saved';
   ($('#tab-rules') as HTMLElement).hidden = name !== 'rules';
+  ($('#tab-config') as HTMLElement).hidden = name !== 'config';
 }
+
+// ---- configuration (API keys / tokens) --------------------------------------
+const CFG_FIELDS: Array<[string, keyof Config]> = [
+  ['cfg-claude', 'claude'], ['cfg-gemini', 'gemini'], ['cfg-chatgpt', 'chatgpt'], ['cfg-github', 'github'],
+];
+(function initConfig() {
+  const cfg = loadConfig();
+  for (const [id, key] of CFG_FIELDS) {
+    const el = $<HTMLInputElement>('#' + id);
+    el.value = cfg[key] ?? '';
+    let t: number | undefined;
+    el.addEventListener('input', () => {
+      clearTimeout(t);
+      t = window.setTimeout(() => {
+        const c = loadConfig();
+        const v = el.value.trim();
+        if (v) c[key] = v;
+        else delete c[key];
+        saveConfig(c);
+      }, 300);
+    });
+  }
+  $<HTMLInputElement>('#cfg-show').addEventListener('change', (e) => {
+    const type = (e.target as HTMLInputElement).checked ? 'text' : 'password';
+    for (const [id] of CFG_FIELDS) $<HTMLInputElement>('#' + id).type = type;
+  });
+})();
 document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.addEventListener('click', () => switchTab(t.dataset.tab!)));
 
 // Explicit Save — names an Untitled draft, then persists immediately (alongside autosave).
@@ -559,7 +587,7 @@ $('#doc-save').addEventListener('click', saveCurrent);
 
 // Reset — clears ALL local storage (saved artifacts + rule overrides) after a confirm.
 $('#reset-storage').addEventListener('click', () => {
-  if (!window.confirm('Reset local storage? This permanently clears every saved artifact and rule override stored in this browser. This cannot be undone.')) return;
+  if (!window.confirm('Reset local storage? This permanently clears every saved artifact, rule override, and saved API key/token stored in this browser. This cannot be undone.')) return;
   clearAll();
   activeId = null;
   renderSaved();

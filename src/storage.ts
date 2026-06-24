@@ -12,6 +12,7 @@ export interface SavedDoc {
 
 const DOCS_KEY = 'spotlight-validator:docs';
 const ACTIVE_KEY = 'spotlight-validator:active';
+const CONFIG_KEY = 'spotlight-validator:config';
 
 export function loadDocs(): SavedDoc[] {
   try {
@@ -54,12 +55,37 @@ export function setActiveId(id: string | null): void {
 export function newId(): string {
   return globalThis.crypto?.randomUUID?.() ?? 'd' + Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
-// Wipe everything the validator stores (saved artifacts, active doc, saved rules).
+// Wipe everything the validator stores (saved artifacts, active doc, saved rules,
+// config/keys).
 export function clearAll(): void {
   try {
     localStorage.removeItem(DOCS_KEY);
     localStorage.removeItem(ACTIVE_KEY);
     localStorage.removeItem(RULES_KEY);
+    localStorage.removeItem(CONFIG_KEY);
+  } catch {
+    /* storage disabled */
+  }
+}
+
+// ---- configuration (API keys, tokens) ----------------------------------------
+// Stored only in this browser. Used by upcoming Save-to-Git / AI features.
+export interface Config {
+  claude?: string;
+  gemini?: string;
+  chatgpt?: string;
+  github?: string;
+}
+export function loadConfig(): Config {
+  try {
+    return JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}') || {};
+  } catch {
+    return {};
+  }
+}
+export function saveConfig(cfg: Config): void {
+  try {
+    localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg));
   } catch {
     /* storage disabled */
   }

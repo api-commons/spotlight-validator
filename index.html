@@ -47,6 +47,7 @@
           <button class="tab active" data-tab="results" type="button">Results</button>
           <button class="tab" data-tab="saved" type="button">Saved Artifacts <span class="badge" id="saved-count">0</span></button>
           <button class="tab" data-tab="rules" type="button">Saved Rules <span class="badge" id="rules-count">0</span></button>
+          <button class="tab" data-tab="config" type="button">Config</button>
         </div>
 
         <div class="tab-panel" id="tab-results">
@@ -72,6 +73,35 @@
             persist in this browser. Remove one to revert to the original. Edit a rule from any result to save it.
           </p>
           <ul id="saved-rules-list" class="store-list"></ul>
+        </div>
+
+        <div class="tab-panel" id="tab-config" hidden>
+          <p class="saved-notice">
+            Stored <strong>only in this browser's local storage</strong> (cleared by Reset or clearing your cache).
+            These power upcoming features — saving artifacts &amp; rules to Git, and automating edits with AI.
+            Nothing is sent anywhere until you use those features.
+          </p>
+          <div class="config-scroll">
+            <details class="rule-group config-group" open>
+              <summary><span class="group-name">AI API Keys</span></summary>
+              <div class="config-fields">
+                <label class="config-field"><span>Claude API key</span>
+                  <input type="password" id="cfg-claude" autocomplete="off" spellcheck="false" placeholder="sk-ant-…"></label>
+                <label class="config-field"><span>Gemini API key</span>
+                  <input type="password" id="cfg-gemini" autocomplete="off" spellcheck="false" placeholder="AIza…"></label>
+                <label class="config-field"><span>ChatGPT API key</span>
+                  <input type="password" id="cfg-chatgpt" autocomplete="off" spellcheck="false" placeholder="sk-…"></label>
+              </div>
+            </details>
+            <details class="rule-group config-group" open>
+              <summary><span class="group-name">Git</span></summary>
+              <div class="config-fields">
+                <label class="config-field"><span>GitHub personal access token</span>
+                  <input type="password" id="cfg-github" autocomplete="off" spellcheck="false" placeholder="ghp_…"></label>
+              </div>
+            </details>
+            <label class="config-show"><input type="checkbox" id="cfg-show"> Show values</label>
+          </div>
         </div>
       </section>
     </main>
