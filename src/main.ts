@@ -29,6 +29,7 @@ const labelForFormat = (fmt: string) => ARTIFACTS.find((a) => a.format === fmt)?
 const docEditor = monaco.editor.create($('#doc-editor'), {
   value: SAMPLES[current.id] ?? '',
   language: 'yaml',
+  theme: 'vs-dark',
   automaticLayout: true,
   minimap: { enabled: false },
   fontSize: 13,
@@ -41,7 +42,7 @@ let ruleEditor: monaco.editor.IStandaloneCodeEditor | null = null;
 function ensureRuleEditor(): monaco.editor.IStandaloneCodeEditor {
   if (!ruleEditor) {
     ruleEditor = monaco.editor.create($('#rule-editor'), {
-      value: '', language: 'yaml', automaticLayout: true,
+      value: '', language: 'yaml', theme: 'vs-dark', automaticLayout: true,
       minimap: { enabled: false }, fontSize: 13, scrollBeyondLastLine: false,
     });
   }
