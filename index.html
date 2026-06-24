@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Spotlight Validator — API Governance Playground</title>
-    <meta name="description" content="Lint OpenAPI, AsyncAPI, and JSON Schema in the browser with Spotlight rules. Select best-of-breed governance rules by tag, or edit your own." />
+    <meta name="description" content="Lint OpenAPI, AsyncAPI, and JSON Schema in the browser with Spotlight rules. Pick a rule category, or click a result to edit the rule." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body>
@@ -31,37 +31,40 @@
       <section class="pane">
         <div class="pane-head"><span>Artifact</span><span id="doc-status" class="muted"></span></div>
         <div id="doc-editor" class="editor"></div>
-        <div class="results">
-          <div class="pane-head"><span>Results</span><span id="result-count" class="muted">—</span></div>
-          <ul id="results"></ul>
-        </div>
       </section>
 
       <section class="pane">
         <div class="pane-head">
-          <span>Ruleset</span>
-          <span class="toggle">
-            <button id="mode-best" class="active">Best-of-breed</button>
-            <button id="mode-custom">Custom</button>
-          </span>
+          <span>Rules &amp; Results</span>
+          <label class="cat">Category
+            <select id="category"><option value="">All categories</option></select>
+          </label>
         </div>
-
-        <div id="best-panel">
-          <p class="muted small">Select rules by tag — <span id="active-count">0</span> rules active. Compiled from public Spectral rulesets (SPS Commerce, Italian Gov, Adidas, Trimble, Paystack, DigitalOcean, Microcks, Baloise, Team Digitale, Schwarz IT).</p>
-          <div class="controls">
-            <button id="sel-all" class="mini">Select all</button>
-            <button id="sel-none" class="mini">Clear</button>
-            <label class="chip"><input type="checkbox" id="hide-dupes" checked /> Hide duplicate rules</label>
-          </div>
-          <div id="tag-groups"></div>
+        <div class="rules-meta muted small">
+          <span id="active-count">0</span> rules active ·
+          <span id="result-count">—</span> ·
+          <span class="hint-text">click a result to edit its rule</span>
         </div>
-
-        <div id="custom-panel" hidden>
-          <p class="muted small">Edit a ruleset (YAML). Use <code>extends: ["spotlight:oas"]</code> for the built-in OpenAPI rules.</p>
-          <div id="ruleset-editor" class="editor"></div>
-        </div>
+        <ul id="results"></ul>
       </section>
     </main>
+
+    <div id="modal" class="modal" hidden>
+      <div class="modal-card">
+        <div class="modal-head">
+          <span id="modal-title">Edit rule</span>
+          <button id="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <p id="rule-note" class="muted small"></p>
+        <div id="rule-editor" class="editor"></div>
+        <div class="modal-actions">
+          <button id="rule-apply" class="primary">Apply &amp; lint</button>
+          <button id="rule-reset">Reset to default</button>
+          <button id="rule-disable">Disable rule</button>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

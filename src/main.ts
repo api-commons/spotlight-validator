@@ -1,7 +1,7 @@
 import * as monaco from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
-import { parse as parseYaml } from 'yaml';
+import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
 import { lint, collectTags } from './spotlight';
 import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { SAMPLES } from './samples';
@@ -15,6 +15,7 @@ self.MonacoEnvironment = {
 
 type Format = 'openapi' | 'asyncapi' | 'jsonschema';
 const $ = <T extends HTMLElement>(sel: string) => document.querySelector(sel) as T;
+const COMPILED_RULES: Record<string, any> = (compiledRuleset as any).rules;
 
 // ---- editors ----------------------------------------------------------------
 const docEditor = monaco.editor.create($('#doc-editor'), {
@@ -26,20 +27,8 @@ const docEditor = monaco.editor.create($('#doc-editor'), {
   scrollBeyondLastLine: false,
 });
 
-const STARTER_RULESET = `# Edit your ruleset (YAML). Lints live against the artifact.
-extends: ["spotlight:oas"]
-rules:
-  paths-kebab-case:
-    description: Paths should be kebab-case.
-    severity: warn
-    given: $.paths[*]~
-    then:
-      function: pattern
-      functionOptions:
-        match: "^(/[a-z0-9]+(-[a-z0-9]+)*|/{[a-zA-Z0-9_]+})+$"
-`;
-const rulesetEditor = monaco.editor.create($('#ruleset-editor'), {
-  value: STARTER_RULESET,
+const ruleEditor = monaco.editor.create($('#rule-editor'), {
+  value: '',
   language: 'yaml',
   automaticLayout: true,
   minimap: { enabled: false },
@@ -47,83 +36,52 @@ const rulesetEditor = monaco.editor.create($('#ruleset-editor'), {
   scrollBeyondLastLine: false,
 });
 
-// ---- tag filter UI ----------------------------------------------------------
-const activeTags = new Set<string>();
+// ---- category dropdown ------------------------------------------------------
 const tags = collectTags(compiledRuleset);
-const totalRules = Object.keys((compiledRuleset as any).rules).length;
-
-function renderTagGroups() {
-  const groups: Array<[string, string[]]> = [
-    ['Source', tags.source],
-    ['Category', tags.category],
-  ];
-  $('#tag-groups').innerHTML = groups
-    .map(
-      ([label, list]) => `
-      <fieldset class="tag-group">
-        <legend>${label}</legend>
-        ${list
-          .map((t) => {
-            const short = t.split(':').slice(1).join(':');
-            return `<label class="chip"><input type="checkbox" value="${t}" /> ${short}</label>`;
-          })
-          .join('')}
-      </fieldset>`,
-    )
-    .join('');
-  $('#tag-groups')
-    .querySelectorAll<HTMLInputElement>('input[type=checkbox]')
-    .forEach((cb) =>
-      cb.addEventListener('change', () => {
-        cb.checked ? activeTags.add(cb.value) : activeTags.delete(cb.value);
-        runLint();
-      }),
-    );
+const totalRules = Object.keys(COMPILED_RULES).length;
+let activeCategory = '';
+const catSelect = $<HTMLSelectElement>('#category');
+for (const t of tags.category) {
+  const o = document.createElement('option');
+  o.value = t;
+  o.textContent = t.split(':').slice(1).join(':');
+  catSelect.appendChild(o);
 }
-renderTagGroups();
-
-// tag controls
-function allCheckboxes() {
-  return $('#tag-groups').querySelectorAll<HTMLInputElement>('input[type=checkbox]');
-}
-$('#sel-all').addEventListener('click', () => {
-  allCheckboxes().forEach((cb) => { cb.checked = true; activeTags.add(cb.value); });
+catSelect.addEventListener('change', () => {
+  activeCategory = catSelect.value;
   runLint();
 });
-$('#sel-none').addEventListener('click', () => {
-  allCheckboxes().forEach((cb) => (cb.checked = false));
-  activeTags.clear();
-  runLint();
-});
-$('#hide-dupes').addEventListener('change', () => runLint());
 
-// ---- mode toggle ------------------------------------------------------------
-let mode: 'best' | 'custom' = 'best';
-function setMode(m: 'best' | 'custom') {
-  mode = m;
-  $('#mode-best').classList.toggle('active', m === 'best');
-  $('#mode-custom').classList.toggle('active', m === 'custom');
-  ($('#best-panel') as HTMLElement).hidden = m !== 'best';
-  ($('#custom-panel') as HTMLElement).hidden = m !== 'custom';
-  if (m === 'custom') rulesetEditor.layout();
-  runLint();
-}
-$('#mode-best').addEventListener('click', () => setMode('best'));
-$('#mode-custom').addEventListener('click', () => setMode('custom'));
-
-// ---- format selector --------------------------------------------------------
+// ---- format -----------------------------------------------------------------
 let format: Format = 'openapi';
 $('#format').addEventListener('change', (e) => {
   format = (e.target as HTMLSelectElement).value as Format;
   docEditor.setValue(SAMPLES[format]);
   runLint();
 });
-
 const EXTENDS_FOR: Record<Format, string> = {
   openapi: 'spotlight:oas',
   asyncapi: 'spotlight:asyncapi',
   jsonschema: '',
 };
+
+// per-rule edits applied on top of the selection (ruleName -> definition)
+const userOverrides: Record<string, any> = {};
+
+function activeRulesetDef(): any {
+  const rules: Record<string, any> = {};
+  for (const [name, rule] of Object.entries(COMPILED_RULES)) {
+    const t: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
+    if (!t.includes(`format:${format}`)) continue;
+    if (t.includes('duplicate:true')) continue;
+    if (activeCategory && !t.includes(activeCategory)) continue;
+    rules[name] = rule;
+  }
+  for (const [name, def] of Object.entries(userOverrides)) rules[name] = def;
+  const ext = EXTENDS_FOR[format];
+  $('#active-count').textContent = String(Object.keys(rules).length);
+  return ext ? { extends: [[ext, 'recommended']], rules } : { rules };
+}
 
 // ---- linting ----------------------------------------------------------------
 const sevToMarker: Record<number, monaco.MarkerSeverity> = {
@@ -134,31 +92,6 @@ const sevToMarker: Record<number, monaco.MarkerSeverity> = {
 };
 const sevLabel = ['error', 'warning', 'info', 'hint'];
 
-function activeRulesetDef(): any {
-  if (mode === 'custom') {
-    try {
-      return parseYaml(rulesetEditor.getValue()) ?? { rules: {} };
-    } catch {
-      return { __parseError: true, rules: {} };
-    }
-  }
-  // best-of-breed: compiled rules gated by the selected format, the active tag
-  // filter (union; empty = all), and the hide-duplicates toggle; plus the
-  // format's built-in ruleset.
-  const hideDupes = ($('#hide-dupes') as HTMLInputElement)?.checked ?? true;
-  const rules: Record<string, any> = {};
-  for (const [name, rule] of Object.entries<any>((compiledRuleset as any).rules)) {
-    const tags: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
-    if (!tags.includes(`format:${format}`)) continue;
-    if (activeTags.size > 0 && !tags.some((t) => activeTags.has(t))) continue;
-    if (hideDupes && tags.includes('duplicate:true')) continue;
-    rules[name] = rule;
-  }
-  const ext = EXTENDS_FOR[format];
-  $('#active-count').textContent = String(Object.keys(rules).length);
-  return ext ? { extends: [[ext, 'recommended']], rules } : { rules };
-}
-
 let timer: number | undefined;
 function scheduleLint() {
   clearTimeout(timer);
@@ -166,13 +99,8 @@ function scheduleLint() {
 }
 
 async function runLint() {
-  const def = activeRulesetDef();
-  if (def.__parseError) {
-    $('#result-count').textContent = 'ruleset parse error';
-    return;
-  }
   const text = docEditor.getValue();
-  const { diagnostics, error } = await lint(text, def);
+  const { diagnostics, error } = await lint(text, activeRulesetDef());
   const model = docEditor.getModel()!;
   if (error) {
     monaco.editor.setModelMarkers(model, 'spotlight', []);
@@ -180,40 +108,40 @@ async function runLint() {
     $('#result-count').textContent = 'error';
     return;
   }
-  const markers = diagnostics.map((d: any) => ({
-    severity: sevToMarker[d.severity] ?? monaco.MarkerSeverity.Warning,
-    startLineNumber: d.range.start.line + 1,
-    startColumn: d.range.start.character + 1,
-    endLineNumber: d.range.end.line + 1,
-    endColumn: d.range.end.character + 1,
-    message: `${d.code}: ${d.message}`,
-    code: String(d.code),
-  }));
-  monaco.editor.setModelMarkers(model, 'spotlight', markers);
+  monaco.editor.setModelMarkers(
+    model,
+    'spotlight',
+    diagnostics.map((d: any) => ({
+      severity: sevToMarker[d.severity] ?? monaco.MarkerSeverity.Warning,
+      startLineNumber: d.range.start.line + 1,
+      startColumn: d.range.start.character + 1,
+      endLineNumber: d.range.end.line + 1,
+      endColumn: d.range.end.character + 1,
+      message: `${d.code}: ${d.message}`,
+    })),
+  );
 
   diagnostics.sort((a: any, b: any) => a.range.start.line - b.range.start.line);
   $('#results').innerHTML =
     diagnostics
       .map((d: any) => {
         const sev = sevLabel[d.severity] ?? 'warning';
-        return `<li class="${sev}" data-line="${d.range.start.line + 1}">
+        return `<li class="${sev}" data-line="${d.range.start.line + 1}" data-code="${escapeHtml(String(d.code))}">
           <span class="sev ${sev}">${sev}</span>
           <code>${escapeHtml(String(d.code))}</code>
           <span class="msg">${escapeHtml(d.message)}</span>
-          <span class="loc">${(d.path || []).join('.') || '—'} · L${d.range.start.line + 1}</span>
+          <span class="loc">L${d.range.start.line + 1} · edit ✎</span>
         </li>`;
       })
       .join('') || '<li class="ok">No problems found 🎉</li>';
 
   $('#result-count').textContent = `${diagnostics.length} problem${diagnostics.length === 1 ? '' : 's'}`;
   $('#results')
-    .querySelectorAll<HTMLLIElement>('li[data-line]')
+    .querySelectorAll<HTMLLIElement>('li[data-code]')
     .forEach((li) =>
       li.addEventListener('click', () => {
-        const line = Number(li.dataset.line);
-        docEditor.revealLineInCenter(line);
-        docEditor.setPosition({ lineNumber: line, column: 1 });
-        docEditor.focus();
+        docEditor.revealLineInCenter(Number(li.dataset.line));
+        openRuleModal(li.dataset.code!);
       }),
     );
 }
@@ -222,7 +150,56 @@ function escapeHtml(s: string): string {
   return s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 }
 
+// ---- rule editor modal ------------------------------------------------------
+let modalRuleName = '';
+function ruleDefForEditing(code: string): any {
+  if (userOverrides[code] !== undefined) return userOverrides[code];
+  if (COMPILED_RULES[code]) {
+    const { tags: _t, ...rest } = COMPILED_RULES[code]; // hide tag noise while editing
+    return rest;
+  }
+  return 'warn'; // built-in rule (from the extended ruleset) — edit as a severity toggle
+}
+function openRuleModal(code: string) {
+  modalRuleName = code;
+  const builtin = !COMPILED_RULES[code] && userOverrides[code] === undefined;
+  $('#modal-title').textContent = code;
+  $('#rule-note').textContent = builtin
+    ? 'Built-in rule from the extended ruleset — edit the severity (error/warn/info/hint/off) or replace with a full rule definition.'
+    : 'Edit this rule. Apply re-lints with your change.';
+  ruleEditor.setValue(stringifyYaml({ [code]: ruleDefForEditing(code) }));
+  ($('#modal') as HTMLElement).hidden = false;
+  setTimeout(() => ruleEditor.layout(), 0);
+}
+function closeModal() {
+  ($('#modal') as HTMLElement).hidden = true;
+}
+$('#modal-close').addEventListener('click', closeModal);
+$('#modal').addEventListener('click', (e) => {
+  if (e.target === $('#modal')) closeModal();
+});
+$('#rule-apply').addEventListener('click', () => {
+  try {
+    const parsed = parseYaml(ruleEditor.getValue());
+    const entry = parsed && typeof parsed === 'object' ? Object.entries(parsed)[0] : undefined;
+    if (entry) userOverrides[entry[0]] = entry[1];
+    closeModal();
+    runLint();
+  } catch {
+    $('#rule-note').textContent = 'Invalid YAML — fix and try again.';
+  }
+});
+$('#rule-reset').addEventListener('click', () => {
+  delete userOverrides[modalRuleName];
+  closeModal();
+  runLint();
+});
+$('#rule-disable').addEventListener('click', () => {
+  userOverrides[modalRuleName] = 'off';
+  closeModal();
+  runLint();
+});
+
 docEditor.onDidChangeModelContent(scheduleLint);
-rulesetEditor.onDidChangeModelContent(() => mode === 'custom' && scheduleLint());
 $('#doc-status').textContent = `${totalRules} compiled rules available`;
 runLint();

@@ -69,3 +69,32 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .controls { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--line); }
 .mini { background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 2px 8px; font-size: 0.8rem; cursor: pointer; }
 .mini:hover { border-color: var(--accent); }
+
+/* ---- evolved layout: full-height artifact, right-pane results, rule modal ---- */
+.cat { font-size: 0.85rem; text-transform: none; letter-spacing: 0; }
+.cat select { background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 2px 6px; margin-left: 0.4rem; }
+.rules-meta { padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--line); display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.hint-text { color: var(--accent); }
+#results { list-style: none; margin: 0; padding: 0; overflow: auto; flex: 1; min-height: 0; }
+#results li {
+  display: grid; grid-template-columns: auto auto 1fr auto; gap: 0.5rem; align-items: baseline;
+  padding: 0.35rem 0.75rem; border-bottom: 1px solid #2a2a2a; cursor: pointer; font-size: 0.85rem;
+}
+#results li:hover { background: #2a2d2e; }
+#results li.ok, #results li.err { display: block; color: var(--muted); }
+#results li.err { color: var(--error); }
+#results .loc { color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
+
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 50; }
+.modal[hidden] { display: none; }
+.modal-card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; width: min(760px, 92vw); display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+.modal-head { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--line); }
+.modal-head #modal-title { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.95rem; color: var(--accent); }
+.modal-head #modal-close { background: none; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; line-height: 1; }
+.modal-head #modal-close:hover { color: var(--fg); }
+.modal-card #rule-note { margin: 0; padding: 0.5rem 0.9rem 0; }
+.modal-card #rule-editor { height: 320px; margin: 0.5rem 0.9rem; border: 1px solid var(--line); border-radius: 4px; }
+.modal-actions { display: flex; gap: 0.5rem; padding: 0 0.9rem 0.9rem; }
+.modal-actions button { background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 4px 12px; cursor: pointer; font-size: 0.85rem; }
+.modal-actions button.primary { background: var(--accent); color: #000; border-color: var(--accent); }
+.modal-actions button:hover { border-color: var(--accent); }
