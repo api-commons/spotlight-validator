@@ -1,0 +1,23 @@
+# JSON Structure — starter governance (json-structure.org).
+rules:
+  json-structure-schema:
+    description: Declare the JSON Structure dialect with $schema.
+    message: Declare the $schema dialect
+    severity: warn
+    given: $
+    then: { field: "$schema", function: truthy }
+    tags: ["format:json-structure", "category:structure"]
+  json-structure-name:
+    description: Name the structure.
+    message: Structure should have a name
+    severity: info
+    given: $
+    then: { field: name, function: truthy }
+    tags: ["format:json-structure", "category:documentation"]
+  json-structure-type:
+    description: Declare the structure type.
+    message: Structure should declare a type
+    severity: warn
+    given: $
+    then: { field: type, function: truthy }
+    tags: ["format:json-structure", "category:structure"]

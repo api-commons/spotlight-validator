@@ -1,0 +1,30 @@
+# MCP — starter governance for a Model Context Protocol server descriptor.
+rules:
+  mcp-name:
+    description: An MCP server descriptor MUST have a name.
+    message: MCP server must have a name
+    severity: error
+    given: $
+    then: { field: name, function: truthy }
+    tags: ["format:mcp", "category:documentation"]
+  mcp-version:
+    description: Declare the MCP server version.
+    message: MCP server should declare a version
+    severity: warn
+    given: $
+    then: { field: version, function: truthy }
+    tags: ["format:mcp", "category:versioning"]
+  mcp-description:
+    description: Describe what the MCP server does.
+    message: MCP server should have a description
+    severity: info
+    given: $
+    then: { field: description, function: truthy }
+    tags: ["format:mcp", "category:documentation"]
+  mcp-capabilities:
+    description: An MCP server should declare its capabilities (tools, resources, or prompts).
+    message: MCP server should declare capabilities
+    severity: warn
+    given: $
+    then: { field: capabilities, function: truthy }
+    tags: ["format:mcp", "category:structure"]

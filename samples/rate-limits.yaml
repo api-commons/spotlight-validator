@@ -1,0 +1,7 @@
+name: Example Rate Limits
+limits:
+  - name: default
+    window: 60s
+    max: 100
+  - name: burst
+    max: 20

@@ -1,0 +1,14 @@
+name: Example API Collection
+description: A small collection of example APIs.
+url: https://example.com/apis.json
+specificationVersion: "0.18"
+apis:
+  - name: Example Messaging API
+    baseURL: https://api.example.com
+    properties:
+      - type: OpenAPI
+        url: https://api.example.com/openapi.yaml
+  - name: Example Billing API
+    humanURL: https://example.com/billing
+tags:
+  - Messaging

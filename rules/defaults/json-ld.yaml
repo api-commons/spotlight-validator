@@ -1,0 +1,23 @@
+# JSON-LD — starter governance for linked-data documents.
+rules:
+  json-ld-context:
+    description: A JSON-LD document MUST have an @context.
+    message: JSON-LD must have an @context
+    severity: error
+    given: $
+    then: { field: "@context", function: truthy }
+    tags: ["format:json-ld", "category:structure"]
+  json-ld-type:
+    description: Declare the node @type.
+    message: JSON-LD should declare an @type
+    severity: warn
+    given: $
+    then: { field: "@type", function: truthy }
+    tags: ["format:json-ld", "category:structure"]
+  json-ld-id:
+    description: Give the node a stable @id.
+    message: JSON-LD node should have an @id
+    severity: info
+    given: $
+    then: { field: "@id", function: truthy }
+    tags: ["format:json-ld", "category:structure"]

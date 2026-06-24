@@ -1,0 +1,58 @@
+# APIs.json — starter governance for the APIs.json discovery format.
+rules:
+  apis-json-name:
+    description: An APIs.json document MUST have a name.
+    message: APIs.json must have a name
+    severity: error
+    given: $
+    then: { field: name, function: truthy }
+    tags: ["format:apis-json", "category:documentation"]
+  apis-json-url:
+    description: An APIs.json document should declare its own canonical url (self-reference).
+    message: APIs.json should declare its url
+    severity: warn
+    given: $
+    then: { field: url, function: truthy }
+    tags: ["format:apis-json", "category:structure"]
+  apis-json-specification-version:
+    description: Declare the APIs.json specificationVersion so consumers know how to parse it.
+    message: Declare specificationVersion
+    severity: info
+    given: $
+    then: { field: specificationVersion, function: truthy }
+    tags: ["format:apis-json", "category:versioning"]
+  apis-json-apis-present:
+    description: An APIs.json document MUST list one or more APIs in the apis array.
+    message: APIs.json must list apis
+    severity: error
+    given: $
+    then: { field: apis, function: truthy }
+    tags: ["format:apis-json", "category:structure"]
+  apis-json-api-name:
+    description: Each API entry MUST have a name.
+    message: Each api entry must have a name
+    severity: error
+    given: $.apis[*]
+    then: { field: name, function: truthy }
+    tags: ["format:apis-json", "category:documentation"]
+  apis-json-api-baseurl:
+    description: Each API entry should declare a baseURL.
+    message: Each api entry should have a baseURL
+    severity: warn
+    given: $.apis[*]
+    then: { field: baseURL, function: truthy }
+    tags: ["format:apis-json", "category:structure"]
+  apis-json-api-properties:
+    description: Each API entry should link to machine-readable properties (OpenAPI, docs, etc.).
+    message: Each api entry should have properties
+    severity: warn
+    given: $.apis[*]
+    then: { field: properties, function: truthy }
+    tags: ["format:apis-json", "category:structure"]
+  apis-json-tags:
+    description: Tag the collection so it is discoverable.
+    message: APIs.json should have tags
+    severity: info
+    given: $
+    then: { field: tags, function: truthy }
+    tags: ["format:apis-json", "category:documentation"]

@@ -1,0 +1,7 @@
+name: Example API Plans
+plans:
+  - name: Free
+    price: 0
+  - name: Pro
+    price: 49
+  - name: Enterprise

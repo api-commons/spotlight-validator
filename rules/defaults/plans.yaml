@@ -1,0 +1,30 @@
+# Plans — starter governance for API pricing/plan documents.
+rules:
+  plans-name:
+    description: A plans document MUST have a name.
+    message: Plans document must have a name
+    severity: error
+    given: $
+    then: { field: name, function: truthy }
+    tags: ["format:plans", "category:documentation"]
+  plans-list:
+    description: A plans document MUST list one or more plans.
+    message: Plans document must list plans
+    severity: error
+    given: $
+    then: { field: plans, function: truthy }
+    tags: ["format:plans", "category:structure"]
+  plan-name:
+    description: Each plan MUST have a name.
+    message: Each plan must have a name
+    severity: error
+    given: $.plans[*]
+    then: { field: name, function: truthy }
+    tags: ["format:plans", "category:documentation"]
+  plan-price:
+    description: Each plan should declare a price (use 0 for free tiers).
+    message: Each plan should declare a price
+    severity: warn
+    given: $.plans[*]
+    then: { field: price, function: defined }
+    tags: ["format:plans", "category:structure"]

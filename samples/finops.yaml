@@ -1,0 +1,6 @@
+name: Example API FinOps
+currency: USD
+budget: 5000
+costs:
+  - service: compute
+    monthly: 1200

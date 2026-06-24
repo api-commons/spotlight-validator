@@ -1,0 +1,30 @@
+# JSON Schema — starter governance.
+rules:
+  json-schema-schema-keyword:
+    description: Declare the JSON Schema dialect with $schema.
+    message: Declare the $schema dialect
+    severity: warn
+    given: $
+    then: { field: "$schema", function: truthy }
+    tags: ["format:jsonschema", "category:structure"]
+  json-schema-title:
+    description: Give the schema a title.
+    message: Schema should have a title
+    severity: info
+    given: $
+    then: { field: title, function: truthy }
+    tags: ["format:jsonschema", "category:documentation"]
+  json-schema-type:
+    description: Declare the schema type (or use $ref / composition).
+    message: Schema should declare a type
+    severity: warn
+    given: $
+    then: { field: type, function: truthy }
+    tags: ["format:jsonschema", "category:structure"]
+  json-schema-property-descriptions:
+    description: Document each property with a description.
+    message: Properties should be described
+    severity: info
+    given: $.properties[*]
+    then: { field: description, function: truthy }
+    tags: ["format:jsonschema", "category:documentation"]

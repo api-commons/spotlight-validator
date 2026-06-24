@@ -1,0 +1,23 @@
+# FinOps — starter governance for API FinOps / cost documents.
+rules:
+  finops-name:
+    description: A FinOps document MUST have a name.
+    message: FinOps document must have a name
+    severity: error
+    given: $
+    then: { field: name, function: truthy }
+    tags: ["format:finops", "category:documentation"]
+  finops-currency:
+    description: Declare the currency used for costs.
+    message: FinOps document should declare a currency
+    severity: info
+    given: $
+    then: { field: currency, function: truthy }
+    tags: ["format:finops", "category:structure"]
+  finops-budget:
+    description: Declare a budget or cost figure.
+    message: FinOps document should declare a budget
+    severity: warn
+    given: $
+    then: { field: budget, function: defined }
+    tags: ["format:finops", "category:structure"]

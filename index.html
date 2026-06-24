@@ -15,13 +15,6 @@
         <span class="tag">governance playground</span>
       </div>
       <nav>
-        <label>Format
-          <select id="format">
-            <option value="openapi">OpenAPI</option>
-            <option value="asyncapi">AsyncAPI</option>
-            <option value="jsonschema">JSON Schema</option>
-          </select>
-        </label>
         <a href="https://github.com/api-commons/spotlight-validator/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener" title="Rule sources &amp; licenses">Credits</a>
         <a href="https://github.com/api-commons/spotlight-validator" target="_blank" rel="noopener">GitHub</a>
         <a href="https://spotlight-rules.com" target="_blank" rel="noopener">Spotlight Rules</a>
@@ -30,7 +23,19 @@
 
     <main class="layout">
       <section class="pane">
-        <div class="pane-head"><span>Artifact</span><span id="doc-status" class="muted"></span></div>
+        <div class="artifact-toolbar">
+          <select id="artifact-type" class="art-select" aria-label="Artifact type"></select>
+          <div class="search-wrap">
+            <input id="artifact-search" type="search" placeholder="Search APIs.io…" autocomplete="off" />
+            <button id="artifact-search-btn" title="Search APIs.io">Search</button>
+            <div id="search-results" class="search-results" hidden></div>
+          </div>
+          <div class="lang-toggle" role="group" aria-label="Editor format">
+            <button id="lang-yaml" class="active" type="button">YAML</button>
+            <button id="lang-json" type="button">JSON</button>
+          </div>
+        </div>
+        <div id="doc-status" class="muted small doc-status"></div>
         <div id="doc-editor" class="editor"></div>
       </section>
 
