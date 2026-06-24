@@ -1,0 +1,44 @@
+---
+rules:
+  openapi-response-content-type-json-error:
+    description: >-
+      API responses should use application/json as the primary content type.
+      Analysis of 773 specs shows application/json is used by 92% of APIs,
+      making it the universal standard for modern REST APIs.
+    message: Response MUST Use application/json Content Type
+    severity: error
+    given: $.paths.*[get,post,put,patch,delete].responses[*].content
+    then:
+      field: application/json
+      function: truthy
+  openapi-response-content-type-json-info:
+    description: >-
+      API responses should use application/json as the primary content type.
+      Analysis of 773 specs shows application/json is used by 92% of APIs,
+      making it the universal standard for modern REST APIs.
+    message: Response Uses application/json Content Type
+    severity: info
+    given: $.paths.*[get,post,put,patch,delete].responses[*].content
+    then:
+      field: application/json
+      function: falsy
+  openapi-request-body-content-type-json-error:
+    description: >-
+      Request bodies should use application/json as the primary content
+      type for consistency across API operations and client implementations.
+    message: Request Body MUST Use application/json Content Type
+    severity: error
+    given: $.paths.*[post,put,patch].requestBody.content
+    then:
+      field: application/json
+      function: truthy
+  openapi-request-body-content-type-json-info:
+    description: >-
+      Request bodies should use application/json as the primary content
+      type for consistency across API operations and client implementations.
+    message: Request Body Uses application/json Content Type
+    severity: info
+    given: $.paths.*[post,put,patch].requestBody.content
+    then:
+      field: application/json
+      function: falsy

@@ -14,7 +14,15 @@ included. The Italian Government ruleset
 which is **AGPL-3.0**, was **deliberately excluded** to avoid the network-copyleft
 obligations and Apache-2.0 incompatibility.
 
-## Bundled sources
+## First-party rules
+
+Rules tagged `source:api-evangelist` come from
+[api-evangelist/rules](https://github.com/api-evangelist/rules), a first-party
+ruleset within the same API Commons / API Evangelist ecosystem as this validator
+(not a third party). Only the `-error`/`-warn` violation rules are compiled; the
+paired `-info` positive-confirmation rules are dropped.
+
+## Bundled (third-party) sources
 
 | Project | Repository | License | Copyright |
 | --- | --- | --- | --- |

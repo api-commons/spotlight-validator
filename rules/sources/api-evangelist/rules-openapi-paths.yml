@@ -1,0 +1,72 @@
+---
+rules:
+  openapi-paths-declarations-error:
+    description: >-
+      There must be a paths property and have paths declared, providing the
+      minimum viable definition for an API.
+    message: OpenAPI Path Declarations Error
+    severity: error
+    resolved: false
+    given: $.paths
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        notMatch: '{}'
+  openapi-no-path-trailing-slash-error:
+    description: >-
+      It is common to be explicit and consistent about whether or not to have a
+      trailing slack on each API path
+    message: Path Trailing Slash
+    severity: error
+    given: $.paths.*~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: /$
+  openapi-no-path-trailing-slash-info:
+    description: >-
+      It is common to be explicit and consistent about whether or not to have a
+      trailing slack on each API path
+    message: Path Trailing Slash
+    severity: info
+    given: $.paths.*~
+    then:
+      function: pattern
+      functionOptions:
+        match: /$
+  openapi-paths-max-nesting-depth-error:
+    description: >-
+      API paths should not exceed 4 levels of nesting depth. Analysis of
+      6627 paths across 773 specs shows an average depth of 3.04 segments,
+      with deeper paths indicating overly complex resource hierarchies.
+    message: Path Nesting MUST NOT Exceed 4 Levels
+    severity: error
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "^(/[^/]+){5,}"
+  openapi-paths-max-nesting-depth-info:
+    description: >-
+      API paths should not exceed 4 levels of nesting depth. Analysis of
+      6627 paths across 773 specs shows an average depth of 3.04 segments,
+      with deeper paths indicating overly complex resource hierarchies.
+    message: Path Nesting Exceeds 4 Levels
+    severity: info
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[^/]+){5,}"
+  openapi-paths-resource-plural-error:
+    description: >-
+      Resource names in paths should use plural nouns to maintain consistency
+      and follow REST conventions for collection-oriented resource design.
+    message: Path Resources Should Be Plural
+    severity: warn
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-z].*s(/\\{[^}]+\\})?)*$"

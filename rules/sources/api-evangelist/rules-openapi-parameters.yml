@@ -1,0 +1,168 @@
+---
+rules:
+  openapi-components-parameters-casing-camel-error:
+    description: >-
+      Providing parameters with consistent naming helps make it easier for API
+      consumers to understand how they are able to configure their API requests
+    message: Parameters Names MUST Be Camel Case
+    severity: error
+    given: $.components.parameters.*
+    then:
+      - field: name
+        function: pattern
+        functionOptions:
+          notMatch: ^[a-z]+(?:[A-Z][a-z]+)*$
+      - field: name
+        function: pattern
+        functionOptions:
+          match: ^[A-Z](([a-z0-9]+[A-Z]?)*)$
+  openapi-components-parameters-casing-camel-info:
+    description: >-
+      Providing parameters with consistent naming helps make it easier for API
+      consumers to understand how they are able to configure their API requests
+    message: Parameters Names Are Camel Case
+    severity: info
+    given: $.components.parameters.*
+    then:
+      - field: name
+        function: pattern
+        functionOptions:
+          notMatch: ^[a-z]+(?:[A-Z][a-z]+)*$
+      - field: name
+        function: pattern
+        functionOptions:
+          match: ^[A-Z](([a-z0-9]+[A-Z]?)*)$
+  openapi-components-parameters-description-error:
+    description: >-
+      Having a parameters description provides more depth to what a parameter
+      does and will be displayed via documentation, and other tooling used
+      across the API lifecycle
+    message: Parameters MUST Have a Description
+    given: $.paths.*.*.parameters.*
+    then:
+      field: description
+      function: truthy
+  openapi-components-parameters-description-info:
+    description: >-
+      Having a parameters description provides more depth to what a parameter
+      does and will be displayed via documentation, and other tooling used
+      across the API lifecycle
+    message: Parameters Have a Description
+    severity: info
+    given: $.components.parameters.*
+    then:
+      field: description
+      function: falsy
+  openapi-components-parameters-description-length-error:
+    description: >-
+      Limiting the length of parameters description forces us to be more concise
+      in how we describe each parameter, while keeping our documentation and
+      other ways descriptions show up in discovery and portals more consistent
+    message: Parameters Description MUST Be Less Than 500 Characters
+    given: $.components.parameters.*
+    then:
+      field: summary
+      function: length
+      functionOptions:
+        max: 500
+  openapi-components-parameters-enum-casing-error:
+    description: >-
+      Keeping parameters enumerator casing consistent across APIs helps reduce
+      confusion by consumers, and can keep aligned with services and
+      applications putting an API to work
+    message: Parameters Enums MUST Must Be Upper Snake Case
+    severity: error
+    given: $.components.parameters.*.enum.*
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: ^[A-Z]+(?:_[A-Z]+)*$
+  openapi-components-parameters-enum-casing-info:
+    description: >-
+      Keeping parameters enumerator casing consistent across APIs helps reduce
+      confusion by consumers, and can keep aligned with services and
+      applications putting an API to work
+    message: Parameters Enums Are Upper Snake Case
+    severity: info
+    given: $.components.parameters.*.enum.*
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[A-Z]+(?:_[A-Z]+)*$
+  openapi-components-parameters-in-error:
+    description: >-
+      Providing an in property for parameters gets explicit about whether a
+      parameter is in the path, query, or a header, making it clear to consumers
+      where they can configure their request
+    message: Parameters In Property MUST Be Set
+    given: $.components.parameters.*
+    then:
+      field: in
+      function: truthy
+  openapi-components-parameters-in-info:
+    description: >-
+      Providing an in property for parameters gets explicit about whether a
+      parameter is in the path, query, or a header, making it clear to consumers
+      where they can configure their request
+    message: Parameters In Property Is Set
+    severity: info
+    given: $.components.parameters.*
+    then:
+      field: in
+      function: falsy
+  openapi-components-parameters-info:
+    description: >-
+      Having a components parameters object allows all parameters used across an
+      API to be centralized, allowing for reuse and easier governance of the
+      parameters used to configure API requests
+    message: Components Have a Parameters Property
+    severity: info
+    given: $.components
+    then:
+      field: parameters
+      function: falsy
+  openapi-components-parameters-name-error:
+    description: >-
+      Providing a simple, intuitive, and consistent names for your parameters
+      helps make it easier for API consumers to understand how they are able to
+      configure their API requests
+    message: Parameters MUST Have a Name
+    severity: error
+    given: $.components.parameters.*
+    then:
+      field: name
+      function: truthy
+  openapi-components-parameters-name-length-error:
+    description: >-
+      Providing short and concise names for your parameters helps make it easier
+      for API consumers to understand how they are able to configure their API
+      requests
+    message: Parameters Name Length MUST Be Less Than 25 Characters
+    given: $.components.parameters[?(@.in=='path')].name
+    then:
+      field: summary
+      function: length
+      functionOptions:
+        max: 25
+  openapi-components-parameters-required-error:
+    description: >-
+      Providrequiredg an required property for parameters gets explicit about
+      whether a parameter is required the path, query, or a header, making it
+      clear to consumers where they can configure their request
+    message: Parameters Required Property MUST Be Set
+    given: $.components.parameters.*
+    severity: error
+    then:
+      field: required
+      function: truthy
+  openapi-components-parameters-required-info:
+    description: >-
+      Providrequiredg an required property for parameters gets explicit about
+      whether a parameter is required the path, query, or a header, makrequiredg
+      it clear to consumers where they can configure their request.
+    message: Parameters Required Property Is Set
+    severity: info
+    given: $.components.parameters.*
+    then:
+      field: required
+      function: falsy

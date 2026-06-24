@@ -1,0 +1,188 @@
+---
+rules:
+  openapi-response-get-401-status-code-error:
+    description: >-
+      GET operations should define a 401 Unauthorized response. Analysis of
+      773 specs shows 401 is the second most common response code with 4805
+      occurrences, confirming authentication errors must be documented.
+    message: GET MUST Have 401 Response
+    severity: error
+    given: $.paths[*].get.responses
+    then:
+      field: "401"
+      function: truthy
+  openapi-response-get-401-status-code-info:
+    description: >-
+      GET operations should define a 401 Unauthorized response. Analysis of
+      773 specs shows 401 is the second most common response code with 4805
+      occurrences, confirming authentication errors must be documented.
+    message: GET Has 401 Response
+    severity: info
+    given: $.paths[*].get.responses
+    then:
+      field: "401"
+      function: falsy
+  openapi-response-post-400-status-code-error:
+    description: >-
+      POST operations should define a 400 Bad Request response for input
+      validation errors. Analysis shows 400 is the 4th most common response
+      code across 2516 operations.
+    message: POST MUST Have 400 Response
+    severity: error
+    given: $.paths[*].post.responses
+    then:
+      field: "400"
+      function: truthy
+  openapi-response-post-400-status-code-info:
+    description: >-
+      POST operations should define a 400 Bad Request response for input
+      validation errors. Analysis shows 400 is the 4th most common response
+      code across 2516 operations.
+    message: POST Has 400 Response
+    severity: info
+    given: $.paths[*].post.responses
+    then:
+      field: "400"
+      function: falsy
+  openapi-response-post-401-status-code-error:
+    description: >-
+      POST operations should define a 401 Unauthorized response to document
+      authentication requirements for write operations.
+    message: POST MUST Have 401 Response
+    severity: error
+    given: $.paths[*].post.responses
+    then:
+      field: "401"
+      function: truthy
+  openapi-response-post-401-status-code-info:
+    description: >-
+      POST operations should define a 401 Unauthorized response to document
+      authentication requirements for write operations.
+    message: POST Has 401 Response
+    severity: info
+    given: $.paths[*].post.responses
+    then:
+      field: "401"
+      function: falsy
+  openapi-response-put-401-status-code-error:
+    description: >-
+      PUT operations should define a 401 Unauthorized response to document
+      authentication requirements for update operations.
+    message: PUT MUST Have 401 Response
+    severity: error
+    given: $.paths[*].put.responses
+    then:
+      field: "401"
+      function: truthy
+  openapi-response-put-401-status-code-info:
+    description: >-
+      PUT operations should define a 401 Unauthorized response to document
+      authentication requirements for update operations.
+    message: PUT Has 401 Response
+    severity: info
+    given: $.paths[*].put.responses
+    then:
+      field: "401"
+      function: falsy
+  openapi-response-delete-401-status-code-error:
+    description: >-
+      DELETE operations should define a 401 Unauthorized response to document
+      authentication requirements for destructive operations.
+    message: DELETE MUST Have 401 Response
+    severity: error
+    given: $.paths[*].delete.responses
+    then:
+      field: "401"
+      function: truthy
+  openapi-response-delete-401-status-code-info:
+    description: >-
+      DELETE operations should define a 401 Unauthorized response to document
+      authentication requirements for destructive operations.
+    message: DELETE Has 401 Response
+    severity: info
+    given: $.paths[*].delete.responses
+    then:
+      field: "401"
+      function: falsy
+  openapi-response-patch-200-status-code-error:
+    description: >-
+      PATCH operations should define a 200 OK response for successful
+      partial updates. Analysis shows PATCH is used in 17.7% of APIs.
+    message: PATCH MUST Have 200 Response
+    severity: error
+    given: $.paths[*].patch.responses
+    then:
+      field: "200"
+      function: truthy
+  openapi-response-patch-200-status-code-info:
+    description: >-
+      PATCH operations should define a 200 OK response for successful
+      partial updates. Analysis shows PATCH is used in 17.7% of APIs.
+    message: PATCH Has 200 Response
+    severity: info
+    given: $.paths[*].patch.responses
+    then:
+      field: "200"
+      function: falsy
+  openapi-response-patch-400-status-code-error:
+    description: >-
+      PATCH operations should define a 400 Bad Request response for
+      validation errors on partial update payloads.
+    message: PATCH MUST Have 400 Response
+    severity: error
+    given: $.paths[*].patch.responses
+    then:
+      field: "400"
+      function: truthy
+  openapi-response-patch-400-status-code-info:
+    description: >-
+      PATCH operations should define a 400 Bad Request response for
+      validation errors on partial update payloads.
+    message: PATCH Has 400 Response
+    severity: info
+    given: $.paths[*].patch.responses
+    then:
+      field: "400"
+      function: falsy
+  openapi-response-patch-404-status-code-error:
+    description: >-
+      PATCH operations should define a 404 Not Found response for cases
+      where the resource to be updated does not exist.
+    message: PATCH MUST Have 404 Response
+    severity: error
+    given: $.paths[*].patch.responses
+    then:
+      field: "404"
+      function: truthy
+  openapi-response-patch-404-status-code-info:
+    description: >-
+      PATCH operations should define a 404 Not Found response for cases
+      where the resource to be updated does not exist.
+    message: PATCH Has 404 Response
+    severity: info
+    given: $.paths[*].patch.responses
+    then:
+      field: "404"
+      function: falsy
+  openapi-response-429-rate-limit-error:
+    description: >-
+      APIs should define a 429 Too Many Requests response to document rate
+      limiting behavior. Analysis shows 429 appears in 671 operations,
+      confirming rate limiting is a common API pattern.
+    message: Operations MUST Have 429 Response
+    severity: error
+    given: $.paths.*[get,post,put,patch,delete].responses
+    then:
+      field: "429"
+      function: truthy
+  openapi-response-429-rate-limit-info:
+    description: >-
+      APIs should define a 429 Too Many Requests response to document rate
+      limiting behavior. Analysis shows 429 appears in 671 operations,
+      confirming rate limiting is a common API pattern.
+    message: Operations Have 429 Response
+    severity: info
+    given: $.paths.*[get,post,put,patch,delete].responses
+    then:
+      field: "429"
+      function: falsy

@@ -6,12 +6,14 @@ A browser-based API governance playground — lint **OpenAPI**, **AsyncAPI**, an
 
 - **Powered by Spotlight, not Spectral** — runs the published
   `@spotlight-rules/spotlight-*` engine entirely in the browser (no backend).
-- **Best-of-breed rules** compiled from public, redistribution-compatible Spectral
-  rulesets (SPS Commerce, Adidas, Trimble, Paystack, DigitalOcean, Microcks,
-  Baloise, Team Digitale, Schwarz IT — all Apache-2.0 or MIT). Attribution and
-  vendored licenses are in [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md)
-  and [`rules/sources/`](./rules/sources). The AGPL-3.0 Italian Government ruleset
-  is intentionally excluded.
+- **Best-of-breed rules** compiled from the first-party
+  [API Evangelist](https://github.com/api-evangelist/rules) OpenAPI governance
+  ruleset plus public, redistribution-compatible Spectral rulesets (SPS Commerce,
+  Adidas, Trimble, Paystack, DigitalOcean, Microcks, Baloise, Team Digitale,
+  Schwarz IT — all Apache-2.0 or MIT). Attribution and vendored licenses are in
+  [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) and
+  [`rules/sources/`](./rules/sources). The AGPL-3.0 Italian Government ruleset is
+  intentionally excluded.
 - **Select rules by tag** (`source:*`, `category:*`, `format:*`) or **edit your
   own ruleset** in a Monaco editor.
 

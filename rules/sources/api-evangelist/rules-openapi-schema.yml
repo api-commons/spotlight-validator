@@ -1,0 +1,252 @@
+---
+rules:
+  openapi-components-parameters-name-info:
+    description: >-
+      Providing a simple, intuitive, and consistent names for your parameters
+      helps make it easier for API consumers to understand how they are able to
+      configure their API requests
+    message: Parameters Have a Name
+    severity: info
+    given: $.components.parameters.*
+    then:
+      field: name
+      function: falsy
+  openapi-components-parameters-schema-error:
+    description: >-
+      Parameters must always possess a schema to help define the format and
+      shape of the parameter, setting expections with consumers about what
+      should be passed in
+    message: Parameters MUST Have Schema
+    given: $.components.parameters.*
+    then:
+      field: schema
+      function: truthy
+  openapi-components-parameters-schema-info:
+    description: >-
+      Parameters must always possess a schema to help define the format and
+      shape of the parameter, setting expections with consumers about what
+      should be passed in
+    message: Parameters Have Schema
+    severity: info
+    given: $.components.parameters.*
+    then:
+      field: schema
+      function: falsy
+  openapi-components-parameters-schema-ref-error:
+    description: >-
+      Parameters must always use a schema reference that utilizes reusable
+      schema that are defined as part of a centralized schema components library
+    message: Parameters MUST Use Schema Reference
+    severity: error
+    given: $.components.parameters.*.schema
+    then:
+      field: $ref
+      function: falsy
+  openapi-components-parameters-schema-ref-info:
+    description: >-
+      Parameters must always use a schema reference that utilizes reusable
+      schema that are defined as part of a centralized schema components library
+    message: Parameters Use Schema Reference
+    severity: info
+    given: $.components.parameters.*.schema
+    then:
+      field: $ref
+      function: truthy
+  openapi-components-parameters-schema-type-error:
+    description: >-
+      Parameters must always have their schema type defined, being precise about
+      what type of data can be inputted and used to configure an API request
+    message: Parameter Schema Type
+    given: $.components.parameters.*.schema
+    severity: error
+    then:
+      field: type
+      function: truthy
+  openapi-components-parameters-schema-type-info:
+    description: >-
+      Parameters must always have their schema type defined, being precise about
+      what type of data can be inputted and used to configure an API request
+    message: Parameter Schema Type
+    severity: info
+    given: $.components.parameters.*.schema
+    then:
+      field: type
+      function: falsy
+  openapi-schema-description-error:
+    description: >-
+      Schema should have descriptions that provide a narrative of what a schema
+      object is for, and how it can be used, leaving examples to demonstrate
+      what can actually be expected
+    message: Schema MUST Have a Description.
+    severity: error
+    given: $.components.schemas.*
+    then:
+      field: description
+      function: truthy
+  openapi-schema-description-info:
+    description: >-
+      Schema should have descriptions that provide a narrative of what a schema
+      object is for, and how it can be used, leaving examples to demonstrate
+      what can actually be expected
+    message: Schemas Has a Description.
+    severity: info
+    given: $.components.schemas.*
+    then:
+      field: description
+      function: falsy
+  openapi-schema-description-length-error:
+    description: >-
+      Schema should have a length limit applied, restricting how long schema
+      descriptions can be, helping keep them concise and consistent
+    message: Schema Description MUST be Less Than 250 Characters
+    severity: error
+    given: $.components.schemas.*
+    then:
+      field: description
+      function: length
+      functionOptions:
+        max: 250
+  openapi-schema-names-error:
+    description: >-
+      Schema names, keeping the naming of them consistent across APIs,
+      standardizing how consumers can use in their applications.
+    message: Schema Names MUST Exist
+    severity: error
+    given: $.components.schemas
+    then:
+      field: '@key'
+      function: truthy
+  openapi-schema-names-info:
+    description: >-
+      Schema names, keeping the naming of them consistent across APIs,
+      standardizing how consumers can use in their applications.
+    message: Schema Names Exist
+    severity: info
+    given: $.components.schemas
+    then:
+      field: '@key'
+      function: falsy
+  openapi-schema-names-length-error:
+    description: >-
+      Schema should have a length limit applied keeping the names of schema
+      consistent across APIs
+    message: Schema Names MUST Be Less Than 25 Characters
+    severity: error
+    given: $.components.schemas
+    then:
+      field: '@key'
+      function: length
+      functionOptions:
+        max: 25
+  openapi-schema-properties-descriptions-error:
+    description: >-
+      Schema properties should have descriptions that provide a narrative of the
+      property contains, and how it can be used
+    message: Schema Properties MUST Have Description
+    severity: error
+    given: $.components.schemas.*.properties[?(@.type == 'string')]
+    then:
+      field: description
+      function: truthy
+  openapi-schema-properties-descriptions-info:
+    description: >-
+      Schema properties should have descriptions that provide a narrative of the
+      property contains, and how it can be used
+    message: Schema Properties Have Description
+    severity: info
+    given: $.components.schemas.*.properties[?(@.type == 'string')]
+    then:
+      field: description
+      function: falsy
+  openapi-schema-properties-descriptions-length-error:
+    description: >-
+      Schema property descriptions should have a length limit applied, applying
+      constraints to writing descriptions, and keeping consistent across APIs
+    message: Schema Properties Description MUST Have 250 Characters
+    severity: error
+    given: $.components.schemas.*.properties[?(@.type == 'string')]
+    then:
+      field: description
+      function: length
+      functionOptions:
+        max: 250
+  openapi-schema-properties-enum-casing-error:
+    description: >-
+      Schema property enumerators are consistent casing, keeping all entries
+      upper snake case, and consistent across all APIs
+    message: Schema Property Enum MUST Be Upper Snake Case
+    severity: error
+    given: $.components.schemas.*.properties.*.enum.*
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[A-Z]+(?:_[A-Z]+)*$
+  openapi-schema-properties-enum-casing-info:
+    description: >-
+      Schema property enumerators are consistent casing, keeping all entries
+      upper snake case, and consistent across all APIs
+    message: Schema Property Enum Are Upper Snake Case
+    severity: error
+    given: $.components.schemas.*.properties.*.enum.*
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: ^[A-Z]+(?:_[A-Z]+)*$
+  openapi-schema-properties-names-camel-case-error:
+    description: >-
+      Schema property names are camel case, providing consistent casing across
+      all the schema properties used by APIs
+    message: Schema Property Names MUST Be camelCase.
+    severity: error
+    given: $.components.schemas.*.properties
+    then:
+      - field: '@key'
+        function: pattern
+        functionOptions:
+          notMatch: ^[A-Z][a-z0-9]*[A-Z0-9][a-z0-9]+[A-Za-z0-9]*$
+  openapi-schema-properties-names-camel-case-info:
+    description: >-
+      Schema property names are camel case, providing consistent casing across
+      all the schema properties used by APIs
+    message: Schema Property Names Are camelCase.
+    severity: info
+    given: $.components.schemas.*.properties
+    then:
+      - field: '@key'
+        function: pattern
+        functionOptions:
+          match: ^[A-Z][a-z0-9]*[A-Z0-9][a-z0-9]+[A-Za-z0-9]*$
+  openapi-schema-properties-names-length-error:
+    description: >-
+      Schema property names have a length restriction applied, keeping names
+      consistent, and avoiding being too long
+    message: Schema Properties Name Length
+    severity: error
+    given: $.components.schemas.*.properties
+    then:
+      field: '@key'
+      function: length
+      functionOptions:
+        max: 25
+  openapi-schema-type-error:
+    description: >-
+      Schema should have a type defined, being explicit about type of data a
+      schema describes and can be used to validate, helping standardize the type
+      of data being made available
+    message: Schema MUST Have Type Property
+    severity: error
+    given: $.components.schemas.*
+    then:
+      field: type
+      function: truthy
+  openapi-schema-type-info:
+    description: >-
+      Schema should have a type defined, being explicit about type of data a
+      schema describes and can be used to validate, helping standardize the type
+      of data being made available
+    message: Schema Has Type Property
+    severity: info
+    given: $.components.schemas.*
+    then:
+      field: type
+      function: falsy

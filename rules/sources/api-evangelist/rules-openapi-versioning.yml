@@ -1,0 +1,98 @@
+---
+rules:
+  openapi-version-3x-error:
+    description: >-
+      APIs should use OpenAPI 3.x specification. Analysis of 773 API specs
+      shows 97% use OpenAPI 3.x, with 86% on 3.1.0, making it the dominant
+      standard for modern API definitions.
+    message: OpenAPI MUST Be Version 3.x
+    severity: error
+    given: $
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: "^3\\."
+  openapi-version-3x-info:
+    description: >-
+      APIs should use OpenAPI 3.x specification. Analysis of 773 API specs
+      shows 97% use OpenAPI 3.x, with 86% on 3.1.0, making it the dominant
+      standard for modern API definitions.
+    message: OpenAPI Is Version 3.x
+    severity: info
+    given: $
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        notMatch: "^3\\."
+  openapi-servers-defined-error:
+    description: >-
+      Every OpenAPI should define at least one server URL. Analysis shows
+      97.2% of APIs define servers, providing consumers with the base URL
+      needed to make requests.
+    message: Servers MUST Be Defined
+    severity: error
+    given: $
+    then:
+      field: servers
+      function: truthy
+  openapi-servers-defined-info:
+    description: >-
+      Every OpenAPI should define at least one server URL. Analysis shows
+      97.2% of APIs define servers, providing consumers with the base URL
+      needed to make requests.
+    message: Servers Are Defined
+    severity: info
+    given: $
+    then:
+      field: servers
+      function: falsy
+  openapi-servers-url-https-error:
+    description: >-
+      API server URLs should use HTTPS to ensure encrypted communication
+      between clients and servers, protecting sensitive data in transit.
+    message: Server URL MUST Use HTTPS
+    severity: error
+    given: $.servers[*]
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: "^https://"
+  openapi-servers-url-https-info:
+    description: >-
+      API server URLs should use HTTPS to ensure encrypted communication
+      between clients and servers, protecting sensitive data in transit.
+    message: Server URL Uses HTTPS
+    severity: info
+    given: $.servers[*]
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        notMatch: "^https://"
+  openapi-no-version-in-path-error:
+    description: >-
+      API paths should not contain version numbers like v1 or v2. API
+      versioning should be handled through headers, query parameters,
+      or server URLs rather than embedded in resource paths.
+    message: Paths MUST NOT Contain API Version
+    severity: error
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "/v[0-9]"
+  openapi-no-version-in-path-info:
+    description: >-
+      API paths should not contain version numbers like v1 or v2. API
+      versioning should be handled through headers, query parameters,
+      or server URLs rather than embedded in resource paths.
+    message: Paths Contain API Version
+    severity: info
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        match: "/v[0-9]"

@@ -1,0 +1,304 @@
+---
+rules:
+  openapi-components-parameters-schema-items-array-error:
+    description: >-
+      Parameters that are of an array type should always have the items defined,
+      being explicit about what is continued as part of the array
+    message: Parameter Schema Array MUST Have Items
+    given: $.components.parameters.schema[?(@.type=='array')]
+    severity: error
+    then:
+      field: items
+      function: truthy
+  openapi-components-parameters-schema-items-array-info:
+    description: >-
+      Parameters that are of an array type should always have the items defined,
+      being explicit about what is continued as part of the array
+    message: Parameter Schema Array MUST Has Items
+    severity: info
+    given: $.components.parameters.schema[?(@.type=='array')]
+    then:
+      field: items
+      function: falsy
+  openapi-components-parameters-schema-type-integer-maximum-info:
+    description: >-
+      Parameters that are of the integer schema type must have their maximum
+      value set, defining the shape of parameter data passed in with a request
+    message: Parameter Schema Type Integer Maximum
+    given:
+      - $.apis.*.properties.*
+      - $.common.*
+    severity: info
+    then:
+      field: maximum
+      function: falsy
+  openapi-components-parameters-schema-type-integer-maximum-warn:
+    description: >-
+      Parameters that are of the integer schema type must have their maximum
+      value set, defining the shape of parameter data passed in with a request
+    message: Parameter Schema Type Integer Maximum
+    given:
+      - $.apis.*.properties.*
+      - $.common.*
+    severity: warn
+    then:
+      field: maximum
+      function: truthy
+  openapi-components-parameters-schema-type-integer-minimum-info:
+    description: >-
+      Parameters that are of the integer schema type must have their minimum
+      value set, defining the shape of parameter data passed in with a request
+    message: Parameter Schema Type Integer Minimum
+    given:
+      - $.apis.*.properties.*
+      - $.common.*
+    severity: info
+    then:
+      field: minimum
+      function: falsy
+  openapi-components-parameters-schema-type-integer-minimum-warn:
+    description: >-
+      Parameters that are of the integer schema type must have their minimum
+      value set, defining the shape of parameter data passed in with a request
+    message: Parameter Schema Type Integer Minimum
+    given:
+      - $.apis.*.properties.*
+      - $.common.*
+    severity: warn
+    then:
+      field: minimum
+      function: truthy
+  openapi-components-parameters-schema-type-string-maxlength-info:
+    description: >-
+      Parameters that are of the type string schema type must have their maximum
+      value set, defining the shape of parameter data passed in with a request
+    message: Parameter Schema Type String MaxLength
+    given:
+      - $.apis.*.properties.*
+      - $.common.*
+    severity: info
+    then:
+      field: maxLength
+      function: falsy
+  openapi-components-parameters-schema-type-string-maxlength-warn:
+    description: >-
+      Parameters that are of the string schema type must have their maximum
+      value set, defining the shape of parameter data passed in with a request
+    message: Parameter Schema Type String MaxLength
+    given:
+      - $.apis.*.properties.*
+      - $.common.*
+    severity: warn
+    then:
+      field: maxLength
+      function: truthy
+  openapi-components-parameters-schema-type-string-minlength-info:
+    description: >-
+      Parameters that are of the string schema type must have their minimum
+      value set, defining the shape of parameter data passed in with a request
+    message: Parameter Schema Type String MinLength
+    given:
+      - $.apis.*.properties.*
+      - $.common.*
+    severity: info
+    then:
+      field: minLength
+      function: falsy
+  openapi-components-parameters-schema-type-string-minlength-warn:
+    description: >-
+      Parameters that are of the string schema type must have their minimum
+      value set, defining the shape of parameter data passed in with a request
+    message: Parameter Schema Type String MinLength
+    given:
+      - $.apis.*.properties.*
+      - $.common.*
+    severity: warn
+    then:
+      field: minLength
+      function: truthy
+  openapi-components-parameters-schema-type-string-pattern-info:
+    description: >-
+      Parameters that are of the string schema type must have a pattern set,
+      using a regex to define the shape of parameter data passed in with a
+      request
+    message: Parameter Schema Type String Pattern
+    given:
+      - $.apis.*.properties.*
+      - $.common.*
+    severity: info
+    then:
+      field: pattern
+      function: falsy
+  openapi-components-parameters-schema-type-string-pattern-warn:
+    description: >-
+      Parameters that are of the string schema type must have a pattern set,
+      using a regex to define the shape of parameter data passed in with a
+      request
+    message: Parameter Schema Type String Pattern
+    given:
+      - $.apis.*.properties.*
+      - $.common.*
+    severity: warn
+    then:
+      field: pattern
+      function: truthy
+  openapi-operation-security-definitions-error:
+    description: >-
+      Each API operation should have a security definition referencing the
+      central security scheme express for an OpenAPI
+    message: Operations MUST Have a Security Definition
+    severity: error
+    given: $.paths.*[get,post,patch,put,delete]
+    then:
+      field: security
+      function: truthy
+  openapi-operation-security-definitions-info:
+    description: >-
+      Each API operation should have a security definition referencing the
+      central security scheme express for an OpenAPI
+    message: Operations MUST Have a Security Definition
+    severity: info
+    given: $.paths.*[get,post,patch,put,delete]
+    then:
+      field: security
+      function: falsy
+  openapi-schema-properties-array-items-error:
+    description: >-
+      Schema properties that are of the type array must have an items property
+      defined
+    message: Schema Array Properties MUST Have Items
+    severity: error
+    given: $.components.schemas.*.properties[?(@.type=="array")]
+    then:
+      field: items
+      function: truthy
+  openapi-schema-properties-array-items-info:
+    description: >-
+      Schema properties that are of the type array must have an items property
+      defined
+    message: Schema Array Properties Has Items
+    severity: info
+    given: $.components.schemas.*.properties[?(@.type=="array")]
+    then:
+      field: items
+      function: falsy
+  openapi-schema-properties-array-maxitems-error:
+    description: >-
+      Schema properties that are of the type array should have a max items
+      property defined
+    message: Schema Array Properties MUST Have Max Items
+    severity: error
+    given: $.components.schemas.*.properties[?(@.type=="array")]
+    then:
+      - field: maxItems
+        function: truthy
+  openapi-schema-properties-array-maxitems-info:
+    description: >-
+      Schema properties that are of the type array should have a max items
+      property defined
+    message: Schema Array Properties Have Max Items
+    severity: info
+    given: $.components.schemas.*.properties[?(@.type=="array")]
+    then:
+      - field: maxItems
+        function: truthy
+  openapi-schema-properties-array-minitems-error:
+    description: >-
+      Schema properties that are of the type array should have a min items
+      property defined
+    message: Schema Array Properties MUST Have Min Items
+    severity: error
+    given: $.components.schemas.*.properties[?(@.type=="array")]
+    then:
+      - field: minItems
+        function: truthy
+  openapi-schema-properties-array-minitems-info:
+    description: >-
+      Schema properties that are of the type array should have a min items
+      property defined
+    message: Schema Array Properties Have Min Items
+    severity: info
+    given: $.components.schemas.*.properties[?(@.type=="array")]
+    then:
+      - field: minItems
+        function: falsy
+  openapi-schema-properties-define-number-maximum-error:
+    description: >-
+      Schema properties that are of the type number should have a maximum
+      property defined
+    message: Schema Number Properties MUST Have Maximum
+    severity: error
+    given: $.components.schemas.*.properties[?(@.type=="number")]
+    then:
+      - field: maximum
+        function: defined
+  openapi-schema-properties-define-number-minimum-error:
+    description: >-
+      Schema properties that are of the type number should have a minimum
+      property defined
+    message: Schema Number Properties MUST Have Minimum
+    severity: error
+    given: $.components.schemas.*.properties[?(@.type=="number")]
+    then:
+      - field: minimum
+        function: defined
+  openapi-schema-properties-string-maxlength-error:
+    description: >-
+      Schema properties that are of the string type have the max length applied
+      defining the shape of the property
+    message: Schema String Properties MUST Have Maximum Length
+    severity: error
+    given: $.components.schemas.*.properties[?(@.type == 'string')]
+    then:
+      field: maxLength
+      function: truthy
+  openapi-schema-properties-string-maxlength-info:
+    description: >-
+      Schema properties that are of the string type have the max length applied
+      defining the shape of the property
+    message: Schema String Properties Has Maximum Length
+    severity: info
+    given: $.components.schemas.*.properties[?(@.type == 'string')]
+    then:
+      field: maxLength
+      function: falsy
+  openapi-schema-properties-string-minlength-error:
+    description: >-
+      Schema properties that are of the string type have the min length applied
+      defining the shape of the property
+    message: Schema String Properties MUST Have Minimum Length
+    severity: error
+    given: $.components.schemas.*.properties[?(@.type == 'string')]
+    then:
+      field: minLength
+      function: truthy
+  openapi-schema-properties-string-minlength-info:
+    description: >-
+      Schema properties that are of the string type have the min length applied
+      defining the shape of the property
+    message: Schema String Properties Has Minimum Length
+    severity: info
+    given: $.components.schemas.*.properties[?(@.type == 'string')]
+    then:
+      field: minLength
+      function: falsy
+  openapi-security-schemes-error:
+    description: >-
+      Having components security schemes ensures that the security definition
+      for an API have been standardized and are able to be applied across APIs
+    message: Components MUST Have a Security Schemes
+    severity: error
+    given: $.components
+    then:
+      field: securitySchemes
+      function: truthy
+  openapi-security-schemes-info:
+    description: >-
+      Having components security schemes ensures that the security definition
+      for an API have been standardized and are able to be applied across APIs
+    message: Components Have a Security Schemes
+    severity: info
+    given: $.components
+    then:
+      field: securitySchemes
+      function: falsy

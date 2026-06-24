@@ -605,7 +605,8 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:security"
+        "category:security",
+        "source:api-evangelist"
       ]
     },
     "oas3-x-leanixid-required": {
@@ -1639,7 +1640,8 @@ export const ruleset = {
       "tags": [
         "source:paystack",
         "format:openapi",
-        "category:documentation"
+        "category:documentation",
+        "source:api-evangelist"
       ]
     },
     "oas2-api-host": {
@@ -4935,7 +4937,8 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "category:structure",
+        "source:api-evangelist"
       ],
       "description": "A resource MUST be addressable without a trailing slash on the path. It requires the targeted value not to match `/$` (evaluated at `$.paths.*~`). Severity: error."
     },
@@ -5128,6 +5131,1732 @@ export const ruleset = {
         "category:structure"
       ],
       "description": "Paths SHOULD NOT have query parameters in them. They should be defined separately in the OpenAPI. It requires the targeted value not to match `\\?` (evaluated at `$.paths.*~`). Severity: warn."
+    },
+    "openapi-response-content-type-json-error": {
+      "description": "API responses should use application/json as the primary content type. Analysis of 773 specs shows application/json is used by 92% of APIs, making it the universal standard for modern REST APIs. It requires the `application/json` field to be present and non-empty (evaluated at `$.paths.*[get,post,put,patch,delete].responses[*].content`). Severity: error.",
+      "message": "Response MUST Use application/json Content Type",
+      "severity": "error",
+      "given": "$.paths.*[get,post,put,patch,delete].responses[*].content",
+      "then": {
+        "field": "application/json",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-request-body-content-type-json-error": {
+      "description": "Request bodies should use application/json as the primary content type for consistency across API operations and client implementations. It requires the `application/json` field to be present and non-empty (evaluated at `$.paths.*[post,put,patch].requestBody.content`). Severity: error.",
+      "message": "Request Body MUST Use application/json Content Type",
+      "severity": "error",
+      "given": "$.paths.*[post,put,patch].requestBody.content",
+      "then": {
+        "field": "application/json",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-info-description-eval-error": {
+      "description": "Eval functions MUST not be included in the description of an API, keeping descriptions to just the text that is needed, and relying on the rest of the OpenAPI to describe what is possible. It requires the `description` field not to match `^\\b(<eval)\\b` (evaluated at `$.info`). Severity: error.",
+      "message": "Info Description MUST NOT Have Eval Tag",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "description",
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "^\\b(<eval)\\b"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-description-length-error": {
+      "description": "Having a restriction on the length of the API description expressed as the OpenAPI info description helps provide constraints for consumers when adding a description, and keeps portals, landing pages, documentation, and discovery results more consistent. It constrains the length of the `description` field and at most 500 (evaluated at `$.info`). Severity: error.",
+      "message": "Info description MUST be less than 500 characters.",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "description",
+        "function": "length",
+        "functionOptions": {
+          "max": 500
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-description-script-error": {
+      "description": "Script tags MUST not be included in the description of an API, keeping descriptions to just the text that is needed, and relying on the rest of the OpenAPI to describe what is possible. It requires the `description` field not to match `^\\b(<script)\\b` (evaluated at `$.info`). Severity: error.",
+      "message": "Info Description MUST NOT Have Script Tag",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "description",
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "^\\b(<script)\\b"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-title-error": {
+      "description": "Having a intuitive and helpful title for your API using the OpenAPI info title is the first impression you will make on the consumers of your API. It requires the `title` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
+      "message": "Info MUST Have Title",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "title",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-title-length-error": {
+      "description": "Having a limitation on the length of the title for your API helps provide constraints for teams naming it, but also keep consistent with other APIs from across teams. It constrains the length of the `title` field and at most 50 (evaluated at `$.info`). Severity: error.",
+      "message": "Info Title MUST Be Less Than 50 Characters",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "title",
+        "function": "length",
+        "functionOptions": {
+          "max": 50
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-title-upper-case-error": {
+      "description": "Having a consistent casing for the title for your API helps provide constraints for teams naming the API, but also keep consistent with other APIs from across teams. It requires the targeted value to match the pattern `[A-Z]\\w*` (evaluated at `$.info.title`). Severity: error.",
+      "message": "Info Title Has First Characters Capitalized",
+      "severity": "error",
+      "given": "$.info.title",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "[A-Z]\\w*"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-operations-description-length-error": {
+      "description": "Having a length limitation for each description of each API operation helps apply constraints to how you describe your APIs, while helping drive consistency across APIs when it comes to search, documentation, and other ways an API is made available. It constrains the length of the `description` field and at most 250 (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: warn.",
+      "message": "Operation Description MUST Be Less Than 250 Characters",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "description",
+          "function": "length",
+          "functionOptions": {
+            "max": 250
+          }
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-operations-summary-error": {
+      "description": "Having short and intuitive summary for each API operation helps API consumers understand what is possible with each API request. It requires the `summary` field to be present and non-empty (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
+      "message": "Operation MUST Have a Summary",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "summary",
+          "function": "truthy"
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-operations-summary-length-error": {
+      "description": "Apply length constraints to the operation summary helps keep them consistent for publishing in documentation. It constrains the length of the `summary` field and at most 50 (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: warn.",
+      "message": "Operation Summary MUST Be Less Than 50 Characters",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "summary",
+          "function": "length",
+          "functionOptions": {
+            "max": 50
+          }
+        }
+      ],
+      "type": "style",
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-operations-summary-period-none-error": {
+      "description": "Operation summaries should not have a period, keeping the primary summary for each API as consistent as possible for publishing in documentation. It requires the targeted value not to match `\\.$` (evaluated at `$.paths[*][*].summary`). Severity: error.",
+      "message": "Operation MUST Not Have a Period.",
+      "severity": "error",
+      "given": "$.paths[*][*].summary",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "\\.$"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-operations-tags-error": {
+      "description": "Having tags applied to each API operations helps organize and group APIs in portals, documentation, search, and other ways in which APIs are made available. It requires the `tags` field to be present and non-empty (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
+      "message": "Operations MUST Have Tags",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "tags",
+          "function": "truthy"
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-operations-tags-one-error": {
+      "description": "Having tags applied to each API operations helps organize and group APIs in portals, documentation, search, and other ways in which APIs are made available. It constrains the length of the `tags` field to at least 1 (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
+      "message": "MUST Be At Least One Operation Tag",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "severity": "error",
+      "then": {
+        "field": "tags",
+        "function": "length",
+        "functionOptions": {
+          "min": 1
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-operations-tags-upper-case-error": {
+      "description": "Having the first letter of each word applied as a tag to API operations helps keep a consistent layout when published via search, documentation, and other ways APIs are made available. It requires the targeted value to match the pattern `[A-Z]\\w*` (evaluated at `$.paths.*[get,post,patch,put,delete].tags.*`). Severity: error.",
+      "message": "Operation Tag Names MUST Have First Letter in Each Word Capitalized",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete].tags.*",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "[A-Z]\\w*"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-schema-description-error": {
+      "description": "Schema should have descriptions that provide a narrative of what a schema object is for, and how it can be used, leaving examples to demonstrate what can actually be expected. It requires the `description` field to be present and non-empty (evaluated at `$.components.schemas.*`). Severity: error.",
+      "message": "Schema MUST Have a Description.",
+      "severity": "error",
+      "given": "$.components.schemas.*",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-schema-description-length-error": {
+      "description": "Schema should have a length limit applied, restricting how long schema descriptions can be, helping keep them concise and consistent. It constrains the length of the `description` field and at most 250 (evaluated at `$.components.schemas.*`). Severity: error.",
+      "message": "Schema Description MUST be Less Than 250 Characters",
+      "severity": "error",
+      "given": "$.components.schemas.*",
+      "then": {
+        "field": "description",
+        "function": "length",
+        "functionOptions": {
+          "max": 250
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-schema-names-error": {
+      "description": "Schema names, keeping the naming of them consistent across APIs, standardizing how consumers can use in their applications. It requires the `@key` field to be present and non-empty (evaluated at `$.components.schemas`). Severity: error.",
+      "message": "Schema Names MUST Exist",
+      "severity": "error",
+      "given": "$.components.schemas",
+      "then": {
+        "field": "@key",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-schema-names-length-error": {
+      "description": "Schema should have a length limit applied keeping the names of schema consistent across APIs. It constrains the length of the `@key` field and at most 25 (evaluated at `$.components.schemas`). Severity: error.",
+      "message": "Schema Names MUST Be Less Than 25 Characters",
+      "severity": "error",
+      "given": "$.components.schemas",
+      "then": {
+        "field": "@key",
+        "function": "length",
+        "functionOptions": {
+          "max": 25
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-response-get-401-status-code-error": {
+      "description": "GET operations should define a 401 Unauthorized response. Analysis of 773 specs shows 401 is the second most common response code with 4805 occurrences, confirming authentication errors must be documented. It requires the `401` field to be present and non-empty (evaluated at `$.paths[*].get.responses`). Severity: error.",
+      "message": "GET MUST Have 401 Response",
+      "severity": "error",
+      "given": "$.paths[*].get.responses",
+      "then": {
+        "field": "401",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-response-post-400-status-code-error": {
+      "description": "POST operations should define a 400 Bad Request response for input validation errors. Analysis shows 400 is the 4th most common response code across 2516 operations. It requires the `400` field to be present and non-empty (evaluated at `$.paths[*].post.responses`). Severity: error.",
+      "message": "POST MUST Have 400 Response",
+      "severity": "error",
+      "given": "$.paths[*].post.responses",
+      "then": {
+        "field": "400",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-response-post-401-status-code-error": {
+      "description": "POST operations should define a 401 Unauthorized response to document authentication requirements for write operations. It requires the `401` field to be present and non-empty (evaluated at `$.paths[*].post.responses`). Severity: error.",
+      "message": "POST MUST Have 401 Response",
+      "severity": "error",
+      "given": "$.paths[*].post.responses",
+      "then": {
+        "field": "401",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-response-put-401-status-code-error": {
+      "description": "PUT operations should define a 401 Unauthorized response to document authentication requirements for update operations. It requires the `401` field to be present and non-empty (evaluated at `$.paths[*].put.responses`). Severity: error.",
+      "message": "PUT MUST Have 401 Response",
+      "severity": "error",
+      "given": "$.paths[*].put.responses",
+      "then": {
+        "field": "401",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-response-delete-401-status-code-error": {
+      "description": "DELETE operations should define a 401 Unauthorized response to document authentication requirements for destructive operations. It requires the `401` field to be present and non-empty (evaluated at `$.paths[*].delete.responses`). Severity: error.",
+      "message": "DELETE MUST Have 401 Response",
+      "severity": "error",
+      "given": "$.paths[*].delete.responses",
+      "then": {
+        "field": "401",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-response-patch-200-status-code-error": {
+      "description": "PATCH operations should define a 200 OK response for successful partial updates. Analysis shows PATCH is used in 17.7% of APIs. It requires the `200` field to be present and non-empty (evaluated at `$.paths[*].patch.responses`). Severity: error.",
+      "message": "PATCH MUST Have 200 Response",
+      "severity": "error",
+      "given": "$.paths[*].patch.responses",
+      "then": {
+        "field": "200",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-response-patch-400-status-code-error": {
+      "description": "PATCH operations should define a 400 Bad Request response for validation errors on partial update payloads. It requires the `400` field to be present and non-empty (evaluated at `$.paths[*].patch.responses`). Severity: error.",
+      "message": "PATCH MUST Have 400 Response",
+      "severity": "error",
+      "given": "$.paths[*].patch.responses",
+      "then": {
+        "field": "400",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-response-patch-404-status-code-error": {
+      "description": "PATCH operations should define a 404 Not Found response for cases where the resource to be updated does not exist. It requires the `404` field to be present and non-empty (evaluated at `$.paths[*].patch.responses`). Severity: error.",
+      "message": "PATCH MUST Have 404 Response",
+      "severity": "error",
+      "given": "$.paths[*].patch.responses",
+      "then": {
+        "field": "404",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-response-429-rate-limit-error": {
+      "description": "APIs should define a 429 Too Many Requests response to document rate limiting behavior. Analysis shows 429 appears in 671 operations, confirming rate limiting is a common API pattern. It requires the `429` field to be present and non-empty (evaluated at `$.paths.*[get,post,put,patch,delete].responses`). Severity: error.",
+      "message": "Operations MUST Have 429 Response",
+      "severity": "error",
+      "given": "$.paths.*[get,post,put,patch,delete].responses",
+      "then": {
+        "field": "429",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:errors"
+      ]
+    },
+    "openapi-info-contact-email-error": {
+      "description": "Having a contact email address associated with the technical contract ensures that anyone who comes across the API has someone to email and get more information. It requires the `email` field to be present and non-empty (evaluated at `$.info.contact`). Severity: error.",
+      "message": "Info MUST Have Contact Email",
+      "given": "$.info.contact",
+      "severity": "error",
+      "then": {
+        "field": "email",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-contact-error": {
+      "description": "Having a contact object associated with the technical contract ensures that anyone who comes across the API has someone to contact and get more information. It requires the `contact` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
+      "message": "Info MUST Have Contact Object",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "contact",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-contact-name-error": {
+      "description": "Having a contact name associated with the technical contract ensures that anyone who comes across the API knows who to contact. It requires the `name` field to be present and non-empty (evaluated at `$.info.contact`). Severity: error.",
+      "message": "Info MUST Have Contact Name",
+      "given": "$.info.contact",
+      "severity": "error",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-contact-url-error": {
+      "description": "Having a contact url associated with the technical contract ensures that anyone who comes across the API knows where to go to contact someone. It requires the `url` field to be present and non-empty (evaluated at `$.info.contact`). Severity: error.",
+      "message": "Info MUST Have Contact URL",
+      "given": "$.info.contact",
+      "severity": "error",
+      "then": {
+        "field": "url",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-error": {
+      "description": "Having an info object provides much of the metadata needed for the collection of APIs described in an OpenAPI. It requires the `info` field to be present and non-empty (evaluated at `$`). Severity: error.",
+      "message": "Info Object MUST Exist",
+      "severity": "error",
+      "given": "$",
+      "then": {
+        "field": "info",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-version-error": {
+      "description": "Publishing a version for your OpenAPI technical contract helps you communicate change with consumers using Semantic or date-based versioning published to the info version property. It requires the `version` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
+      "message": "Info MUST Have Version",
+      "given": "$.info",
+      "severity": "error",
+      "then": {
+        "field": "version",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-license-error": {
+      "description": "Having a license defined in the info object clarifies the terms under which the API can be used. Analysis shows only 44.4% of APIs define a license, but it is essential for API governance and compliance. It requires the `license` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
+      "message": "Info MUST Have License",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "license",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-license-name-error": {
+      "description": "The license object should include a name property identifying the license type, such as Apache 2.0, MIT, or a proprietary license. It requires the `name` field to be present and non-empty (evaluated at `$.info.license`). Severity: error.",
+      "message": "Info License MUST Have Name",
+      "severity": "error",
+      "given": "$.info.license",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-license-url-error": {
+      "description": "The license object should include a URL linking to the full license text so API consumers can review the terms. It requires the `url` field to be present and non-empty (evaluated at `$.info.license`). Severity: error.",
+      "message": "Info License MUST Have URL",
+      "severity": "error",
+      "given": "$.info.license",
+      "then": {
+        "field": "url",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-info-terms-of-service-error": {
+      "description": "Having terms of service defined helps API consumers understand usage policies. Analysis shows 51.1% of APIs include terms of service, and it should be standard for any production API. It requires the `termsOfService` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
+      "message": "Info MUST Have Terms of Service",
+      "severity": "error",
+      "given": "$.info",
+      "then": {
+        "field": "termsOfService",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-external-docs-error": {
+      "description": "Defining external documentation provides a link to detailed API guides, tutorials, and reference material beyond the OpenAPI spec. Analysis shows 57.1% of APIs include external docs. It requires the `externalDocs` field to be present and non-empty (evaluated at `$`). Severity: error.",
+      "message": "External Docs MUST Be Defined",
+      "severity": "error",
+      "given": "$",
+      "then": {
+        "field": "externalDocs",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:documentation"
+      ]
+    },
+    "openapi-paths-kebab-case-error": {
+      "description": "API path segments should use kebab-case (lowercase with hyphens). Consistent path naming reduces confusion and improves developer experience across API consumers and documentation. It requires the targeted value to match the pattern `^(/[a-z0-9{}][a-z0-9\\-{}]*)*$` (evaluated at `$.paths`). Severity: error.",
+      "message": "Path Segments MUST Use kebab-case",
+      "severity": "error",
+      "given": "$.paths",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^(/[a-z0-9{}][a-z0-9\\-{}]*)*$"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:naming"
+      ]
+    },
+    "openapi-paths-no-file-extensions-error": {
+      "description": "API paths should not include file extensions like .json or .xml. Content negotiation should be handled through Accept headers rather than path suffixes. It requires the targeted value not to match `\\.(json|xml|html|yaml|yml|csv|pdf)$` (evaluated at `$.paths`). Severity: error.",
+      "message": "Paths MUST NOT Contain File Extensions",
+      "severity": "error",
+      "given": "$.paths",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "\\.(json|xml|html|yaml|yml|csv|pdf)$"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:naming"
+      ]
+    },
+    "openapi-operation-id-required-error": {
+      "description": "Every operation should have an operationId for SDK generation and documentation linking. Analysis shows operationId styles across 8878 operations with camelCase dominant at 92%. It requires the `operationId` field to be present and non-empty (evaluated at `$.paths.*[get,post,put,patch,delete]`). Severity: error.",
+      "message": "Operation MUST Have operationId",
+      "severity": "error",
+      "given": "$.paths.*[get,post,put,patch,delete]",
+      "then": {
+        "field": "operationId",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:naming"
+      ]
+    },
+    "openapi-schema-properties-camel-case-error": {
+      "description": "Schema property names should use camelCase. Analysis of 773 specs shows camelCase is the dominant convention at 65% (12958 properties), followed by snake_case at 33% (6661 properties). It requires the targeted value to match the pattern `^[a-z][a-zA-Z0-9]*$` (evaluated at `$.components.schemas[*].properties`). Severity: error.",
+      "message": "Schema Properties MUST Use camelCase",
+      "severity": "error",
+      "given": "$.components.schemas[*].properties",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^[a-z][a-zA-Z0-9]*$"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:naming"
+      ]
+    },
+    "openapi-parameter-query-camel-case-error": {
+      "description": "Query parameter names should use camelCase for consistency. Analysis shows camelCase is the most common query parameter style at 54% (2519 parameters), followed by snake_case at 36%. It requires camel casing on the `name` field (evaluated at `$.paths[*][*].parameters[?(@.in == 'query')]`). Severity: error.",
+      "message": "Query Parameters MUST Use camelCase",
+      "severity": "error",
+      "given": "$.paths[*][*].parameters[?(@.in == 'query')]",
+      "then": {
+        "field": "name",
+        "function": "casing",
+        "functionOptions": {
+          "type": "camel"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:naming"
+      ]
+    },
+    "openapi-operation-security-definitions-error": {
+      "description": "Each API operation should have a security definition referencing the central security scheme express for an OpenAPI. It requires the `security` field to be present and non-empty (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
+      "message": "Operations MUST Have a Security Definition",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": {
+        "field": "security",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-operations-description-error": {
+      "description": "Having a paragraph or two description of each API operation helps API consumers understand what is possible with each API request. It requires the `description` field to be present and non-empty (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
+      "message": "Operation MUST Have Description",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "description",
+          "function": "truthy"
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-operations-operation-ids-camel-case-error": {
+      "description": "Operation identifiers provide a unique way to identify each individual API, and requiring them to have consistent casing reduces friction when generating SDKs and automating around APIs. It requires the targeted value to match the pattern `^[a-z]+(?:[A-Z][a-z]+)*$` (evaluated at `$.paths.*[get,post,patch,put,delete].operationId`). Severity: error.",
+      "message": "Operation Identifier MUST Be camelCase",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete].operationId",
+      "then": [
+        {
+          "function": "pattern",
+          "functionOptions": {
+            "match": "^[a-z]+(?:[A-Z][a-z]+)*$"
+          }
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-operations-operation-ids-error": {
+      "description": "Operation identifiers provide a unique way to identify each individual API, which then used for SDK generation and other automation. It requires the `operationId` field to be present and non-empty (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
+      "message": "Operation MUST Have Identifier",
+      "severity": "error",
+      "given": "$.paths.*[get,post,patch,put,delete]",
+      "then": [
+        {
+          "field": "operationId",
+          "function": "truthy"
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-pagination-limit-parameter-error": {
+      "description": "GET operations returning collections should include a limit parameter for pagination. Analysis shows limit is the most common pagination parameter (116 of 773 specs), used in 24% of APIs with pagination. It validates the targeted value against a JSON Schema (evaluated at `$.paths[*].get.parameters[*]`). Severity: error.",
+      "message": "Collection GET MUST Have Limit Parameter",
+      "severity": "error",
+      "given": "$.paths[*].get.parameters[*]",
+      "then": {
+        "function": "schema",
+        "functionOptions": {
+          "schema": {
+            "type": "object"
+          }
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:pagination"
+      ]
+    },
+    "openapi-pagination-parameters-query-error": {
+      "description": "Pagination parameters like page, limit, offset, and cursor should be passed as query parameters, not in headers or path segments. Analysis confirms 100% of pagination parameters observed are query parameters. It requires the `in` field to match the pattern `query` (evaluated at `$.paths[*].get.parameters[?(@.name == 'page' || @.name == 'limit' || @.name == 'offset' || @.name == 'cursor' || @.name == 'per_page' || @.name == 'page_size')]`). Severity: error.",
+      "message": "Pagination Parameters MUST Be Query Parameters",
+      "severity": "error",
+      "given": "$.paths[*].get.parameters[?(@.name == 'page' || @.name == 'limit' || @.name == 'offset' || @.name == 'cursor' || @.name == 'per_page' || @.name == 'page_size')]",
+      "then": {
+        "field": "in",
+        "function": "pattern",
+        "functionOptions": {
+          "match": "query"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:pagination"
+      ]
+    },
+    "openapi-components-parameters-casing-camel-error": {
+      "description": "Providing parameters with consistent naming helps make it easier for API consumers to understand how they are able to configure their API requests. It requires the `name` field not to match `^[a-z]+(?:[A-Z][a-z]+)*$`, and requires the `name` field to match the pattern `^[A-Z](([a-z0-9]+[A-Z]?)*)$` (evaluated at `$.components.parameters.*`). Severity: error.",
+      "message": "Parameters Names MUST Be Camel Case",
+      "severity": "error",
+      "given": "$.components.parameters.*",
+      "then": [
+        {
+          "field": "name",
+          "function": "pattern",
+          "functionOptions": {
+            "notMatch": "^[a-z]+(?:[A-Z][a-z]+)*$"
+          }
+        },
+        {
+          "field": "name",
+          "function": "pattern",
+          "functionOptions": {
+            "match": "^[A-Z](([a-z0-9]+[A-Z]?)*)$"
+          }
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-description-error": {
+      "description": "Having a parameters description provides more depth to what a parameter does and will be displayed via documentation, and other tooling used across the API lifecycle. It requires the `description` field to be present and non-empty (evaluated at `$.paths.*.*.parameters.*`). Severity: warn.",
+      "message": "Parameters MUST Have a Description",
+      "given": "$.paths.*.*.parameters.*",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-description-length-error": {
+      "description": "Limiting the length of parameters description forces us to be more concise in how we describe each parameter, while keeping our documentation and other ways descriptions show up in discovery and portals more consistent. It constrains the length of the `summary` field and at most 500 (evaluated at `$.components.parameters.*`). Severity: warn.",
+      "message": "Parameters Description MUST Be Less Than 500 Characters",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "summary",
+        "function": "length",
+        "functionOptions": {
+          "max": 500
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-enum-casing-error": {
+      "description": "Keeping parameters enumerator casing consistent across APIs helps reduce confusion by consumers, and can keep aligned with services and applications putting an API to work. It requires the targeted value not to match `^[A-Z]+(?:_[A-Z]+)*$` (evaluated at `$.components.parameters.*.enum.*`). Severity: error.",
+      "message": "Parameters Enums MUST Must Be Upper Snake Case",
+      "severity": "error",
+      "given": "$.components.parameters.*.enum.*",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "^[A-Z]+(?:_[A-Z]+)*$"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-in-error": {
+      "description": "Providing an in property for parameters gets explicit about whether a parameter is in the path, query, or a header, making it clear to consumers where they can configure their request. It requires the `in` field to be present and non-empty (evaluated at `$.components.parameters.*`). Severity: warn.",
+      "message": "Parameters In Property MUST Be Set",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "in",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-name-error": {
+      "description": "Providing a simple, intuitive, and consistent names for your parameters helps make it easier for API consumers to understand how they are able to configure their API requests. It requires the `name` field to be present and non-empty (evaluated at `$.components.parameters.*`). Severity: error.",
+      "message": "Parameters MUST Have a Name",
+      "severity": "error",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-name-length-error": {
+      "description": "Providing short and concise names for your parameters helps make it easier for API consumers to understand how they are able to configure their API requests. It constrains the length of the `summary` field and at most 25 (evaluated at `$.components.parameters[?(@.in=='path')].name`). Severity: warn.",
+      "message": "Parameters Name Length MUST Be Less Than 25 Characters",
+      "given": "$.components.parameters[?(@.in=='path')].name",
+      "then": {
+        "field": "summary",
+        "function": "length",
+        "functionOptions": {
+          "max": 25
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-required-error": {
+      "description": "Providrequiredg an required property for parameters gets explicit about whether a parameter is required the path, query, or a header, making it clear to consumers where they can configure their request. It requires the `required` field to be present and non-empty (evaluated at `$.components.parameters.*`). Severity: error.",
+      "message": "Parameters Required Property MUST Be Set",
+      "given": "$.components.parameters.*",
+      "severity": "error",
+      "then": {
+        "field": "required",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-paths-declarations-error": {
+      "description": "There must be a paths property and have paths declared, providing the minimum viable definition for an API. It requires the `@key` field not to match `{}` (evaluated at `$.paths`). Severity: error.",
+      "message": "OpenAPI Path Declarations Error",
+      "severity": "error",
+      "resolved": false,
+      "given": "$.paths",
+      "then": {
+        "field": "@key",
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "{}"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-paths-max-nesting-depth-error": {
+      "description": "API paths should not exceed 4 levels of nesting depth. Analysis of 6627 paths across 773 specs shows an average depth of 3.04 segments, with deeper paths indicating overly complex resource hierarchies. It requires the targeted value not to match `^(/[^/]+){5,}` (evaluated at `$.paths`). Severity: error.",
+      "message": "Path Nesting MUST NOT Exceed 4 Levels",
+      "severity": "error",
+      "given": "$.paths",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "^(/[^/]+){5,}"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-paths-resource-plural-error": {
+      "description": "Resource names in paths should use plural nouns to maintain consistency and follow REST conventions for collection-oriented resource design. It requires the targeted value to match the pattern `^(/[a-z].*s(/\\{[^}]+\\})?)*$` (evaluated at `$.paths`). Severity: warn.",
+      "message": "Path Resources Should Be Plural",
+      "severity": "warn",
+      "given": "$.paths",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^(/[a-z].*s(/\\{[^}]+\\})?)*$"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-request-bodies-delete-error": {
+      "description": "DELETE HTTP methods should not have a request body, keeping API requests compliant with the HTTP standard. It requires the `requestBody` field to be absent or empty (evaluated at `$.paths.*.delete`). Severity: error.",
+      "message": "DELETE Request Body",
+      "given": "$.paths.*.delete",
+      "severity": "error",
+      "then": {
+        "field": "requestBody",
+        "function": "falsy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-request-bodies-get-error": {
+      "description": "GET HTTP methods should not have a request body, keeping API requests compliant with the HTTP standard. It requires the `requestBody` field to be absent or empty (evaluated at `$.paths.*.get`). Severity: error.",
+      "message": "GET Request Body",
+      "given": "$.paths.*.get",
+      "severity": "error",
+      "then": {
+        "field": "requestBody",
+        "function": "falsy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-request-body-on-post-error": {
+      "description": "POST HTTP methods can have a request body, providing a structured payload for configuring each API request. It requires the `requestBody` field to be present and non-empty (evaluated at `$.paths.*.post`). Severity: error.",
+      "message": "POST Requests MUST Have a Body",
+      "given": "$.paths.*.post",
+      "severity": "error",
+      "then": {
+        "field": "requestBody",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-request-bodies-put-error": {
+      "description": "PUT HTTP methods can have a request body, providing a structured payload for configuring each API request. It requires the `requestBody` field to be present and non-empty (evaluated at `$.paths.*.put`). Severity: error.",
+      "message": "PUT Requests MUST Have a Body",
+      "given": "$.paths.*.put",
+      "severity": "error",
+      "then": {
+        "field": "requestBody",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-response-delete-204-status-code-error": {
+      "description": "DELETE responses should have a 204 success HTTP status codes, communicating a success created response to consumers. It requires the `204` field to be present and non-empty (evaluated at `$.paths.*.delete.responses`). Severity: info.",
+      "message": "DELETE 204 Status Code",
+      "severity": "info",
+      "given": "$.paths.*.delete.responses",
+      "then": {
+        "field": "204",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-response-delete-404-schema-ref-error": {
+      "description": "DELETE 404 not found HTTP status codes have a schema references to standardize the response payload returned for the error response. It requires the `$ref` field to be absent or empty (evaluated at `$.paths.*.delete.responses.404`). Severity: error.",
+      "message": "DELETE 404 Responses MUST Use Schema Reference",
+      "severity": "error",
+      "given": "$.paths.*.delete.responses.404",
+      "then": {
+        "field": "$ref",
+        "function": "falsy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-response-delete-500-status-code-error": {
+      "description": "DELETE responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers. It requires the `500` field to be present and non-empty (evaluated at `$.paths.*.delete.responses`). Severity: error.",
+      "message": "DELETE Responses MUST Have 500 Status Codes",
+      "severity": "error",
+      "given": "$.paths.*.delete.responses",
+      "then": {
+        "field": "500",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-response-get-200-status-code-error": {
+      "description": "GET responses should have a 200 success HTTP status codes, communicating a successful response to consumers. It requires the `200` field to be present and non-empty (evaluated at `$.paths.*.get.responses`). Severity: error.",
+      "message": "GET Responses MUST Have 200 Status Codes",
+      "severity": "error",
+      "given": "$.paths.*.get.responses",
+      "then": {
+        "field": "200",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-response-get-404-status-code-error": {
+      "description": "GET responses should have a 404 not found HTTP status code, communicating that nothing was found to consumers. It requires the `404` field to be present and non-empty (evaluated at `$.paths.*.get[?(@.properties)]`). Severity: error.",
+      "message": "GET Responses MUST Have 404 Status Code",
+      "severity": "error",
+      "given": "$.paths.*.get[?(@.properties)]",
+      "then": {
+        "field": "404",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-response-get-500-status-code-error": {
+      "description": "GET responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers. It requires the `500` field to be present and non-empty (evaluated at `$.paths.*.get.responses`). Severity: error.",
+      "message": "GET Responses MUST Have 500 Status Code",
+      "severity": "error",
+      "given": "$.paths.*.get.responses",
+      "then": {
+        "field": "500",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-response-post-201-status-code-error": {
+      "description": "POST responses should have a 201 success HTTP status codes, communicating a success created response to consumers. It requires the `201` field to be present and non-empty (evaluated at `$.paths[*].post.responses`). Severity: error.",
+      "message": "POST Responses MUST Have 201 Status Codes",
+      "severity": "error",
+      "given": "$.paths[*].post.responses",
+      "then": {
+        "field": "201",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-response-post-500-status-code-error": {
+      "description": "POST responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers. It requires the `500` field to be present and non-empty (evaluated at `$.paths.*.post.responses`). Severity: error.",
+      "message": "POST Responses MUST Have 500 Status Codes",
+      "severity": "error",
+      "given": "$.paths.*.post.responses",
+      "then": {
+        "field": "500",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-response-put-400-status-code-error": {
+      "description": "PUT responses should have a 400 not found HTTP status code, communicating nothing was found to consumers. It requires the `400` field to be present and non-empty (evaluated at `$.paths.*.put.responses`). Severity: error.",
+      "message": "PUT Responses MUST Have 400 Status Codes",
+      "severity": "error",
+      "given": "$.paths.*.put.responses",
+      "then": {
+        "field": "400",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-response-put-500-status-code-error": {
+      "description": "PUT responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers. It requires the `500` field to be present and non-empty (evaluated at `$.paths.*.put.responses`). Severity: error.",
+      "message": "PUT Responses MUST Have 500 Status Codes",
+      "severity": "error",
+      "given": "$.paths.*.put.responses",
+      "then": {
+        "field": "500",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-schema-error": {
+      "description": "Parameters must always possess a schema to help define the format and shape of the parameter, setting expections with consumers about what should be passed in. It requires the `schema` field to be present and non-empty (evaluated at `$.components.parameters.*`). Severity: warn.",
+      "message": "Parameters MUST Have Schema",
+      "given": "$.components.parameters.*",
+      "then": {
+        "field": "schema",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-schema-ref-error": {
+      "description": "Parameters must always use a schema reference that utilizes reusable schema that are defined as part of a centralized schema components library. It requires the `$ref` field to be absent or empty (evaluated at `$.components.parameters.*.schema`). Severity: error.",
+      "message": "Parameters MUST Use Schema Reference",
+      "severity": "error",
+      "given": "$.components.parameters.*.schema",
+      "then": {
+        "field": "$ref",
+        "function": "falsy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-schema-type-error": {
+      "description": "Parameters must always have their schema type defined, being precise about what type of data can be inputted and used to configure an API request. It requires the `type` field to be present and non-empty (evaluated at `$.components.parameters.*.schema`). Severity: error.",
+      "message": "Parameter Schema Type",
+      "given": "$.components.parameters.*.schema",
+      "severity": "error",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-schema-properties-descriptions-error": {
+      "description": "Schema properties should have descriptions that provide a narrative of the property contains, and how it can be used. It requires the `description` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type == 'string')]`). Severity: error.",
+      "message": "Schema Properties MUST Have Description",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-schema-properties-descriptions-length-error": {
+      "description": "Schema property descriptions should have a length limit applied, applying constraints to writing descriptions, and keeping consistent across APIs. It constrains the length of the `description` field and at most 250 (evaluated at `$.components.schemas.*.properties[?(@.type == 'string')]`). Severity: error.",
+      "message": "Schema Properties Description MUST Have 250 Characters",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "description",
+        "function": "length",
+        "functionOptions": {
+          "max": 250
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-schema-properties-enum-casing-error": {
+      "description": "Schema property enumerators are consistent casing, keeping all entries upper snake case, and consistent across all APIs. It requires the targeted value to match the pattern `^[A-Z]+(?:_[A-Z]+)*$` (evaluated at `$.components.schemas.*.properties.*.enum.*`). Severity: error.",
+      "message": "Schema Property Enum MUST Be Upper Snake Case",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties.*.enum.*",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^[A-Z]+(?:_[A-Z]+)*$"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-schema-properties-names-camel-case-error": {
+      "description": "Schema property names are camel case, providing consistent casing across all the schema properties used by APIs. It requires the `@key` field not to match `^[A-Z][a-z0-9]*[A-Z0-9][a-z0-9]+[A-Za-z0-9]*$` (evaluated at `$.components.schemas.*.properties`). Severity: error.",
+      "message": "Schema Property Names MUST Be camelCase.",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties",
+      "then": [
+        {
+          "field": "@key",
+          "function": "pattern",
+          "functionOptions": {
+            "notMatch": "^[A-Z][a-z0-9]*[A-Z0-9][a-z0-9]+[A-Za-z0-9]*$"
+          }
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-schema-properties-names-length-error": {
+      "description": "Schema property names have a length restriction applied, keeping names consistent, and avoiding being too long. It constrains the length of the `@key` field and at most 25 (evaluated at `$.components.schemas.*.properties`). Severity: error.",
+      "message": "Schema Properties Name Length",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties",
+      "then": {
+        "field": "@key",
+        "function": "length",
+        "functionOptions": {
+          "max": 25
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-schema-type-error": {
+      "description": "Schema should have a type defined, being explicit about type of data a schema describes and can be used to validate, helping standardize the type of data being made available. It requires the `type` field to be present and non-empty (evaluated at `$.components.schemas.*`). Severity: error.",
+      "message": "Schema MUST Have Type Property",
+      "severity": "error",
+      "given": "$.components.schemas.*",
+      "then": {
+        "field": "type",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-components-parameters-schema-items-array-error": {
+      "description": "Parameters that are of an array type should always have the items defined, being explicit about what is continued as part of the array. It requires the `items` field to be present and non-empty (evaluated at `$.components.parameters.schema[?(@.type=='array')]`). Severity: error.",
+      "message": "Parameter Schema Array MUST Have Items",
+      "given": "$.components.parameters.schema[?(@.type=='array')]",
+      "severity": "error",
+      "then": {
+        "field": "items",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-components-parameters-schema-type-integer-maximum-warn": {
+      "description": "Parameters that are of the integer schema type must have their maximum value set, defining the shape of parameter data passed in with a request. It requires the `maximum` field to be present and non-empty (evaluated at `$.apis.*.properties.*`, `$.common.*`). Severity: warn.",
+      "message": "Parameter Schema Type Integer Maximum",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "warn",
+      "then": {
+        "field": "maximum",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-components-parameters-schema-type-integer-minimum-warn": {
+      "description": "Parameters that are of the integer schema type must have their minimum value set, defining the shape of parameter data passed in with a request. It requires the `minimum` field to be present and non-empty (evaluated at `$.apis.*.properties.*`, `$.common.*`). Severity: warn.",
+      "message": "Parameter Schema Type Integer Minimum",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "warn",
+      "then": {
+        "field": "minimum",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-components-parameters-schema-type-string-maxlength-warn": {
+      "description": "Parameters that are of the string schema type must have their maximum value set, defining the shape of parameter data passed in with a request. It requires the `maxLength` field to be present and non-empty (evaluated at `$.apis.*.properties.*`, `$.common.*`). Severity: warn.",
+      "message": "Parameter Schema Type String MaxLength",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "warn",
+      "then": {
+        "field": "maxLength",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-components-parameters-schema-type-string-minlength-warn": {
+      "description": "Parameters that are of the string schema type must have their minimum value set, defining the shape of parameter data passed in with a request. It requires the `minLength` field to be present and non-empty (evaluated at `$.apis.*.properties.*`, `$.common.*`). Severity: warn.",
+      "message": "Parameter Schema Type String MinLength",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "warn",
+      "then": {
+        "field": "minLength",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-components-parameters-schema-type-string-pattern-warn": {
+      "description": "Parameters that are of the string schema type must have a pattern set, using a regex to define the shape of parameter data passed in with a request. It requires the `pattern` field to be present and non-empty (evaluated at `$.apis.*.properties.*`, `$.common.*`). Severity: warn.",
+      "message": "Parameter Schema Type String Pattern",
+      "given": [
+        "$.apis.*.properties.*",
+        "$.common.*"
+      ],
+      "severity": "warn",
+      "then": {
+        "field": "pattern",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-schema-properties-array-items-error": {
+      "description": "Schema properties that are of the type array must have an items property defined. It requires the `items` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type==\"array\")]`). Severity: error.",
+      "message": "Schema Array Properties MUST Have Items",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type==\"array\")]",
+      "then": {
+        "field": "items",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-schema-properties-array-maxitems-error": {
+      "description": "Schema properties that are of the type array should have a max items property defined. It requires the `maxItems` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type==\"array\")]`). Severity: error.",
+      "message": "Schema Array Properties MUST Have Max Items",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type==\"array\")]",
+      "then": [
+        {
+          "field": "maxItems",
+          "function": "truthy"
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-schema-properties-array-minitems-error": {
+      "description": "Schema properties that are of the type array should have a min items property defined. It requires the `minItems` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type==\"array\")]`). Severity: error.",
+      "message": "Schema Array Properties MUST Have Min Items",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type==\"array\")]",
+      "then": [
+        {
+          "field": "minItems",
+          "function": "truthy"
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-schema-properties-define-number-maximum-error": {
+      "description": "Schema properties that are of the type number should have a maximum property defined. It requires the `maximum` field to be defined (evaluated at `$.components.schemas.*.properties[?(@.type==\"number\")]`). Severity: error.",
+      "message": "Schema Number Properties MUST Have Maximum",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type==\"number\")]",
+      "then": [
+        {
+          "field": "maximum",
+          "function": "defined"
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-schema-properties-define-number-minimum-error": {
+      "description": "Schema properties that are of the type number should have a minimum property defined. It requires the `minimum` field to be defined (evaluated at `$.components.schemas.*.properties[?(@.type==\"number\")]`). Severity: error.",
+      "message": "Schema Number Properties MUST Have Minimum",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type==\"number\")]",
+      "then": [
+        {
+          "field": "minimum",
+          "function": "defined"
+        }
+      ],
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-schema-properties-string-maxlength-error": {
+      "description": "Schema properties that are of the string type have the max length applied defining the shape of the property. It requires the `maxLength` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type == 'string')]`). Severity: error.",
+      "message": "Schema String Properties MUST Have Maximum Length",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "maxLength",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-schema-properties-string-minlength-error": {
+      "description": "Schema properties that are of the string type have the min length applied defining the shape of the property. It requires the `minLength` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type == 'string')]`). Severity: error.",
+      "message": "Schema String Properties MUST Have Minimum Length",
+      "severity": "error",
+      "given": "$.components.schemas.*.properties[?(@.type == 'string')]",
+      "then": {
+        "field": "minLength",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:security"
+      ]
+    },
+    "openapi-tags-description-error": {
+      "description": "Tags used as part of an OpenAPI should have descriptions, providing more of a narrative behind what a tag means when it is applied to an API. It requires the `description` field to be present and non-empty (evaluated at `$.tags[*]`). Severity: error.",
+      "message": "Tags MUST Have a Description",
+      "given": "$.tags[*]",
+      "severity": "error",
+      "then": {
+        "field": "description",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-tags-name-error": {
+      "description": "Tags used as part of an OpenAPI should have names, providing a simple key word or phrase that represents the tag being applied to APIs. It requires the `name` field to be present and non-empty (evaluated at `$.tags[*]`). Severity: error.",
+      "message": "Tags MUST Have a Name",
+      "given": "$.tags[*]",
+      "severity": "error",
+      "then": {
+        "field": "name",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-tags-object-error": {
+      "description": "There needs to be a central tags object applied to the OpenAPI, providing central tags that can be applied across all operations within an OpenAPI. It requires the `tags` field to be present and non-empty (evaluated at `$`). Severity: error.",
+      "message": "OpenAPIs MUST Have a Tag Object",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "tags",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-tags-one-error": {
+      "description": "There needs to be at least one tag applied to an OpenAPI, providing a key word or phrase that can be applied to API operations. It constrains the length of the `tags` field to at least 1 (evaluated at `$`). Severity: error.",
+      "message": "MUST Be At Least One Tag",
+      "given": "$",
+      "severity": "error",
+      "then": {
+        "field": "tags",
+        "function": "length",
+        "functionOptions": {
+          "min": 1
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-tags-upper-case-error": {
+      "description": "The first letter of each word in a tag being applied to APIs needs to be capitalized, keeping the tags being applied across APIs the same look and feel for organizing and publishing to documentation. It requires the targeted value to match the pattern `[A-Z]\\w*` (evaluated at `$.tags.*.name`). Severity: error.",
+      "message": "Tag Names MUST Have First Letter in Each Word Capitalized",
+      "severity": "error",
+      "given": "$.tags.*.name",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "[A-Z]\\w*"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:structure"
+      ]
+    },
+    "openapi-version-3x-error": {
+      "description": "APIs should use OpenAPI 3.x specification. Analysis of 773 API specs shows 97% use OpenAPI 3.x, with 86% on 3.1.0, making it the dominant standard for modern API definitions. It requires the `openapi` field to match the pattern `^3\\.` (evaluated at `$`). Severity: error.",
+      "message": "OpenAPI MUST Be Version 3.x",
+      "severity": "error",
+      "given": "$",
+      "then": {
+        "field": "openapi",
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^3\\."
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:versioning"
+      ]
+    },
+    "openapi-servers-defined-error": {
+      "description": "Every OpenAPI should define at least one server URL. Analysis shows 97.2% of APIs define servers, providing consumers with the base URL needed to make requests. It requires the `servers` field to be present and non-empty (evaluated at `$`). Severity: error.",
+      "message": "Servers MUST Be Defined",
+      "severity": "error",
+      "given": "$",
+      "then": {
+        "field": "servers",
+        "function": "truthy"
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:versioning"
+      ]
+    },
+    "openapi-servers-url-https-error": {
+      "description": "API server URLs should use HTTPS to ensure encrypted communication between clients and servers, protecting sensitive data in transit. It requires the `url` field to match the pattern `^https://` (evaluated at `$.servers[*]`). Severity: error.",
+      "message": "Server URL MUST Use HTTPS",
+      "severity": "error",
+      "given": "$.servers[*]",
+      "then": {
+        "field": "url",
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^https://"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:versioning"
+      ]
+    },
+    "openapi-no-version-in-path-error": {
+      "description": "API paths should not contain version numbers like v1 or v2. API versioning should be handled through headers, query parameters, or server URLs rather than embedded in resource paths. It requires the targeted value not to match `/v[0-9]` (evaluated at `$.paths`). Severity: error.",
+      "message": "Paths MUST NOT Contain API Version",
+      "severity": "error",
+      "given": "$.paths",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "/v[0-9]"
+        }
+      },
+      "tags": [
+        "source:api-evangelist",
+        "format:openapi",
+        "category:versioning"
+      ]
     }
   }
 } as const;

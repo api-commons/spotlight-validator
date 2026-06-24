@@ -1,0 +1,156 @@
+---
+rules:
+  openapi-components-parameters-name-info:
+    description: >-
+      Providing a simple, intuitive, and consistent names for your parameters
+      helps make it easier for API consumers to understand how they are able to
+      configure their API requests
+    message: Parameters Have a Name
+    severity: info
+    given: $.components.parameters.*
+    then:
+      field: name
+      function: falsy
+  openapi-operations-tags-error:
+    description: >-
+      Having tags applied to each API operations helps organize and group APIs
+      in portals, documentation, search, and other ways in which APIs are made
+      available
+    message: Operations MUST Have Tags
+    severity: error
+    given: $.paths.*[get,post,patch,put,delete]
+    then:
+      - field: tags
+        function: truthy
+  openapi-operations-tags-info:
+    description: >-
+      Having tags applied to each API operations helps organize and group APIs
+      in portals, documentation, search, and other ways in which APIs are made
+      available
+    message: Operations Has Tags
+    severity: info
+    given: $.paths.*[get,post,patch,put,delete]
+    then:
+      - field: tags
+        function: falsy
+  openapi-operations-tags-one-error:
+    description: >-
+      Having tags applied to each API operations helps organize and group APIs
+      in portals, documentation, search, and other ways in which APIs are made
+      available
+    message: MUST Be At Least One Operation Tag
+    given: $.paths.*[get,post,patch,put,delete]
+    severity: error
+    then:
+      field: tags
+      function: length
+      functionOptions:
+        min: 1
+  openapi-operations-tags-upper-case-error:
+    description: >-
+      Having the first letter of each word applied as a tag to API operations
+      helps keep a consistent layout when published via search, documentation,
+      and other ways APIs are made available
+    message: Operation Tag Names MUST Have First Letter in Each Word Capitalized
+    severity: error
+    given: $.paths.*[get,post,patch,put,delete].tags.*
+    then:
+      function: pattern
+      functionOptions:
+        match: '[A-Z]\w*'
+  openapi-operations-tags-upper-case-info:
+    description: >-
+      Having the first letter of each word applied as a tag to API operations
+      helps keep a consistent layout when published via search, documentation,
+      and other ways APIs are made available
+    message: Operation Tag Names Have First Letter in Each Word Capitalized
+    severity: info
+    given: $.paths.*[get,post,patch,put,delete].tags.*
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '[A-Z]\w*'
+  openapi-tags-description-error:
+    description: >-
+      Tags used as part of an OpenAPI should have descriptions, providing more
+      of a narrative behind what a tag means when it is applied to an API
+    message: Tags MUST Have a Description
+    given: $.tags[*]
+    severity: error
+    then:
+      field: description
+      function: truthy
+  openapi-tags-description-info:
+    description: >-
+      Tags used as part of an OpenAPI should have descriptions, providing more
+      of a narrative behind what a tag means when it is applied to an API
+    message: Tags Have a Description
+    given: $.tags[*]
+    severity: info
+    then:
+      field: description
+      function: falsy
+  openapi-tags-name-error:
+    description: >-
+      Tags used as part of an OpenAPI should have names, providing a simple key
+      word or phrase that represents the tag being applied to APIs
+    message: Tags MUST Have a Name
+    given: $.tags[*]
+    severity: error
+    then:
+      field: name
+      function: truthy
+  openapi-tags-name-info:
+    description: >-
+      Tags used as part of an OpenAPI should have names, providing a simple key
+      word or phrase that represents the tag being applied to APIs
+    message: Tags Have a Name
+    given: $.tags[*]
+    severity: info
+    then:
+      field: name
+      function: falsy
+  openapi-tags-object-error:
+    description: >-
+      There needs to be a central tags object applied to the OpenAPI, providing
+      central tags that can be applied across all operations within an OpenAPI
+    message: OpenAPIs MUST Have a Tag Object
+    given: $
+    severity: error
+    then:
+      field: tags
+      function: truthy
+  openapi-tags-object-info:
+    description: >-
+      There needs to be a central tags object applied to the OpenAPI, providing
+      central tags that can be applied across all operations within an OpenAPI
+    message: OpenAPIs Have a Tag Object
+    given: $
+    severity: info
+    then:
+      field: tags
+      function: falsy
+  openapi-tags-one-error:
+    description: >-
+      There needs to be at least one tag applied to an OpenAPI, providing a key
+      word or phrase that can be applied to API operations
+    message: MUST Be At Least One Tag
+    given: $
+    severity: error
+    then:
+      field: tags
+      function: length
+      functionOptions:
+        min: 1
+  openapi-tags-upper-case-error:
+    description: >-
+      The first letter of each word in a tag being applied to APIs needs to be
+      capitalized, keeping the tags being applied across APIs the same look and
+      feel for organizing and publishing to documentation
+    message: Tag Names MUST Have First Letter in Each Word Capitalized
+    severity: error
+    given: $.tags.*.name
+    then:
+      function: pattern
+      functionOptions:
+        match: '[A-Z]\w*'

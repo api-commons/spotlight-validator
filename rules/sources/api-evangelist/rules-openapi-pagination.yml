@@ -1,0 +1,41 @@
+---
+rules:
+  openapi-pagination-limit-parameter-error:
+    description: >-
+      GET operations returning collections should include a limit parameter
+      for pagination. Analysis shows limit is the most common pagination
+      parameter (116 of 773 specs), used in 24% of APIs with pagination.
+    message: Collection GET MUST Have Limit Parameter
+    severity: error
+    given: $.paths[*].get.parameters[*]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+  openapi-pagination-parameters-query-error:
+    description: >-
+      Pagination parameters like page, limit, offset, and cursor should be
+      passed as query parameters, not in headers or path segments. Analysis
+      confirms 100% of pagination parameters observed are query parameters.
+    message: Pagination Parameters MUST Be Query Parameters
+    severity: error
+    given: $.paths[*].get.parameters[?(@.name == 'page' || @.name == 'limit' || @.name == 'offset' || @.name == 'cursor' || @.name == 'per_page' || @.name == 'page_size')]
+    then:
+      field: in
+      function: pattern
+      functionOptions:
+        match: "query"
+  openapi-pagination-parameters-query-info:
+    description: >-
+      Pagination parameters like page, limit, offset, and cursor should be
+      passed as query parameters, not in headers or path segments. Analysis
+      confirms 100% of pagination parameters observed are query parameters.
+    message: Pagination Parameters Are Query Parameters
+    severity: info
+    given: $.paths[*].get.parameters[?(@.name == 'page' || @.name == 'limit' || @.name == 'offset' || @.name == 'cursor' || @.name == 'per_page' || @.name == 'page_size')]
+    then:
+      field: in
+      function: pattern
+      functionOptions:
+        notMatch: "query"

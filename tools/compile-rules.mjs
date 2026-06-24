@@ -41,6 +41,10 @@ const SOURCES = {
 };
 const DIR_SOURCES = {
   'sps-commerce': { id: 'sps-commerce', format: 'openapi' },
+  // API Evangelist's own OpenAPI governance rules (first-party). Each rule ships
+  // an `-error`/`-warn` violation and a paired `-info` positive-confirmation that
+  // fires on COMPLIANT docs — drop the confirmations, they're noise in a linter.
+  'api-evangelist': { id: 'api-evangelist', format: 'openapi', drop: (k) => /-info$/.test(k) },
 };
 
 const CATEGORY_KEYWORDS = [
@@ -130,12 +134,13 @@ const sigMap = new Map();
 const used = new Set();
 const stats = {};
 
-function addSource(srcId, format, rulesObj, fileHint) {
+function addSource(srcId, format, rulesObj, fileHint, dropFn) {
   if (!rulesObj || typeof rulesObj !== 'object') return;
-  stats[srcId] ??= { kept: 0, skipped: 0, merged: 0 };
+  stats[srcId] ??= { kept: 0, skipped: 0, merged: 0, dropped: 0 };
   for (const [origName, rule] of Object.entries(rulesObj)) {
     if (rule === false || rule === 'off') continue;
     if (typeof rule !== 'object' || rule === null) continue;
+    if (dropFn && dropFn(origName)) { stats[srcId].dropped++; continue; }
     const clean = {};
     for (const [k, v] of Object.entries(rule)) if (VALID.has(k) || k.startsWith('x-')) clean[k] = structuredClone(v);
     if (clean.then !== undefined && !resolveFunctions(clean.then, srcId, usedCustom)) { stats[srcId].skipped++; continue; }
@@ -169,7 +174,7 @@ for (const [dir, meta] of Object.entries(DIR_SOURCES)) {
   for (const file of readdirSync(dp)) {
     if (!/\.ya?ml$/.test(file)) continue;
     let doc; try { doc = parse(readFileSync(join(dp, file), 'utf8'), { merge: true }); } catch { continue; }
-    addSource(meta.id, meta.format, doc?.rules, basename(file, '.yml'));
+    addSource(meta.id, meta.format, doc?.rules, basename(file, '.yml'), meta.drop);
   }
 }
 

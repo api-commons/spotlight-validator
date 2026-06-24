@@ -1,0 +1,202 @@
+---
+rules:
+  openapi-response-delete-204-status-code-error:
+    description: >-
+      DELETE responses should have a 204 success HTTP status codes,
+      communicating a success created response to consumers
+    message: DELETE 204 Status Code
+    severity: info
+    given: $.paths.*.delete.responses
+    then:
+      field: '204'
+      function: truthy
+  openapi-response-delete-204-status-code-info:
+    description: >-
+      DELETE responses should have a 204 success HTTP status codes,
+      communicating a success created response to consumers
+    message: DELETE 204 Status Code
+    severity: info
+    given: $.paths.*.delete.responses
+    then:
+      field: '204'
+      function: falsy
+  openapi-response-delete-404-schema-ref-error:
+    description: >-
+      DELETE 404 not found HTTP status codes have a schema references to
+      standardize the response payload returned for the error response
+    message: DELETE 404 Responses MUST Use Schema Reference
+    severity: error
+    given: $.paths.*.delete.responses.404
+    then:
+      field: $ref
+      function: falsy
+  openapi-response-delete-404-schema-ref-info:
+    description: >-
+      DELETE 404 not found HTTP status codes have a schema references to
+      standardize the response payload returned for the error response
+    message: DELETE 404 Responses Uses Schema Reference
+    severity: info
+    given: $.paths.*.delete.responses.404
+    then:
+      field: $ref
+      function: truthy
+  openapi-response-delete-500-status-code-error:
+    description: >-
+      DELETE responses should have a 500 internal server erorr HTTP status code,
+      communicating the API had a problem to consumers
+    message: DELETE Responses MUST Have 500 Status Codes
+    severity: error
+    given: $.paths.*.delete.responses
+    then:
+      field: '500'
+      function: truthy
+  openapi-response-delete-500-status-code-info:
+    description: >-
+      DELETE responses should have a 500 internal server erorr HTTP status code,
+      communicating the API had a problem to consumers
+    message: DELETE Responses MUST Have 500 Status Codes
+    severity: info
+    given: $.paths.*.delete.responses
+    then:
+      field: '500'
+      function: falsy
+  openapi-response-get-200-status-code-error:
+    description: >-
+      GET responses should have a 200 success HTTP status codes, communicating a
+      successful response to consumers
+    message: GET Responses MUST Have 200 Status Codes
+    severity: error
+    given: $.paths.*.get.responses
+    then:
+      field: '200'
+      function: truthy
+  openapi-response-get-200-status-code-info:
+    description: >-
+      GET responses should have a 200 success HTTP status codes, communicating a
+      successful response to consumers
+    message: GET Responses Has 200 Status Codes
+    severity: info
+    given: $.paths.*.get.responses
+    then:
+      field: '200'
+      function: falsy
+  openapi-response-get-404-status-code-error:
+    description: >-
+      GET responses should have a 404 not found HTTP status code, communicating
+      that nothing was found to consumers
+    message: GET Responses MUST Have 404 Status Code
+    severity: error
+    given: $.paths.*.get[?(@.properties)]
+    then:
+      field: '404'
+      function: truthy
+  openapi-response-get-404-status-code-info:
+    description: >-
+      GET responses should have a 404 not found HTTP status code, communicating
+      that nothing was found to consumers
+    message: GET Responses Has 404 Status Code
+    severity: info
+    given: $.paths.*.get[?(@.properties)]
+    then:
+      field: '404'
+      function: falsy
+  openapi-response-get-500-status-code-error:
+    description: >-
+      GET responses should have a 500 internal server erorr HTTP status code,
+      communicating the API had a problem to consumers
+    message: GET Responses MUST Have 500 Status Code
+    severity: error
+    given: $.paths.*.get.responses
+    then:
+      field: '500'
+      function: truthy
+  openapi-response-get-500-status-code-info:
+    description: >-
+      GET responses should have a 500 internal server erorr HTTP status code,
+      communicating the API had a problem to consumers
+    message: GET Responses Has 500 Status Code
+    severity: info
+    given: $.paths.*.get.responses
+    then:
+      field: '500'
+      function: falsy
+  openapi-response-post-201-status-code-error:
+    description: >-
+      POST responses should have a 201 success HTTP status codes, communicating
+      a success created response to consumers
+    message: POST Responses MUST Have 201 Status Codes
+    severity: error
+    given: $.paths[*].post.responses
+    then:
+      field: '201'
+      function: truthy
+  openapi-response-post-201-status-code-info:
+    description: >-
+      POST responses should have a 201 success HTTP status codes, communicating
+      a success created response to consumers
+    message: POST Responses Has 201 Status Codes
+    severity: info
+    given: $.paths[*].post.responses
+    then:
+      field: '201'
+      function: falsy
+  openapi-response-post-500-status-code-error:
+    description: >-
+      POST responses should have a 500 internal server erorr HTTP status code,
+      communicating the API had a problem to consumers
+    message: POST Responses MUST Have 500 Status Codes
+    severity: error
+    given: $.paths.*.post.responses
+    then:
+      field: '500'
+      function: truthy
+  openapi-response-post-500-status-code-info:
+    description: >-
+      POST responses should have a 500 internal server erorr HTTP status code,
+      communicating the API had a problem to consumers
+    message: POST Responses Has 500 Status Codes
+    severity: info
+    given: $.paths.*.post.responses
+    then:
+      field: '500'
+      function: falsy
+  openapi-response-put-400-status-code-error:
+    description: >-
+      PUT responses should have a 400 not found HTTP status code, communicating
+      nothing was found to consumers
+    message: PUT Responses MUST Have 400 Status Codes
+    severity: error
+    given: $.paths.*.put.responses
+    then:
+      field: '400'
+      function: truthy
+  openapi-response-put-400-status-code-info:
+    description: >-
+      PUT responses should have a 400 not found HTTP status code, communicating
+      nothing was found to consumers
+    message: PUT Responses Has 400 Status Codes
+    severity: info
+    given: $.paths.*.put.responses
+    then:
+      field: '400'
+      function: falsy
+  openapi-response-put-500-status-code-error:
+    description: >-
+      PUT responses should have a 500 internal server erorr HTTP status code,
+      communicating the API had a problem to consumers
+    message: PUT Responses MUST Have 500 Status Codes
+    severity: error
+    given: $.paths.*.put.responses
+    then:
+      field: '500'
+      function: truthy
+  openapi-response-put-500-status-code-info:
+    description: >-
+      PUT responses should have a 500 internal server erorr HTTP status code,
+      communicating the API had a problem to consumers
+    message: PUT Responses Has 500 Status Codes
+    severity: info
+    given: $.paths.*.put.responses
+    then:
+      field: '500'
+      function: falsy

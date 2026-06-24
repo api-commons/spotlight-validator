@@ -1,0 +1,381 @@
+---
+rules:
+  openapi-info-contact-email-error:
+    description: >-
+      Having a contact email address associated with the technical contract
+      ensures that anyone who comes across the API has someone to email and get
+      more information
+    message: Info MUST Have Contact Email
+    given: $.info.contact
+    severity: error
+    then:
+      field: email
+      function: truthy
+  openapi-info-contact-email-info:
+    description: >-
+      Having a contact email address associated with the technical contract
+      ensures that anyone who comes across the API has someone to email and get
+      more information
+    message: Info Has Contact Email
+    given: $.info.contact
+    severity: info
+    then:
+      field: email
+      function: falsy
+  openapi-info-contact-error:
+    description: >-
+      Having a contact object associated with the technical contract ensures
+      that anyone who comes across the API has someone to contact and get more
+      information
+    message: Info MUST Have Contact Object
+    severity: error
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+  openapi-info-contact-info:
+    description: >-
+      Having a contact object associated with the technical contract ensures
+      that anyone who comes across the API has someone to contact and get more
+      information
+    message: Info Has Contact Object
+    severity: info
+    given: $.info
+    then:
+      field: contact
+      function: falsy
+  openapi-info-contact-name-error:
+    description: >-
+      Having a contact name associated with the technical contract ensures that
+      anyone who comes across the API knows who to contact
+    message: Info MUST Have Contact Name
+    given: $.info.contact
+    severity: error
+    then:
+      field: name
+      function: truthy
+  openapi-info-contact-name-info:
+    description: >-
+      Having a contact name associated with the technical contract ensures that
+      anyone who comes across the API knows who to contact
+    message: Info Has Contact Name
+    given: $.info.contact
+    severity: info
+    then:
+      field: name
+      function: falsy
+  openapi-info-contact-url-error:
+    description: >-
+      Having a contact url associated with the technical contract ensures that
+      anyone who comes across the API knows where to go to contact someone
+    message: Info MUST Have Contact URL
+    given: $.info.contact
+    severity: error
+    then:
+      field: url
+      function: truthy
+  openapi-info-contact-url-info:
+    description: >-
+      Having a contact url associated with the technical contract ensures that
+      anyone who comes across the API knows where to go to contact someone
+    message: Info Has Contact URL
+    given: $.info.contact
+    severity: info
+    then:
+      field: url
+      function: falsy
+  openapi-info-description-error:
+    description: >-
+      Having a detailed description as part of the OpenAPI info object helps
+      describe what a collection of paths and operations does for consumers,
+      providing a short, concise, and relevant couple of paragraphs about the
+      value that is represented as the OpenAPI
+    message: Info MUST Have Description
+    severity: error
+    given: $.info
+    then:
+      field: description
+      function: truthy
+  openapi-info-description-eval-error:
+    description: >-
+      Eval functions MUST not be included in the description of an API, keeping
+      descriptions to just the text that is needed, and relying on the rest of
+      the OpenAPI to describe what is possible.
+    message: Info Description MUST NOT Have Eval Tag
+    severity: error
+    given: $.info
+    then:
+      field: description
+      function: pattern
+      functionOptions:
+        notMatch: ^\b(<eval)\b
+  openapi-info-description-eval-info:
+    description: >-
+      Eval functions MUST not be included in the description of an API, keeping
+      descriptions to just the text that is needed, and relying on the rest of
+      the OpenAPI to describe what is possible.
+    message: Info Description Does Not Have Eval Tag
+    severity: info
+    given: $.info
+    then:
+      field: description
+      function: pattern
+      functionOptions:
+        match: ^\b(<eval)\b
+  openapi-info-description-info:
+    description: >-
+      Having a detailed description as part of the OpenAPI info object helps
+      describe what a collection of paths and operations does for consumers,
+      providing a short, concise, and relevant couple of paragraphs about the
+      value that is represented as the OpenAPI
+    message: Info Has Description
+    severity: info
+    given: $.info
+    then:
+      field: description
+      function: falsy
+  openapi-info-description-length-error:
+    description: >-
+      Having a restriction on the length of the API description expressed as the
+      OpenAPI info description helps provide constraints for consumers when
+      adding a description, and keeps portals, landing pages, documentation, and
+      discovery results more consistent
+    message: Info description MUST be less than 500 characters.
+    severity: error
+    given: $.info
+    then:
+      field: description
+      function: length
+      functionOptions:
+        max: 500
+  openapi-info-description-script-error:
+    description: >-
+      Script tags MUST not be included in the description of an API, keeping
+      descriptions to just the text that is needed, and relying on the rest of
+      the OpenAPI to describe what is possible.
+    message: Info Description MUST NOT Have Script Tag
+    severity: error
+    given: $.info
+    then:
+      field: description
+      function: pattern
+      functionOptions:
+        notMatch: ^\b(<script)\b
+  openapi-info-description-script-info:
+    description: >-
+      Script tags MUST not be included in the description of an API, keeping
+      descriptions to just the text that is needed, and relying on the rest of
+      the OpenAPI to describe what is possible.
+    message: Info Description Does Not Have Script Tag
+    severity: info
+    given: $.info
+    then:
+      field: description
+      function: pattern
+      functionOptions:
+        match: ^\b(<script)\b
+  openapi-info-error:
+    description: >-
+      Having an info object provides much of the metadata needed for the
+      collection of APIs described in an OpenAPI
+    message: Info Object MUST Exist
+    severity: error
+    given: $
+    then:
+      field: info
+      function: truthy
+  openapi-info-info:
+    description: >-
+      Having an info object provides much of the metadata needed for the
+      collection of APIs described in an OpenAPI
+    message: Info Object Exists
+    severity: info
+    given: $
+    then:
+      field: info
+      function: truthy
+  openapi-info-title-error:
+    description: >-
+      Having a intuitive and helpful title for your API using the OpenAPI info
+      title is the first impression you will make on the consumers of your API
+    message: Info MUST Have Title
+    severity: error
+    given: $.info
+    then:
+      field: title
+      function: truthy
+  openapi-info-title-info:
+    description: >-
+      Having a intuitive and helpful title for your API using the OpenAPI info
+      title is the first impression you will make on the consumers of your API
+    message: Info Has Title
+    severity: info
+    given: $.info
+    then:
+      field: title
+      function: falsy
+  openapi-info-title-length-error:
+    description: >-
+      Having a limitation on the length of the title for your API helps provide
+      constraints for teams naming it, but also keep consistent with other APIs
+      from across teams
+    message: Info Title MUST Be Less Than 50 Characters
+    severity: error
+    given: $.info
+    then:
+      field: title
+      function: length
+      functionOptions:
+        max: 50
+  openapi-info-title-upper-case-error:
+    description: >-
+      Having a consistent casing for the title for your API helps provide
+      constraints for teams naming the API, but also keep consistent with other
+      APIs from across teams
+    message: Info Title Has First Characters Capitalized
+    severity: error
+    given: $.info.title
+    then:
+      function: pattern
+      functionOptions:
+        match: '[A-Z]\w*'
+  openapi-info-title-upper-case-info:
+    description: >-
+      Having a consistent casing for the title for your API helps provide
+      constraints for teams naming the API, but also keep consistent with other
+      APIs from across teams
+    message: Info Title Has First Characters Capitalized
+    severity: info
+    given: $.info.title
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '[A-Z]\w*'
+  openapi-info-version-error:
+    description: >-
+      Publishing a version for your OpenAPI technical contract helps you
+      communicate change with consumers using Semantic or date-based versioning
+      published to the info version property
+    message: Info MUST Have Version
+    given: $.info
+    severity: error
+    then:
+      field: version
+      function: truthy
+  openapi-info-version-info:
+    description: >-
+      Publishing a version for your OpenAPI technical contract helps you
+      communicate change with consumers using Semantic or date-based versioning
+      published to the info version property
+    message: Info Has Version
+    given: $.info
+    severity: info
+    then:
+      field: version
+      function: falsy
+  openapi-info-license-error:
+    description: >-
+      Having a license defined in the info object clarifies the terms under
+      which the API can be used. Analysis shows only 44.4% of APIs define
+      a license, but it is essential for API governance and compliance.
+    message: Info MUST Have License
+    severity: error
+    given: $.info
+    then:
+      field: license
+      function: truthy
+  openapi-info-license-info:
+    description: >-
+      Having a license defined in the info object clarifies the terms under
+      which the API can be used. Analysis shows only 44.4% of APIs define
+      a license, but it is essential for API governance and compliance.
+    message: Info Has License
+    severity: info
+    given: $.info
+    then:
+      field: license
+      function: falsy
+  openapi-info-license-name-error:
+    description: >-
+      The license object should include a name property identifying the
+      license type, such as Apache 2.0, MIT, or a proprietary license.
+    message: Info License MUST Have Name
+    severity: error
+    given: $.info.license
+    then:
+      field: name
+      function: truthy
+  openapi-info-license-name-info:
+    description: >-
+      The license object should include a name property identifying the
+      license type, such as Apache 2.0, MIT, or a proprietary license.
+    message: Info License Has Name
+    severity: info
+    given: $.info.license
+    then:
+      field: name
+      function: falsy
+  openapi-info-license-url-error:
+    description: >-
+      The license object should include a URL linking to the full license
+      text so API consumers can review the terms.
+    message: Info License MUST Have URL
+    severity: error
+    given: $.info.license
+    then:
+      field: url
+      function: truthy
+  openapi-info-license-url-info:
+    description: >-
+      The license object should include a URL linking to the full license
+      text so API consumers can review the terms.
+    message: Info License Has URL
+    severity: info
+    given: $.info.license
+    then:
+      field: url
+      function: falsy
+  openapi-info-terms-of-service-error:
+    description: >-
+      Having terms of service defined helps API consumers understand usage
+      policies. Analysis shows 51.1% of APIs include terms of service,
+      and it should be standard for any production API.
+    message: Info MUST Have Terms of Service
+    severity: error
+    given: $.info
+    then:
+      field: termsOfService
+      function: truthy
+  openapi-info-terms-of-service-info:
+    description: >-
+      Having terms of service defined helps API consumers understand usage
+      policies. Analysis shows 51.1% of APIs include terms of service,
+      and it should be standard for any production API.
+    message: Info Has Terms of Service
+    severity: info
+    given: $.info
+    then:
+      field: termsOfService
+      function: falsy
+  openapi-external-docs-error:
+    description: >-
+      Defining external documentation provides a link to detailed API
+      guides, tutorials, and reference material beyond the OpenAPI spec.
+      Analysis shows 57.1% of APIs include external docs.
+    message: External Docs MUST Be Defined
+    severity: error
+    given: $
+    then:
+      field: externalDocs
+      function: truthy
+  openapi-external-docs-info:
+    description: >-
+      Defining external documentation provides a link to detailed API
+      guides, tutorials, and reference material beyond the OpenAPI spec.
+      Analysis shows 57.1% of APIs include external docs.
+    message: External Docs Are Defined
+    severity: info
+    given: $
+    then:
+      field: externalDocs
+      function: falsy

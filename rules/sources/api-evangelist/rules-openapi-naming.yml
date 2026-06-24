@@ -1,0 +1,122 @@
+---
+rules:
+  openapi-paths-kebab-case-error:
+    description: >-
+      API path segments should use kebab-case (lowercase with hyphens).
+      Consistent path naming reduces confusion and improves developer
+      experience across API consumers and documentation.
+    message: Path Segments MUST Use kebab-case
+    severity: error
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-z0-9{}][a-z0-9\\-{}]*)*$"
+  openapi-paths-kebab-case-info:
+    description: >-
+      API path segments should use kebab-case (lowercase with hyphens).
+      Consistent path naming reduces confusion and improves developer
+      experience across API consumers and documentation.
+    message: Path Segments Use kebab-case
+    severity: info
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "^(/[a-z0-9{}][a-z0-9\\-{}]*)*$"
+  openapi-paths-no-file-extensions-error:
+    description: >-
+      API paths should not include file extensions like .json or .xml.
+      Content negotiation should be handled through Accept headers
+      rather than path suffixes.
+    message: Paths MUST NOT Contain File Extensions
+    severity: error
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "\\.(json|xml|html|yaml|yml|csv|pdf)$"
+  openapi-paths-no-file-extensions-info:
+    description: >-
+      API paths should not include file extensions like .json or .xml.
+      Content negotiation should be handled through Accept headers
+      rather than path suffixes.
+    message: Paths Contain File Extensions
+    severity: info
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        match: "\\.(json|xml|html|yaml|yml|csv|pdf)$"
+  openapi-operation-id-required-error:
+    description: >-
+      Every operation should have an operationId for SDK generation and
+      documentation linking. Analysis shows operationId styles across
+      8878 operations with camelCase dominant at 92%.
+    message: Operation MUST Have operationId
+    severity: error
+    given: $.paths.*[get,post,put,patch,delete]
+    then:
+      field: operationId
+      function: truthy
+  openapi-operation-id-required-info:
+    description: >-
+      Every operation should have an operationId for SDK generation and
+      documentation linking. Analysis shows operationId styles across
+      8878 operations with camelCase dominant at 92%.
+    message: Operation Has operationId
+    severity: info
+    given: $.paths.*[get,post,put,patch,delete]
+    then:
+      field: operationId
+      function: falsy
+  openapi-schema-properties-camel-case-error:
+    description: >-
+      Schema property names should use camelCase. Analysis of 773 specs
+      shows camelCase is the dominant convention at 65% (12958 properties),
+      followed by snake_case at 33% (6661 properties).
+    message: Schema Properties MUST Use camelCase
+    severity: error
+    given: $.components.schemas[*].properties
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+  openapi-schema-properties-camel-case-info:
+    description: >-
+      Schema property names should use camelCase. Analysis of 773 specs
+      shows camelCase is the dominant convention at 65% (12958 properties),
+      followed by snake_case at 33% (6661 properties).
+    message: Schema Properties Use camelCase
+    severity: info
+    given: $.components.schemas[*].properties
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "^[a-z][a-zA-Z0-9]*$"
+  openapi-parameter-query-camel-case-error:
+    description: >-
+      Query parameter names should use camelCase for consistency. Analysis
+      shows camelCase is the most common query parameter style at 54%
+      (2519 parameters), followed by snake_case at 36%.
+    message: Query Parameters MUST Use camelCase
+    severity: error
+    given: $.paths[*][*].parameters[?(@.in == 'query')]
+    then:
+      field: name
+      function: casing
+      functionOptions:
+        type: camel
+  openapi-parameter-query-camel-case-info:
+    description: >-
+      Query parameter names should use camelCase for consistency. Analysis
+      shows camelCase is the most common query parameter style at 54%
+      (2519 parameters), followed by snake_case at 36%.
+    message: Query Parameters Use camelCase
+    severity: info
+    given: $.paths[*][*].parameters[?(@.in == 'query')]
+    then:
+      field: name
+      function: casing
+      functionOptions:
+        type: camel
