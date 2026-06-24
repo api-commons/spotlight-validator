@@ -4,31 +4,30 @@ import f0 from './functions/baloise/assert-http-codes-for-operation.js';
 import f1 from './functions/baloise/validate-tracing.js';
 import f2 from './functions/digitalocean/ensurePropertiesExample.js';
 import f3 from './functions/digitalocean/ensureAllArraysHaveItemTypes.js';
-import f4 from './functions/digitalocean/validateOpIDNaming.js';
-import f5 from './functions/digitalocean/ensureSnakeCaseWithDigits.js';
-import f6 from './functions/digitalocean/ensureSchemaHasType.js';
-import f7 from './functions/microcks/oas-verify-mocks.js';
-import f8 from './functions/microcks/aas-verify-mocks.js';
-import f9 from './functions/trimble/valid-url-checker.js';
-import f10 from './functions/trimble/valid-version-checker.js';
-import f11 from './functions/trimble/no-http-verbs-in-path.js';
-import f12 from './functions/trimble/check-if-application-or-json-in-put-and-post-response.js';
-import f13 from './functions/trimble/check-if-response-body-json-in-get-response.js';
-import f14 from './functions/trimble/valid-http-response.js';
-import f15 from './functions/trimble/check-for-query-parameter-in-every-path.js';
-import f16 from './functions/trimble/does-spec-contains-valid-http-verbs.js';
-import f17 from './functions/trimble/is-valid-spec.js';
-import f18 from './functions/trimble/operation-summary-description.js';
-import f19 from './functions/trimble/operation-post-201-202-status-code.js';
-import f20 from './functions/trimble/check-content-type-for-206-get-response-code.js';
-import f21 from './functions/trimble/check-standard-for-error-payload.js';
-import f22 from './functions/trimble/check-description-for-all-error-responses.js';
-import f23 from './functions/trimble/check-description-for-all-success-responses.js';
-import f24 from './functions/trimble/check-for-content-type-in-put-and-post-responses.js';
-import f25 from './functions/trimble/check-for-path-parameter.js';
-import f26 from './functions/trimble/check-for-response-in-every-request.js';
-import f27 from './functions/trimble/delete-must-not-return-body.js';
-import f28 from './functions/trimble/invalid-symbol-in-path.js';
+import f4 from './functions/digitalocean/ensureSnakeCaseWithDigits.js';
+import f5 from './functions/digitalocean/ensureSchemaHasType.js';
+import f6 from './functions/microcks/oas-verify-mocks.js';
+import f7 from './functions/microcks/aas-verify-mocks.js';
+import f8 from './functions/trimble/valid-url-checker.js';
+import f9 from './functions/trimble/valid-version-checker.js';
+import f10 from './functions/trimble/no-http-verbs-in-path.js';
+import f11 from './functions/trimble/check-if-application-or-json-in-put-and-post-response.js';
+import f12 from './functions/trimble/check-if-response-body-json-in-get-response.js';
+import f13 from './functions/trimble/valid-http-response.js';
+import f14 from './functions/trimble/check-for-query-parameter-in-every-path.js';
+import f15 from './functions/trimble/does-spec-contains-valid-http-verbs.js';
+import f16 from './functions/trimble/is-valid-spec.js';
+import f17 from './functions/trimble/operation-summary-description.js';
+import f18 from './functions/trimble/operation-post-201-202-status-code.js';
+import f19 from './functions/trimble/check-content-type-for-206-get-response-code.js';
+import f20 from './functions/trimble/check-standard-for-error-payload.js';
+import f21 from './functions/trimble/check-description-for-all-error-responses.js';
+import f22 from './functions/trimble/check-description-for-all-success-responses.js';
+import f23 from './functions/trimble/check-for-content-type-in-put-and-post-responses.js';
+import f24 from './functions/trimble/check-for-path-parameter.js';
+import f25 from './functions/trimble/check-for-response-in-every-request.js';
+import f26 from './functions/trimble/delete-must-not-return-body.js';
+import f27 from './functions/trimble/invalid-symbol-in-path.js';
 
 export const functions: Record<string, unknown> = {
   ...builtins,
@@ -36,31 +35,30 @@ export const functions: Record<string, unknown> = {
   "baloise:validate-tracing": f1,
   "digitalocean:ensurePropertiesExample": f2,
   "digitalocean:ensureAllArraysHaveItemTypes": f3,
-  "digitalocean:validateOpIDNaming": f4,
-  "digitalocean:ensureSnakeCaseWithDigits": f5,
-  "digitalocean:ensureSchemaHasType": f6,
-  "microcks:oas-verify-mocks": f7,
-  "microcks:aas-verify-mocks": f8,
-  "trimble:valid-url-checker": f9,
-  "trimble:valid-version-checker": f10,
-  "trimble:no-http-verbs-in-path": f11,
-  "trimble:check-if-application-or-json-in-put-and-post-response": f12,
-  "trimble:check-if-response-body-json-in-get-response": f13,
-  "trimble:valid-http-response": f14,
-  "trimble:check-for-query-parameter-in-every-path": f15,
-  "trimble:does-spec-contains-valid-http-verbs": f16,
-  "trimble:is-valid-spec": f17,
-  "trimble:operation-summary-description": f18,
-  "trimble:operation-post-201-202-status-code": f19,
-  "trimble:check-content-type-for-206-get-response-code": f20,
-  "trimble:check-standard-for-error-payload": f21,
-  "trimble:check-description-for-all-error-responses": f22,
-  "trimble:check-description-for-all-success-responses": f23,
-  "trimble:check-for-content-type-in-put-and-post-responses": f24,
-  "trimble:check-for-path-parameter": f25,
-  "trimble:check-for-response-in-every-request": f26,
-  "trimble:delete-must-not-return-body": f27,
-  "trimble:invalid-symbol-in-path": f28,
+  "digitalocean:ensureSnakeCaseWithDigits": f4,
+  "digitalocean:ensureSchemaHasType": f5,
+  "microcks:oas-verify-mocks": f6,
+  "microcks:aas-verify-mocks": f7,
+  "trimble:valid-url-checker": f8,
+  "trimble:valid-version-checker": f9,
+  "trimble:no-http-verbs-in-path": f10,
+  "trimble:check-if-application-or-json-in-put-and-post-response": f11,
+  "trimble:check-if-response-body-json-in-get-response": f12,
+  "trimble:valid-http-response": f13,
+  "trimble:check-for-query-parameter-in-every-path": f14,
+  "trimble:does-spec-contains-valid-http-verbs": f15,
+  "trimble:is-valid-spec": f16,
+  "trimble:operation-summary-description": f17,
+  "trimble:operation-post-201-202-status-code": f18,
+  "trimble:check-content-type-for-206-get-response-code": f19,
+  "trimble:check-standard-for-error-payload": f20,
+  "trimble:check-description-for-all-error-responses": f21,
+  "trimble:check-description-for-all-success-responses": f22,
+  "trimble:check-for-content-type-in-put-and-post-responses": f23,
+  "trimble:check-for-path-parameter": f24,
+  "trimble:check-for-response-in-every-request": f25,
+  "trimble:delete-must-not-return-body": f26,
+  "trimble:invalid-symbol-in-path": f27,
 };
 
 export const ruleset = {
@@ -73,8 +71,8 @@ export const ruleset = {
     ]
   ],
   "rules": {
-    "adidas/adidas-paths-kebab-case": {
-      "description": "All YAML/JSON paths MUST follow kebab-case",
+    "paths-kebab-case": {
+      "description": "All YAML/JSON paths MUST follow kebab-case. It requires the targeted value to match the pattern `^/([a-z0-9]+(-[a-z0-9]+)*)?(/[a-z0-9]+(-[a-z0-9]+)*|/{.+})*$` (evaluated at `$.paths[*]~`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
       "message": "{{property}} is not kebab-case: {{error}}",
@@ -91,8 +89,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "adidas/adidas-path-parameters-camelCase-alphanumeric": {
-      "description": "Path parameters MUST follow camelCase",
+    "path-parameters-camelCase-alphanumeric": {
+      "description": "Path parameters MUST follow camelCase. It requires the targeted value to match the pattern `^[a-z][a-zA-Z0-9]+$` (evaluated at `$..parameters[?(@.in == 'path')].name`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
       "message": "{{property}} path parameter is not camelCase: {{error}}",
@@ -109,8 +107,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "adidas/adidas-definitions-camelCase-alphanumeric": {
-      "description": "All YAML/JSON definitions MUST follow fields-camelCase and be ASCII alphanumeric characters or `_` or `$`.",
+    "definitions-camelCase-alphanumeric": {
+      "description": "All YAML/JSON definitions MUST follow fields-camelCase and be ASCII alphanumeric characters or `_` or `$`. It requires the targeted value to match the pattern `/^[a-z$_]{1}[A-Z09$_]*/` (evaluated at `$.definitions[*]~`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "message": "{{property}} MUST follow camelCase and be ASCII alphanumeric characters or `_` or `$`.",
@@ -127,8 +125,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "adidas/adidas-properties-camelCase-alphanumeric": {
-      "description": "All JSON Schema properties MUST follow fields-camelCase and be ASCII alphanumeric characters or `_` or `$`.",
+    "properties-camelCase-alphanumeric": {
+      "description": "All JSON Schema properties MUST follow fields-camelCase and be ASCII alphanumeric characters or `_` or `$`. It requires the targeted value to match the pattern `/^[a-z$_]{1}[A-Z09$_]*/` (evaluated at `$.definitions..properties[*]~`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "message": "{{property}} MUST follow camelCase and be ASCII alphanumeric characters or `_` or `$`.",
@@ -145,8 +143,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "adidas/adidas-headers-hyphenated-pascal-case": {
-      "description": "All `HTTP` headers MUST use `Hyphenated-Pascal-Case` notation",
+    "headers-hyphenated-pascal-case": {
+      "description": "All `HTTP` headers MUST use `Hyphenated-Pascal-Case` notation. It requires the targeted value to match the pattern `/^([A-Z][a-z0-9]-)*([A-Z][a-z0-9])+/` (evaluated at `$..parameters[?(@.in == 'header')].name`). Severity: error.",
       "severity": "error",
       "given": "$..parameters[?(@.in == 'header')].name",
       "message": "'HTTP' headers MUST follow 'Hyphenated-Pascal-Case' notation",
@@ -161,11 +159,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:naming"
+        "category:naming",
+        "source:sps-commerce"
       ]
     },
-    "adidas/adidas-oas2-protocol-https-only": {
-      "description": "ALL requests MUST go through `https` protocol only",
+    "oas2-protocol-https-only": {
+      "description": "ALL requests MUST go through `https` protocol only. It validates the `schemes` field against a JSON Schema (evaluated at `$`). Severity: error.",
       "formats": [
         "oas2"
       ],
@@ -196,8 +195,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "adidas/adidas-oas2-request-support-json": {
-      "description": "Every request SHOULD support `application/json` media type",
+    "oas2-request-support-json": {
+      "description": "Every request SHOULD support `application/json` media type. It validates the targeted value against a JSON Schema (evaluated at `$..consumes`). Severity: warn.",
       "formats": [
         "oas2"
       ],
@@ -225,8 +224,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "adidas/adidas-oas2-example-exists-in-parameters": {
-      "description": "All models MUST have a valid example.",
+    "oas2-example-exists-in-parameters": {
+      "description": "All models MUST have a valid example. It requires the targeted value to be present and non-empty (evaluated at `$..parameters..[?(@.in == 'body' && (@.example || @.schema.$ref))]`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -243,8 +242,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "adidas/adidas-oas2-response-success-hal": {
-      "description": "All success responses MUST be of media type `application/hal+json`",
+    "oas2-response-success-hal": {
+      "description": "All success responses MUST be of media type `application/hal+json`. It validates the `schema` field against a JSON Schema (evaluated at `$.paths..responses[?( @property >= 200 && @property < 300 && @property != 204)]`). Severity: error.",
       "severity": "error",
       "given": "$.paths..responses[?( @property >= 200 && @property < 300 && @property != 204)]",
       "recommended": true,
@@ -268,8 +267,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "adidas/adidas-oas2-response-error-problem": {
-      "description": "All error responses MUST be of media type `application/problem+json`",
+    "oas2-response-error-problem": {
+      "description": "All error responses MUST be of media type `application/problem+json`. It validates the `schema.example` field against a JSON Schema (evaluated at `$.paths..responses[?( @property >= 400 && @property < 600 )]`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas2"
@@ -293,8 +292,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "adidas/adidas-oas3-request-support-json": {
-      "description": "Every request MUST support `application/json` media type",
+    "oas3-request-support-json": {
+      "description": "Every request MUST support `application/json` media type. It requires the targeted value to be absent or empty (evaluated at `$.paths.[*].requestBody.content[?(@property.indexOf('json') === -1)]^`). Severity: error.",
       "formats": [
         "oas3"
       ],
@@ -311,8 +310,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "adidas/adidas-oas3-protocol-https-only": {
-      "description": "ALL requests MUST go through `https` protocol only",
+    "oas3-protocol-https-only": {
+      "description": "ALL requests MUST go through `https` protocol only. It requires the targeted value to match the pattern `/^https:/` (evaluated at `$.servers..url`). Severity: error.",
       "formats": [
         "oas3"
       ],
@@ -332,8 +331,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "adidas/adidas-oas3-response-success-hal": {
-      "description": "All success responses MUST be of media type `application/hal+json` ",
+    "oas3-response-success-hal": {
+      "description": "All success responses MUST be of media type `application/hal+json`. It requires the targeted value to be one of [\"application/hal+json\"] (evaluated at `$.paths..responses[?( @property >= 201 && @property < 300 && @property != 204)].content[*]~`). Severity: error.",
       "severity": "error",
       "given": "$.paths..responses[?( @property >= 201 && @property < 300 && @property != 204)].content[*]~",
       "recommended": true,
@@ -355,8 +354,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "adidas/adidas-oas3-response-success-OK": {
-      "description": "All success responses MUST be of media type `application/hal+json` or `application/problem+json`",
+    "oas3-response-success-OK": {
+      "description": "All success responses MUST be of media type `application/hal+json` or `application/problem+json`. It requires the targeted value to be one of [\"application/hal+json\",\"application/problem+json\"] (evaluated at `$.paths..responses[?( @property == 200 )].content[*]~`). Severity: error.",
       "severity": "error",
       "given": "$.paths..responses[?( @property == 200 )].content[*]~",
       "recommended": true,
@@ -379,8 +378,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "adidas/adidas-oas3-response-success-hal-body": {
-      "description": "All success responses MUST follow `application/hal+json` schema",
+    "oas3-response-success-hal-body": {
+      "description": "All success responses MUST follow `application/hal+json` schema. It validates the `schema` field against a JSON Schema (evaluated at `$.paths..responses[?( @property == 200 && @property < 300 && @property != 204)].content[?(@property === \"application/hal+json\")]`). Severity: error.",
       "severity": "error",
       "given": "$.paths..responses[?( @property == 200 && @property < 300 && @property != 204)].content[?(@property === \"application/hal+json\")]",
       "recommended": true,
@@ -404,8 +403,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "adidas/adidas-oas3-no-get-request-body": {
-      "description": "GET requests MUST NOT have a request body.",
+    "oas3-no-get-request-body": {
+      "description": "GET requests MUST NOT have a request body. It requires the targeted value to be absent or empty (evaluated at `$.paths[*].get.requestBody`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -423,8 +422,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "adidas/adidas-oas3-not-post-to-get-info": {
-      "description": "POST requests SHOULD NOT be used for retrieving information. Use GET instead.",
+    "oas3-not-post-to-get-info": {
+      "description": "POST requests SHOULD NOT be used for retrieving information. Use GET instead. It requires the `summary` field not to match `(retrieve|fetch|get|read)` (evaluated at `$.paths[*].post`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -446,8 +445,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "adidas/adidas-oas3-put-with-request-body": {
-      "description": "PUT requests MUST have a request body.",
+    "oas3-put-with-request-body": {
+      "description": "PUT requests MUST have a request body. It requires the `requestBody` field to be present and non-empty (evaluated at `$.paths[*].put`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -466,8 +465,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "adidas/adidas-oas3-delete-with-request-body": {
-      "description": "DELETE requests MUST NOT have a request body.",
+    "oas3-delete-with-request-body": {
+      "description": "DELETE requests MUST NOT have a request body. It requires the targeted value to be absent or empty (evaluated at `$.paths[*].delete.requestBody`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -485,8 +484,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "adidas/adidas-oas3-no-verbs-in-paths": {
-      "description": "API paths MUST be resource-focused and MUST NOT include verbs like 'get', 'update', 'create', or 'delete'.",
+    "oas3-no-verbs-in-paths": {
+      "description": "API paths MUST be resource-focused and MUST NOT include verbs like 'get', 'update', 'create', or 'delete'. It requires the targeted value not to match `/\\b(get|update|create|delete|fetch|retrieve)\\b/` (evaluated at `$.paths[*]~`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
       "formats": [
@@ -507,8 +506,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "adidas/adidas-oas3-real-like-examples": {
-      "description": "API design SHOULD include real-like examples for request and response definitions.",
+    "oas3-real-like-examples": {
+      "description": "API design SHOULD include real-like examples for request and response definitions. It requires the `example` field to be present and non-empty (evaluated at `$..[?(@.example || @.examples)]`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
       "formats": [
@@ -527,8 +526,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "adidas/adidas-oas3-stable-semantic-version": {
-      "description": "The API contract MUST have a stable version and MUST follow semantic versioning (e.g., '1.0.0'). Words like 'SNAPSHOT' or 'RELEASE' are not allowed.",
+    "oas3-stable-semantic-version": {
+      "description": "The API contract MUST have a stable version and MUST follow semantic versioning (e.g., '1.0.0'). Words like 'SNAPSHOT' or 'RELEASE' are not allowed. It requires the targeted value to match the pattern `^(?!.*\\b(SNAPSHOT|RELEASE)\\b)(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$` (evaluated at `$.info.version`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -549,8 +548,8 @@ export const ruleset = {
         "category:versioning"
       ]
     },
-    "adidas/adidas-oas3-security-section-required": {
-      "description": "The API contract MUST include a 'security' section at the root level.",
+    "oas3-security-section-required": {
+      "description": "The API contract MUST include a 'security' section at the root level. It requires the `security` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -569,8 +568,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "adidas/adidas-oas3-components-required": {
-      "description": "The API contract MUST include a 'components' section.",
+    "oas3-components-required": {
+      "description": "The API contract MUST include a 'components' section. It requires the `components` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -589,8 +588,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "adidas/adidas-oas3-security-schemes-required": {
-      "description": "The API contract MUST include a 'securitySchemes' subsection under the 'components' section.",
+    "oas3-security-schemes-required": {
+      "description": "The API contract MUST include a 'securitySchemes' subsection under the 'components' section. It requires the `securitySchemes` field to be present and non-empty (evaluated at `$.components`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -609,8 +608,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "adidas/adidas-oas3-x-leanixid-required": {
-      "description": "The API contract SHOULD include a custom field 'x-leanixid' in the 'info' section.",
+    "oas3-x-leanixid-required": {
+      "description": "The API contract SHOULD include a custom field 'x-leanixid' in the 'info' section. It requires the `x-leanixid` field to be present and non-empty (evaluated at `$.info`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
       "formats": [
@@ -629,8 +628,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "adidas/adidas-oas3-x-leanixid-uuid": {
-      "description": "The API contract SHOULD include a custom field 'x-leanixid' containing a valid UUID.",
+    "oas3-x-leanixid-uuid": {
+      "description": "The API contract SHOULD include a custom field 'x-leanixid' containing a valid UUID. It requires the targeted value to match the pattern `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$` (evaluated at `$.info.x-leanixid`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
       "formats": [
@@ -651,8 +650,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "adidas/adidas-oas3-x-gateway-required": {
-      "description": "The API contract SHOULD include a custom field 'x-gateway' in the 'info' section.",
+    "oas3-x-gateway-required": {
+      "description": "The API contract SHOULD include a custom field 'x-gateway' in the 'info' section. It requires the `x-gateway` field to be present and non-empty (evaluated at `$.info`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
       "formats": [
@@ -671,8 +670,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "adidas/adidas-oas3-x-gateway-required-enumeration": {
-      "description": "The 'x-gateway' property, if present, MUST have a value in the enumeration: kong, nginx, aws, akamai, sap, other.",
+    "oas3-x-gateway-required-enumeration": {
+      "description": "The 'x-gateway' property, if present, MUST have a value in the enumeration: kong, nginx, aws, akamai, sap, other. It requires the `x-gateway` field to be one of [\"kong\",\"nginx\",\"aws\",\"akamai\",\"sap\",\"other\"] (evaluated at `$`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
       "formats": [
@@ -700,8 +699,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "adidas/adidas-oas3-hypermedia-links-required": {
-      "description": "The API contract MAY include hypermedia links to represent the state of resources and be navigable.",
+    "oas3-hypermedia-links-required": {
+      "description": "The API contract MAY include hypermedia links to represent the state of resources and be navigable. It requires the `links` field to be present and non-empty (evaluated at `$.paths[*][*].responses[*]`). Severity: hint.",
       "severity": "hint",
       "recommended": true,
       "formats": [
@@ -720,9 +719,9 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "baloise/can-use-correct-uri-versioning": {
+    "can-use-correct-uri-versioning": {
       "message": "Path can contain correct URI versioning",
-      "description": "CAN use correct URI versioning [115a]",
+      "description": "CAN use correct URI versioning [115a]. It requires the targeted value to match the pattern `^((?!.*\\/v\\d+(\\/.*)?\\/v\\d+)\\/.*)$` (evaluated at `$.paths.*~`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/can-use-correct-URI-versioning.test.md",
       "severity": "error",
       "given": "$.paths.*~",
@@ -738,9 +737,9 @@ export const ruleset = {
         "category:versioning"
       ]
     },
-    "baloise/must-use-camel-case-for-property-names": {
+    "must-use-camel-case-for-property-names": {
       "message": "Property name has to be ASCII camelCase",
-      "description": "MUST property names must be ASCII camelCase [118a]",
+      "description": "MUST property names must be ASCII camelCase [118a]. It requires the targeted value to match the pattern `^[a-z]+((\\d)|([A-Z0-9][a-z0-9]+))*([A-Z])?$` (evaluated at `$.paths.*.*[responses,requestBody]..content..schema..properties.*~`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/property-names-must-be-ascii-camel-case.md",
       "severity": "error",
       "given": "$.paths.*.*[responses,requestBody]..content..schema..properties.*~",
@@ -756,9 +755,9 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "baloise/must-use-additional-standard-http-status-codes": {
+    "must-use-additional-standard-http-status-codes": {
       "message": "{{property}} is not a standardized response code",
-      "description": "MUST use standard HTTP status codes [150a]",
+      "description": "MUST use standard HTTP status codes [150a]. It requires the targeted value to be one of [\"100\",\"101\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"300\",\"301\",\"302\",\"303\",\"304\",\"305\",\"307\",\"400\",\"401\",\"402\",\"403\",\"404\",\"405\",\"406\",\"407\",\"408\",\"409\",\"410\",\"411\",\"412\",\"413\",\"414\",\"415\",\"416\",\"417\",\"422\",\"423\",\"426\",\"428\",\"429\",\"431\",\"500\",\"501\",\"502\",\"503\",\"504\",\"505\",\"511\",\"default\"] (evaluated at `$.paths.*.*.responses.*~`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/must-use-additional-standard-http-status-codes.md",
       "severity": "error",
       "given": "$.paths.*.*.responses.*~",
@@ -824,9 +823,9 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "baloise/must-use-additional-standard-http-status-codes-422": {
+    "must-use-additional-standard-http-status-codes-422": {
       "message": "Prefer 400 over 422 as response code",
-      "description": "MUST use standard HTTP status codes [150a]",
+      "description": "MUST use standard HTTP status codes [150a]. It requires the `422` field to be defined (evaluated at `$.paths.*.*.responses.422`). Severity: warn.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/must-use-additional-standard-http-status-codes.md",
       "severity": "warn",
       "given": "$.paths.*.*.responses.422",
@@ -840,9 +839,9 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "baloise/should-use-additional-well-understood-http-status-codes": {
+    "should-use-additional-well-understood-http-status-codes": {
       "message": "{{error}}",
-      "description": "MUST use standard HTTP status codes [150]",
+      "description": "MUST use standard HTTP status codes [150]. It applies a custom validation to the targeted value (evaluated at `$.paths.*`). Severity: warn.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/should-use-additional-well-understood-http-status-codes.md",
       "severity": "warn",
       "given": "$.paths.*",
@@ -960,9 +959,9 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "baloise/must-use-tracing": {
+    "must-use-tracing": {
       "message": "Header X-B3-Traceid, X-B3-Spanid or traceparent (w3c) missing",
-      "description": "MUST use b3 or w3c tracing [233a]",
+      "description": "MUST use b3 or w3c tracing [233a]. It applies a custom validation to the targeted value (evaluated at `$.paths.*`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/requests-must-use-tracing.md",
       "severity": "error",
       "given": "$.paths.*",
@@ -975,9 +974,9 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "baloise/must-provide-baloise-api-audience": {
+    "must-provide-api-audience": {
       "message": "Missing or wrong `info.x-audience`.",
-      "description": "MUST provide API audience [219]",
+      "description": "MUST provide API audience [219]. It requires the `x-audience` field to be present and non-empty, and requires the `x-audience` field to match the pattern `^(team-internal|domain-internal|company-internal|external-partner|external-public)$` (evaluated at `$.info`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/property-names-must-be-ascii-camel-case.md",
       "severity": "error",
       "given": "$.info",
@@ -1000,9 +999,9 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "baloise/must-use-camel-case-for-query-parameters": {
+    "must-use-camel-case-for-query-parameters": {
       "message": "Query parameter name has to be ASCII camelCase",
-      "description": "MUST query parameter names must be ASCII camelCase [130a]",
+      "description": "MUST query parameter names must be ASCII camelCase [130a]. It requires the targeted value to match the pattern `^[a-z]+((\\d)|([A-Z0-9][a-z0-9]+))*([A-Z])?$` (evaluated at `$.paths.*.*.parameters[?(@ && @.in=='query')].name`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/query-parameter-names-must-be-ascii-camel-case.md",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@ && @.in=='query')].name",
@@ -1018,8 +1017,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "digitalocean/ratelimit-headers": {
-      "description": "Response must include ratelimit-x headers",
+    "ratelimit-headers": {
+      "description": "Response must include ratelimit-x headers. It requires the `headers.ratelimit-limit` field to be present and non-empty, and requires the `headers.ratelimit-remaining` field to be present and non-empty, and requires the `headers.ratelimit-reset` field to be present and non-empty (evaluated at `$..responses.*`). Severity: error.",
       "message": "{{description}}; missing {{property}}",
       "severity": "error",
       "given": "$..responses.*",
@@ -1043,8 +1042,8 @@ export const ruleset = {
         "category:pagination"
       ]
     },
-    "digitalocean/properties-must-include-examples": {
-      "description": "Object properties must include examples",
+    "properties-must-include-examples": {
+      "description": "Object properties must include examples. It applies a custom validation to the targeted value (evaluated at `$..properties..properties.*`). Severity: error.",
       "given": "$..properties..properties.*",
       "severity": "error",
       "message": "{{description}}; {{property}}",
@@ -1057,8 +1056,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "digitalocean/params-must-include-examples": {
-      "description": "Parameters must include examples",
+    "params-must-include-examples": {
+      "description": "Parameters must include examples. It requires exactly one of [\"example\",\"examples\"] to be present (evaluated at `$..parameters.*`). Severity: error.",
       "given": "$..parameters.*",
       "severity": "error",
       "message": "{{description}}; missing {{property}}",
@@ -1077,8 +1076,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "digitalocean/headers-must-include-examples": {
-      "description": "Headers must include examples",
+    "headers-must-include-examples": {
+      "description": "Headers must include examples. It applies a custom validation to the targeted value (evaluated at `$..headers.*`). Severity: error.",
       "given": "$..headers.*",
       "severity": "error",
       "message": "{{description}}; missing {{property}}",
@@ -1091,8 +1090,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "digitalocean/endpoint-must-be-ref": {
-      "description": "Endpoint must be a $ref",
+    "endpoint-must-be-ref": {
+      "description": "Endpoint must be a $ref. It requires the `$ref` field to be present and non-empty (evaluated at `$.paths.*.*`). Severity: error.",
       "message": "{{description}}; {{property}} incorrect",
       "severity": "error",
       "resolved": false,
@@ -1107,8 +1106,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "digitalocean/path-must-include-version": {
-      "description": "Path must include the version",
+    "path-must-include-version": {
+      "description": "Path must include the version. It requires the targeted value to match the pattern `^(/v[12]/.*|/api/v[12]/.*)$` (evaluated at `$.paths[?(@property!='/<upload_url>')]~`). Severity: error.",
       "message": "{{description}}; {{property}} incorrect",
       "severity": "error",
       "resolved": false,
@@ -1125,8 +1124,8 @@ export const ruleset = {
         "category:versioning"
       ]
     },
-    "digitalocean/endpoint-ref-must-be-file": {
-      "description": "Endpoint must a $ref to a file in resources/",
+    "endpoint-ref-must-be-file": {
+      "description": "Endpoint must a $ref to a file in resources/. It requires the targeted value to match the pattern `^resources/.*yml$` (evaluated at `$.paths.*.$ref`). Severity: error.",
       "message": "{{description}}; {{value}} incorrect",
       "severity": "error",
       "resolved": false,
@@ -1143,8 +1142,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "digitalocean/common-responses-unauthorized": {
-      "description": "Responses should contain common response - 401 (unauthorized)",
+    "common-responses-unauthorized": {
+      "description": "Responses should contain common response - 401 (unauthorized). It requires the `401` field to be present and non-empty (evaluated at `$.paths..responses`). Severity: error.",
       "message": "{{description}}. Missing {{property}}",
       "severity": "error",
       "given": "$.paths..responses",
@@ -1158,8 +1157,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "digitalocean/common-responses-not-found": {
-      "description": "Responses should contain common response - 404 (not found)",
+    "common-responses-not-found": {
+      "description": "Responses should contain common response - 404 (not found). It requires the `404` field to be present and non-empty (evaluated at `$.paths[?(@property.match(/.*\\/{.*}.*/))]..responses`). Severity: error.",
       "message": "{{description}}. Missing {{property}}",
       "severity": "error",
       "given": "$.paths[?(@property.match(/.*\\/{.*}.*/))]..responses",
@@ -1173,8 +1172,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "digitalocean/common-responses-too-many-requests": {
-      "description": "Responses should contain common response - 429 (too many requests)",
+    "common-responses-too-many-requests": {
+      "description": "Responses should contain common response - 429 (too many requests). It requires the `429` field to be present and non-empty (evaluated at `$.paths..responses`). Severity: error.",
       "message": "{{description}}. Missing {{property}}",
       "severity": "error",
       "given": "$.paths..responses",
@@ -1188,8 +1187,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "digitalocean/common-responses-server-error": {
-      "description": "Responses should contain common response - 500 (server error)",
+    "common-responses-server-error": {
+      "description": "Responses should contain common response - 500 (server error). It requires the `500` field to be present and non-empty (evaluated at `$.paths..responses`). Severity: error.",
       "message": "{{description}}. Missing {{property}}",
       "severity": "error",
       "given": "$.paths..responses",
@@ -1203,8 +1202,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "digitalocean/array-properties-must-have-items-with-type": {
-      "description": "Array properties must have an items attribute with a type",
+    "array-properties-must-have-items-with-type": {
+      "description": "Array properties must have an items attribute with a type. It applies a custom validation to the targeted value (evaluated at `$..*.properties[*]`). Severity: error.",
       "given": "$..*.properties[*]",
       "severity": "error",
       "message": "{{error}}",
@@ -1217,8 +1216,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "digitalocean/array-params-must-have-items-with-type": {
-      "description": "Array parameters must have an items attribute with a type",
+    "array-params-must-have-items-with-type": {
+      "description": "Array parameters must have an items attribute with a type. It applies a custom validation to the targeted value (evaluated at `$..*.parameters[*]`). Severity: error.",
       "given": "$..*.parameters[*]",
       "severity": "error",
       "message": "{{error}}",
@@ -1231,23 +1230,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "digitalocean/operationid-must-follow-new-naming-conventions": {
-      "description": "operationIds must follow naming conventions for method",
-      "type": "style",
-      "given": "$.paths[*][*]",
-      "severity": "error",
-      "message": "{{error}}",
-      "then": {
-        "function": "digitalocean:validateOpIDNaming"
-      },
-      "tags": [
-        "source:digitalocean",
-        "format:openapi",
-        "category:naming"
-      ]
-    },
-    "digitalocean/schema-key-must-be-snake-cased": {
-      "description": "schema key must be snake cased (e.g. snake_case)",
+    "schema-key-must-be-snake-cased": {
+      "description": "schema key must be snake cased (e.g. snake_case). It applies a custom validation to the targeted value (evaluated at `$.components['schemas'].*~`). Severity: error.",
       "type": "style",
       "given": "$.components['schemas'].*~",
       "severity": "error",
@@ -1261,8 +1245,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "digitalocean/parameter-key-must-be-snake-cased": {
-      "description": "parameter key must be snake cased (e.g. snake_case)",
+    "parameter-key-must-be-snake-cased": {
+      "description": "parameter key must be snake cased (e.g. snake_case). It applies a custom validation to the targeted value (evaluated at `$.components['parameters'].*~`). Severity: error.",
       "type": "style",
       "given": "$.components['parameters'].*~",
       "severity": "error",
@@ -1276,8 +1260,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "digitalocean/example-key-must-be-snake-cased": {
-      "description": "example key must be snake cased (e.g. snake_case)",
+    "example-key-must-be-snake-cased": {
+      "description": "example key must be snake cased (e.g. snake_case). It applies a custom validation to the targeted value (evaluated at `$.components['examples'].*~`). Severity: error.",
       "type": "style",
       "given": "$.components['examples'].*~",
       "severity": "error",
@@ -1291,8 +1275,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "digitalocean/response-key-must-be-snake-cased": {
-      "description": "response key must be snake cased (e.g. snake_case)",
+    "response-key-must-be-snake-cased": {
+      "description": "response key must be snake cased (e.g. snake_case). It applies a custom validation to the targeted value (evaluated at `$.components['responses'].*~`). Severity: error.",
       "type": "style",
       "given": "$.components['responses'].*~",
       "severity": "error",
@@ -1306,8 +1290,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "digitalocean/schema-properties-must-have-type": {
-      "description": "Schema properties must have a type defined",
+    "schema-properties-must-have-type": {
+      "description": "Schema properties must have a type defined. It applies a custom validation to the targeted value (evaluated at `$..properties.*`). Severity: error.",
       "given": "$..properties.*",
       "severity": "error",
       "message": "{{error}}",
@@ -1320,8 +1304,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "digitalocean/oas3-operation-security-defined": {
-      "description": "Check operation security is defined",
+    "oas3-operation-security-defined": {
+      "description": "Check operation security is defined. It requires the `security` field to be present and non-empty (evaluated at `$.paths.*.*`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*.*",
       "then": {
@@ -1334,8 +1318,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "digitalocean/oas3-operation-security-scopes-defined": {
-      "description": "Check operation security uses a defined security scheme",
+    "oas3-operation-security-scopes-defined": {
+      "description": "Check operation security uses a defined security scheme. It validates the targeted value against a JSON Schema (evaluated at `$.paths[*][*]..security.*`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*]..security.*",
       "then": {
@@ -1363,8 +1347,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "microcks/microcks-info-extension-valid": {
-      "description": "x-microcks extension must be valid",
+    "info-extension-valid": {
+      "description": "x-microcks extension must be valid. It validates the targeted value against a JSON Schema (evaluated at `$.info.x-microcks`). Severity: warn.",
       "message": "x-microcks extension must be valid",
       "formats": [
         "oas3",
@@ -1399,8 +1383,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "microcks/microcks-operation-extension-valid": {
-      "description": "x-microcks-operation extension must be valid",
+    "operation-extension-valid": {
+      "description": "x-microcks-operation extension must be valid. It validates the targeted value against a JSON Schema (evaluated at `$.paths.*.*.x-microcks-operation`, `$.channels.*.[publish,subscribe].x-microcks-operation`, `$.operations.*.x-microcks-operation`). Severity: warn.",
       "message": "x-microcks-operation extension must be valid",
       "formats": [
         "oas3",
@@ -1476,8 +1460,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "microcks/microcks-examples-in-required-parameter": {
-      "description": "Required param must have examples",
+    "examples-in-required-parameter": {
+      "description": "Required param must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$..parameters[?(@ && @.required == true)]`). Severity: warn.",
       "message": "Required param must have examples",
       "formats": [
         "oas3"
@@ -1494,8 +1478,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "microcks/microcks-examples-in-optional-parameter": {
-      "description": "Optional param should have examples",
+    "examples-in-optional-parameter": {
+      "description": "Optional param should have examples. It requires the `examples` field to be present and non-empty (evaluated at `$..parameters[?(@ && @.required != true)]`). Severity: info.",
       "message": "Optional param should have examples",
       "formats": [
         "oas3"
@@ -1512,8 +1496,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "microcks/microcks-examples-in-request-content": {
-      "description": "Request with content must have examples",
+    "examples-in-request-content": {
+      "description": "Request with content must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$.paths..requestBody..content.*`). Severity: warn.",
       "message": "Request with content must have examples",
       "formats": [
         "oas3"
@@ -1530,8 +1514,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "microcks/microcks-examples-in-response-content": {
-      "description": "Response with content must have examples",
+    "examples-in-response-content": {
+      "description": "Response with content must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$.paths..responses..content.*`). Severity: warn.",
       "message": "Response with content must have examples",
       "formats": [
         "oas3"
@@ -1548,8 +1532,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "microcks/microcks-examples-fragments-to-complete-mocks": {
-      "description": "Response example must match required params examples to form full mocks",
+    "examples-fragments-to-complete-mocks": {
+      "description": "Response example must match required params examples to form full mocks. It applies a custom validation to the targeted value (evaluated at `$.paths.*.*`). Severity: warn.",
       "message": "{{error}}",
       "formats": [
         "oas3"
@@ -1565,8 +1549,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "microcks/microcks-aas-examples-in-messages": {
-      "description": "Message must have examples",
+    "aas-examples-in-messages": {
+      "description": "Message must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$.channels.*.[publish,subscribe].message`). Severity: warn.",
       "message": "Message must have examples",
       "formats": [
         "aas2"
@@ -1583,8 +1567,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "microcks/microcks-aas3-examples-in-messages": {
-      "description": "Message must have examples",
+    "aas3-examples-in-messages": {
+      "description": "Message must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$.components.messages.*`). Severity: warn.",
       "message": "Message must have examples",
       "formats": [
         "aas3"
@@ -1601,8 +1585,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "microcks/microcks-aas-examples-in-parameter": {
-      "description": "Parameter must have examples",
+    "aas-examples-in-parameter": {
+      "description": "Parameter must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$.channels.*.parameters.*.schema`). Severity: warn.",
       "message": "Parameter must have examples",
       "formats": [
         "aas2"
@@ -1619,8 +1603,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "microcks/microcks-aas-examples-fragments-to-complete-mocks": {
-      "description": "Message example must match params examples to form full mocks",
+    "aas-examples-fragments-to-complete-mocks": {
+      "description": "Message example must match params examples to form full mocks. It applies a custom validation to the targeted value (evaluated at `$.channels.*`). Severity: warn.",
       "message": "{{error}}",
       "formats": [
         "aas2"
@@ -1636,8 +1620,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "paystack/info-description": {
-      "description": "Info section is missing a description",
+    "info-description": {
+      "description": "Info section is missing a description. It requires the `description` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
       "formats": [
         "oas3",
         "oas3_1",
@@ -1658,8 +1642,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "paystack/oas2-api-host": {
-      "description": "OpenAPI `host` must be present and a non-empty string",
+    "oas2-api-host": {
+      "description": "OpenAPI `host` must be present and a non-empty string. It requires the `host` field to be present and non-empty (evaluated at `$`). Severity: info.",
       "formats": [
         "oas2"
       ],
@@ -1677,8 +1661,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "paystack/oas2-host-not-example": {
-      "description": "Host URL should not point at example.com",
+    "oas2-host-not-example": {
+      "description": "Host URL should not point at example.com. It requires the targeted value not to match `example\\.com` (evaluated at `$.host`). Severity: warn.",
       "formats": [
         "oas2"
       ],
@@ -1698,8 +1682,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "paystack/oas2-host-trailing-slash": {
-      "description": "Host URL should not contain a trailing slash",
+    "oas2-host-trailing-slash": {
+      "description": "Host URL should not contain a trailing slash. It requires the targeted value not to match `/$` (evaluated at `$.host`). Severity: warn.",
       "formats": [
         "oas2"
       ],
@@ -1719,8 +1703,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "paystack/operation-operationId-valid-in-url": {
-      "description": "OperationId must use URL friendly characters",
+    "operation-operationId-valid-in-url": {
+      "description": "OperationId must use URL friendly characters. It requires the `operationId` field to match the pattern `^[A-Za-z0-9-._~:/?#\\[\\]@!\\$&'()*+,;=]*$` (evaluated at `$.paths[*][*]`). Severity: error.",
       "formats": [
         "oas3",
         "oas3_1",
@@ -1744,8 +1728,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "paystack/path-declarations-must-exist": {
-      "description": "Path parameter declarations must not be empty ex. `/api/{}` is invalid",
+    "path-declarations-must-exist": {
+      "description": "Path parameter declarations must not be empty ex. `/api/{}` is invalid. It requires the targeted value not to match `{}` (evaluated at `$.paths`). Severity: error.",
       "formats": [
         "oas3",
         "oas3_1",
@@ -1768,8 +1752,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "paystack/path-keys-no-trailing-slash": {
-      "description": "Path must not end with a slash",
+    "path-keys-no-trailing-slash": {
+      "description": "Path must not end with a slash. It requires the targeted value not to match `.+\\/$` (evaluated at `$.paths`). Severity: warn.",
       "formats": [
         "oas3",
         "oas3_1",
@@ -1792,8 +1776,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "paystack/path-not-include-query": {
-      "description": "Path must not include query string",
+    "path-not-include-query": {
+      "description": "Path must not include query string. It requires the targeted value not to match `\\?` (evaluated at `$.paths`). Severity: error.",
       "formats": [
         "oas3",
         "oas3_1",
@@ -1816,8 +1800,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "team-digitale/cache-control-parameter-undocumented": {
-      "description": "Cache usage SHOULD be extensively detailed in the `description` property\nto avoid data leaks or the usage of stale data.\n\nThis rule should ensure in some way that the api provider\ndocumented extensively the cache usage to avoid data leaks\nor usage of stale data.\n\nFor now this ruleset tests:\n* the presence of following keywords\n  in the `description`: `max-age`, `private`, `no-store`, `no-cache`.\n* that one and only one between Expires and Cache-Control is used.\n\n`Cache-Control` and `Expires` should not be used in conjuction,\nbecause `Cache-Control` overrides `Expires` when `max-age` is set.\nInstead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache\nlike described in RFC7234.",
+    "cache-control-parameter-undocumented": {
+      "description": "Cache usage SHOULD be extensively detailed in the `description` property to avoid data leaks or the usage of stale data. This rule should ensure in some way that the api provider documented extensively the cache usage to avoid data leaks or usage of stale data. For now this ruleset tests: * the presence of following keywords in the `description`: `max-age`, `private`, `no-store`, `no-cache`. * that one and only one between Expires and Cache-Control is used. `Cache-Control` and `Expires` should not be used in conjuction, because `Cache-Control` overrides `Expires` when `max-age` is set. Instead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache like described in RFC7234. It requires the `description` field to be present and non-empty, and requires the `description` field to match the pattern `.*(max-age|private|no-store|no-cache).*` (evaluated at `$..[parameters][?(@.in == \"header\" && @.name.match(/Cache-Control/i))]`). Severity: warn.",
       "message": "Cache usage SHOULD be documented when used.",
       "formats": [
         "oas3"
@@ -1844,8 +1828,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "team-digitale/cache-responses-undocumented": {
-      "description": "Cache usage SHOULD be extensively detailed in the `description` property\nto avoid data leaks or the usage of stale data.\n\nThis rule should ensure in some way that the api provider\ndocumented extensively the cache usage to avoid data leaks\nor usage of stale data.\n\nFor now this ruleset tests:\n* the presence of following keywords\n  in the `description`: `max-age`, `private`, `no-store`, `no-cache`.\n* that one and only one between Expires and Cache-Control is used.\n\n`Cache-Control` and `Expires` should not be used in conjuction,\nbecause `Cache-Control` overrides `Expires` when `max-age` is set.\nInstead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache\nlike described in RFC7234.",
+    "cache-responses-undocumented": {
+      "description": "Cache usage SHOULD be extensively detailed in the `description` property to avoid data leaks or the usage of stale data. This rule should ensure in some way that the api provider documented extensively the cache usage to avoid data leaks or usage of stale data. For now this ruleset tests: * the presence of following keywords in the `description`: `max-age`, `private`, `no-store`, `no-cache`. * that one and only one between Expires and Cache-Control is used. `Cache-Control` and `Expires` should not be used in conjuction, because `Cache-Control` overrides `Expires` when `max-age` is set. Instead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache like described in RFC7234. It requires the `description` field to be present and non-empty, and requires the `description` field to match the pattern `.*(max-age|private|no-store|no-cache).*` (evaluated at `$.[responses][?(@property[0] == \"2\" )][headers].[?(@property.match(/Cache-Control|Expires/i))]]`). Severity: info.",
       "message": "Cache usage in responses SHOULD be documented in Cache-Control and/or Expires. {{error}}",
       "formats": [
         "oas3"
@@ -1872,8 +1856,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "team-digitale/cache-responses-indeterminate-behavior": {
-      "description": "Cache usage SHOULD be extensively detailed in the `description` property\nto avoid data leaks or the usage of stale data.\n\nThis rule should ensure in some way that the api provider\ndocumented extensively the cache usage to avoid data leaks\nor usage of stale data.\n\nFor now this ruleset tests:\n* the presence of following keywords\n  in the `description`: `max-age`, `private`, `no-store`, `no-cache`.\n* that one and only one between Expires and Cache-Control is used.\n\n`Cache-Control` and `Expires` should not be used in conjuction,\nbecause `Cache-Control` overrides `Expires` when `max-age` is set.\nInstead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache\nlike described in RFC7234.",
+    "cache-responses-indeterminate-behavior": {
+      "description": "Cache usage SHOULD be extensively detailed in the `description` property to avoid data leaks or the usage of stale data. This rule should ensure in some way that the api provider documented extensively the cache usage to avoid data leaks or usage of stale data. For now this ruleset tests: * the presence of following keywords in the `description`: `max-age`, `private`, `no-store`, `no-cache`. * that one and only one between Expires and Cache-Control is used. `Cache-Control` and `Expires` should not be used in conjuction, because `Cache-Control` overrides `Expires` when `max-age` is set. Instead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache like described in RFC7234. It requires exactly one of [\"Expires\",\"Cache-Control\"] to be present (evaluated at `$.[responses][?(@property[0] == \"2\" )][headers]`). Severity: info.",
       "message": "{{error}}",
       "formats": [
         "oas3"
@@ -1898,11 +1882,11 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "team-digitale/paths-kebab-case": {
+    "paths-kebab-case-2": {
       "x-tags": [
         "it"
       ],
-      "description": "Paths should be kebab-case.\n\nSee Italian recommendation RAC_REST_NAME_002.\n",
+      "description": "Paths should be kebab-case. See Italian recommendation RAC_REST_NAME_002. It requires the targeted value to match the pattern `^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$` (evaluated at `$.paths[*]~`). Severity: warn.",
       "message": "{{property}} is not kebab-case: {{error}}",
       "severity": "warn",
       "recommended": true,
@@ -1919,11 +1903,11 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "team-digitale/request-headers-pascal-case": {
+    "request-headers-pascal-case": {
       "x-tags": [
         "it"
       ],
-      "description": "Headers should be pascal-case.\n\nSee Italian recommendation RAC_REST_NAME_003.\n",
+      "description": "Headers should be pascal-case. See Italian recommendation RAC_REST_NAME_003. It requires pascal casing on the targeted value (evaluated at `$.[parameters][?(@.in==\"header\")].name`). Severity: hint.",
       "message": "{{value}} {{error}} in {{path}}",
       "severity": "hint",
       "recommended": true,
@@ -1945,11 +1929,11 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "team-digitale/response-headers-pascal-case": {
+    "response-headers-pascal-case": {
       "x-tags": [
         "it"
       ],
-      "description": "Headers should be pascal-case.\n\nSee Italian recommendation RAC_REST_NAME_003.\n",
+      "description": "Headers should be pascal-case. See Italian recommendation RAC_REST_NAME_003. It requires pascal casing on the targeted value (evaluated at `$.[responses][*].headers.*~`). Severity: hint.",
       "message": "Header {{error}}: {{path}}",
       "severity": "hint",
       "recommended": true,
@@ -1971,11 +1955,11 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "team-digitale/no-forbidden-headers": {
+    "no-forbidden-headers": {
       "x-tags": [
         "standards"
       ],
-      "description": "OAS do not allow using the following HTTP headers in a specification\nfile: Authorization, Content-Type and Accept.\nYou MUST use the associate functionalities provided by OAS, instead.",
+      "description": "OAS do not allow using the following HTTP headers in a specification file: Authorization, Content-Type and Accept. You MUST use the associate functionalities provided by OAS, instead. It requires the targeted value not to match `/^(accept|content-type|authorization)$/i` (evaluated at `$..parameters[?(@.in == 'header')].name`, `$.[responses][*].headers.*~`). Severity: error.",
       "message": "{{error}} in {{path}} {{value}}",
       "severity": "error",
       "given": [
@@ -1994,11 +1978,11 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "team-digitale/no-x-headers-request": {
+    "no-x-headers-request": {
       "x-tags": [
         "standards"
       ],
-      "description": "'HTTP' headers SHOULD NOT start with 'X-' RFC6648.",
+      "description": "'HTTP' headers SHOULD NOT start with 'X-' RFC6648. It requires the targeted value to match the pattern `/^([^x]|.[^-])|RateLimit-/i` (evaluated at `$..parameters[?(@.in == 'header')].name`). Severity: warn.",
       "severity": "warn",
       "given": [
         "$..parameters[?(@.in == 'header')].name"
@@ -2018,11 +2002,11 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "team-digitale/no-x-headers-response": {
+    "no-x-headers-response": {
       "x-tags": [
         "standards"
       ],
-      "description": "'HTTP' headers SHOULD NOT start with 'X-' RFC6648.",
+      "description": "'HTTP' headers SHOULD NOT start with 'X-' RFC6648. It requires the targeted value to match the pattern `/^([^x]|.[^-])|RateLimit-/i` (evaluated at `$.[responses][*].headers.*~`). Severity: warn.",
       "severity": "warn",
       "given": [
         "$.[responses][*].headers.*~"
@@ -2042,12 +2026,12 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "team-digitale/servers-description": {
+    "servers-description": {
       "x-tags": [
         "metadata",
         "it"
       ],
-      "description": "Servers must have a description.",
+      "description": "Servers must have a description. It requires the `description` field to be present and non-empty (evaluated at `$.servers[*]`, `$.paths..servers`). Severity: error.",
       "message": "Server {{path}} must have a description.",
       "given": [
         "$.servers[*]",
@@ -2065,11 +2049,11 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "team-digitale/servers-use-https": {
+    "servers-use-https": {
       "x-tags": [
         "security"
       ],
-      "description": "Servers must use https to ensure the origin of the responses\nand protect the integrity and the  confidentiality of the communication.\n\nYou can use `http://` only on sandboxes environment.\nUse `x-sandbox: true` to skip this kind of check.",
+      "description": "Servers must use https to ensure the origin of the responses and protect the integrity and the confidentiality of the communication. You can use `http://` only on sandboxes environment. Use `x-sandbox: true` to skip this kind of check. It requires the `url` field to match the pattern `^https://.*` (evaluated at `$.servers[?(@[\"x-sandbox\"] != true)]`, `$.paths..servers[?(@[\"x-sandbox\"] != true)]`). Severity: error.",
       "message": "Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to skip this check on a specific server.",
       "given": [
         "$.servers[?(@[\"x-sandbox\"] != true)]",
@@ -2090,13 +2074,13 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "team-digitale/has-x-summary": {
+    "has-x-summary": {
       "x-tags": [
         "it",
         "metadata"
       ],
       "message": "API MUST have an one-liner #/info/x-summary field containing a brief description.",
-      "description": "The `#/info/x-summary` can be used to specify a brief, one-liner description of your API: this is very useful for catalog purposes (eg. this can be shown as your API subtitle in catalogs and developer portals).\nIn OAS3.1 you can use the standard `#/info/summary` field.",
+      "description": "The `#/info/x-summary` can be used to specify a brief, one-liner description of your API: this is very useful for catalog purposes (eg. this can be shown as your API subtitle in catalogs and developer portals). In OAS3.1 you can use the standard `#/info/summary` field. It requires the `info.x-summary` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "given": "$",
       "severity": "error",
       "recommended": true,
@@ -2111,15 +2095,16 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:documentation"
+        "category:documentation",
+        "source:italia"
       ]
     },
-    "team-digitale/has-termsOfService": {
+    "has-termsOfService": {
       "x-tags": [
         "metadata"
       ],
       "message": "API MUST reference the URL of the Terms of Service  in #/info/termsOfService.",
-      "description": "API MUST reference the URL of the Terms of Service  in `#/info/termsOfService`",
+      "description": "API MUST reference the URL of the Terms of Service in `#/info/termsOfService`. It requires the `info.termsOfService` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "given": "$",
       "severity": "error",
       "recommended": true,
@@ -2134,14 +2119,15 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "category:general",
+        "source:italia"
       ]
     },
-    "team-digitale/has-contact": {
+    "has-contact": {
       "x-tags": [
         "metadata"
       ],
-      "description": "API MUST reference a contact, either url or email in #/info/contact",
+      "description": "API MUST reference a contact, either url or email in #/info/contact. It requires the `info.contact` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "given": "$",
       "severity": "error",
       "recommended": true,
@@ -2156,16 +2142,17 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:documentation"
+        "category:documentation",
+        "source:italia"
       ]
     },
-    "team-digitale/has-x-api-id": {
+    "has-x-api-id": {
       "x-tags": [
         "it",
         "metadata"
       ],
       "message": "API must have an unique identifier in x-api-id in #/info/x-api-id.",
-      "description": "The `#/info/x-api-id` field can be used to associate an identifier\nto an API.\nThis is useful to track an API even when its `#/info/title` changes.",
+      "description": "The `#/info/x-api-id` field can be used to associate an identifier to an API. This is useful to track an API even when its `#/info/title` changes. It requires the `info.x-api-id` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "given": "$",
       "severity": "error",
       "recommended": true,
@@ -2177,11 +2164,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "category:general",
+        "source:italia"
       ]
     },
-    "team-digitale/use-semver": {
-      "description": "The API version field should follow\n[semantic versioning](https://semver.org/#semantic-versioning-specification-semver).",
+    "use-semver": {
+      "description": "The API version field should follow [semantic versioning](https://semver.org/#semantic-versioning-specification-semver). It requires the targeted value to match the pattern `^[0-9]+.[0-9]+.[0-9]+(-[a-z0-9+.-]+)?` (evaluated at `$.info.version`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "message": "Specs should follow semantic versioning. {{value}} is not a valid version.",
@@ -2195,15 +2183,16 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "category:general",
+        "source:italia"
       ]
     },
-    "team-digitale/number-format": {
+    "number-format": {
       "x-tags": [
         "it",
         "RAC_REST_FORMAT_004"
       ],
-      "description": "Schema of type number or integer must specify a format\nto express the associated datatype, eg. `int32`, `int64`, ...\n\nYou can express similar requirements using the `minimum` and `maximum` properties.\n\nSee recommendation RAC_REST_FORMAT_004.",
+      "description": "Schema of type number or integer must specify a format to express the associated datatype, eg. `int32`, `int64`, ... You can express similar requirements using the `minimum` and `maximum` properties. See recommendation RAC_REST_FORMAT_004. It requires the `format` field to be present and non-empty (evaluated at `$.[?(@.type==\"number\")]`). Severity: error.",
       "message": "Schema of type number or integer must specify a format. {{path}}",
       "formats": [
         "oas3"
@@ -2221,12 +2210,12 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/integer-format": {
+    "integer-format": {
       "x-tags": [
         "it",
         "RAC_REST_FORMAT_004"
       ],
-      "description": "Schema of type number or integer must specify a format\nto express the associated datatype, eg. `int32`, `int64`, ...\n\nYou can express similar requirements using the `minimum` and `maximum` properties.\n\nSee recommendation RAC_REST_FORMAT_004.",
+      "description": "Schema of type number or integer must specify a format to express the associated datatype, eg. `int32`, `int64`, ... You can express similar requirements using the `minimum` and `maximum` properties. See recommendation RAC_REST_FORMAT_004. It requires the `format` field to be present and non-empty (evaluated at `$.[?(@.type==\"integer\")]\n`). Severity: error.",
       "message": "Schema of type number or integer must specify a format. {{path}}",
       "formats": [
         "oas3"
@@ -2244,12 +2233,12 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/allowed-integer-format": {
+    "allowed-integer-format": {
       "x-tags": [
         "it",
         "RAC_REST_FORMAT_004"
       ],
-      "description": "To improve interoperability, integer and number formats are constrained\nto a shared subset.\n\nSee recommendation RAC_REST_FORMAT_004.",
+      "description": "To improve interoperability, integer and number formats are constrained to a shared subset. See recommendation RAC_REST_FORMAT_004. It requires the `format` field to be one of [\"int32\",\"int64\"] (evaluated at `$.[?(@.type==\"integer\")]\n`). Severity: hint.",
       "message": "Type format is \"{{value}}\", expected one of [int32, int64]. {{path}}",
       "formats": [
         "oas3"
@@ -2273,12 +2262,12 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/allowed-number-format": {
+    "allowed-number-format": {
       "x-tags": [
         "it",
         "RAC_REST_FORMAT_004"
       ],
-      "description": "To improve interoperability, integer and number formats are constrained\nto a shared subset.\n\nSee recommendation RAC_REST_FORMAT_004.",
+      "description": "To improve interoperability, integer and number formats are constrained to a shared subset. See recommendation RAC_REST_FORMAT_004. It requires the `format` field to be one of [\"decimal32\",\"decimal64\",\"float\",\"double\",\"decimal128\"] (evaluated at `$.[?(@.type==\"number\")]\n`). Severity: hint.",
       "message": "Type format is \"{{value}}\", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}",
       "formats": [
         "oas3"
@@ -2305,8 +2294,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/no-swagger-2": {
-      "description": "Swagger 2 files are not allowed. Use OpenAPI >= 3.0",
+    "no-swagger-2": {
+      "description": "Swagger 2 files are not allowed. Use OpenAPI >= 3.0. It requires the `swagger` field to be absent or empty (evaluated at `$`). Severity: error.",
       "given": "$",
       "severity": "error",
       "recommended": true,
@@ -2321,14 +2310,15 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "category:general",
+        "source:italia"
       ]
     },
-    "team-digitale/patch-media-type": {
+    "patch-media-type": {
       "x-tags": [
         "standards"
       ],
-      "description": "The PATCH specification explicits that the request body contains\na \"patch document\" describing the changes to be applied\nto the target resource.\n\nTo avoid confusion, [this errata](https://www.rfc-editor.org/errata/eid3169)\nexplains that `application/json` is not an appropriate media-type for `PATCH`.\n\nA correct example of PATCH using eg. `application/json-patch+json` media-type\ndefined in RFC6902.\n\n```\npaths:\n  /books/{book_id}:\n    patch:\n      requestBody:\n        content:\n          application/json-patch+json:\n            schema:\n              type: object\n            example: [{ \"op\": \"add\", \"path\": \"/baz\", \"value\": \"qux\" }]\n```",
+      "description": "The PATCH specification explicits that the request body contains a \"patch document\" describing the changes to be applied to the target resource. To avoid confusion, [this errata](https://www.rfc-editor.org/errata/eid3169) explains that `application/json` is not an appropriate media-type for `PATCH`. A correct example of PATCH using eg. `application/json-patch+json` media-type defined in RFC6902. ``` paths: /books/{book_id}: patch: requestBody: content: application/json-patch+json: schema: type: object example: [{ \"op\": \"add\", \"path\": \"/baz\", \"value\": \"qux\" }] ```. It requires the `application/json` field to be absent or empty (evaluated at `$.[patch][requestBody][content]`). Severity: error.",
       "message": "application/json is not an appropriate media-type for PATCH. {{path}}",
       "formats": [
         "oas3"
@@ -2346,11 +2336,11 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "team-digitale/paths-status": {
+    "paths-status": {
       "x-tags": [
         "it"
       ],
-      "description": "You must define a `/status` path that can be used to health-check the API.\nUsing this path avoids the arbitrary usage of a server URL for health-check\nscope.\n\nThe `/status` endpoint should return a `application/problem+json` response\ncontaining a successful status code if the service is working correctly.\n\nThe service provider is free to define the implementation logic for this path.",
+      "description": "You must define a `/status` path that can be used to health-check the API. Using this path avoids the arbitrary usage of a server URL for health-check scope. The `/status` endpoint should return a `application/problem+json` response containing a successful status code if the service is working correctly. The service provider is free to define the implementation logic for this path. It requires the `paths./status.get.responses.200` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "message": "The \"/status\" path used to health-check the API must be defined. {{error}}",
       "severity": "error",
       "recommended": true,
@@ -2365,11 +2355,11 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "team-digitale/paths-status-return-problem": {
+    "paths-status-return-problem": {
       "x-tags": [
         "it"
       ],
-      "description": "\"/status\" must return a Problem object.",
+      "description": "\"/status\" must return a Problem object. It requires the targeted value to be one of [\"application/problem+xml\",\"application/problem+json\"] (evaluated at `$.paths.'/status'.get.responses.200.content.*~`). Severity: error.",
       "message": "{{error}}",
       "severity": "error",
       "recommended": true,
@@ -2389,11 +2379,11 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "team-digitale/paths-status-problem-schema": {
+    "paths-status-problem-schema": {
       "x-tags": [
         "it"
       ],
-      "description": "\"/status\" schema is not a Problem object.",
+      "description": "\"/status\" schema is not a Problem object. It requires the `properties.status` field to be present and non-empty, and requires the `properties.title` field to be present and non-empty, and requires the `properties.detail` field to be present and non-empty (evaluated at `$.paths.'/status'.get.responses.200.content.[[schema]]`). Severity: warn.",
       "message": "{{error}} {{path}}",
       "severity": "warn",
       "recommended": true,
@@ -2418,11 +2408,11 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "team-digitale/paths-http-method": {
+    "paths-http-method": {
       "x-tags": [
         "it"
       ],
-      "description": "When you design a REST API, you don't usually need to mention terms like\n`get`, `delete` and so on in your `paths`, because this information is\nconveyed by the HTTP method.\n\nInstead of using\n\n```\nPOST /books/1234/delete HTTP/1.1\nHost: api.example\n```\n\nYou can simply call\n\n```\nDELETE /books/1234 HTTP/1.1\nHost: api.example\n```\n\nSimilarly you don't need verbs like `list` or `create` because\nthe HTTP Semantics RFC7231 supports this kind of actions natively\nwith proper methods and status code.\n\nInstead of\n\n```\nPOST /create/user HTTP/1.1\nHost: api.example\nContent-Type: application/json\n\n{\"given_name\": \"Mario\"}\n```\n\nYou can use\n```\nPOST /create/user HTTP/1.1\nHost: api.example\nContent-Type: application/json\n\n{\"given_name\": \"Mario\"}\n```\n\nreturning a proper response\n\n```\nHTTP/1.1 201 Created\nLocation: /users/1234\n\n```\n\nThis simplifies securing your API as you know beforehand the kind of action\nwhich is going to be performed.",
+      "description": "When you design a REST API, you don't usually need to mention terms like `get`, `delete` and so on in your `paths`, because this information is conveyed by the HTTP method. Instead of using ``` POST /books/1234/delete HTTP/1.1 Host: api.example ``` You can simply call ``` DELETE /books/1234 HTTP/1.1 Host: api.example ``` Similarly you don't need verbs like `list` or `create` because the HTTP Semantics RFC7231 supports this kind of actions natively with proper methods and status code. Instead of ``` POST /create/user HTTP/1.1 Host: api.example Content-Type: application/json {\"given_name\": \"Mario\"} ``` You can use ``` POST /create/user HTTP/1.1 Host: api.example Content-Type: application/json {\"given_name\": \"Mario\"} ``` returning a proper response ``` HTTP/1.1 201 Created Location: /users/1234 ``` This simplifies securing your API as you know beforehand the kind of action which is going to be performed. It requires the `@key` field to be undefined (evaluated at `$.paths[?(@property.match( /\\/(get|post|put|delete|patch)[\\/A-Z_\\-]?/ ))]~`, `$.paths[?(@property.match( /\\/(create|remove|list)[\\/A-Z_\\-]?/ ))]~`). Severity: hint.",
       "message": "API \"path\" contains a name of an http method. {{error}}",
       "severity": "hint",
       "recommended": true,
@@ -2440,8 +2430,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "team-digitale/use-problem-json-for-errors": {
-      "description": "\nError management is a key enabler of a resilient API ecosystem.\nEnforcing a consistent schema for errors between different APIs,\nenables client to properly implement an error management strategy,\nwith positive impacts for users.\n\nError responses should return one of the media-type\ndefined in RFC7807:\n- `application/problem+json`\n- `application/problem+xml`\n\nAn example of a valid response:\n\n```\nresponses:\n  \"503\":\n    content:\n      application/problem+json:\n        schema:\n          ...\n```",
+    "use-problem-json-for-errors": {
+      "description": "Error management is a key enabler of a resilient API ecosystem. Enforcing a consistent schema for errors between different APIs, enables client to properly implement an error management strategy, with positive impacts for users. Error responses should return one of the media-type defined in RFC7807: - `application/problem+json` - `application/problem+xml` An example of a valid response: ``` responses: \"503\": content: application/problem+json: schema: ... ```. It requires the targeted value to be one of [\"application/problem+xml\",\"application/problem+json\"] (evaluated at `$.paths.[*].responses[?(@property.match(/^(4|5|default)/))].content.*~`). Severity: error.",
       "message": "Error responses should support RFC7807 in {{path}}.",
       "formats": [
         "oas3"
@@ -2463,8 +2453,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "team-digitale/use-problem-schema": {
-      "description": "WARN: This rule is under implementation and just provides an hint.\n\nError management is a key enabler of a resilient API ecosystem.\nEnforcing a consistent schema for errors between different APIs,\nenables client to properly implement an error management strategy,\nwith positive impacts for users.\n\nThis rule inspects the schema returned by an error response and\nverifies whether it contains the main properties defined in RFC7807:\n`status`, `title` and `detail`.\n\nAn example of a valid payload is\n```\n{\n \"title\": \"Not Found\",\n \"status\": 404,\n \"detail\": \"Book does not exist; id: 123\"\n}\n```\n\nSee recommendation RAC_REST_NAME_007.",
+    "use-problem-schema": {
+      "description": "WARN: This rule is under implementation and just provides an hint. Error management is a key enabler of a resilient API ecosystem. Enforcing a consistent schema for errors between different APIs, enables client to properly implement an error management strategy, with positive impacts for users. This rule inspects the schema returned by an error response and verifies whether it contains the main properties defined in RFC7807: `status`, `title` and `detail`. An example of a valid payload is ``` { \"title\": \"Not Found\", \"status\": 404, \"detail\": \"Book does not exist; id: 123\" } ``` See recommendation RAC_REST_NAME_007. It validates the targeted value against a JSON Schema (evaluated at `$.paths.[*].responses[?(@property.match(/^(4|5|default)/))][[schema]]`). Severity: hint.",
       "message": "Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}",
       "formats": [
         "oas3"
@@ -2497,8 +2487,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "team-digitale/hint-problem-schema": {
-      "description": "\nWARN: This rule is under implementation and just provides an hint.\n\nError management is a key enabler of a resilient API ecosystem.\nEnforcing a consistent schema for errors between different APIs,\nenables client to properly implement an error management strategy,\nwith positive impacts for users.\n\nErrors should return RFC7807 objects. Instead, this schema\nseems to use non standard properties such as:\n`message`, `msg` and `code`.\n\nAn error of the following form\n\n```\n{\n  \"msg\": \"Book with id: 123 does not exist.\",\n  \"code\": 6063\n}\n```\n\ncan be expressed in RFC7807 with\n\n```\n{\n  \"detail\": \"Book with id: 123 does not exist.\",\n  \"type\": \"https://api.example/v1/errors/6063\",\n  \"status\": 404,\n  \"title\": \"Not Found\"\n}\n```\n\nReturning an URI in `type`, instead of an opaque `code` can help\nthe client in better identifying the error; moreover the URI\nthough it should not be dereferenced automatically, can return\nan actual resource providing guidance in addressing the issue.\n\nSee recommendation RAC_REST_NAME_007.",
+    "hint-problem-schema": {
+      "description": "WARN: This rule is under implementation and just provides an hint. Error management is a key enabler of a resilient API ecosystem. Enforcing a consistent schema for errors between different APIs, enables client to properly implement an error management strategy, with positive impacts for users. Errors should return RFC7807 objects. Instead, this schema seems to use non standard properties such as: `message`, `msg` and `code`. An error of the following form ``` { \"msg\": \"Book with id: 123 does not exist.\", \"code\": 6063 } ``` can be expressed in RFC7807 with ``` { \"detail\": \"Book with id: 123 does not exist.\", \"type\": \"https://api.example/v1/errors/6063\", \"status\": 404, \"title\": \"Not Found\" } ``` Returning an URI in `type`, instead of an opaque `code` can help the client in better identifying the error; moreover the URI though it should not be dereferenced automatically, can return an actual resource providing guidance in addressing the issue. See recommendation RAC_REST_NAME_007. It requires the `@key` field not to match `message|code|msg` (evaluated at `$.[responses][?(@property.match(/^(4|5|default)/))][[schema]][properties].*~`). Severity: hint.",
       "message": "Error response doesn't seem to match RFC7807. Are you sure it is ok? {{path}}",
       "formats": [
         "oas3"
@@ -2519,8 +2509,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "team-digitale/missing-retry-after": {
-      "description": "When a client is either:\n* throttled out with a 429 status code;\n* warned about a temporary server issue with a 503 status code;\nthe server should explicitly communicate how long to wait\nbefore issuing further requests using the Retry-After header.\n\nRetry-After is defined in RFC7231.",
+    "missing-retry-after": {
+      "description": "When a client is either: * throttled out with a 429 status code; * warned about a temporary server issue with a 503 status code; the server should explicitly communicate how long to wait before issuing further requests using the Retry-After header. Retry-After is defined in RFC7231. It requires the `Retry-After` field to be present and non-empty (evaluated at `$.[responses][?(@property == \"429\" || @property == \"503\"  )][headers]`). Severity: warn.",
       "message": "Missing ratelimit header: {{property}} in {{path}}",
       "formats": [
         "oas3"
@@ -2538,11 +2528,11 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/missing-ratelimit": {
+    "missing-ratelimit": {
       "x-tags": [
         "it"
       ],
-      "description": "Ratelimiting API preserves a service and limits attack scenario\n[see API4:2019 Lack of Resources & Rate Limiting](https://owasp.org/www-project-api-security).\n\nAPIs should use the following headers at least on successful responses:\n- `X-RateLimit-Limit`: number of total requests in a give time window\n- `X-RateLimit-Remaining`: remaining requests in the current window\n- `X-RateLimit-Reset`: number of seconds before the window resets\n\nAn example set of headers is the following\n\n```\nX-Ratelimit-Limit: 100\nX-Ratelimit-Remaining: 40\nX-Ratelimit-Reset: 12\n```\n\nA standardization proposal for ratelimit headers is ongoning\ninside the IETF HTTPAPI Workgroup.\nSee [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)",
+      "description": "Ratelimiting API preserves a service and limits attack scenario [see API4:2019 Lack of Resources & Rate Limiting](https://owasp.org/www-project-api-security). APIs should use the following headers at least on successful responses: - `X-RateLimit-Limit`: number of total requests in a give time window - `X-RateLimit-Remaining`: remaining requests in the current window - `X-RateLimit-Reset`: number of seconds before the window resets An example set of headers is the following ``` X-Ratelimit-Limit: 100 X-Ratelimit-Remaining: 40 X-Ratelimit-Reset: 12 ``` A standardization proposal for ratelimit headers is ongoning inside the IETF HTTPAPI Workgroup. See [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/). It requires exactly one of [\"X-RateLimit-Limit\",\"RateLimit-Limit\"] to be present, and requires exactly one of [\"X-RateLimit-Remaining\",\"RateLimit-Remaining\"] to be present, and requires exactly one of [\"X-RateLimit-Reset\",\"RateLimit-Reset\"] to be present (evaluated at `$.[responses][?(@property[0] == \"2\" )][headers]`). Severity: warn.",
       "message": "Missing ratelimit headers. {{property}} {{error}} {{path}}",
       "formats": [
         "oas3"
@@ -2585,27 +2575,8 @@ export const ruleset = {
         "category:pagination"
       ]
     },
-    "team-digitale/response-with-json-object": {
-      "description": "JSON responses MUST use JSON objects, in order to be extensible.\n\nFor example, instead of a list `[1, 2, 3]` you should return\nan object `{\"items\": [1, 2, 3]}`.\n\nThis allows the schema to evolve in a backward compatible ways.",
-      "message": "JSON responses must use json objects (eg \"{}\"), not {{value}}. {{path}}",
-      "severity": "warn",
-      "recommended": true,
-      "given": "$.[responses][*][content][?(@property.match(\"json$\"))][schema]",
-      "then": {
-        "field": "type",
-        "function": "pattern",
-        "functionOptions": {
-          "match": "object"
-        }
-      },
-      "tags": [
-        "source:team-digitale",
-        "format:openapi",
-        "category:structure"
-      ]
-    },
-    "team-digitale/array-boundaries": {
-      "description": "Array size should be limited to mitigate resource exhaustion attacks.\nThis can be done using `maxItems` and `minItems`, like in the example\nbelow.\n\n```\nLimited:\n  type: array\n  maxItems: 10\n  items:\n    type: string\n    format: date\n```\n\nYou should ensure that the schema referenced in  `items` is constrained too.\n\nIf you delegate input validation to a library or framework,\nbe sure to test it thoroughly and ensure that it verifies `maxItems`.",
+    "array-boundaries": {
+      "description": "Array size should be limited to mitigate resource exhaustion attacks. This can be done using `maxItems` and `minItems`, like in the example below. ``` Limited: type: array maxItems: 10 items: type: string format: date ``` You should ensure that the schema referenced in `items` is constrained too. If you delegate input validation to a library or framework, be sure to test it thoroughly and ensure that it verifies `maxItems`. It requires the `maxItems` field to be defined, and requires the `minItems` field to be defined (evaluated at `$.[?(@.type==\"array\")]`). Severity: warn.",
       "message": "Schema of type array must specify maxItems and minItems. {{path}} {{error}}",
       "formats": [
         "oas3"
@@ -2631,8 +2602,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/number-boundaries": {
-      "description": "Numeric values should be limited in size to mitigate resource exhaustion\nusing `maximum` and `minimum`.\n\nIf you delegate input validation to a library or framework,\nbe sure to test it thoroughly.",
+    "number-boundaries": {
+      "description": "Numeric values should be limited in size to mitigate resource exhaustion using `maximum` and `minimum`. If you delegate input validation to a library or framework, be sure to test it thoroughly. It requires the `maximum` field to be defined, and requires the `minimum` field to be defined (evaluated at `$.[?(@.type==\"number\")]`, `$.[?(@.type==\"integer\")]`). Severity: warn.",
       "message": "Schema of type number or integer must specify a maximum and a minimum. {{path}} {{error}}",
       "formats": [
         "oas3"
@@ -2659,8 +2630,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/no-additionalProperties": {
-      "description": "By default, jsonschema allows additionalProperties. This means\nthat schema validators can be bypassed using further, unspecified\nfields.\n\nWhile forbidding additionalProperties can create rigidity and hinder\nthe evolution of an API - eg making it hard to accept new parameters\nor fields - it is possible that this flexibility can be used\nto bypass the schema validator and force the application to process\nunwanted information.\n\nDisable `additionalProperties` with `false`\n\n```\nPerson:\n  type: object\n  additionalProperties: false\n  properties:\n    given_name:\n      type: string\n      pattern: [a-zA-Z ]{24}\n```\n\nOr constraint them using `maxProperties`\n\n```\nPerson:\n  type: object\n  additionalProperties:\n    type: string\n    pattern: /+39[0-9]{,14}/\n  maxProperties: 3\n  properties:\n    given_name:\n      type: string\n      pattern: [a-zA-Z ]{24}\n```\n- no additionalProperties\n- constrained additionalProperties",
+    "no-additionalProperties": {
+      "description": "By default, jsonschema allows additionalProperties. This means that schema validators can be bypassed using further, unspecified fields. While forbidding additionalProperties can create rigidity and hinder the evolution of an API - eg making it hard to accept new parameters or fields - it is possible that this flexibility can be used to bypass the schema validator and force the application to process unwanted information. Disable `additionalProperties` with `false` ``` Person: type: object additionalProperties: false properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` Or constraint them using `maxProperties` ``` Person: type: object additionalProperties: type: string pattern: /+39[0-9]{,14}/ maxProperties: 3 properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` - no additionalProperties - constrained additionalProperties. It requires the `additionalProperties` field to be absent or empty (evaluated at `$.[?(@.type==\"object\" && @.additionalProperties==true)]`). Severity: warn.",
       "message": "Objects should not allow additionalProperties. Disable them with `additionalProperties: false` or constraint them.",
       "formats": [
         "oas3"
@@ -2682,8 +2653,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/no-default-additionalProperties": {
-      "description": "By default, jsonschema allows additionalProperties. This means\nthat schema validators can be bypassed using further, unspecified\nfields.\n\nWhile forbidding additionalProperties can create rigidity and hinder\nthe evolution of an API - eg making it hard to accept new parameters\nor fields - it is possible that this flexibility can be used\nto bypass the schema validator and force the application to process\nunwanted information.\n\nDisable `additionalProperties` with `false`\n\n```\nPerson:\n  type: object\n  additionalProperties: false\n  properties:\n    given_name:\n      type: string\n      pattern: [a-zA-Z ]{24}\n```\n\nOr constraint them using `maxProperties`\n\n```\nPerson:\n  type: object\n  additionalProperties:\n    type: string\n    pattern: /+39[0-9]{,14}/\n  maxProperties: 3\n  properties:\n    given_name:\n      type: string\n      pattern: [a-zA-Z ]{24}\n```\n- no additionalProperties\n- constrained additionalProperties",
+    "no-default-additionalProperties": {
+      "description": "By default, jsonschema allows additionalProperties. This means that schema validators can be bypassed using further, unspecified fields. While forbidding additionalProperties can create rigidity and hinder the evolution of an API - eg making it hard to accept new parameters or fields - it is possible that this flexibility can be used to bypass the schema validator and force the application to process unwanted information. Disable `additionalProperties` with `false` ``` Person: type: object additionalProperties: false properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` Or constraint them using `maxProperties` ``` Person: type: object additionalProperties: type: string pattern: /+39[0-9]{,14}/ maxProperties: 3 properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` - no additionalProperties - constrained additionalProperties. It requires the `additionalProperties` field to be defined (evaluated at `$.[?(@.type==\"object\" && ! @.additionalProperties)]`). Severity: warn.",
       "message": "Objects should not allow additionalProperties. Disable them with `additionalProperties: false` or constraint them.",
       "formats": [
         "oas3"
@@ -2705,8 +2676,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/constrained-additionalProperties": {
-      "description": "By default, jsonschema allows additionalProperties. This means\nthat schema validators can be bypassed using further, unspecified\nfields.\n\nWhile forbidding additionalProperties can create rigidity and hinder\nthe evolution of an API - eg making it hard to accept new parameters\nor fields - it is possible that this flexibility can be used\nto bypass the schema validator and force the application to process\nunwanted information.\n\nDisable `additionalProperties` with `false`\n\n```\nPerson:\n  type: object\n  additionalProperties: false\n  properties:\n    given_name:\n      type: string\n      pattern: [a-zA-Z ]{24}\n```\n\nOr constraint them using `maxProperties`\n\n```\nPerson:\n  type: object\n  additionalProperties:\n    type: string\n    pattern: /+39[0-9]{,14}/\n  maxProperties: 3\n  properties:\n    given_name:\n      type: string\n      pattern: [a-zA-Z ]{24}\n```\n- no additionalProperties\n- constrained additionalProperties",
+    "constrained-additionalProperties": {
+      "description": "By default, jsonschema allows additionalProperties. This means that schema validators can be bypassed using further, unspecified fields. While forbidding additionalProperties can create rigidity and hinder the evolution of an API - eg making it hard to accept new parameters or fields - it is possible that this flexibility can be used to bypass the schema validator and force the application to process unwanted information. Disable `additionalProperties` with `false` ``` Person: type: object additionalProperties: false properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` Or constraint them using `maxProperties` ``` Person: type: object additionalProperties: type: string pattern: /+39[0-9]{,14}/ maxProperties: 3 properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` - no additionalProperties - constrained additionalProperties. It requires the `maxProperties` field to be defined (evaluated at `$.[?(@.type==\"object\" && @.additionalProperties &&  @.additionalProperties!=true &&  @.additionalProperties!=false )]`). Severity: warn.",
       "message": "Objects should not allow additionalProperties. Disable them with `additionalProperties: false` or constraint them.",
       "formats": [
         "oas3"
@@ -2728,8 +2699,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/security-protection-get": {
-      "description": "Your API should be protected by a `security` rule either at\nglobal or operation level.\nOperations should be protected specially when they\nare tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.\nThis is done with one or more non-empty `security` rules.\n\nSecurity rules are defined in the `securityScheme` section.\n\nAn example of a security rule applied at global level.\n\n```\nsecurity:\n- BasicAuth: []\npaths:\n  /books: {}\n  /users: {}\nsecuritySchemes:\n  BasicAuth:\n    scheme: http\n    type: basic\n```\n\nAn example of a security rule applied at operation level, which\neventually overrides the global one\n\n```\npaths:\n  /books:\n    post:\n      security:\n      - AccessToken: []\nsecuritySchemes:\n  BasicAuth:\n    scheme: http\n    type: basic\n  AccessToken:\n    scheme: http\n    type: bearer\n    bearerFormat: JWT\n```",
+    "security-protection-get": {
+      "description": "Your API should be protected by a `security` rule either at global or operation level. Operations should be protected specially when they are tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`. This is done with one or more non-empty `security` rules. Security rules are defined in the `securityScheme` section. An example of a security rule applied at global level. ``` security: - BasicAuth: [] paths: /books: {} /users: {} securitySchemes: BasicAuth: scheme: http type: basic ``` An example of a security rule applied at operation level, which eventually overrides the global one ``` paths: /books: post: security: - AccessToken: [] securitySchemes: BasicAuth: scheme: http type: basic AccessToken: scheme: http type: bearer bearerFormat: JWT ```. It validates the `security` field against a JSON Schema (evaluated at `$.paths.*.get`). Severity: info.",
       "message": "The following operation is not protected by a `security` rule: {{path}}",
       "formats": [
         "oas3"
@@ -2761,8 +2732,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "team-digitale/security-protection-non-idempotent": {
-      "description": "Your API should be protected by a `security` rule either at\nglobal or operation level.\nOperations should be protected specially when they\nare tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.\nThis is done with one or more non-empty `security` rules.\n\nSecurity rules are defined in the `securityScheme` section.\n\nAn example of a security rule applied at global level.\n\n```\nsecurity:\n- BasicAuth: []\npaths:\n  /books: {}\n  /users: {}\nsecuritySchemes:\n  BasicAuth:\n    scheme: http\n    type: basic\n```\n\nAn example of a security rule applied at operation level, which\neventually overrides the global one\n\n```\npaths:\n  /books:\n    post:\n      security:\n      - AccessToken: []\nsecuritySchemes:\n  BasicAuth:\n    scheme: http\n    type: basic\n  AccessToken:\n    scheme: http\n    type: bearer\n    bearerFormat: JWT\n```",
+    "security-protection-non-idempotent": {
+      "description": "Your API should be protected by a `security` rule either at global or operation level. Operations should be protected specially when they are tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`. This is done with one or more non-empty `security` rules. Security rules are defined in the `securityScheme` section. An example of a security rule applied at global level. ``` security: - BasicAuth: [] paths: /books: {} /users: {} securitySchemes: BasicAuth: scheme: http type: basic ``` An example of a security rule applied at operation level, which eventually overrides the global one ``` paths: /books: post: security: - AccessToken: [] securitySchemes: BasicAuth: scheme: http type: basic AccessToken: scheme: http type: bearer bearerFormat: JWT ```. It validates the `security` field against a JSON Schema (evaluated at `$.paths.*[?(@property.match(/^(post|put|patch|delete)/))]`). Severity: error.",
       "message": "The following non-idempotent operation is not protected by a `security` rule: {{path}}",
       "formats": [
         "oas3"
@@ -2794,8 +2765,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "team-digitale/securitySchemes-oauth": {
-      "description": "Json Web Tokens RFC7519 is a compact, URL-safe means of representing\nclaims to be transferred between two parties. JWT can be enclosed in\nencrypted or signed tokens like JWS and JWE.\n\nThe [JOSE IANA registry](https://www.iana.org/assignments/jose/jose.xhtml)\nprovides algorithms information.\n\nRFC8725 describes common pitfalls in the JWx specifications and in\ntheir implementations, such as:\n- the ability to ignore algorithms, eg. `{\"alg\": \"none\"}`;\n- using insecure algorithms like `RSASSA-PKCS1-v1_5` eg. `{\"alg\": \"RS256\"}`.\n\nAn API using JWT should explicit in the `description`\nthat the implementation conforms to RFC8725.\n\n```\ncomponents:\n  securitySchemes:\n    JWTBearer:\n      type: http\n      scheme: bearer\n      bearerFormat: JWT\n      description: |-\n        A bearer token in the format of a JWS and conformato\n        to the specifications included in RFC8725.\n```",
+    "securitySchemes-oauth": {
+      "description": "Json Web Tokens RFC7519 is a compact, URL-safe means of representing claims to be transferred between two parties. JWT can be enclosed in encrypted or signed tokens like JWS and JWE. The [JOSE IANA registry](https://www.iana.org/assignments/jose/jose.xhtml) provides algorithms information. RFC8725 describes common pitfalls in the JWx specifications and in their implementations, such as: - the ability to ignore algorithms, eg. `{\"alg\": \"none\"}`; - using insecure algorithms like `RSASSA-PKCS1-v1_5` eg. `{\"alg\": \"RS256\"}`. An API using JWT should explicit in the `description` that the implementation conforms to RFC8725. ``` components: securitySchemes: JWTBearer: type: http scheme: bearer bearerFormat: JWT description: |- A bearer token in the format of a JWS and conformato to the specifications included in RFC8725. ```. It requires the `description` field to be present and non-empty, and requires the `description` field to match the pattern `.*RFC8725.*` (evaluated at `$.[securitySchemes][?(@.type==\"oauth2\")]`). Severity: warn.",
       "message": "JWT usage should be detailed in `description` {{error}}.",
       "given": [
         "$.[securitySchemes][?(@.type==\"oauth2\")]"
@@ -2819,8 +2790,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "team-digitale/securitySchemes-jwt": {
-      "description": "Json Web Tokens RFC7519 is a compact, URL-safe means of representing\nclaims to be transferred between two parties. JWT can be enclosed in\nencrypted or signed tokens like JWS and JWE.\n\nThe [JOSE IANA registry](https://www.iana.org/assignments/jose/jose.xhtml)\nprovides algorithms information.\n\nRFC8725 describes common pitfalls in the JWx specifications and in\ntheir implementations, such as:\n- the ability to ignore algorithms, eg. `{\"alg\": \"none\"}`;\n- using insecure algorithms like `RSASSA-PKCS1-v1_5` eg. `{\"alg\": \"RS256\"}`.\n\nAn API using JWT should explicit in the `description`\nthat the implementation conforms to RFC8725.\n\n```\ncomponents:\n  securitySchemes:\n    JWTBearer:\n      type: http\n      scheme: bearer\n      bearerFormat: JWT\n      description: |-\n        A bearer token in the format of a JWS and conformato\n        to the specifications included in RFC8725.\n```",
+    "securitySchemes-jwt": {
+      "description": "Json Web Tokens RFC7519 is a compact, URL-safe means of representing claims to be transferred between two parties. JWT can be enclosed in encrypted or signed tokens like JWS and JWE. The [JOSE IANA registry](https://www.iana.org/assignments/jose/jose.xhtml) provides algorithms information. RFC8725 describes common pitfalls in the JWx specifications and in their implementations, such as: - the ability to ignore algorithms, eg. `{\"alg\": \"none\"}`; - using insecure algorithms like `RSASSA-PKCS1-v1_5` eg. `{\"alg\": \"RS256\"}`. An API using JWT should explicit in the `description` that the implementation conforms to RFC8725. ``` components: securitySchemes: JWTBearer: type: http scheme: bearer bearerFormat: JWT description: |- A bearer token in the format of a JWS and conformato to the specifications included in RFC8725. ```. It requires the `description` field to be present and non-empty, and requires the `description` field to match the pattern `.*RFC8725.*` (evaluated at `$.[securitySchemes][?(@.bearerFormat==\"jwt\" || @.bearerFormat==\"JWT\")]`). Severity: warn.",
       "message": "JWT usage should be detailed in `description` {{error}}.",
       "given": [
         "$.[securitySchemes][?(@.bearerFormat==\"jwt\" || @.bearerFormat==\"JWT\")]"
@@ -2844,8 +2815,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "team-digitale/securitySchemes-oauth-http": {
-      "description": "OAuth2 endpoints must use `https://`",
+    "securitySchemes-oauth-http": {
+      "description": "OAuth2 endpoints must use `https://`. It requires the `value` field to match the pattern `^https://` (evaluated at `$.[securitySchemes][?(@.type==\"oauth2\")][*].[?(@property.match(/url$/i))]`). Severity: error.",
       "message": "OAuth endpoints must use https://",
       "formats": [
         "oas3"
@@ -2870,8 +2841,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "team-digitale/securitySchemes-oauth-allowed-flows": {
-      "description": "The OAuth2 authorization framework defines various\n[grant types](https://tools.ietf.org/html/rfc6749#section-1.3),\nmost notably the [AuthorizationCode](https://tools.ietf.org/html/rfc6749#section-1.3.1)\nand the [Client Credentials](https://tools.ietf.org/html/rfc6749#section-1.3.4).\n\nSome grant types are now considered insecure\nand MUST not be used, including `implicit` and `password`.\nThe new [OAuth2.1](https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01)\nstill in draft, removes them and suggests to\nreplace the `implicit` with `authorizationCode` + PKCE defined in RFC7636.",
+    "securitySchemes-oauth-allowed-flows": {
+      "description": "The OAuth2 authorization framework defines various [grant types](https://tools.ietf.org/html/rfc6749#section-1.3), most notably the [AuthorizationCode](https://tools.ietf.org/html/rfc6749#section-1.3.1) and the [Client Credentials](https://tools.ietf.org/html/rfc6749#section-1.3.4). Some grant types are now considered insecure and MUST not be used, including `implicit` and `password`. The new [OAuth2.1](https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01) still in draft, removes them and suggests to replace the `implicit` with `authorizationCode` + PKCE defined in RFC7636. It requires the `implicit` field to be absent or empty, and requires the `password` field to be absent or empty (evaluated at `$.[?(@.type==\"oauth2\")].flows`). Severity: error.",
       "message": "Do not use oauth2 insecure flow: \"{{property}}\".",
       "formats": [
         "oas3"
@@ -2897,8 +2868,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "team-digitale/string-maxlength": {
-      "description": "String length should be limited to avoid an attacker\nto send very long strings to your service.\n\nYou can do this in different ways:\n- specify a `maxLength`\n- constraint the possible values with an `enum`\n- use a constrained `format` like `date` or `date-time`.\n\nA constrained string using the `date` format.\n\n```\nConstrainedString:\n  type: string\n  format: date\n```\n\nAnother constrained string using `maxLength`.\nYou can always add further constraints using a\n`pattern` or a `format`.\n\n```\nZipCode:\n  type: string\n  maxLength: 5\n  pattern: '[0-9]{5}'\n```\n\nFor further security, you can always limit string length even\nin conjunction with `format` and `pattern`.",
+    "string-maxlength": {
+      "description": "String length should be limited to avoid an attacker to send very long strings to your service. You can do this in different ways: - specify a `maxLength` - constraint the possible values with an `enum` - use a constrained `format` like `date` or `date-time`. A constrained string using the `date` format. ``` ConstrainedString: type: string format: date ``` Another constrained string using `maxLength`. You can always add further constraints using a `pattern` or a `format`. ``` ZipCode: type: string maxLength: 5 pattern: '[0-9]{5}' ``` For further security, you can always limit string length even in conjunction with `format` and `pattern`. It requires the `maxLength` field to be defined (evaluated at `$.[?(@.type==\"string\" && !@.enum && @.format!=\"date\" && @.format !=\"date-time\" )]`). Severity: warn.",
       "message": "Strings (non enum) must specify a maximum length. {{path}} {{error}}",
       "formats": [
         "oas3"
@@ -2920,8 +2891,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "team-digitale/string-pattern-or-format-or-enum": {
-      "description": "String length should be limited to avoid an attacker\nto send very long strings to your service.\n\nYou can do this in different ways:\n- specify a `maxLength`\n- constraint the possible values with an `enum`\n- use a constrained `format` like `date` or `date-time`.\n\nA constrained string using the `date` format.\n\n```\nConstrainedString:\n  type: string\n  format: date\n```\n\nAnother constrained string using `maxLength`.\nYou can always add further constraints using a\n`pattern` or a `format`.\n\n```\nZipCode:\n  type: string\n  maxLength: 5\n  pattern: '[0-9]{5}'\n```\n\nFor further security, you can always limit string length even\nin conjunction with `format` and `pattern`.",
+    "string-pattern-or-format-or-enum": {
+      "description": "String length should be limited to avoid an attacker to send very long strings to your service. You can do this in different ways: - specify a `maxLength` - constraint the possible values with an `enum` - use a constrained `format` like `date` or `date-time`. A constrained string using the `date` format. ``` ConstrainedString: type: string format: date ``` Another constrained string using `maxLength`. You can always add further constraints using a `pattern` or a `format`. ``` ZipCode: type: string maxLength: 5 pattern: '[0-9]{5}' ``` For further security, you can always limit string length even in conjunction with `format` and `pattern`. It validates the targeted value against a JSON Schema (evaluated at `$.[?(@.type==\"string\" && !@.enum && @.format!=\"date\" && @.format !=\"date-time\" )]`). Severity: hint.",
       "message": "Strings (non enum) must specify a pattern or a format. {{path}}",
       "formats": [
         "oas3"
@@ -2958,8 +2929,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "trimble/tas-api-server-url-invalid": {
-      "description": "API URLs should meet the Trimble API Standards",
+    "api-server-url-invalid": {
+      "description": "API URLs should meet the Trimble API Standards. It applies a custom validation to the targeted value (evaluated at `$.servers`). Severity: warn.",
       "message": "{{error}}",
       "given": "$.servers",
       "severity": "warn",
@@ -2972,8 +2943,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "trimble/tas-api-server-url-version-invalid": {
-      "description": "API URLs versions should meet the Trimble API Standards",
+    "api-server-url-version-invalid": {
+      "description": "API URLs versions should meet the Trimble API Standards. It applies a custom validation to the targeted value (evaluated at `$.servers`). Severity: warn.",
       "message": "{{error}}",
       "given": "$.servers",
       "severity": "warn",
@@ -2986,8 +2957,8 @@ export const ruleset = {
         "category:versioning"
       ]
     },
-    "trimble/tas-openapi-v3-schema-properties-names-camel-case": {
-      "description": "Ensuring that schema property names are camel case.",
+    "openapi-v3-schema-properties-names-camel-case": {
+      "description": "Ensuring that schema property names are camel case. It requires the `@key` field to match the pattern `^[a-z][a-zA-Z0-9]*$` (evaluated at `$..properties.`). Severity: error.",
       "message": "All schema property names MUST be camel case.",
       "severity": "error",
       "given": "$..properties.",
@@ -3005,8 +2976,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "trimble/tas-no-http-verbs-in-path": {
-      "description": "HTTP verbs should be not be in URL paths",
+    "no-http-verbs-in-path": {
+      "description": "HTTP verbs should be not be in URL paths. It applies a custom validation to the `@key` field (evaluated at `$.paths`). Severity: warn.",
       "message": "{{property}} has HTTP verb in path: {{error}}",
       "recommended": true,
       "type": "style",
@@ -3021,8 +2992,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "trimble/tas-structured-data-format": {
-      "description": "All APIs returning structured data SHOULD support JSON as the default format.",
+    "structured-data-format": {
+      "description": "All APIs returning structured data SHOULD support JSON as the default format. It applies a custom validation to the targeted value (evaluated at `$.paths.*.`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
       "given": "$.paths.*.",
@@ -3035,8 +3006,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "trimble/tas-structured-data-format-support-json-response-body": {
-      "description": "All APIs returning structured data SHOULD support JSON as the default format.",
+    "structured-data-format-support-json-response-body": {
+      "description": "All APIs returning structured data SHOULD support JSON as the default format. It applies a custom validation to the targeted value (evaluated at `$.paths.*.`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
       "given": "$.paths.*.",
@@ -3049,8 +3020,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "trimble/tdp-http-response-code": {
-      "description": "All APIs should return a valid http response code.",
+    "tdp-http-response-code": {
+      "description": "All APIs should return a valid http response code. It applies a custom validation to the `@key` field (evaluated at `$..responses`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
       "given": "$..responses",
@@ -3064,8 +3035,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "trimble/tas-check-queryparameter-in-endpoint": {
-      "description": "Check if the given resource path has queryparameter.",
+    "check-queryparameter-in-endpoint": {
+      "description": "Check if the given resource path has queryparameter. It applies a custom validation to the `@key` field (evaluated at `$.paths`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
       "given": "$.paths",
@@ -3079,8 +3050,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "trimble/tdp-does-spec-contains-valid-http-verbs": {
-      "description": "All APIs MUST have a valid http verb.",
+    "tdp-does-spec-contains-valid-http-verbs": {
+      "description": "All APIs MUST have a valid http verb. It applies a custom validation to the `@key` field (evaluated at `$.paths.*`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
       "given": "$.paths.*",
@@ -3094,8 +3065,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "trimble/tdp-spec-should-not-be-empty": {
-      "description": "Spec should not be empty.",
+    "tdp-spec-should-not-be-empty": {
+      "description": "Spec should not be empty. It applies a custom validation to the targeted value (evaluated at `$`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
       "given": "$",
@@ -3108,7 +3079,7 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "trimble/tdp-tag-pascal-case": {
+    "tdp-tag-pascal-case": {
       "severity": "warn",
       "recommended": true,
       "message": "Tag names cannot use Pascal Case. Please rename {{value}}.",
@@ -3127,10 +3098,10 @@ export const ruleset = {
         "format:openapi",
         "category:naming"
       ],
-      "description": "tdp-tag-pascal-case"
+      "description": "Tag names cannot use Pascal Case. Please rename {{value}}. It requires the targeted value not to match `/[A-Z][a-z]+[A-Z][a-z]+$/g` (evaluated at `$.tags[*].name`, `$.paths[*][*].tags[*]`). Severity: warn."
     },
-    "trimble/tdp-tag-camel-case": {
-      "description": "Detects a tag with camelCase (personalItem) text within it",
+    "tdp-tag-camel-case": {
+      "description": "Detects a tag with camelCase (personalItem) text within it. It requires the targeted value not to match `/^[a-z]+[A-Z][a-z]+$/g` (evaluated at `$.tags[*].name`, `$.paths[*][*].tags[*]`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
       "message": "Tag names cannot use Camel Case. Please rename {{value}}.",
@@ -3150,7 +3121,7 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "trimble/tdp-tag-no-versions": {
+    "tdp-tag-no-versions": {
       "severity": "warn",
       "recommended": true,
       "message": "Tag names cannot have version information {{value}}. Consider versioning your API.",
@@ -3169,10 +3140,10 @@ export const ruleset = {
         "format:openapi",
         "category:versioning"
       ],
-      "description": "tdp-tag-no-versions"
+      "description": "Tag names cannot have version information {{value}}. Consider versioning your API. It requires the targeted value not to match `/(V|v)\\s?[0-9]+/g` (evaluated at `$.tags[*].name`, `$.paths[*][*].tags[*]`). Severity: warn."
     },
-    "trimble/tdp-minimum-spec-version": {
-      "description": "The spec version should be 3 or greater.",
+    "tdp-minimum-spec-version": {
+      "description": "The spec version should be 3 or greater. It requires the `string` field to be present and non-empty (evaluated at `$`). Severity: warn.",
       "severity": "warn",
       "formats": [
         "oas2"
@@ -3190,8 +3161,8 @@ export const ruleset = {
         "category:versioning"
       ]
     },
-    "trimble/tdp-operation-summary-description": {
-      "description": "Operation summaries and description should not match",
+    "tdp-operation-summary-description": {
+      "description": "Operation summaries and description should not match. It applies a custom validation to the targeted value (evaluated at `$.paths[*].[get,post,put,patch,delete]`). Severity: warn.",
       "message": "{{error}}",
       "severity": "warn",
       "formats": [
@@ -3209,8 +3180,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "trimble/tas-operation-delete-204-status-code": {
-      "description": "All DELETE methods MUST have a 204 response.",
+    "operation-delete-204-status-code": {
+      "description": "All DELETE methods MUST have a 204 response. It requires the `204` field to be present and non-empty (evaluated at `$.paths[*].delete.responses`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -3229,8 +3200,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "trimble/tdp-operation-post-201-202-status-code": {
-      "description": "All POST methods MUST have a 201 or 202 response.",
+    "tdp-operation-post-201-202-status-code": {
+      "description": "All POST methods MUST have a 201 or 202 response. It applies a custom validation to the targeted value (evaluated at `$.paths[*].post.responses`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -3248,8 +3219,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "trimble/tas-operation-400-response-body": {
-      "description": "All 400 responses must include a response body.",
+    "operation-400-response-body": {
+      "description": "All 400 responses must include a response body. It requires the `content` field to be present and non-empty (evaluated at `$.paths.*.*.responses['400']`). Severity: error.",
       "severity": "error",
       "recommended": true,
       "formats": [
@@ -3268,8 +3239,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "trimble/tas-check-content-type-for-206-get-response-code": {
-      "description": "Check if the get response code 206 has content-type and content-range.",
+    "check-content-type-for-206-get-response-code": {
+      "description": "Check if the get response code 206 has content-type and content-range. It applies a custom validation to the targeted value (evaluated at `$.paths.*.`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
       "given": "$.paths.*.",
@@ -3282,8 +3253,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "trimble/tas-standard-error-payload": {
-      "description": "All 4XX and 5XX response codes must follow Trimble API Standard.",
+    "standard-error-payload": {
+      "description": "All 4XX and 5XX response codes must follow Trimble API Standard. It applies a custom validation to the targeted value (evaluated at `$.paths.*.*.responses.`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*.*.responses.",
       "message": "{{error}}",
@@ -3296,8 +3267,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "trimble/tas-check-description-for-all-error-responses": {
-      "description": "Check if the response description is appropriate for all requests.",
+    "check-description-for-all-error-responses": {
+      "description": "Check if the response description is appropriate for all requests. It applies a custom validation to the targeted value (evaluated at `$.paths.*.*.responses.`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
       "given": "$.paths.*.*.responses.",
@@ -3310,8 +3281,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "trimble/tas-check-description-for-all-success-responses": {
-      "description": "Check if the response description is appropriate for all requests.",
+    "check-description-for-all-success-responses": {
+      "description": "Check if the response description is appropriate for all requests. It applies a custom validation to the targeted value (evaluated at `$.paths.*.`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
       "given": "$.paths.*.",
@@ -3324,8 +3295,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "trimble/tas-check-for-content-type-in-put-and-post-responses": {
-      "description": "All API responses MUST include the Content-Type header in all responses",
+    "check-for-content-type-in-put-and-post-responses": {
+      "description": "All API responses MUST include the Content-Type header in all responses. It applies a custom validation to the targeted value (evaluated at `$.paths[*].post.responses`, `$.paths[*].put.responses`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
       "given": [
@@ -3341,8 +3312,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "trimble/tdp-check-for-path-parameters-in-parameter-block": {
-      "description": "Check for the path parameter in the parameter block.",
+    "tdp-check-for-path-parameters-in-parameter-block": {
+      "description": "Check for the path parameter in the parameter block. It applies a custom validation to the targeted value (evaluated at `$.paths.`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
       "given": "$.paths.",
@@ -3355,8 +3326,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "trimble/tdp-check-for-response-in-every-request": {
-      "description": "Check if every request has their respective responses.",
+    "tdp-check-for-response-in-every-request": {
+      "description": "Check if every request has their respective responses. It applies a custom validation to the targeted value (evaluated at `$.paths.*`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
       "given": "$.paths.*",
@@ -3369,8 +3340,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "trimble/tas-delete-must-not-return-body": {
-      "description": "Check if the delete response does not have any body.",
+    "delete-must-not-return-body": {
+      "description": "Check if the delete response does not have any body. It applies a custom validation to the targeted value (evaluated at `$.paths.*.`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
       "given": "$.paths.*.",
@@ -3383,8 +3354,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "trimble/tdp-invalid-symbol-in-path": {
-      "description": "Check if the given endpoint has queryparameter.",
+    "tdp-invalid-symbol-in-path": {
+      "description": "Check if the given endpoint has queryparameter. It applies a custom validation to the `@key` field (evaluated at `$.paths.`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
       "given": "$.paths.",
@@ -3398,8 +3369,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-no-http-basic": {
-      "description": "Consider a more secure alternative to HTTP Basic.",
+    "no-http-basic": {
+      "description": "Consider a more secure alternative to HTTP Basic. It requires the `scheme` field not to match `basic` (evaluated at `$.components.securitySchemes[*]`). Severity: error.",
       "message": "HTTP Basic is an insecure way to pass credentials around, use an alternative.",
       "severity": "error",
       "given": "$.components.securitySchemes[*]",
@@ -3416,8 +3387,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "sps-commerce/sps-no-collection-paging-capability": {
-      "description": "Response bodies from collection endpoints SHOULD offer paging capability.",
+    "no-collection-paging-capability": {
+      "description": "Response bodies from collection endpoints SHOULD offer paging capability. It requires the `paging` field to be present and non-empty, and requires the `paging` field to match the pattern `object`, and requires the `paging.type` field to match the pattern `object` (evaluated at `$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}.*$/))].get.responses['200'].content.application/json.schema.properties`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}.*$/))].get.responses['200'].content.application/json.schema.properties",
       "then": [
@@ -3446,8 +3417,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "sps-commerce/sps-collection-missing-results-array": {
-      "description": "Response bodies must have a root element called results and is an array of objects.",
+    "collection-missing-results-array": {
+      "description": "Response bodies must have a root element called results and is an array of objects. It requires the `type` field to match the pattern `array`, and requires the `items.type` field to match the pattern `object` (evaluated at `$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}$/))].get.responses['200'].content.application/json.schema.properties.results`). Severity: error.",
       "severity": "error",
       "given": "$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}$/))].get.responses['200'].content.application/json.schema.properties.results",
       "then": [
@@ -3472,8 +3443,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "sps-commerce/sps-missing-pagination-query-parameters": {
-      "description": "Collection GET endpoints SHOULD support pagination using query parameters. Offset or cursor based pagination is required.",
+    "missing-pagination-query-parameters": {
+      "description": "Collection GET endpoints SHOULD support pagination using query parameters. Offset or cursor based pagination is required. It validates the `parameters` field against a JSON Schema (evaluated at `$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}\\/*.*/))].get`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}\\/*.*/))].get",
       "then": [
@@ -3539,8 +3510,8 @@ export const ruleset = {
         "category:pagination"
       ]
     },
-    "sps-commerce/sps-post-request-body-missing-paging-object": {
-      "description": "POST collection endpoints MUST have a request body schema that includes paging parameters.",
+    "post-request-body-missing-paging-object": {
+      "description": "POST collection endpoints MUST have a request body schema that includes paging parameters. It requires the `type` field to match the pattern `object` (evaluated at `$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}$/))].post.requestBody.content.application/json.schema.properties.paging`). Severity: error.",
       "severity": "error",
       "given": "$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}$/))].post.requestBody.content.application/json.schema.properties.paging",
       "then": {
@@ -3556,8 +3527,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-disallow-resource-identifier-filtering": {
-      "description": "Resource identifier filtering is not allowed as a query parameter. Use the resource identifier in the URL path.",
+    "disallow-resource-identifier-filtering": {
+      "description": "Resource identifier filtering is not allowed as a query parameter. Use the resource identifier in the URL path. It requires the `name` field not to match `^id$` (evaluated at `$.paths..get.parameters.[?(@.in=='query' && @.name=='id')]`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths..get.parameters.[?(@.in=='query' && @.name=='id')]",
       "then": {
@@ -3573,8 +3544,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-filtering-only-get-requests": {
-      "description": "Only GET-based endpoints SHOULD have have the query parameter 'filter'.",
+    "filtering-only-get-requests": {
+      "description": "Only GET-based endpoints SHOULD have have the query parameter 'filter'. It requires the targeted value to be absent or empty (evaluated at `$.paths.*[?(@property!='get')].parameters.[?(@.in=='query' && @.name=='filter')].name`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*[?(@property!='get')].parameters.[?(@.in=='query' && @.name=='filter')].name",
       "then": {
@@ -3586,8 +3557,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-hybird-filtering-exists-with-root-filter": {
-      "description": "Hybrid filtering MAY be offered on multiple attributes, but MUST never exist if a root \"filter\" query parameter is present.",
+    "hybird-filtering-exists-with-root-filter": {
+      "description": "Hybrid filtering MAY be offered on multiple attributes, but MUST never exist if a root \"filter\" query parameter is present. It validates the targeted value against a JSON Schema (evaluated at `$.paths..get.parameters^`). Severity: error.",
       "severity": "error",
       "given": "$.paths..get.parameters^",
       "then": {
@@ -3657,8 +3628,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "sps-commerce/sps-sorting-parameters-only-get-requests": {
-      "description": "Non-GET endpoints MUST NOT have sorting query parameters. Parameter names such as sort, sorting, orderBy, etc.",
+    "sorting-parameters-only-get-requests": {
+      "description": "Non-GET endpoints MUST NOT have sorting query parameters. Parameter names such as sort, sorting, orderBy, etc. It requires the `name` field not to match `^sort|sorting|sortBy|order|ordering|orderBy$` (evaluated at `$.paths.*[?(@property!='get')].parameters.[?(@.in=='query')]`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*[?(@property!='get')].parameters.[?(@.in=='query')]",
       "then": {
@@ -3674,8 +3645,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-unknown-error-format": {
-      "description": "Every error response SHOULD support RFC 7807.",
+    "unknown-error-format": {
+      "description": "Every error response SHOULD support RFC 7807. It requires the targeted value to be one of [\"application/problem+xml\",\"application/problem+json\"] (evaluated at `$.paths...responses[?(@property.match(/^(4|5)/))].content.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths...responses[?(@property.match(/^(4|5)/))].content.*~",
       "then": {
@@ -3693,8 +3664,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "sps-commerce/sps-no-keyword-conflicts": {
-      "description": "Names that may conflict with keywords in common programming languages SHOULD NOT be used.",
+    "no-keyword-conflicts": {
+      "description": "Names that may conflict with keywords in common programming languages SHOULD NOT be used. It requires the targeted value not to match `^(abstract|for|new|switch|assert|default|goto|package|synchronized|boolean|do|if|private|this|break|double|implements|throw|byte|else|import|public|throws|case|enum|instanceof|return|transient|catch|extends|int|short|try|char|final|interface|static|void|class|finally|long|volatile|const|float|native|super|while)$` (evaluated at `$..properties.*~`). Severity: warn.",
       "severity": "warn",
       "given": "$..properties.*~",
       "then": {
@@ -3709,8 +3680,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-camel-case-properties": {
-      "description": "Property names and acronyms MUST be in camelCase.",
+    "camel-case-properties": {
+      "description": "Property names and acronyms MUST be in camelCase. It requires the targeted value to match the pattern `^[a-z][a-z0-9]*(([A-Z]{2}|[A-Z])[a-z0-9]+)*$` (evaluated at `$..properties.*~`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -3728,8 +3699,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-disallowed-prepositions": {
-      "description": "Property names SHOULD NOT include prepositions (e.g. \"for\", \"during\", \"at\", etc.)",
+    "disallowed-prepositions": {
+      "description": "Property names SHOULD NOT include prepositions (e.g. \"for\", \"during\", \"at\", etc.). It requires the targeted value not to match `(^(about|above|across|after|against|among|around|at|before|behind|below|beside|between|down|during|for|from|in|inside|into|near|of|off|on|out|over|through|to|toward|under|up|with|as|but|like|since|than|till|unlike|until|upon|within|without)([A-Z]|$)|.*(About|Above|Across|After|Against|Among|Around|At|Before|Behind|Below|Beside|Between|Down|During|For|From|In|Inside|Into|Near|Of|Off|On|Out|Over|Through|To|Toward|Under|Up|With|As|But|Like|Since|Than|Till|Unlike|Until|Upon|Within|Without)([A-Z]|$)).*` (evaluated at `$..properties.*~`). Severity: warn.",
       "severity": "warn",
       "formats": [
         "oas3"
@@ -3747,8 +3718,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-disallowed-boolean-prefixes": {
-      "description": "Boolean properties SHOULD NOT use is, has, or another prefix.",
+    "disallowed-boolean-prefixes": {
+      "description": "Boolean properties SHOULD NOT use is, has, or another prefix. It requires the targeted value not to match `^(is|has|was|will|needs|uses|should|can)([A-Z]|$).*` (evaluated at `$..properties[?(@ && @.type == 'boolean')]~`). Severity: warn.",
       "severity": "warn",
       "formats": [
         "oas3"
@@ -3766,8 +3737,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-ref-property-name": {
-      "description": "Property with the name 'ref' MUST use a format 'sps-ref'.",
+    "ref-property-name": {
+      "description": "Property with the name 'ref' MUST use a format 'sps-ref'. It requires the `format` field to be present and non-empty, and requires the `format` field to match the pattern `^sps-ref$` (evaluated at `$..properties..[?((@property=== \"ref\" || @property === \"Ref\") && @.$ref == null && @.allOf == null && @.oneOf == null && @.type != null)]`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -3793,8 +3764,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-ref-schema": {
-      "description": "Properties following 'sps-ref' format MUST use the standardized schema - maxLength (255), minLength(7), pattern (includes 'sps'), type (string).",
+    "ref-schema": {
+      "description": "Properties following 'sps-ref' format MUST use the standardized schema - maxLength (255), minLength(7), pattern (includes 'sps'), type (string). It validates the targeted value against a JSON Schema, and requires the `pattern` field to match the pattern `sps`, and requires the `type` field to match the pattern `^string$` (evaluated at `$..[?(@property=== \"format\" && @ == \"sps-ref\")]^`). Severity: error.",
       "message": "{{property}} is not provided or not following required schema values.",
       "severity": "error",
       "formats": [
@@ -3855,8 +3826,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-id-type": {
-      "description": "id SHOULD use a data type of 'string'.",
+    "invalid-id-type": {
+      "description": "id SHOULD use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"id\")].type`). Severity: warn.",
       "severity": "warn",
       "formats": [
         "oas3"
@@ -3874,8 +3845,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-mandate-abbreviations-identifier": {
-      "description": "Use abbreviations instead of long form names, i.e. identifier SHOULD BE id.",
+    "mandate-abbreviations-identifier": {
+      "description": "Use abbreviations instead of long form names, i.e. identifier SHOULD BE id. It requires the targeted value not to match `^identifier$` (evaluated at `$..properties.*~`). Severity: warn.",
       "severity": "warn",
       "formats": [
         "oas3"
@@ -3893,8 +3864,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-mandate-abbreviations-organization": {
-      "description": "Use abbreviations instead of long form names, i.e. organization SHOULD BE org.",
+    "mandate-abbreviations-organization": {
+      "description": "Use abbreviations instead of long form names, i.e. organization SHOULD BE org. It requires the targeted value not to match `(^organization([A-Z]|$)|Organization([A-Z]|$))` (evaluated at `$..properties.*~`). Severity: warn.",
       "severity": "warn",
       "formats": [
         "oas3"
@@ -3912,8 +3883,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-ref-type": {
-      "description": "ref MUST use a data type of 'string'.",
+    "invalid-ref-type": {
+      "description": "ref MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"ref\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -3931,8 +3902,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-orgid-type": {
-      "description": "orgId MUST use a data type of 'string'.",
+    "invalid-orgid-type": {
+      "description": "orgId MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"orgId\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -3950,8 +3921,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-name-type": {
-      "description": "name MUST use a data type of 'string'.",
+    "invalid-name-type": {
+      "description": "name MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"name\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -3969,8 +3940,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-description-type": {
-      "description": "description MUST use a data type of 'string'.",
+    "invalid-description-type": {
+      "description": "description MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"description\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -3988,8 +3959,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-request-id-type": {
-      "description": "requestId MUST use a data type of 'string'.",
+    "invalid-request-id-type": {
+      "description": "requestId MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"requestId\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -4007,8 +3978,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-created-date-time-type": {
-      "description": "createdDateTime MUST use a data type of 'string' with the format 'date-time'.",
+    "invalid-created-date-time-type": {
+      "description": "createdDateTime MUST use a data type of 'string' with the format 'date-time'. It requires the `type` field to match the pattern `^string$`, and requires the `format` field to be present and non-empty, and requires the `format` field to match the pattern `^date-time$` (evaluated at `$..properties.createdDateTime`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -4040,8 +4011,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-created-by-type": {
-      "description": "createdBy MUST use a data type of 'string'.",
+    "invalid-created-by-type": {
+      "description": "createdBy MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"createdBy\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -4059,8 +4030,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-modified-date-time-type": {
-      "description": "modifiedDateTime MUST use a data type of 'string' with the format 'date-time'.",
+    "invalid-modified-date-time-type": {
+      "description": "modifiedDateTime MUST use a data type of 'string' with the format 'date-time'. It requires the `type` field to match the pattern `^string$`, and requires the `format` field to be present and non-empty, and requires the `format` field to match the pattern `^date-time$` (evaluated at `$..properties.modifiedDateTime`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -4092,8 +4063,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-modified-by-type": {
-      "description": "modifiedBy MUST use a data type of 'string'.",
+    "invalid-modified-by-type": {
+      "description": "modifiedBy MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"modifiedBy\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -4111,8 +4082,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-deleted-by-type": {
-      "description": "deletedBy MUST use a data type of 'string'.",
+    "invalid-deleted-by-type": {
+      "description": "deletedBy MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"deletedBy\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -4130,8 +4101,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-fingerprint-type": {
-      "description": "Fingerprint values MUST use a data type of `string`.",
+    "invalid-fingerprint-type": {
+      "description": "Fingerprint values MUST use a data type of `string`. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"fingerprint\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
         "oas3"
@@ -4149,8 +4120,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-fingerprint-naming": {
-      "description": "Rather than property names refering to the implementation for 'hash' or 'hashkey', you MUST use the property name 'fingerprint'.",
+    "fingerprint-naming": {
+      "description": "Rather than property names refering to the implementation for 'hash' or 'hashkey', you MUST use the property name 'fingerprint'. It requires the targeted value not to match `^hashkey|hashKey|hash$` (evaluated at `$.components.schemas..properties.*~`). Severity: error.",
       "message": "{{property}} is not using property name fingerprint.",
       "severity": "error",
       "formats": [
@@ -4169,8 +4140,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-invalid-response-body": {
-      "description": "Response bodies must be an object type.",
+    "invalid-response-body": {
+      "description": "Response bodies must be an object type. It requires the targeted value to match the pattern `object` (evaluated at `$.paths[*][*].responses[*].content.application/json.schema.type`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[*].content.application/json.schema.type",
       "then": {
@@ -4185,8 +4156,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-status-code": {
-      "description": "An API MUST return HTTP response codes in conformance with RFC-2616 and common usage.",
+    "invalid-status-code": {
+      "description": "An API MUST return HTTP response codes in conformance with RFC-2616 and common usage. It requires the targeted value to be one of [\"200\",\"201\",\"202\",\"204\",\"400\",\"401\",\"403\",\"404\",\"405\",\"406\",\"409\",\"412\",\"415\",\"428\",\"429\",\"500\"] (evaluated at `$.paths...responses.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths...responses.*~",
       "then": {
@@ -4218,8 +4189,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-missing-500-response": {
-      "description": "Every endpoint SHOULD have a 500 response",
+    "missing-500-response": {
+      "description": "Every endpoint SHOULD have a 500 response. It requires the `responses.500` field to be present and non-empty (evaluated at `$.paths[*][*]`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*][*]",
       "then": {
@@ -4232,27 +4203,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-headers-hyphenated-pascal-case": {
-      "description": "All `HTTP` headers MUST use `Hyphenated-Pascal-Case` notation",
-      "severity": "error",
-      "given": "$..parameters[?(@.in == 'header')].name",
-      "type": "style",
-      "then": {
-        "function": "pattern",
-        "functionOptions": {
-          "match": "/^([A-Z][a-z0-9]-)*([A-Z][a-z0-9])+/"
-        }
-      },
-      "tags": [
-        "source:sps-commerce",
-        "format:openapi",
-        "category:structure",
-        "duplicate:true",
-        "dup-of:adidas/adidas-headers-hyphenated-pascal-case"
-      ]
-    },
-    "sps-commerce/sps-no-x-headers": {
-      "description": "Do not use headers with X-",
+    "no-x-headers": {
+      "description": "Do not use headers with X-. It requires the targeted value not to match `^(x|X)-` (evaluated at `$..parameters.[?(@.in === 'header')].name`). Severity: warn.",
       "severity": "warn",
       "message": "Headers cannot start with X-. More: https://tools.ietf.org/html/rfc6648",
       "given": "$..parameters.[?(@.in === 'header')].name",
@@ -4268,8 +4220,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-no-x-response-headers": {
-      "description": "Do not use headers with X-",
+    "no-x-response-headers": {
+      "description": "Do not use headers with X-. It requires the targeted value not to match `^(x|X)-` (evaluated at `$..headers.*~`). Severity: warn.",
       "severity": "warn",
       "message": "Headers cannot start with X-, so please find a new name for {{property}}. More: https://tools.ietf.org/html/rfc6648",
       "given": "$..headers.*~",
@@ -4285,8 +4237,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-location-header": {
-      "description": "Location header MUST NOT be present in non-201 responses",
+    "invalid-location-header": {
+      "description": "Location header MUST NOT be present in non-201 responses. It requires the `Location` field to be absent or empty (evaluated at `$.paths[*][*].responses[?(@property !== '201')].headers`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[?(@property !== '201')].headers",
       "then": {
@@ -4299,8 +4251,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-authorization-missing": {
-      "description": "Security field MUST be present at the root of the spec with at least one item (ie. HTTPBearer, Token, APIKey, etc.)",
+    "authorization-missing": {
+      "description": "Security field MUST be present at the root of the spec with at least one item (ie. HTTPBearer, Token, APIKey, etc.). It validates the `security` field against a JSON Schema (evaluated at `$`). Severity: error.",
       "severity": "error",
       "given": "$",
       "then": {
@@ -4319,8 +4271,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-default-content-language": {
-      "description": "Content-Language is optional but MUST default locale to en-US when none provided",
+    "default-content-language": {
+      "description": "Content-Language is optional but MUST default locale to en-US when none provided. It requires the targeted value to match the pattern `en-US` (evaluated at `$.paths[*][*].responses[*].headers.Content-Language.schema.default`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[*].headers.Content-Language.schema.default",
       "then": {
@@ -4335,8 +4287,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-no-explicit-headers": {
-      "description": "Access-Control-*, Content-Type, and Accept Headers SHOULD NOT be specified explicitly in a spec as it an operational concern.",
+    "no-explicit-headers": {
+      "description": "Access-Control-*, Content-Type, and Accept Headers SHOULD NOT be specified explicitly in a spec as it an operational concern. It requires the targeted value not to match `^(Access-Control-.*|Content-Type|Accept)$` (evaluated at `$.paths[*][*].responses[*].headers`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*][*].responses[*].headers",
       "then": {
@@ -4351,8 +4303,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-custom-header-format": {
-      "description": "Custom headers MUST NOT be longer than 50 chars, and MUST only contain alphanumeric and dash chars, and MUST begin with Sps- not X-",
+    "invalid-custom-header-format": {
+      "description": "Custom headers MUST NOT be longer than 50 chars, and MUST only contain alphanumeric and dash chars, and MUST begin with Sps- not X-. It requires the targeted value to match the pattern `^(Sps-[a-zA-Z0-9-]{1,50}|Accept|Access-Control.*|Authorization|Cache-Control|Content-Disposition|Content-Language|Content-Length|Content-Type|Date|ETag|Host|If-Match|If-None-Match|Location|Origin|User-Agent)$` (evaluated at `$.paths[*][*].responses[*].headers.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[*].headers.*~",
       "then": {
@@ -4367,8 +4319,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-sensitive-data-in-headers": {
-      "description": "Headers MUST NOT contain sensitive data.",
+    "sensitive-data-in-headers": {
+      "description": "Headers MUST NOT contain sensitive data. It requires the targeted value not to match `^(SPS-Token|SPS-Password|SPS-Identity|Password)$` (evaluated at `$.paths[*][*].responses[*].headers.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[*].headers.*~",
       "then": {
@@ -4383,8 +4335,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-no-resource-extensions": {
-      "description": "Request and Response media type formats MUST NOT be implied using extensions on resources (i.e. .json or .xml). Instead, use the standard resource path with the appropriate Content-Type header",
+    "no-resource-extensions": {
+      "description": "Request and Response media type formats MUST NOT be implied using extensions on resources (i.e. .json or .xml). Instead, use the standard resource path with the appropriate Content-Type header. It requires the targeted value not to match `\\.json|\\.xml|\\.yml|\\.yaml` (evaluated at `$.paths.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*~",
       "then": {
@@ -4399,8 +4351,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-mime-type": {
-      "description": "MIME types MUST be standard (application/json, application/problem+json, application/problem+xml) or use custom format application/vnd.*",
+    "invalid-mime-type": {
+      "description": "MIME types MUST be standard (application/json, application/problem+json, application/problem+xml) or use custom format application/vnd.*. It requires the targeted value to match the pattern `^application/(json|problem\\+json|problem\\+xml|vnd\\..*)$` (evaluated at `$.paths[*][*].responses[*].content.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[*].content.*~",
       "then": {
@@ -4415,8 +4367,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-http-method": {
-      "description": "Operations MUST use only the common HTTP methods as outlined in the standards guide, and must be in lower-case",
+    "invalid-http-method": {
+      "description": "Operations MUST use only the common HTTP methods as outlined in the standards guide, and must be in lower-case. It requires the `method` field to be one of [\"get\",\"post\",\"put\",\"patch\",\"delete\",\"head\",\"options\"] (evaluated at `$.paths[*].*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*].*~",
       "then": {
@@ -4440,8 +4392,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-request-get-invalid-body": {
-      "description": "A `GET` request MUST NOT accept a request body",
+    "request-get-invalid-body": {
+      "description": "A `GET` request MUST NOT accept a request body. It requires the targeted value to be undefined (evaluated at `$.paths[*][get].requestBody`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][get].requestBody",
       "then": {
@@ -4453,8 +4405,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-response-get-missing-body": {
-      "description": "A `GET` operation must return a response body",
+    "response-get-missing-body": {
+      "description": "A `GET` operation must return a response body. It requires the `content` field to be present and non-empty (evaluated at `$.paths[*].get.responses[*]`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*].get.responses[*]",
       "then": {
@@ -4467,8 +4419,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-get-response-code": {
-      "description": "GET operations should not use status codes 201, 202, 204, 409, 412",
+    "invalid-get-response-code": {
+      "description": "GET operations should not use status codes 201, 202, 204, 409, 412. It requires the `@key` field not to match `^(201|202|204|409|412)$` (evaluated at `$.paths[*].get.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].get.responses",
       "then": {
@@ -4484,8 +4436,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-response-get-missing-success-code": {
-      "description": "GET operations must always return 200 status code",
+    "response-get-missing-success-code": {
+      "description": "GET operations must always return 200 status code. It requires the `200` field to be present and non-empty (evaluated at `$.paths[*].get.responses`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*].get.responses",
       "then": [
@@ -4500,8 +4452,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-post-response-code": {
-      "description": "POST operations should not return 412 status codes",
+    "invalid-post-response-code": {
+      "description": "POST operations should not return 412 status codes. It requires the `@key` field not to match `412` (evaluated at `$.paths[*].post.responses`). Severity: warn.",
       "given": "$.paths[*].post.responses",
       "severity": "warn",
       "then": {
@@ -4517,8 +4469,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-put-response-code": {
-      "description": "PUT operations should not return 200 or 201 status codes",
+    "invalid-put-response-code": {
+      "description": "PUT operations should not return 200 or 201 status codes. It requires the `@key` field not to match `^(200|201)$` (evaluated at `$.paths[*].put.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].put.responses",
       "then": {
@@ -4534,8 +4486,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-delete-response-code": {
-      "description": "DELETE operations should not return 200 or 201 status codes",
+    "invalid-delete-response-code": {
+      "description": "DELETE operations should not return 200 or 201 status codes. It requires the `@key` field not to match `^(200|201)$` (evaluated at `$.paths[*].delete.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].delete.responses",
       "then": {
@@ -4551,8 +4503,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-request-delete-invalid-body": {
-      "description": "DELETE operations must not accept a request body",
+    "request-delete-invalid-body": {
+      "description": "DELETE operations must not accept a request body. It requires the targeted value to be undefined (evaluated at `$.paths[*].delete.requestBody`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*].delete.requestBody",
       "then": {
@@ -4564,8 +4516,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-response-delete-invalid-body": {
-      "description": "DELETE operations must not have a response body",
+    "response-delete-invalid-body": {
+      "description": "DELETE operations must not have a response body. It requires the targeted value to be absent or empty (evaluated at `$.paths.*.delete.responses[202,204].content`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*.delete.responses[202,204].content",
       "then": {
@@ -4577,8 +4529,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-patch-response-code": {
-      "description": "PATCH operations should not return 201 status code",
+    "invalid-patch-response-code": {
+      "description": "PATCH operations should not return 201 status code. It requires the `@key` field not to match `^201$` (evaluated at `$.paths[*].patch.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].patch.responses",
       "then": {
@@ -4594,8 +4546,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-request-patch-missing-body": {
-      "description": "PATCH operations must have a request body",
+    "request-patch-missing-body": {
+      "description": "PATCH operations must have a request body. It validates the `requestBody` field against a JSON Schema (evaluated at `$.paths[*].patch`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*].patch",
       "then": {
@@ -4613,8 +4565,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-head-response-code": {
-      "description": "HEAD operations should not return 201, 202, 204, 409, 412 status codes",
+    "invalid-head-response-code": {
+      "description": "HEAD operations should not return 201, 202, 204, 409, 412 status codes. It requires the `@key` field not to match `^(201|202|204|409|412)$` (evaluated at `$.paths[*].head.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].head.responses",
       "then": {
@@ -4630,8 +4582,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-request-head-invalid-body": {
-      "description": "A `HEAD` request MUST NOT accept a request body",
+    "request-head-invalid-body": {
+      "description": "A `HEAD` request MUST NOT accept a request body. It requires the targeted value to be undefined (evaluated at `$.paths[*][head].requestBody`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][head].requestBody",
       "then": {
@@ -4643,8 +4595,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-response-head-invalid-body": {
-      "description": "HEAD operations should not return a response body for success",
+    "response-head-invalid-body": {
+      "description": "HEAD operations should not return a response body for success. It requires the targeted value to be absent or empty (evaluated at `$.paths.*.head.responses[200].content`). Severity: error.",
       "given": "$.paths.*.head.responses[200].content",
       "severity": "error",
       "then": {
@@ -4656,8 +4608,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-invalid-options-response-code": {
-      "description": "OPTIONS operations should not return 201, 202, 409, 412 status codes",
+    "invalid-options-response-code": {
+      "description": "OPTIONS operations should not return 201, 202, 409, 412 status codes. It requires the `@key` field not to match `^(201|202|409|412)$` (evaluated at `$.paths[*].options.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].options.responses",
       "then": {
@@ -4673,8 +4625,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-request-options-invalid-body": {
-      "description": "An `OPTIONS` request MUST NOT accept a request body",
+    "request-options-invalid-body": {
+      "description": "An `OPTIONS` request MUST NOT accept a request body. It requires the targeted value to be undefined (evaluated at `$.paths[*][options].requestBody`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][options].requestBody",
       "then": {
@@ -4686,8 +4638,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-response-options-invalid-body": {
-      "description": "OPTIONS operations should not return a response body for success",
+    "response-options-invalid-body": {
+      "description": "OPTIONS operations should not return a response body for success. It requires the targeted value to be absent or empty (evaluated at `$.paths.*.options.responses[200, 204].content`). Severity: error.",
       "given": "$.paths.*.options.responses[200, 204].content",
       "severity": "error",
       "then": {
@@ -4699,8 +4651,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-request-support-json": {
-      "description": "Every request MUST support `application/json` media type",
+    "request-support-json": {
+      "description": "Every request MUST support `application/json` media type. It validates the targeted value against a JSON Schema (evaluated at `$.paths[*][*].requestBody.content`). Severity: error.",
       "formats": [
         "oas3"
       ],
@@ -4726,8 +4678,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "sps-commerce/sps-no-numeric-ids": {
-      "description": "Avoid exposing IDs as an integer, UUIDs or other interoperable strings are preferred.",
+    "no-numeric-ids": {
+      "description": "Avoid exposing IDs as an integer, UUIDs or other interoperable strings are preferred. It validates the targeted value against a JSON Schema (evaluated at `$.paths..parameters[*].[?(@property === \"name\" && (@ === \"id\" || @ === \"ID\" || @ === \"Id\"))]^.schema`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths..parameters[*].[?(@property === \"name\" && (@ === \"id\" || @ === \"ID\" || @ === \"Id\"))]^.schema",
       "then": {
@@ -4756,7 +4708,7 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "sps-commerce/sps-semver": {
+    "semver": {
       "severity": "warn",
       "message": "Version should use semantic versioning. {{value}} is not a valid version.",
       "given": "$.info.version",
@@ -4771,11 +4723,11 @@ export const ruleset = {
         "format:openapi",
         "category:general"
       ],
-      "description": "sps-semver"
+      "description": "Version should use semantic versioning. {{value}} is not a valid version. It requires the targeted value to match the pattern `^([0-9]+.[0-9]+.[0-9]+)$` (evaluated at `$.info.version`). Severity: warn."
     },
-    "sps-commerce/sps-schema-names-pascal-case": {
+    "schema-names-pascal-case": {
       "severity": "warn",
-      "description": "Schema names SHOULD be written in PascalCase",
+      "description": "Schema names SHOULD be written in PascalCase. It requires the targeted value to match the pattern `^[A-Z][a-zA-Z0-9]*$` (evaluated at `$.components.schemas.*~`). Severity: warn.",
       "message": "{{property}} is not PascalCase: {{error}}",
       "recommended": true,
       "type": "style",
@@ -4792,9 +4744,9 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-response-names-pascal-case": {
+    "response-names-pascal-case": {
       "severity": "warn",
-      "description": "Response names SHOULD be written in PascalCase",
+      "description": "Response names SHOULD be written in PascalCase. It requires the targeted value to match the pattern `^[A-Z][a-zA-Z0-9]*$` (evaluated at `$.components.responses.*~`). Severity: warn.",
       "message": "{{property}} is not PascalCase: {{error}}",
       "recommended": true,
       "type": "style",
@@ -4811,7 +4763,7 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "sps-commerce/sps-limit-path-size": {
+    "limit-path-size": {
       "message": "APIs SHOULD NOT expand their total URL length beyond a few hundred characters.",
       "severity": "warn",
       "given": "$.paths.*~",
@@ -4826,9 +4778,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-limit-path-size"
+      "description": "APIs SHOULD NOT expand their total URL length beyond a few hundred characters. It constrains the length of the targeted value and at most 100 (evaluated at `$.paths.*~`). Severity: warn."
     },
-    "sps-commerce/sps-hosts-https-only": {
+    "hosts-https-only": {
       "message": "Servers MUST be https and no other protocol is allowed unless using localhost.",
       "formats": [
         "oas3"
@@ -4846,9 +4798,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-hosts-https-only"
+      "description": "Servers MUST be https and no other protocol is allowed unless using localhost. It requires the targeted value to match the pattern `^(https:|http://localhost)` (evaluated at `$.servers..url`). Severity: error."
     },
-    "sps-commerce/sps-hosts-lowercase": {
+    "hosts-lowercase": {
       "message": "Server URL SHOULD BE lowercase.",
       "formats": [
         "oas3"
@@ -4866,9 +4818,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-hosts-lowercase"
+      "description": "Server URL SHOULD BE lowercase. It requires the targeted value to match the pattern `^[^A-Z]*$` (evaluated at `$.servers..url`). Severity: warn."
     },
-    "sps-commerce/sps-hosts-spscommerce-domain": {
+    "hosts-domain": {
       "message": "APIs SHOULD be accessible under api.spscommerce.com.",
       "formats": [
         "oas3"
@@ -4886,9 +4838,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-hosts-spscommerce-domain"
+      "description": "APIs SHOULD be accessible under api.spscommerce.com. It requires the targeted value to match the pattern `api.spscommerce.com|api.sps-internal.com|localhost` (evaluated at `$.servers..url`). Severity: warn."
     },
-    "sps-commerce/sps-path-no-environment": {
+    "path-no-environment": {
       "message": "API paths MUST NOT indicate environment names.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -4903,9 +4855,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-path-no-environment"
+      "description": "API paths MUST NOT indicate environment names. It requires the targeted value not to match `/prod/|/preprod/|/dev/|/test/|/integration/|/stage/` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "sps-commerce/sps-hosts-no-port": {
+    "hosts-no-port": {
       "message": "Port MUST NOT be specified or required to use the API, except for 'localhost' testing in a spec.",
       "formats": [
         "oas3"
@@ -4923,9 +4875,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-hosts-no-port"
+      "description": "Port MUST NOT be specified or required to use the API, except for 'localhost' testing in a spec. It requires the targeted value not to match `(?!https?://localhost)(https?://.*):(\\d*)\\/?(.*)` (evaluated at `$.servers..url`). Severity: error."
     },
-    "sps-commerce/sps-paths-expose-technology": {
+    "paths-expose-technology": {
       "message": "A resource MUST NOT leak or expose format or technology-specific information at any point in the path.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -4940,9 +4892,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-paths-expose-technology"
+      "description": "A resource MUST NOT leak or expose format or technology-specific information at any point in the path. It requires the targeted value not to match `(.php|.asp|.jsp|.cgi|.psp|.json|.xml)` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "sps-commerce/sps-paths-expose-extension": {
+    "paths-expose-extension": {
       "message": "A resource SHOULD NOT make use of an extension at any point in the path.",
       "severity": "warn",
       "given": "$.paths.*~",
@@ -4957,9 +4909,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-paths-expose-extension"
+      "description": "A resource SHOULD NOT make use of an extension at any point in the path. It requires the targeted value not to match `\\.` (evaluated at `$.paths.*~`). Severity: warn."
     },
-    "sps-commerce/sps-paths-kebab-case": {
+    "paths-kebab-case-3": {
       "message": "A resource containing multiple words MUST be separated using kebab-case (lower case and separated with hyphens).",
       "severity": "error",
       "given": "$.paths[?(/^((?!_webhooks).)*$/i.test(@property))]~",
@@ -4974,9 +4926,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-paths-kebab-case"
+      "description": "A resource containing multiple words MUST be separated using kebab-case (lower case and separated with hyphens). It requires the targeted value not to match `(\\/[a-z]+_.)|(\\/([a-z]|[A-Z])+[A-Z])` (evaluated at `$.paths[?(/^((?!_webhooks).)*$/i.test(@property))]~`). Severity: error."
     },
-    "sps-commerce/sps-paths-trailing-slash": {
+    "paths-trailing-slash": {
       "message": "A resource MUST be addressable without a trailing slash on the path.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -4991,9 +4943,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-paths-trailing-slash"
+      "description": "A resource MUST be addressable without a trailing slash on the path. It requires the targeted value not to match `/$` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "sps-commerce/sps-paths-with-api": {
+    "paths-with-api": {
       "message": "A resource SHOULD NOT contain 'api' as a prefix in or a part of the path.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -5008,9 +4960,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-paths-with-api"
+      "description": "A resource SHOULD NOT contain 'api' as a prefix in or a part of the path. It requires the targeted value not to match `/api|/api/|-api/` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "sps-commerce/sps-paths-empty-segments": {
+    "paths-empty-segments": {
       "message": "A resource MUST use normalized paths without empty path segments.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -5025,9 +4977,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-paths-empty-segments"
+      "description": "A resource MUST use normalized paths without empty path segments. It requires the targeted value not to match `//` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "sps-commerce/sps-paths-limit-path-parameters": {
+    "paths-limit-path-parameters": {
       "message": "The URL path should not contain more than 3 dynamic path parameters.",
       "severity": "warn",
       "given": "$.paths.*~",
@@ -5042,9 +4994,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-paths-limit-path-parameters"
+      "description": "The URL path should not contain more than 3 dynamic path parameters. It requires the targeted value not to match `^(.*{{1}.*){4,}` (evaluated at `$.paths.*~`). Severity: warn."
     },
-    "sps-commerce/sps-paths-limit-sub-resources": {
+    "paths-limit-sub-resources": {
       "message": "The hierarchy of nested resources SHOULD NOT contain more than 8 resource names in the path.",
       "severity": "warn",
       "given": "$.paths.*~",
@@ -5059,9 +5011,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-paths-limit-sub-resources"
+      "description": "The hierarchy of nested resources SHOULD NOT contain more than 8 resource names in the path. It requires the targeted value not to match `^([^/]*/){9,}` (evaluated at `$.paths.*~`). Severity: warn."
     },
-    "sps-commerce/sps-paths-with-http-methods": {
+    "paths-with-http-methods": {
       "message": "A resource SHOULD NOT contain HTTP methods.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -5076,9 +5028,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-paths-with-http-methods"
+      "description": "A resource SHOULD NOT contain HTTP methods. It requires the targeted value not to match `(\\/get|\\/post|\\/put|\\/delete|\\/patch)` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "sps-commerce/sps-paths-params-camel-case": {
+    "paths-params-camel-case": {
       "message": "Path parameter keys MUST use camelCase.",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@.in=='path')].name",
@@ -5094,9 +5046,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-paths-params-camel-case"
+      "description": "Path parameter keys MUST use camelCase. It requires camel casing on the targeted value (evaluated at `$.paths.*.*.parameters[?(@.in=='path')].name`). Severity: error."
     },
-    "sps-commerce/sps-query-params-characters": {
+    "query-params-characters": {
       "message": "Query parameter keys MUST include only alpha-numeric characters and periods: [Aa0-Zz9]'.",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@.in=='query')].name",
@@ -5111,9 +5063,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-query-params-characters"
+      "description": "Query parameter keys MUST include only alpha-numeric characters and periods: [Aa0-Zz9]'. It requires the targeted value to match the pattern `^[A-Za-z0-9\\.]+$` (evaluated at `$.paths.*.*.parameters[?(@.in=='query')].name`). Severity: error."
     },
-    "sps-commerce/sps-query-params-camel-case": {
+    "query-params-camel-case": {
       "message": "Query parameter keys MUST use camelCase.",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@.in=='query')].name",
@@ -5133,9 +5085,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-query-params-camel-case"
+      "description": "Query parameter keys MUST use camelCase. It requires camel casing on the targeted value (evaluated at `$.paths.*.*.parameters[?(@.in=='query')].name`). Severity: error."
     },
-    "sps-commerce/sps-query-params-not-required": {
+    "query-params-not-required": {
       "message": "Query parameters MUST be optional.",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@.in=='query')].required",
@@ -5147,9 +5099,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-query-params-not-required"
+      "description": "Query parameters MUST be optional. It requires the targeted value to be absent or empty (evaluated at `$.paths.*.*.parameters[?(@.in=='query')].required`). Severity: error."
     },
-    "sps-commerce/sps-query-params-no-api-keys": {
+    "query-params-no-api-keys": {
       "message": "Query parameters MUST not contain sensitive information, like API tokens or keys.",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@.in=='query')].name",
@@ -5164,9 +5116,9 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-query-params-no-api-keys"
+      "description": "Query parameters MUST not contain sensitive information, like API tokens or keys. It requires the targeted value not to match `apiKey|token` (evaluated at `$.paths.*.*.parameters[?(@.in=='query')].name`). Severity: error."
     },
-    "sps-commerce/sps-query-params-not-in-path": {
+    "query-params-not-in-path": {
       "message": "Paths SHOULD NOT have query parameters in them. They should be defined separately in the OpenAPI.",
       "severity": "warn",
       "given": "$.paths.*~",
@@ -5181,10 +5133,10 @@ export const ruleset = {
         "format:openapi",
         "category:structure"
       ],
-      "description": "sps-query-params-not-in-path"
+      "description": "Paths SHOULD NOT have query parameters in them. They should be defined separately in the OpenAPI. It requires the targeted value not to match `\\?` (evaluated at `$.paths.*~`). Severity: warn."
     },
-    "italia/cache-control-parameter-undocumented": {
-      "description": "Cache usage SHOULD be extensively detailed in the `description` property\nto avoid data leaks or the usage of stale data.\n\nThis rule should ensure in some way that the api provider\ndocumented extensively the cache usage to avoid data leaks\nor usage of stale data.\nThe `no-transform` directive can\nbe used in responses to avoid transforming proxies to\nmodify (eg. compress) the content.\n\nFor now this ruleset tests:\n* the presence of following keywords\n  in the `description`: `max-age`, `private`, `no-store`, `no-cache`,\n  `no-transform`.\n* that one and only one between Expires and Cache-Control is used.\n\n`Cache-Control` and `Expires` should not be used in conjunction,\nbecause `Cache-Control` overrides `Expires` when `max-age` is set.\nInstead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache\nlike described in RFC7234.",
+    "cache-control-parameter-undocumented-2": {
+      "description": "Cache usage SHOULD be extensively detailed in the `description` property to avoid data leaks or the usage of stale data. This rule should ensure in some way that the api provider documented extensively the cache usage to avoid data leaks or usage of stale data. The `no-transform` directive can be used in responses to avoid transforming proxies to modify (eg. compress) the content. For now this ruleset tests: * the presence of following keywords in the `description`: `max-age`, `private`, `no-store`, `no-cache`, `no-transform`. * that one and only one between Expires and Cache-Control is used. `Cache-Control` and `Expires` should not be used in conjunction, because `Cache-Control` overrides `Expires` when `max-age` is set. Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache like described in RFC7234. It requires the `description` field to be present and non-empty, and requires the `description` field to match the pattern `.*(max-age|private|no-store|no-cache|no-transform).*` (evaluated at `$..[parameters][?(@ && @.in == \"header\" && @.name && @.name.match && @.name.match(/Cache-Control/i))]`). Severity: warn.",
       "message": "[RFC7234] Cache usage must be documented in the description (include keywords like max-age, no-store, etc.).",
       "formats": [
         "oas3"
@@ -5211,8 +5163,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "italia/cache-responses-undocumented": {
-      "description": "Cache usage SHOULD be extensively detailed in the `description` property\nto avoid data leaks or the usage of stale data.\n\nThis rule should ensure in some way that the api provider\ndocumented extensively the cache usage to avoid data leaks\nor usage of stale data.\nThe `no-transform` directive can\nbe used in responses to avoid transforming proxies to\nmodify (eg. compress) the content.\n\nFor now this ruleset tests:\n* the presence of following keywords\n  in the `description`: `max-age`, `private`, `no-store`, `no-cache`,\n  `no-transform`.\n* that one and only one between Expires and Cache-Control is used.\n\n`Cache-Control` and `Expires` should not be used in conjunction,\nbecause `Cache-Control` overrides `Expires` when `max-age` is set.\nInstead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache\nlike described in RFC7234.",
+    "cache-responses-undocumented-2": {
+      "description": "Cache usage SHOULD be extensively detailed in the `description` property to avoid data leaks or the usage of stale data. This rule should ensure in some way that the api provider documented extensively the cache usage to avoid data leaks or usage of stale data. The `no-transform` directive can be used in responses to avoid transforming proxies to modify (eg. compress) the content. For now this ruleset tests: * the presence of following keywords in the `description`: `max-age`, `private`, `no-store`, `no-cache`, `no-transform`. * that one and only one between Expires and Cache-Control is used. `Cache-Control` and `Expires` should not be used in conjunction, because `Cache-Control` overrides `Expires` when `max-age` is set. Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache like described in RFC7234. It requires the `description` field to be present and non-empty, and requires the `description` field to match the pattern `.*(max-age|private|no-store|no-cache|no-transform).*` (evaluated at `$..[responses][?(@property[0] == \"2\" )][headers].[?(@property && @property.match && @property.match(/Cache-Control|Expires/i))]`). Severity: info.",
       "message": "[RFC7234] Cache usage for response header must be documented in its description.",
       "formats": [
         "oas3"
@@ -5239,8 +5191,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "italia/cache-responses-indeterminate-behavior": {
-      "description": "Cache usage SHOULD be extensively detailed in the `description` property\nto avoid data leaks or the usage of stale data.\n\nThis rule should ensure in some way that the api provider\ndocumented extensively the cache usage to avoid data leaks\nor usage of stale data.\nThe `no-transform` directive can\nbe used in responses to avoid transforming proxies to\nmodify (eg. compress) the content.\n\nFor now this ruleset tests:\n* the presence of following keywords\n  in the `description`: `max-age`, `private`, `no-store`, `no-cache`,\n  `no-transform`.\n* that one and only one between Expires and Cache-Control is used.\n\n`Cache-Control` and `Expires` should not be used in conjunction,\nbecause `Cache-Control` overrides `Expires` when `max-age` is set.\nInstead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache\nlike described in RFC7234.",
+    "cache-responses-indeterminate-behavior-2": {
+      "description": "Cache usage SHOULD be extensively detailed in the `description` property to avoid data leaks or the usage of stale data. This rule should ensure in some way that the api provider documented extensively the cache usage to avoid data leaks or usage of stale data. The `no-transform` directive can be used in responses to avoid transforming proxies to modify (eg. compress) the content. For now this ruleset tests: * the presence of following keywords in the `description`: `max-age`, `private`, `no-store`, `no-cache`, `no-transform`. * that one and only one between Expires and Cache-Control is used. `Cache-Control` and `Expires` should not be used in conjunction, because `Cache-Control` overrides `Expires` when `max-age` is set. Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache like described in RFC7234. It validates the targeted value against a JSON Schema (evaluated at `$..[responses][?(@property[0] == \"2\")][headers]`). Severity: info.",
       "message": "[RFC7234] Use either 'Cache-Control' or 'Expires' header, but not both or neither.",
       "formats": [
         "oas3"
@@ -5286,8 +5238,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/paths-kebab-case": {
-      "description": "Paths should be kebab-case (e.g. `path-parameter`).\n\nSee Italian recommendation RAC_REST_NAME_002.\n",
+    "paths-kebab-case-4": {
+      "description": "Paths should be kebab-case (e.g. `path-parameter`). See Italian recommendation RAC_REST_NAME_002. It requires the `@property` field to match the pattern `^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$` (evaluated at `$.paths[*]`). Severity: warn.",
       "message": "[RAC_REST_NAME_002] Path \"{{property}}\" must be kebab-case (e.g., /my-resource-name).",
       "severity": "warn",
       "recommended": true,
@@ -5305,8 +5257,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "italia/request-headers-train-case": {
-      "description": "Headers should be Train-Case / HTTP-Header-Case (e.g. `X-Header-Name`).\n\nSee Italian recommendation RAC_REST_NAME_003.\n",
+    "request-headers-train-case": {
+      "description": "Headers should be Train-Case / HTTP-Header-Case (e.g. `X-Header-Name`). See Italian recommendation RAC_REST_NAME_003. It requires the targeted value to match the pattern `^([A-Z][a-zA-Z0-9]*(-[A-Z][a-zA-Z0-9]*)*)$` (evaluated at `$..[parameters][?(@ && @.in==\"header\")].name`). Severity: hint.",
       "message": "[RAC_REST_NAME_003] Header \"{{value}}\" must be Train-Case / HTTP-Header-Case.",
       "severity": "hint",
       "recommended": true,
@@ -5325,8 +5277,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "italia/response-headers-train-case": {
-      "description": "Headers should be Train-Case / HTTP-Header-Case (e.g. `X-Header-Name`).\n\nSee Italian recommendation RAC_REST_NAME_003.\n",
+    "response-headers-train-case": {
+      "description": "Headers should be Train-Case / HTTP-Header-Case (e.g. `X-Header-Name`). See Italian recommendation RAC_REST_NAME_003. It requires the targeted value to match the pattern `^([A-Z][a-zA-Z0-9]*(-[A-Z][a-zA-Z0-9]*)*)$` (evaluated at `$..[responses][*].headers.*~`). Severity: hint.",
       "message": "[RAC_REST_NAME_003] Response header \"{{property}}\" must be Train-Case / HTTP-Header-Case.",
       "severity": "hint",
       "recommended": true,
@@ -5345,8 +5297,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "italia/schema-camel-case": {
-      "description": "Schema definitions should be CamelCase\n(pascal case with blank separator char).\n\nThis improves readability and avoid\nconfusion between schema names and properties.\n\n```\nWebsite:\n  type: string\n  format: url\nPerson:\n  type: object\n  properties:\n    website:\n      $ref: \"#/components/schemas/Website\"\n``` ",
+    "schema-camel-case": {
+      "description": "Schema definitions should be CamelCase (pascal case with blank separator char). This improves readability and avoid confusion between schema names and properties. ``` Website: type: string format: url Person: type: object properties: website: $ref: \"#/components/schemas/Website\" ```. It requires pascal casing on the `@property` field (evaluated at `$.components.schemas[*]`). Severity: hint.",
       "message": "Schema name \"{{property}}\" should be PascalCase (e.g., MySchema).",
       "severity": "hint",
       "recommended": true,
@@ -5367,8 +5319,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "italia/no-forbidden-headers": {
-      "description": "OAS do not allow using the following HTTP headers in a specification\nfile: Authorization, Content-Type and Accept.\nYou MUST use the associate functionalities provided by OAS, instead.",
+    "no-forbidden-headers-2": {
+      "description": "OAS do not allow using the following HTTP headers in a specification file: Authorization, Content-Type and Accept. You MUST use the associate functionalities provided by OAS, instead. It requires the targeted value not to match `/^(accept|content-type|authorization)$/i` (evaluated at `$..parameters[?(@ && @.in == 'header')].name`, `$..[responses][*].headers.*~`). Severity: error.",
       "message": "Do not define 'Authorization', 'Content-Type' or 'Accept' as headers; use the specific OAS fields for security schemes or media types instead.",
       "severity": "error",
       "given": [
@@ -5387,8 +5339,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/no-x-headers-request": {
-      "description": "'HTTP' headers SHOULD NOT start with 'X-' RFC6648.",
+    "no-x-headers-request-2": {
+      "description": "'HTTP' headers SHOULD NOT start with 'X-' RFC6648. It requires the targeted value to match the pattern `/^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i` (evaluated at `$..parameters[?(@ && @.in == 'header')].name`). Severity: warn.",
       "severity": "warn",
       "given": [
         "$..parameters[?(@ && @.in == 'header')].name"
@@ -5408,8 +5360,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/no-x-headers-response": {
-      "description": "'HTTP' headers SHOULD NOT start with 'X-' RFC6648.",
+    "no-x-headers-response-2": {
+      "description": "'HTTP' headers SHOULD NOT start with 'X-' RFC6648. It requires the targeted value to match the pattern `/^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i` (evaluated at `$..[responses][*].headers.*~`). Severity: warn.",
       "severity": "warn",
       "given": [
         "$..[responses][*].headers.*~"
@@ -5429,8 +5381,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/http-request-GET-no-body": {
-      "description": "A `GET` request MUST NOT accept a `requestBody`\nbecause this behavior is not interoperable.\nMoreover intermediaries such as reverse proxies\nare allowed to strip the content from `GET` requests.\n\nSee RFC7231 for further information.",
+    "http-request-GET-no-body": {
+      "description": "A `GET` request MUST NOT accept a `requestBody` because this behavior is not interoperable. Moreover intermediaries such as reverse proxies are allowed to strip the content from `GET` requests. See RFC7231 for further information. It requires the targeted value to be undefined (evaluated at `$.paths..get.requestBody`). Severity: error.",
       "message": "[RFC7231] A GET request MUST NOT accept a requestBody: {{error}}.",
       "severity": "error",
       "given": "$.paths..get.requestBody",
@@ -5443,8 +5395,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/http-request-DELETE-no-body": {
-      "description": "Sending a `requestBody` in a `DELETE` request \nis not considered interoperable.\nMoreover intermediaries such as reverse proxies\nmight strip the content from `DELETE` requests.\n\nSee RFC7231 for further information.",
+    "http-request-DELETE-no-body": {
+      "description": "Sending a `requestBody` in a `DELETE` request is not considered interoperable. Moreover intermediaries such as reverse proxies might strip the content from `DELETE` requests. See RFC7231 for further information. It requires the targeted value to be undefined (evaluated at `$.paths..delete.requestBody`). Severity: warn.",
       "message": "[RFC7231] A DELETE request SHOULD NOT accept a requestBody: {{error}}.",
       "severity": "warn",
       "given": "$.paths..delete.requestBody",
@@ -5457,8 +5409,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/http-response-no-content-204-205": {
-      "description": "Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.\nResponses with status code 204 and 205 MUST NOT include a content.\nSee RFC7231 for further information.",
+    "http-response-no-content-204-205": {
+      "description": "Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206. Responses with status code 204 and 205 MUST NOT include a content. See RFC7231 for further information. It requires the `content` field to be absent or empty (evaluated at `$..paths..responses[?(@property && @property.match(\"(204|205)\") )]`). Severity: error.",
       "message": "[RFC7231] A 204 or 205 response must not include a message body.",
       "severity": "error",
       "given": "$..paths..responses[?(@property && @property.match(\"(204|205)\") )]",
@@ -5472,8 +5424,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/http-response-content-2xx": {
-      "description": "Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.\nResponses with status code 204 and 205 MUST NOT include a content.\nSee RFC7231 for further information.",
+    "http-response-content-2xx": {
+      "description": "Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206. Responses with status code 204 and 205 MUST NOT include a content. See RFC7231 for further information. It requires the `content` field to be present and non-empty, and validates the `content` field against a JSON Schema (evaluated at `$..paths..responses[?( @property && @property.match(\"(200|201|202|203|206)\") )]`). Severity: hint.",
       "message": "[RFC7231] A 2xx response should include a message body.",
       "severity": "hint",
       "given": "$..paths..responses[?( @property && @property.match(\"(200|201|202|203|206)\") )]",
@@ -5504,8 +5456,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/servers-description": {
-      "description": "Servers must have a description.",
+    "servers-description-2": {
+      "description": "Servers must have a description. It requires the `description` field to be present and non-empty (evaluated at `$.servers[*]`, `$.paths..servers[*]`). Severity: warn.",
       "message": "Server should have a description explaining its purpose (e.g., Production, Sandbox).",
       "given": [
         "$.servers[*]",
@@ -5523,8 +5475,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "italia/servers-use-https": {
-      "description": "Servers must use https to ensure the origin of the responses\nand protect the integrity and the  confidentiality of the communication.\n\nYou can use `http://` only on sandboxes environment.\nUse `x-sandbox: true` to skip this kind of check.",
+    "servers-use-https-2": {
+      "description": "Servers must use https to ensure the origin of the responses and protect the integrity and the confidentiality of the communication. You can use `http://` only on sandboxes environment. Use `x-sandbox: true` to skip this kind of check. It requires the targeted value to match the pattern `^https://.*` (evaluated at `$.servers[?(@ && @[\"x-sandbox\"] != true)].url`, `$.paths..servers[?(@ && @[\"x-sandbox\"] != true)].url`). Severity: error.",
       "message": "Non-sandbox URL '{{value}}' must use https. Set 'x-sandbox: true' to skip this check for development environments.",
       "given": [
         "$.servers[?(@ && @[\"x-sandbox\"] != true)].url",
@@ -5544,113 +5496,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "italia/has-x-summary": {
-      "message": "The API info object must contain an `x-summary` field.",
-      "description": "The `#/info/x-summary` can be used to specify a brief, one-liner description of your API: this is very useful for catalog purposes (eg. this can be shown as your API subtitle in catalogs and developer portals).\nIn OAS3.1 you can use the standard `#/info/summary` field.",
-      "given": "$",
-      "severity": "error",
-      "recommended": true,
-      "type": "style",
-      "formats": [
-        "oas3"
-      ],
-      "then": {
-        "field": "info.x-summary",
-        "function": "truthy"
-      },
-      "tags": [
-        "source:italia",
-        "format:openapi",
-        "category:documentation",
-        "duplicate:true",
-        "dup-of:team-digitale/has-x-summary"
-      ]
-    },
-    "italia/has-termsOfService": {
-      "message": "The API info object should contain a `termsOfService` URL.",
-      "description": "API SHOULD reference the URL of the Terms of Service in `#/info/termsOfService`",
-      "given": "$",
-      "severity": "warn",
-      "recommended": true,
-      "type": "style",
-      "formats": [
-        "oas3"
-      ],
-      "then": {
-        "field": "info.termsOfService",
-        "function": "truthy"
-      },
-      "tags": [
-        "source:italia",
-        "format:openapi",
-        "category:general",
-        "duplicate:true",
-        "dup-of:team-digitale/has-termsOfService"
-      ]
-    },
-    "italia/has-contact": {
-      "message": "The API info object must contain a `contact` object with contact information.",
-      "description": "API MUST reference a contact, either url or email in #/info/contact",
-      "given": "$",
-      "severity": "error",
-      "recommended": true,
-      "type": "style",
-      "formats": [
-        "oas3"
-      ],
-      "then": {
-        "field": "info.contact",
-        "function": "truthy"
-      },
-      "tags": [
-        "source:italia",
-        "format:openapi",
-        "category:documentation",
-        "duplicate:true",
-        "dup-of:team-digitale/has-contact"
-      ]
-    },
-    "italia/has-x-api-id": {
-      "message": "The API info object should contain an `x-api-id` for tracking purposes.",
-      "description": "The `#/info/x-api-id` field can be used to associate an identifier\nto an API.\nThis is useful to track an API even when its `#/info/title` changes.",
-      "given": "$",
-      "severity": "hint",
-      "recommended": true,
-      "type": "style",
-      "then": {
-        "field": "info.x-api-id",
-        "function": "truthy"
-      },
-      "tags": [
-        "source:italia",
-        "format:openapi",
-        "category:general",
-        "duplicate:true",
-        "dup-of:team-digitale/has-x-api-id"
-      ]
-    },
-    "italia/use-semver": {
-      "description": "The API version field should follow\n[semantic versioning](https://semver.org/#semantic-versioning-specification-semver).",
-      "severity": "error",
-      "recommended": true,
-      "message": "The version '{{value}}' is not valid; use semantic versioning (e.g., 1.0.0).",
-      "given": "$.info.version",
-      "then": {
-        "function": "pattern",
-        "functionOptions": {
-          "match": "^[0-9]+.[0-9]+.[0-9]+(-[a-z0-9+.-]+)?"
-        }
-      },
-      "tags": [
-        "source:italia",
-        "format:openapi",
-        "category:general",
-        "duplicate:true",
-        "dup-of:team-digitale/use-semver"
-      ]
-    },
-    "italia/use-recommended-names-in-parameters": {
-      "description": "Use well defined parameter and schema names, deriving them\nfrom the national ontologies available at https://w3id.org/italia/onto/\n\nFor example, you can model a person using the following names:\n\n```\n{\n  \"en\": {\n    \"given_name\": \"Mario\",\n    \"family_name\": \"Rossi\",\n    \"tax_code\": \"12345678901\"\n  },\n  \"it\": {\n    \"nome_proprio\": \"Mario\",\n    \"cognome\": \"Rossi\",\n    \"codice_fiscale\": \"12345678901\"\n  }\n}\n```",
+    "use-recommended-names-in-parameters": {
+      "description": "Use well defined parameter and schema names, deriving them from the national ontologies available at https://w3id.org/italia/onto/ For example, you can model a person using the following names: ``` { \"en\": { \"given_name\": \"Mario\", \"family_name\": \"Rossi\", \"tax_code\": \"12345678901\" }, \"it\": { \"nome_proprio\": \"Mario\", \"cognome\": \"Rossi\", \"codice_fiscale\": \"12345678901\" } } ```. It requires the targeted value to match the pattern `//` (evaluated at `$..parameters.[?(@ && @.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i) )].name`). Severity: info.",
       "message": "The parameter name '{{value}}' should align with national ontologies. Use standardized names like 'given_name', 'family_name', 'tax_code'.",
       "formats": [
         "oas3"
@@ -5669,8 +5516,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "italia/use-recommended-names-in-schemas": {
-      "description": "Use well defined parameter and schema names, deriving them\nfrom the national ontologies available at https://w3id.org/italia/onto/",
+    "use-recommended-names-in-schemas": {
+      "description": "Use well defined parameter and schema names, deriving them from the national ontologies available at https://w3id.org/italia/onto/. It requires the `@property` field to be undefined (evaluated at `$..[?(@ && @.type==\"object\")].properties.[?( @property && @property.match && @property.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i) )]`). Severity: info.",
       "message": "The property name '{{value}}' should align with national ontologies. Use standardized names like 'given_name', 'family_name', 'tax_code'.",
       "formats": [
         "oas3"
@@ -5687,8 +5534,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "italia/no-method-name-in-operationId": {
-      "description": "Avoid using method names in `operationId`s because it couples\nthe API design with the implementation.\n\nAn operation that edits an entry can be published with different methods,\nfor example either POST, PUT or PATCH, and while evolving the API\nyou could decide to associate an operationId with another method.\n\nYou can use for example\n\n```\nopenapi: 3.0.1\n...\npaths:\n  /entries:\n    get:\n      operationId: list_entries\n    post:\n      operationId: create_entry\n  /entries/{id}:\n    put:\n      operationId: upsert_entry\n    patch:\n      operationId: edit_entry\n```",
+    "no-method-name-in-operationId": {
+      "description": "Avoid using method names in `operationId`s because it couples the API design with the implementation. An operation that edits an entry can be published with different methods, for example either POST, PUT or PATCH, and while evolving the API you could decide to associate an operationId with another method. You can use for example ``` openapi: 3.0.1 ... paths: /entries: get: operationId: list_entries post: operationId: create_entry /entries/{id}: put: operationId: upsert_entry patch: operationId: edit_entry ```. It requires the targeted value to match the pattern `//` (evaluated at `$..[?(@ && @.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i) )].operationId`). Severity: hint.",
       "message": "The operationId '{{value}}' starts with an HTTP verb (get, post, put, delete, patch). Use a resource-centric name instead.",
       "formats": [
         "oas3"
@@ -5707,8 +5554,8 @@ export const ruleset = {
         "category:naming"
       ]
     },
-    "italia/number-format": {
-      "description": "Schema of type number or integer must specify a format\nto express the associated datatype, eg. `int32`, `int64`, ...\n\nYou can express similar requirements using the `minimum` and `maximum` properties.\n\nSee recommendation RAC_REST_FORMAT_004.",
+    "number-format-2": {
+      "description": "Schema of type number or integer must specify a format to express the associated datatype, eg. `int32`, `int64`, ... You can express similar requirements using the `minimum` and `maximum` properties. See recommendation RAC_REST_FORMAT_004. It requires the `format` field to be present and non-empty (evaluated at `$..[?(@ && @.type==\"number\")]`). Severity: error.",
       "message": "[RAC_REST_FORMAT_004] The schema of type 'number' must specify a format (e.g., float, double).",
       "formats": [
         "oas3"
@@ -5726,8 +5573,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "italia/integer-format": {
-      "description": "Schema of type number or integer must specify a format\nto express the associated datatype, eg. `int32`, `int64`, ...\n\nYou can express similar requirements using the `minimum` and `maximum` properties.\n\nSee recommendation RAC_REST_FORMAT_004.",
+    "integer-format-2": {
+      "description": "Schema of type number or integer must specify a format to express the associated datatype, eg. `int32`, `int64`, ... You can express similar requirements using the `minimum` and `maximum` properties. See recommendation RAC_REST_FORMAT_004. It requires the `format` field to be present and non-empty (evaluated at `$..[?(@ && @.type==\"integer\")]`). Severity: error.",
       "message": "[RAC_REST_FORMAT_004] The schema of type 'integer' must specify a format (e.g., int32, int64).",
       "formats": [
         "oas3"
@@ -5745,8 +5592,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "italia/allowed-integer-format": {
-      "description": "To improve interoperability, integer and number formats are constrained\nto a shared subset.\n\nSee recommendation RAC_REST_FORMAT_004.",
+    "allowed-integer-format-2": {
+      "description": "To improve interoperability, integer and number formats are constrained to a shared subset. See recommendation RAC_REST_FORMAT_004. It requires the targeted value to be one of [\"int32\",\"int64\"] (evaluated at `$..[?(@ && @.type==\"integer\")].format`). Severity: hint.",
       "message": "[RAC_REST_FORMAT_004] Type format is \"{{value}}\", expected one of [int32, int64]. {{path}}",
       "formats": [
         "oas3"
@@ -5769,8 +5616,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "italia/allowed-number-format": {
-      "description": "To improve interoperability, integer and number formats are constrained\nto a shared subset.\n\nSee recommendation RAC_REST_FORMAT_004.",
+    "allowed-number-format-2": {
+      "description": "To improve interoperability, integer and number formats are constrained to a shared subset. See recommendation RAC_REST_FORMAT_004. It requires the targeted value to be one of [\"decimal32\",\"decimal64\",\"float\",\"double\",\"decimal128\"] (evaluated at `$..[?(@ && @.type==\"number\")].format`). Severity: hint.",
       "message": "[RAC_REST_FORMAT_004] Type format is \"{{value}}\", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}",
       "formats": [
         "oas3"
@@ -5796,30 +5643,8 @@ export const ruleset = {
         "category:general"
       ]
     },
-    "italia/no-swagger-2": {
-      "description": "Swagger 2 files are not allowed. Use OpenAPI >= 3.0",
-      "message": "The document uses Swagger 2.0, which is deprecated. Please upgrade to OpenAPI 3.0 or higher.",
-      "given": "$",
-      "severity": "error",
-      "recommended": true,
-      "type": "style",
-      "formats": [
-        "oas2"
-      ],
-      "then": {
-        "field": "swagger",
-        "function": "falsy"
-      },
-      "tags": [
-        "source:italia",
-        "format:openapi",
-        "category:general",
-        "duplicate:true",
-        "dup-of:team-digitale/no-swagger-2"
-      ]
-    },
-    "italia/oas3-valid-media-example": {
-      "description": "Ensure examples are valid against their schema.",
+    "oas3-valid-media-example": {
+      "description": "Ensure examples are valid against their schema. It requires the targeted value to be present and non-empty (evaluated at `$`). Severity: error.",
       "message": "Example value is invalid against the schema. Check for structural issues like 'nullable: true' without an explicit 'type' in the schema definition. Details: {{error}}",
       "severity": "error",
       "recommended": true,
@@ -5833,8 +5658,8 @@ export const ruleset = {
         "category:documentation"
       ]
     },
-    "italia/sec-securitySchemes-oauth-http": {
-      "description": "OAuth2 endpoints must use `https://`",
+    "sec-securitySchemes-oauth-http": {
+      "description": "OAuth2 endpoints must use `https://`. It requires the targeted value to match the pattern `^https://` (evaluated at `$..[securitySchemes][?(@ && @.type==\"oauth2\")][*].[?(@property && @property.match(/Url$/i))]`). Severity: error.",
       "message": "[RFC6749] OAuth2 authorization and token endpoints must use HTTPS.",
       "formats": [
         "oas3"
@@ -5858,8 +5683,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "italia/sec-securitySchemes-oauth-allowed-flows": {
-      "description": "The OAuth2 authorization framework defines various\n[grant types](https://tools.ietf.org/html/rfc6749#section-1.3),\nmost notably the [AuthorizationCode](https://tools.ietf.org/html/rfc6749#section-1.3.1)\nand the [Client Credentials](https://tools.ietf.org/html/rfc6749#section-1.3.4).\n\nSome grant types are now considered insecure\nand MUST not be used, including `implicit` and `password`.\nThe new [OAuth2.1](https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01)\nstill in draft, removes them and suggests to\nreplace the `implicit` with `authorizationCode` + PKCE defined in RFC7636.\n\nFor further info, see the OAuth2 section of [API Security Guidelines](https://docs.italia.it/AgID/documenti-in-consultazione/lg-sicurezza-interoperabilita-docs/).",
+    "sec-securitySchemes-oauth-allowed-flows": {
+      "description": "The OAuth2 authorization framework defines various [grant types](https://tools.ietf.org/html/rfc6749#section-1.3), most notably the [AuthorizationCode](https://tools.ietf.org/html/rfc6749#section-1.3.1) and the [Client Credentials](https://tools.ietf.org/html/rfc6749#section-1.3.4). Some grant types are now considered insecure and MUST not be used, including `implicit` and `password`. The new [OAuth2.1](https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01) still in draft, removes them and suggests to replace the `implicit` with `authorizationCode` + PKCE defined in RFC7636. For further info, see the OAuth2 section of [API Security Guidelines](https://docs.italia.it/AgID/documenti-in-consultazione/lg-sicurezza-interoperabilita-docs/). It requires the `implicit` field to be absent or empty, and requires the `password` field to be absent or empty (evaluated at `$..[?(@ && @.type==\"oauth2\")].flows`). Severity: error.",
       "message": "[RFC7636] Do not use oauth2 insecure flow: \"{{property}}\".",
       "formats": [
         "oas3"
@@ -5885,8 +5710,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "italia/patch-media-type": {
-      "description": "The PATCH specification explicits that the request body contains\na \"patch document\" describing the changes to be applied\nto the target resource.\n\nTo avoid confusion, [this errata](https://www.rfc-editor.org/errata/eid3169)\nexplains that `application/json` is not an appropriate media-type for `PATCH`.\n\nA correct example of PATCH using eg. `application/json-patch+json` media-type\ndefined in RFC6902.\n\n```\npaths:\n  /books/{book_id}:\n    patch:\n      requestBody:\n        content:\n          application/json-patch+json:\n            schema:\n              type: array\n              ...\n            example: [{ \"op\": \"add\", \"path\": \"/baz\", \"value\": \"qux\" }]\n```",
+    "patch-media-type-2": {
+      "description": "The PATCH specification explicits that the request body contains a \"patch document\" describing the changes to be applied to the target resource. To avoid confusion, [this errata](https://www.rfc-editor.org/errata/eid3169) explains that `application/json` is not an appropriate media-type for `PATCH`. A correct example of PATCH using eg. `application/json-patch+json` media-type defined in RFC6902. ``` paths: /books/{book_id}: patch: requestBody: content: application/json-patch+json: schema: type: array ... example: [{ \"op\": \"add\", \"path\": \"/baz\", \"value\": \"qux\" }] ```. It requires the `application/json` field to be absent or empty (evaluated at `$..[patch][requestBody][content]`). Severity: error.",
       "message": "[RFC6902] The `application/json` media type is not appropriate for PATCH requests. Use a more specific media type like `application/json-patch+json`.",
       "formats": [
         "oas3"
@@ -5904,8 +5729,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/patch-without-request-body": {
-      "description": "The PATCH method requests that a set of changes described in the\n`requestBody` be applied to the target resource.\nA PATCH specification without a `requestBody`\njust applies no changes to the target resource.\n\nSince PATCH has impacts on caches, using it\non a different target resource may result in non-interoperable\nbehavior.\n\nFor example, to modify the resource at `/user/123`,\nyou can use the following PATCH request:\n\n```\nPATCH /user/123\nContent-Type: application/json-patch+json\n\n[{\"op\": \"replace\", \"path\": \"enable\", \"value\": true}]\n```\n\nor  POST request with the semantic implied by the target url:\n\n```\nPOST /user/123/enable\n```\n\nInstead, the following request\nis expected to modify the `/user/123/enable`\nsubresource, and not the `/user/123` one.\n\n```\nPATCH /user/123/enable\n````",
+    "patch-without-request-body": {
+      "description": "The PATCH method requests that a set of changes described in the `requestBody` be applied to the target resource. A PATCH specification without a `requestBody` just applies no changes to the target resource. Since PATCH has impacts on caches, using it on a different target resource may result in non-interoperable behavior. For example, to modify the resource at `/user/123`, you can use the following PATCH request: ``` PATCH /user/123 Content-Type: application/json-patch+json [{\"op\": \"replace\", \"path\": \"enable\", \"value\": true}] ``` or POST request with the semantic implied by the target url: ``` POST /user/123/enable ``` Instead, the following request is expected to modify the `/user/123/enable` subresource, and not the `/user/123` one. ``` PATCH /user/123/enable ````. It requires the `requestBody` field to be defined, and requires the `requestBody.required` field to be present and non-empty (evaluated at `$.paths.*.patch`). Severity: error.",
       "message": "PATCH requests must include a `requestBody` and the `requestBody` must be required.",
       "severity": "error",
       "given": "$.paths.*.patch",
@@ -5927,8 +5752,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/patch-json-patch-mediatype": {
-      "description": "A correct example of PATCH using eg. `application/json-patch+json` media-type\ndefined in RFC6902.\n\n```\npaths:\n  /books/{book_id}:\n    patch:\n      requestBody:\n        content:\n          application/json-patch+json:\n            schema:\n              type: array\n              ...\n            example: [{ \"op\": \"add\", \"path\": \"/baz\", \"value\": \"qux\" }]\n```",
+    "patch-json-patch-mediatype": {
+      "description": "A correct example of PATCH using eg. `application/json-patch+json` media-type defined in RFC6902. ``` paths: /books/{book_id}: patch: requestBody: content: application/json-patch+json: schema: type: array ... example: [{ \"op\": \"add\", \"path\": \"/baz\", \"value\": \"qux\" }] ```. It requires the `type` field to match the pattern `array` (evaluated at `$..[patch][requestBody][content][application/json-patch+json][schema]`). Severity: warn.",
       "message": "[RFC6902] application/json-patch+json is not an array. {{path}}",
       "formats": [
         "oas3"
@@ -5949,8 +5774,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/paths-status": {
-      "description": "You must define a `/status` path that can be used to health-check the API.\nUsing this path avoids the arbitrary usage of a server URL for health-check\nscope.\n\nThe `/status` endpoint should return:\n- a `application/json` or `application/problem+json` response with 200 OK when the service is up.\n- a `application/problem+json` response with 503 Service Unavailable when the service is down.\n\nThe service provider is free to define the implementation logic for this path.",
+    "paths-status-2": {
+      "description": "You must define a `/status` path that can be used to health-check the API. Using this path avoids the arbitrary usage of a server URL for health-check scope. The `/status` endpoint should return: - a `application/json` or `application/problem+json` response with 200 OK when the service is up. - a `application/problem+json` response with 503 Service Unavailable when the service is down. The service provider is free to define the implementation logic for this path. It validates the targeted value against a JSON Schema (evaluated at `$.paths`). Severity: error.",
       "message": "The \"/status\" path must be defined for API health-checks.",
       "severity": "error",
       "recommended": true,
@@ -5985,8 +5810,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/paths-status-return-json": {
-      "description": "The \"/status\" endpoint must return \"application/json\" or \"application/problem+json\" when the service is Up.",
+    "paths-status-return-json": {
+      "description": "The \"/status\" endpoint must return \"application/json\" or \"application/problem+json\" when the service is Up. It requires the targeted value to be one of [\"application/json\",\"application/problem+json\"] (evaluated at `$.paths.'/status'.get.responses.200.content.*~`). Severity: error.",
       "message": "The \"/status\" (Up) response must be \"application/json\" or \"application/problem+json\".",
       "severity": "error",
       "recommended": true,
@@ -6006,8 +5831,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/paths-status-return-problem": {
-      "description": "The \"/status\" endpoint must return \"application/problem+json\" for all 4xx and 5xx error responses (Down state).",
+    "paths-status-return-problem-2": {
+      "description": "The \"/status\" endpoint must return \"application/problem+json\" for all 4xx and 5xx error responses (Down state). It requires the targeted value to be one of [\"application/problem+json\"] (evaluated at `$.paths.'/status'.get.responses[?(@property.match(/^(4|5)/))].content.*~`). Severity: error.",
       "message": "The \"/status\" (Down) response ({{property}}) must be \"application/problem+json\".",
       "severity": "error",
       "recommended": true,
@@ -6026,8 +5851,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/paths-status-problem-schema": {
-      "description": "The \"/status\" error response (4xx/5xx) must be a Problem object (RFC7807).",
+    "paths-status-problem-schema-2": {
+      "description": "The \"/status\" error response (4xx/5xx) must be a Problem object (RFC7807). It requires the `properties.status` field to be present and non-empty, and requires the `properties.title` field to be present and non-empty, and requires the `properties.detail` field to be present and non-empty (evaluated at `$.paths.'/status'.get.responses[?(@property.match(/^(4|5)/))].content.[schema]`). Severity: warn.",
       "message": "The \"/status\" (Down) response schema ({{property}}) must include standard Problem fields (status, title, detail).",
       "severity": "warn",
       "recommended": true,
@@ -6055,8 +5880,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/paths-http-method": {
-      "description": "When you design a REST API, you don't usually need to mention terms like\n`get`, `delete` and so on in your `paths`, because this information is\nconveyed by the HTTP method.\n\nInstead of using\n\n```\nPOST /books/1234/delete HTTP/1.1\nHost: api.example\n```\n\nYou can simply call\n\n```\nDELETE /books/1234 HTTP/1.1\nHost: api.example\n```\n\nSimilarly you don't need verbs like `list` or `create` because\nthe HTTP Semantics RFC7231 supports this kind of actions natively\nwith proper methods and status code.\n\nInstead of\n\n```\nPOST /create/user HTTP/1.1\nHost: api.example\nContent-Type: application/json\n\n{\"given_name\": \"Mario\"}\n```\n\nYou can use\n```\nPOST /create/user HTTP/1.1\nHost: api.example\nContent-Type: application/json\n\n{\"given_name\": \"Mario\"}\n```\n\nreturning a proper response\n\n```\nHTTP/1.1 201 Created\nLocation: /users/1234\n\n```\n\nThis simplifies securing your API as you know beforehand the kind of action\nwhich is going to be performed.",
+    "paths-http-method-2": {
+      "description": "When you design a REST API, you don't usually need to mention terms like `get`, `delete` and so on in your `paths`, because this information is conveyed by the HTTP method. Instead of using ``` POST /books/1234/delete HTTP/1.1 Host: api.example ``` You can simply call ``` DELETE /books/1234 HTTP/1.1 Host: api.example ``` Similarly you don't need verbs like `list` or `create` because the HTTP Semantics RFC7231 supports this kind of actions natively with proper methods and status code. Instead of ``` POST /create/user HTTP/1.1 Host: api.example Content-Type: application/json {\"given_name\": \"Mario\"} ``` You can use ``` POST /create/user HTTP/1.1 Host: api.example Content-Type: application/json {\"given_name\": \"Mario\"} ``` returning a proper response ``` HTTP/1.1 201 Created Location: /users/1234 ``` This simplifies securing your API as you know beforehand the kind of action which is going to be performed. It requires the `@property` field to be undefined (evaluated at `$.paths[?(@property && @property.match( \"/(get|post|put|delete|patch)[\\/A-Z_\\-]?\" ))]`, `$.paths[?(@property && @property.match( \"/(create|remove|list)[\\/A-Z_\\-]?\" ))]`). Severity: hint.",
       "message": "[RFC7231] Path \"{{property}}\" contains an HTTP method or action verb (e.g., get, list, create); use proper HTTP methods instead.",
       "severity": "hint",
       "recommended": true,
@@ -6074,8 +5899,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/use-problem-json-for-errors": {
-      "description": "\nError management is a key enabler of a resilient API ecosystem.\nEnforcing a consistent schema for errors between different APIs,\nenables client to properly implement an error management strategy,\nwith positive impacts for users.\n\nError responses should return one of the media-type\ndefined in RFC7807:\n- `application/problem+json`\n- `application/problem+xml`\n\nAn example of a valid response:\n\n```\nresponses:\n  \"503\":\n    content:\n      application/problem+json:\n        schema:\n          ...\n```",
+    "use-problem-json-for-errors-2": {
+      "description": "Error management is a key enabler of a resilient API ecosystem. Enforcing a consistent schema for errors between different APIs, enables client to properly implement an error management strategy, with positive impacts for users. Error responses should return one of the media-type defined in RFC7807: - `application/problem+json` - `application/problem+xml` An example of a valid response: ``` responses: \"503\": content: application/problem+json: schema: ... ```. It requires the targeted value to be one of [\"application/problem+xml\",\"application/problem+json\"] (evaluated at `$.paths.[*].responses[?(@property && @property.match(/^(4|5|default)/) && !@[\"x-noqa\"] )].content.*~`). Severity: error.",
       "message": "[RFC9457] Error response content type must be 'application/problem+json' or 'application/problem+xml'.",
       "formats": [
         "oas3"
@@ -6097,8 +5922,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "italia/use-problem-schema": {
-      "description": "WARN: This rule is under implementation and just provides an hint.\n\nError management is a key enabler of a resilient API ecosystem.\nEnforcing a consistent schema for errors between different APIs,\nenables client to properly implement an error management strategy,\nwith positive impacts for users.\n\nThis rule inspects the schema returned by an error response and\nverifies whether it contains the main properties defined in RFC7807:\n`status`, `title` and `detail`.\n\nAn example of a valid payload is\n```\n{\n \"title\": \"Not Found\",\n \"status\": 404,\n \"detail\": \"Book does not exist; id: 123\"\n}\n```\n\nSee recommendation RAC_REST_NAME_007.",
+    "use-problem-schema-2": {
+      "description": "WARN: This rule is under implementation and just provides an hint. Error management is a key enabler of a resilient API ecosystem. Enforcing a consistent schema for errors between different APIs, enables client to properly implement an error management strategy, with positive impacts for users. This rule inspects the schema returned by an error response and verifies whether it contains the main properties defined in RFC7807: `status`, `title` and `detail`. An example of a valid payload is ``` { \"title\": \"Not Found\", \"status\": 404, \"detail\": \"Book does not exist; id: 123\" } ``` See recommendation RAC_REST_NAME_007. It validates the targeted value against a JSON Schema (evaluated at `$..[responses][?(@property && @property.match(/^(4|5|default)/)  && !@[\"x-noqa\"] )][schema].properties`). Severity: hint.",
       "message": "[RFC9457] Error response schema does not conform to RFC9457. Expected at least two of: 'title', 'status', 'type', 'detail'.",
       "formats": [
         "oas3"
@@ -6149,8 +5974,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "italia/hint-problem-schema": {
-      "description": "\nWARN: This rule is under implementation and just provides an hint.\n\nError management is a key enabler of a resilient API ecosystem.\nEnforcing a consistent schema for errors between different APIs,\nenables client to properly implement an error management strategy,\nwith positive impacts for users.\n\nErrors should return RFC7807 objects. Instead, this schema\nseems to use non standard properties such as:\n`message`, `msg` and `code`.\n\nAn error of the following form\n\n```\n{\n  \"msg\": \"Book with id: 123 does not exist.\",\n  \"code\": 6063\n}\n```\n\ncan be expressed in RFC7807 with\n\n```\n{\n  \"detail\": \"Book with id: 123 does not exist.\",\n  \"type\": \"https://api.example/v1/errors/6063\",\n  \"status\": 404,\n  \"title\": \"Not Found\"\n}\n```\n\nReturning an URI in `type`, instead of an opaque `code` can help\nthe client in better identifying the error; moreover the URI\nthough it should not be dereferenced automatically, can return\nan actual resource providing guidance in addressing the issue.\n\nSee recommendation RAC_REST_NAME_007.",
+    "hint-problem-schema-2": {
+      "description": "WARN: This rule is under implementation and just provides an hint. Error management is a key enabler of a resilient API ecosystem. Enforcing a consistent schema for errors between different APIs, enables client to properly implement an error management strategy, with positive impacts for users. Errors should return RFC7807 objects. Instead, this schema seems to use non standard properties such as: `message`, `msg` and `code`. An error of the following form ``` { \"msg\": \"Book with id: 123 does not exist.\", \"code\": 6063 } ``` can be expressed in RFC7807 with ``` { \"detail\": \"Book with id: 123 does not exist.\", \"type\": \"https://api.example/v1/errors/6063\", \"status\": 404, \"title\": \"Not Found\" } ``` Returning an URI in `type`, instead of an opaque `code` can help the client in better identifying the error; moreover the URI though it should not be dereferenced automatically, can return an actual resource providing guidance in addressing the issue. See recommendation RAC_REST_NAME_007. It requires the targeted value not to match `message|code|msg` (evaluated at `$..[responses][?(@property && @property.match(/^(4|5|default)/)  && !@[\"x-noqa\"] )][schema][properties].*~`). Severity: hint.",
       "message": "[RFC9457] Error response uses non-standard fields ('message', 'code', 'msg'). Replace them with RFC9457 fields: 'detail', 'type', 'status', 'title'.",
       "formats": [
         "oas3"
@@ -6170,8 +5995,8 @@ export const ruleset = {
         "category:errors"
       ]
     },
-    "italia/missing-retry-after": {
-      "description": "When a client is warned about a temporary server issue with a 503 status code,\nthe server should explicitly communicate how long to wait\nbefore issuing further requests using the Retry-After header.\n\nRetry-After is defined in RFC7231.",
+    "missing-retry-after-2": {
+      "description": "When a client is warned about a temporary server issue with a 503 status code, the server should explicitly communicate how long to wait before issuing further requests using the Retry-After header. Retry-After is defined in RFC7231. It requires the `Retry-After` field to be present and non-empty (evaluated at `$..[responses][?(@property == \"503\" )][headers]`). Severity: warn.",
       "message": "[RFC7231] A 503 response must include the `Retry-After` header.",
       "formats": [
         "oas3"
@@ -6189,8 +6014,8 @@ export const ruleset = {
         "category:pagination"
       ]
     },
-    "italia/missing-ratelimit": {
-      "description": "Ratelimiting an API preserves a service and limits attack scenario\n[see API4:2019 Lack of Resources & Rate Limiting](https://owasp.org/www-project-api-security).\n\nAPIs should use the following headers on successful and client error responses:\n- `X-RateLimit-Limit`: number of total requests in a give time window\n- `X-RateLimit-Remaining`: remaining requests in the current window\n- `X-RateLimit-Reset`: number of seconds before the window resets\n\nAn example set of headers is the following\n\n```\nX-Ratelimit-Limit: 100\nX-Ratelimit-Remaining: 40\nX-Ratelimit-Reset: 12\n```\n\nA standardization proposal for ratelimit headers is ongoing\ninside the IETF HTTPAPI Workgroup.\nSee [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)",
+    "missing-ratelimit-2": {
+      "description": "Ratelimiting an API preserves a service and limits attack scenario [see API4:2019 Lack of Resources & Rate Limiting](https://owasp.org/www-project-api-security). APIs should use the following headers on successful and client error responses: - `X-RateLimit-Limit`: number of total requests in a give time window - `X-RateLimit-Remaining`: remaining requests in the current window - `X-RateLimit-Reset`: number of seconds before the window resets An example set of headers is the following ``` X-Ratelimit-Limit: 100 X-Ratelimit-Remaining: 40 X-Ratelimit-Reset: 12 ``` A standardization proposal for ratelimit headers is ongoing inside the IETF HTTPAPI Workgroup. See [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/). It validates the targeted value against a JSON Schema (evaluated at `$..[responses][?(@property[0] == \"2\" || (@property[0] == \"4\" && @property != \"429\"))][headers]`). Severity: warn.",
       "message": "[RFC7231] 2xx/4xx responses must include all three rate-limit headers (Limit, Remaining, Reset) using one consistent prefix: either 'X-RateLimit-' or 'RateLimit-'.",
       "formats": [
         "oas3"
@@ -6286,8 +6111,8 @@ export const ruleset = {
         "category:pagination"
       ]
     },
-    "italia/ratelimit-429-presence": {
-      "description": "429 (Too Many Requests) responses must include either the `Retry-After` header \nor a complete set of RateLimit headers (`Limit`, `Remaining`, `Reset`).",
+    "ratelimit-429-presence": {
+      "description": "429 (Too Many Requests) responses must include either the `Retry-After` header or a complete set of RateLimit headers (`Limit`, `Remaining`, `Reset`). It validates the targeted value against a JSON Schema (evaluated at `$..[responses][?(@property == \"429\")][headers]`). Severity: warn.",
       "message": "[RFC6585] A 429 response must include 'Retry-After' or a full set of rate-limit headers: X-RateLimit-{Limit,Remaining,Reset} or RateLimit-{Limit,Remaining,Reset}.",
       "severity": "warn",
       "formats": [
@@ -6328,8 +6153,8 @@ export const ruleset = {
         "category:pagination"
       ]
     },
-    "italia/ratelimit-429-completeness": {
-      "description": "If RateLimit headers are provided for a 429 response, all three headers \n(Limit, Remaining, Reset) must be present and follow the same naming convention \n(standard or X- prefix). \nIf both Retry-After and Reset are present, they should ideally represent \nthe same time interval.",
+    "ratelimit-429-completeness": {
+      "description": "If RateLimit headers are provided for a 429 response, all three headers (Limit, Remaining, Reset) must be present and follow the same naming convention (standard or X- prefix). If both Retry-After and Reset are present, they should ideally represent the same time interval. It validates the targeted value against a JSON Schema (evaluated at `$..[responses][?(@property == \"429\")][headers][?(@ && (@[\"X-RateLimit-Limit\"] || @[\"X-RateLimit-Remaining\"] || @[\"X-RateLimit-Reset\"] || @[\"RateLimit-Limit\"] || @[\"RateLimit-Remaining\"] || @[\"RateLimit-Reset\"]))]`). Severity: error.",
       "message": "[RFC6585] A 429 response must include all three rate-limit headers (Limit, Remaining, Reset) using one consistent prefix: either 'X-RateLimit-' or 'RateLimit-', never mixed.",
       "severity": "error",
       "formats": [
@@ -6415,8 +6240,8 @@ export const ruleset = {
         "category:pagination"
       ]
     },
-    "italia/response-with-json-object": {
-      "description": "JSON responses MUST use JSON objects, in order to be extensible.\n\nFor example, instead of a list `[1, 2, 3]` you should return\nan object `{\"items\": [1, 2, 3]}`.\n\nThis allows the schema to evolve in a backward compatible ways.\n\nThere are notable exceptions when specific media types are involved,\nfor example json-patch is an array (see RFC6902).",
+    "response-with-json-object-2": {
+      "description": "JSON responses MUST use JSON objects, in order to be extensible. For example, instead of a list `[1, 2, 3]` you should return an object `{\"items\": [1, 2, 3]}`. This allows the schema to evolve in a backward compatible ways. There are notable exceptions when specific media types are involved, for example json-patch is an array (see RFC6902). It requires the targeted value to match the pattern `object` (evaluated at `$..[responses][*][content][?(@property && @property.match(\"json$\") && !@property.match(/json-patch\\+json$/))][schema].type`). Severity: warn.",
       "message": "JSON responses must return an object (`{}`), not {{value}}. Wrap arrays in an object to allow future extensibility (e.g., `{\"items\": [...]}`). {{path}}",
       "severity": "warn",
       "recommended": true,
@@ -6435,8 +6260,8 @@ export const ruleset = {
         "category:structure"
       ]
     },
-    "italia/sec-apikeys-url": {
-      "description": "API Keys are (usually opaque) strings that\nare passed in headers, cookies or query parameters\nto access APIs.\n\nThose keys can be eavesdropped, especially when they are stored\nin cookies or passed as URL parameters.\n\n```\nsecurity:\n- ApiKey: []\npaths:\n  /books: {}\n  /users: {}\nsecuritySchemes:\n  ApiKey:\n    type: apiKey\n    in: cookie\n    name: X-Api-Key\n```",
+    "sec-apikeys-url": {
+      "description": "API Keys are (usually opaque) strings that are passed in headers, cookies or query parameters to access APIs. Those keys can be eavesdropped, especially when they are stored in cookies or passed as URL parameters. ``` security: - ApiKey: [] paths: /books: {} /users: {} securitySchemes: ApiKey: type: apiKey in: cookie name: X-Api-Key ```. It requires the targeted value not to match `^(query)$` (evaluated at `$..[securitySchemes][?(@ && @.type==\"apiKey\")].in`). Severity: error.",
       "message": "[RAC_GEN_004] API key must not be passed as a query parameter. Use header-based authentication (in: header) to prevent exposure in URLs and server logs.",
       "formats": [
         "oas3"
@@ -6460,8 +6285,8 @@ export const ruleset = {
         "category:security"
       ]
     },
-    "italia/sec-credentials-parameters": {
-      "description": "URL parameters MUST NOT contain credentials such as\napikey, password, or secret.\n\nSee [RAC_GEN_004](https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/04_Raccomandazioni%20di%20implementazione/04_raccomandazioni-tecniche-generali/01_globali.html?highlight=credenziali#rac-gen-004-non-passare-credenziali-o-dati-riservati-nellurl)",
+    "sec-credentials-parameters": {
+      "description": "URL parameters MUST NOT contain credentials such as apikey, password, or secret. See [RAC_GEN_004](https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/04_Raccomandazioni%20di%20implementazione/04_raccomandazioni-tecniche-generali/01_globali.html?highlight=credenziali#rac-gen-004-non-passare-credenziali-o-dati-riservati-nellurl). It requires the targeted value not to match `/^.*(password|secret|apikey).*$/i` (evaluated at `$..parameters[?(@ && @.in && @.in.match(/query|path/))].name`). Severity: error.",
       "message": "[RAC_GEN_004] Parameter '{{error}}' must not carry credentials (password, secret, API key) in the URL. Move sensitive data to request headers or body.",
       "formats": [
         "oas3"

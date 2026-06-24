@@ -1,15 +1,11 @@
 #!/usr/bin/env node
-// Compile the best-of-breed ruleset from rules/sources/* into a tagged,
-// namespaced ruleset. Rules using built-in functions OR custom functions we have
-// fetched into src/functions/<source>/ are kept; the rest are skipped.
+// Compile the best-of-breed ruleset from rules/sources/* into a tagged ruleset.
+// Rule names are kept general (no source prefix); provenance lives in tags
+// (source:*). Exact duplicates are merged. Each rule gets a verbose description.
+// Rules are validated against the engine — both that they construct AND that they
+// actually lint a sample without errors (Nimma) — and pruned if they fail.
 //
-// Emits:
-//   src/compiled-ruleset.ts  — imports built-in + custom functions and exports
-//                              { functions, ruleset } (function refs are strings
-//                              resolved via the functions map at lint time).
-//   rules/spotlight-recommended.yaml — human-readable.
-//
-// Rules are validated against the real engine and pruned if invalid.
+// Emits src/compiled-ruleset.ts and rules/spotlight-recommended.yaml.
 
 import { readFileSync, readdirSync, writeFileSync, existsSync, statSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
@@ -24,7 +20,6 @@ const require = createRequire(import.meta.url);
 const builtins = require('@spotlight-rules/spotlight-functions');
 const BUILTINS = new Set(Object.keys(builtins).filter((k) => typeof builtins[k] === 'function'));
 
-// available custom functions: source -> Set(basename)
 const customFns = {};
 if (existsSync(FN_DIR)) {
   for (const src of readdirSync(FN_DIR)) {
@@ -35,18 +30,18 @@ if (existsSync(FN_DIR)) {
 }
 
 const SOURCES = {
-  'adidas.yaml': { id: 'adidas', label: 'Adidas', format: 'openapi' },
-  'baloise.yaml': { id: 'baloise', label: 'Baloise', format: 'openapi' },
-  'digitalocean.yaml': { id: 'digitalocean', label: 'DigitalOcean', format: 'openapi' },
-  'microcks.yaml': { id: 'microcks', label: 'Microcks', format: 'openapi' },
-  'paystack.yaml': { id: 'paystack', label: 'Paystack', format: 'openapi' },
-  'schwarz-it.yaml': { id: 'schwarz-it', label: 'Schwarz IT', format: 'openapi' },
-  'team-digitale.yaml': { id: 'team-digitale', label: 'Team Digitale', format: 'openapi' },
-  'trimble.yaml': { id: 'trimble', label: 'Trimble', format: 'openapi' },
+  'adidas.yaml': { id: 'adidas', format: 'openapi' },
+  'baloise.yaml': { id: 'baloise', format: 'openapi' },
+  'digitalocean.yaml': { id: 'digitalocean', format: 'openapi' },
+  'microcks.yaml': { id: 'microcks', format: 'openapi' },
+  'paystack.yaml': { id: 'paystack', format: 'openapi' },
+  'schwarz-it.yaml': { id: 'schwarz-it', format: 'openapi' },
+  'team-digitale.yaml': { id: 'team-digitale', format: 'openapi' },
+  'trimble.yaml': { id: 'trimble', format: 'openapi' },
 };
 const DIR_SOURCES = {
-  'sps-commerce': { id: 'sps-commerce', label: 'SPS Commerce', format: 'openapi' },
-  italia: { id: 'italia', label: 'Italian Government', format: 'openapi' },
+  'sps-commerce': { id: 'sps-commerce', format: 'openapi' },
+  italia: { id: 'italia', format: 'openapi' },
 };
 
 const CATEGORY_KEYWORDS = [
@@ -65,47 +60,100 @@ function inferCategory(name, fileHint) {
   return 'general';
 }
 
-// What functions does a rule's `then` reference, and can we satisfy all of them?
-// Returns { ok, customImports: [{ ns, src, fn }] } and mutates `then` to namespace customs.
-function resolveFunctions(then, srcId) {
+function resolveFunctions(then, srcId, used) {
   const arr = Array.isArray(then) ? then : [then];
-  const customImports = [];
   for (const t of arr) {
     if (!t || typeof t !== 'object' || t.function === undefined) continue;
     const fn = t.function;
     if (typeof fn !== 'string' || BUILTINS.has(fn)) continue;
-    if (customFns[srcId]?.has(fn)) {
-      const ns = `${srcId}:${fn}`;
-      t.function = ns;
-      customImports.push({ ns, src: srcId, fn });
-    } else {
-      return { ok: false, customImports: [] };
-    }
+    if (customFns[srcId]?.has(fn)) { const ns = `${srcId}:${fn}`; t.function = ns; used.set(ns, { src: srcId, fn }); }
+    else return false;
   }
-  return { ok: true, customImports };
+  return true;
 }
 
-const compiled = {};
-const usedCustom = new Map(); // ns -> { src, fn }
-const stats = {};
+// strip source-identifying tokens from a rule name (sources bake their name in)
+const SOURCE_TOKENS = new Set(['adidas', 'baloise', 'sps', 'tas', 'trimble', 'microcks', 'paystack', 'schwarz', 'italia', 'teamdigitale', 'digitalocean', 'spscommerce']);
+function cleanName(name) {
+  const parts = name.split('-').filter((p) => !SOURCE_TOKENS.has(p.toLowerCase()));
+  const r = parts.join('-').replace(/^-+|-+$/g, '').replace(/-{2,}/g, '-');
+  return r || name;
+}
+
+// ---- verbose descriptions ----
+const humanize = (n) => n.replace(/[-_/]/g, ' ').replace(/\s+/g, ' ').trim();
+function describeCheck(then) {
+  const arr = Array.isArray(then) ? then : [then];
+  return arr
+    .map((t) => {
+      if (!t || typeof t !== 'object') return '';
+      const o = t.functionOptions || {};
+      const field = t.field ? ` the \`${t.field}\` field` : ' the targeted value';
+      switch (t.function) {
+        case 'truthy': return `requires${field} to be present and non-empty`;
+        case 'falsy': return `requires${field} to be absent or empty`;
+        case 'defined': return `requires${field} to be defined`;
+        case 'undefined': return `requires${field} to be undefined`;
+        case 'pattern': return o.match ? `requires${field} to match the pattern \`${o.match}\``
+          : o.notMatch ? `requires${field} not to match \`${o.notMatch}\`` : `applies a pattern check to${field}`;
+        case 'casing': return `requires ${o.type || 'a specific'} casing on${field}`;
+        case 'length': return `constrains the length of${field}${o.min != null ? ` to at least ${o.min}` : ''}${o.max != null ? ` and at most ${o.max}` : ''}`;
+        case 'enumeration': return `requires${field} to be one of ${JSON.stringify(o.values || [])}`;
+        case 'alphabetical': return `requires${field} to be in alphabetical order`;
+        case 'schema': return `validates${field} against a JSON Schema`;
+        case 'xor': return `requires exactly one of ${JSON.stringify(o.properties || [])} to be present`;
+        case 'or': return `requires at least one of ${JSON.stringify(o.properties || [])} to be present`;
+        case 'unreferencedReusableObject': return `flags reusable components that are never referenced`;
+        default: return `applies a custom validation to${field}`;
+      }
+    })
+    .filter(Boolean)
+    .join(', and ');
+}
+function verboseDescription(name, rule) {
+  let base = (rule.description || rule.message || humanize(name)).trim().replace(/\s+/g, ' ');
+  if (!/[.!?]$/.test(base)) base += '.';
+  const check = describeCheck(rule.then);
+  const given = Array.isArray(rule.given) ? rule.given.join('`, `') : rule.given;
+  const sev = rule.severity != null ? String(rule.severity) : 'warn';
+  let out = base;
+  if (check) out += ` It ${check}`;
+  if (given) out += ` (evaluated at \`${given}\`)`;
+  out += `. Severity: ${sev}.`;
+  return out;
+}
+
+// ---- collect rules (de-namespaced, deduped) ----
 const VALID = new Set(['description', 'documentationUrl', 'recommended', 'given', 'resolved', 'severity', 'message', 'formats', 'then', 'type', 'extensions']);
+const compiled = {};
+const usedCustom = new Map();
+const sigMap = new Map();
+const used = new Set();
+const stats = {};
 
 function addSource(srcId, format, rulesObj, fileHint) {
   if (!rulesObj || typeof rulesObj !== 'object') return;
-  stats[srcId] ??= { kept: 0, skipped: 0 };
-  for (const [name, rule] of Object.entries(rulesObj)) {
+  stats[srcId] ??= { kept: 0, skipped: 0, merged: 0 };
+  for (const [origName, rule] of Object.entries(rulesObj)) {
     if (rule === false || rule === 'off') continue;
-    if (typeof rule !== 'object' || rule === null) continue; // bare severity toggles handled by extends oas
+    if (typeof rule !== 'object' || rule === null) continue;
     const clean = {};
     for (const [k, v] of Object.entries(rule)) if (VALID.has(k) || k.startsWith('x-')) clean[k] = structuredClone(v);
-    if (clean.then !== undefined) {
-      const res = resolveFunctions(clean.then, srcId);
-      if (!res.ok) { stats[srcId].skipped++; continue; }
-      for (const ci of res.customImports) usedCustom.set(ci.ns, { src: ci.src, fn: ci.fn });
+    if (clean.then !== undefined && !resolveFunctions(clean.then, srcId, usedCustom)) { stats[srcId].skipped++; continue; }
+
+    const sig = JSON.stringify([clean.given, clean.then]);
+    if (sigMap.has(sig)) {
+      const ex = compiled[sigMap.get(sig)];
+      ex.tags = [...new Set([...ex.tags, `source:${srcId}`])];
+      stats[srcId].merged++;
+      continue;
     }
-    const category = inferCategory(name, fileHint);
+    let key = cleanName(origName);
+    if (used.has(key)) { let i = 2; while (used.has(`${key}-${i}`)) i++; key = `${key}-${i}`; }
+    used.add(key); sigMap.set(sig, key);
+    const category = inferCategory(origName, fileHint);
     const tags = [...new Set([...(rule.tags || []), `source:${srcId}`, `format:${format}`, `category:${category}`])];
-    compiled[`${srcId}/${name}`] = { ...clean, tags, description: clean.description || name };
+    compiled[key] = { ...clean, tags, description: verboseDescription(origName, clean) };
     stats[srcId].kept++;
   }
 }
@@ -126,13 +174,13 @@ for (const [dir, meta] of Object.entries(DIR_SOURCES)) {
   }
 }
 
-// ---- validate against the engine; build the function map; prune invalid rules
+// ---- engine setup + JS-form conversion ----
 const core = require('@spotlight-rules/spotlight-core');
 const fmts = require('@spotlight-rules/spotlight-formats');
+const parsers = require('@spotlight-rules/spotlight-parsers');
 const { oas } = require('@spotlight-rules/spotlight-rulesets');
 const FA = { 'oas3.0': 'oas3_0', 'oas3.1': 'oas3_1' };
 const lf = (n) => fmts[FA[n] ?? n] ?? fmts[n];
-
 const fnMap = { ...builtins };
 for (const [ns, { src, fn }] of usedCustom) {
   let file = join(FN_DIR, src, `${fn}.js`);
@@ -149,6 +197,7 @@ const toJs = (node) =>
         : [k, toJs(v)]))
     : node;
 
+// ---- 1) structural prune (must construct) ----
 let pruned = 0;
 for (let i = 0; i < 80; i++) {
   try { new core.Ruleset({ ...toJs({ rules: compiled }), extends: [[oas, 'recommended']] }, { source: 'compile' }); break; }
@@ -159,21 +208,79 @@ for (let i = 0; i < 80; i++) {
     for (const k of bad) { delete compiled[k]; pruned++; }
   }
 }
-// ---- mark exact-duplicate rules (same given + same then) across sources.
-// Keep the first occurrence canonical; tag the rest `duplicate:true`.
-const sigSeen = new Map();
-let dupes = 0;
-for (const [key, rule] of Object.entries(compiled)) {
-  const sig = JSON.stringify([rule.given, rule.then]);
-  if (sigSeen.has(sig)) {
-    rule.tags = [...new Set([...(rule.tags || []), 'duplicate:true', `dup-of:${sigSeen.get(sig)}`])];
-    dupes++;
-  } else {
-    sigSeen.set(sig, key);
+
+// ---- 2) runtime prune (must lint a sample without Nimma errors) ----
+const SAMPLE = `openapi: "3.0.3"
+info: { title: Sample, version: "1.0.0", description: d, contact: { name: n, url: "https://e.co" }, license: { name: MIT } }
+servers: [{ url: "https://api.example.com/v1" }]
+tags: [{ name: pets, description: p }]
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      summary: s
+      tags: [pets]
+      parameters: [{ name: limit, in: query, schema: { type: integer } }]
+      responses: { "200": { description: ok, content: { application/json: { schema: { $ref: "#/components/schemas/Pet" } } } } }
+    post:
+      operationId: createPet
+      summary: s
+      tags: [pets]
+      requestBody: { content: { application/json: { schema: { $ref: "#/components/schemas/Pet" } } } }
+      responses: { "201": { description: created } }
+components:
+  schemas:
+    Pet: { type: object, properties: { id: { type: integer }, name: { type: string } }, required: [id] }
+  securitySchemes:
+    bearer: { type: http, scheme: bearer }
+`;
+// the exact default the app loads first (must lint cleanly on first load)
+const PETSTORE = `openapi: "3.0.3"
+info:
+  title: Pet Store
+  version: "1.0.0"
+paths:
+  /Pets:
+    get:
+      responses:
+        "200":
+          description: A list of pets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+`;
+const SAMPLES_DOC = [PETSTORE, SAMPLE];
+const Yaml = parsers.Yaml;
+async function lints(rules, withOas) {
+  try {
+    const sp = new core.Spotlight();
+    const def = withOas ? { ...toJs({ rules }), extends: [[oas, 'recommended']] } : toJs({ rules });
+    sp.setRuleset(new core.Ruleset(def, { source: 'rt' }));
+    for (const s of SAMPLES_DOC) await sp.run(new core.Document(s, Yaml, 'sample.yaml'));
+    return true;
+  } catch { return false; }
+}
+let nimmaPruned = 0;
+if (!(await lints(compiled, true))) {
+  for (const key of Object.keys(compiled)) {
+    if (!(await lints({ [key]: compiled[key] }, false))) { delete compiled[key]; nimmaPruned++; }
   }
+  if (!(await lints(compiled, true))) console.error('WARNING: ruleset still errors after runtime prune');
 }
 
-// drop now-unused custom imports (their rule may have been pruned)
+// ---- drop now-unused custom imports ----
 const stillUsed = new Set();
 for (const r of Object.values(compiled)) for (const t of (Array.isArray(r.then) ? r.then : [r.then])) if (t?.function && usedCustom.has(t.function)) stillUsed.add(t.function);
 
@@ -184,7 +291,6 @@ const ruleset = {
   rules: compiled,
 };
 
-// ---- emit the TS module
 const imports = [];
 const mapEntries = [];
 let idx = 0;
@@ -209,5 +315,7 @@ export const ruleset = ${JSON.stringify(ruleset, null, 2)} as const;
 writeFileSync(join(ROOT, 'src', 'compiled-ruleset.ts'), ts);
 writeFileSync(join(ROOT, 'rules', 'spotlight-recommended.yaml'), stringify(ruleset));
 
-console.log(`compiled ${Object.keys(compiled).length} rules (${stillUsed.size} custom functions, pruned ${pruned}, ${dupes} exact duplicates tagged)`);
-for (const [src, s] of Object.entries(stats)) console.log(`  ${src.padEnd(16)} kept ${s.kept}, skipped ${s.skipped}`);
+const cats = {};
+for (const r of Object.values(compiled)) for (const t of r.tags) if (t.startsWith('category:')) cats[t] = (cats[t] || 0) + 1;
+console.log(`compiled ${Object.keys(compiled).length} rules — structural-pruned ${pruned}, nimma-pruned ${nimmaPruned}, ${stillUsed.size} custom fns`);
+console.log('categories:', Object.entries(cats).map(([c, n]) => `${c.split(':')[1]}(${n})`).join(', '));
