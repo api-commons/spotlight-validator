@@ -41,7 +41,6 @@ const SOURCES = {
 };
 const DIR_SOURCES = {
   'sps-commerce': { id: 'sps-commerce', format: 'openapi' },
-  italia: { id: 'italia', format: 'openapi' },
 };
 
 const CATEGORY_KEYWORDS = [
