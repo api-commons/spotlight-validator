@@ -161,9 +161,18 @@ function activeRulesetDef(): any {
     rules[name] = rule;
   }
   // saved rule overrides for this format take priority over the originals
+  const isInline = (name: string) => name in COMPILED_RULES || name in defaultRules();
   for (const r of loadRules()) {
     if (r.format && r.format !== current.format) continue;
-    rules[r.name] = r.def;
+    if (r.def === 'off' || r.def === false) {
+      // Disable: drop inline rules entirely (so they don't run); only the `off`
+      // toggle is valid for rules that come from `extends` (Spectral would throw
+      // "Cannot extend non-existing rule" if an inline rule is set to 'off').
+      if (isInline(r.name)) delete rules[r.name];
+      else rules[r.name] = 'off';
+    } else {
+      rules[r.name] = r.def;
+    }
   }
 
   $('#active-count').textContent = String(Object.keys(rules).length);
@@ -467,22 +476,30 @@ function renderSavedRules() {
   list.innerHTML = rules.length
     ? rules
         .map((r) => {
-          const state = r.def === 'off' || r.def === false ? 'disabled' : typeof r.def === 'object' && r.def?.severity ? r.def.severity : 'custom';
-          return `<li data-name="${escapeHtml(r.name)}" data-format="${escapeHtml(r.format)}">
+          const disabled = r.def === 'off' || r.def === false;
+          const state = disabled ? 'disabled' : typeof r.def === 'object' && r.def?.severity ? r.def.severity : 'custom';
+          return `<li class="${disabled ? 'rule-off' : ''}" data-name="${escapeHtml(r.name)}" data-format="${escapeHtml(r.format)}" data-disabled="${disabled ? '1' : ''}">
             <span class="store-name" title="${escapeHtml(r.name)}">${escapeHtml(titleCase(r.name))}</span>
             <span class="store-meta">${escapeHtml(labelForFormat(r.format))} · ${escapeHtml(String(state))} · ${timeAgo(r.updatedAt)}</span>
-            <button class="store-btn rule-edit" type="button">Edit</button>
+            <button class="store-btn rule-primary" type="button">${disabled ? 'Enable' : 'Edit'}</button>
             <button class="store-del rule-del" type="button" title="Revert to original">&times;</button>
           </li>`;
         })
         .join('')
-    : '<li class="store-empty">No saved rules yet — edit a rule from a result to override it.</li>';
+    : '<li class="store-empty">No saved rules yet — edit a rule from a result to override or disable it.</li>';
   list.querySelectorAll<HTMLLIElement>('li[data-name]').forEach((li) => {
     const name = li.dataset.name!;
     const fmt = li.dataset.format!;
-    li.querySelector<HTMLButtonElement>('.rule-edit')?.addEventListener('click', () => {
-      switchTab('results');
-      openRuleModal(name, fmt);
+    const disabled = li.dataset.disabled === '1';
+    li.querySelector<HTMLButtonElement>('.rule-primary')?.addEventListener('click', () => {
+      if (disabled) {
+        removeRule(name, fmt); // re-enable = drop the override, reverting to the original
+        renderSavedRules();
+        runLint();
+      } else {
+        switchTab('results');
+        openRuleModal(name, fmt);
+      }
     });
     li.querySelector<HTMLButtonElement>('.rule-del')?.addEventListener('click', () => {
       removeRule(name, fmt);
