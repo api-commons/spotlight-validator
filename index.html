@@ -85,19 +85,31 @@
             <details class="rule-group config-group" open>
               <summary><span class="group-name">AI API Keys</span></summary>
               <div class="config-fields">
-                <label class="config-field"><span>Claude API key</span>
-                  <input type="password" id="cfg-claude" autocomplete="off" spellcheck="false" placeholder="sk-ant-…"></label>
-                <label class="config-field"><span>Gemini API key</span>
-                  <input type="password" id="cfg-gemini" autocomplete="off" spellcheck="false" placeholder="AIza…"></label>
-                <label class="config-field"><span>ChatGPT API key</span>
-                  <input type="password" id="cfg-chatgpt" autocomplete="off" spellcheck="false" placeholder="sk-…"></label>
+                <div class="config-field">
+                  <div class="config-label"><label for="cfg-claude">Claude API key</label>
+                    <a class="config-help" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">get a key ↗</a></div>
+                  <input type="password" id="cfg-claude" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">
+                </div>
+                <div class="config-field">
+                  <div class="config-label"><label for="cfg-gemini">Gemini API key</label>
+                    <a class="config-help" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">get a key ↗</a></div>
+                  <input type="password" id="cfg-gemini" autocomplete="off" spellcheck="false" placeholder="AIza…">
+                </div>
+                <div class="config-field">
+                  <div class="config-label"><label for="cfg-chatgpt">ChatGPT API key</label>
+                    <a class="config-help" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">get a key ↗</a></div>
+                  <input type="password" id="cfg-chatgpt" autocomplete="off" spellcheck="false" placeholder="sk-…">
+                </div>
               </div>
             </details>
             <details class="rule-group config-group" open>
               <summary><span class="group-name">Git</span></summary>
               <div class="config-fields">
-                <label class="config-field"><span>GitHub personal access token</span>
-                  <input type="password" id="cfg-github" autocomplete="off" spellcheck="false" placeholder="ghp_…"></label>
+                <div class="config-field">
+                  <div class="config-label"><label for="cfg-github">GitHub personal access token</label>
+                    <a class="config-help" href="https://github.com/settings/tokens" target="_blank" rel="noopener">create a token ↗</a></div>
+                  <input type="password" id="cfg-github" autocomplete="off" spellcheck="false" placeholder="ghp_…">
+                </div>
               </div>
             </details>
             <label class="config-show"><input type="checkbox" id="cfg-show"> Show values</label>

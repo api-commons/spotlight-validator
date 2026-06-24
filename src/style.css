@@ -186,7 +186,9 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .config-scroll { flex: 1; min-height: 0; overflow-y: auto; }
 .config-group .config-fields { padding: 0.7rem 0.75rem; display: flex; flex-direction: column; gap: 0.7rem; }
 .config-field { display: flex; flex-direction: column; gap: 0.25rem; }
-.config-field span { font-size: 0.78rem; color: var(--muted); }
+.config-label { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.config-label label { font-size: 0.78rem; color: var(--muted); }
+.config-help { font-size: 0.72rem; white-space: nowrap; }
 .config-field input { background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 5px; padding: 7px 9px; font-size: 0.85rem; font-family: "SF Mono", Menlo, Consolas, monospace; }
 .config-field input:focus { outline: none; border-color: var(--accent); }
 .config-show { display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 0.75rem; font-size: 0.8rem; color: var(--muted); cursor: pointer; }
