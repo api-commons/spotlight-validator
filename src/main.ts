@@ -470,6 +470,32 @@ function switchTab(name: string) {
 }
 document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.addEventListener('click', () => switchTab(t.dataset.tab!)));
 
+// Explicit Save — names an Untitled draft, then persists immediately (alongside autosave).
+function saveCurrent() {
+  let d = activeId ? getDoc(activeId) : undefined;
+  if (!d) {
+    d = { id: newId(), name: `Untitled ${current.label}`, type: current.id, lang: docLang, content: docEditor.getValue(), updatedAt: Date.now() };
+    activeId = d.id;
+    setActiveId(d.id);
+  }
+  if (/^Untitled /.test(d.name)) {
+    const name = window.prompt('Save document as:', d.name);
+    if (name === null) return; // cancelled
+    const trimmed = name.trim();
+    if (trimmed) d.name = trimmed;
+  }
+  d.content = docEditor.getValue();
+  d.lang = docLang;
+  d.updatedAt = Date.now();
+  upsertDoc(d);
+  $('#doc-status').textContent = `${d.name} · ${current.label}`;
+  renderSaved();
+  const btn = $('#doc-save');
+  btn.textContent = 'Saved ✓';
+  window.setTimeout(() => { btn.textContent = 'Save'; }, 1200);
+}
+$('#doc-save').addEventListener('click', saveCurrent);
+
 // ---- boot -------------------------------------------------------------------
 docEditor.onDidChangeModelContent(() => {
   scheduleLint();

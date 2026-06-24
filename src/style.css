@@ -159,3 +159,6 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 #saved-list .saved-del { grid-column: 3; grid-row: 1 / span 2; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 4px; width: 26px; height: 26px; font-size: 1rem; line-height: 1; cursor: pointer; }
 #saved-list .saved-del:hover { color: #f14c4c; border-color: #f14c4c; }
 #saved-list .saved-empty { display: block; padding: 1rem 0.75rem; color: var(--muted); font-size: 0.85rem; }
+
+.save-btn { flex: 0 0 auto; background: var(--accent); color: #06243d; border: 0; border-radius: 5px; padding: 6px 14px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+.save-btn:hover { filter: brightness(1.08); }
