@@ -114,3 +114,5 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .cat-bar label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.6px; color: var(--accent); font-weight: 700; white-space: nowrap; }
 .cat-bar select { flex: 1; background: var(--bg); color: var(--fg); border: 1px solid var(--accent); border-radius: 5px; padding: 7px 10px; font-size: 0.95rem; cursor: pointer; }
 .cat-bar select:hover { background: #1a1a1a; }
+
+#results .rule-name { font-weight: 600; color: #cdd9e5; white-space: nowrap; }

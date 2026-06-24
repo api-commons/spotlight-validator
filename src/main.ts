@@ -27,14 +27,35 @@ const docEditor = monaco.editor.create($('#doc-editor'), {
   scrollBeyondLastLine: false,
 });
 
-const ruleEditor = monaco.editor.create($('#rule-editor'), {
-  value: '',
-  language: 'yaml',
-  automaticLayout: true,
-  minimap: { enabled: false },
-  fontSize: 13,
-  scrollBeyondLastLine: false,
-});
+// Created lazily on first modal open — a Monaco editor created inside a
+// display:none container renders nothing until it has real dimensions.
+let ruleEditor: monaco.editor.IStandaloneCodeEditor | null = null;
+function ensureRuleEditor(): monaco.editor.IStandaloneCodeEditor {
+  if (!ruleEditor) {
+    ruleEditor = monaco.editor.create($('#rule-editor'), {
+      value: '',
+      language: 'yaml',
+      automaticLayout: true,
+      minimap: { enabled: false },
+      fontSize: 13,
+      scrollBeyondLastLine: false,
+    });
+  }
+  return ruleEditor;
+}
+
+const ACRONYMS: Record<string, string> = {
+  api: 'API', oas: 'OAS', oas2: 'OAS2', oas3: 'OAS3', aas: 'AAS', url: 'URL', uri: 'URI',
+  http: 'HTTP', https: 'HTTPS', json: 'JSON', xml: 'XML', id: 'ID', ids: 'IDs', jwt: 'JWT',
+  cors: 'CORS', oauth: 'OAuth', sdk: 'SDK', ssl: 'SSL', tls: 'TLS', ui: 'UI',
+};
+function titleCase(code: string): string {
+  return code
+    .split(/[-/_]/)
+    .filter(Boolean)
+    .map((w) => ACRONYMS[w.toLowerCase()] ?? w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+}
 
 const highlightDecorations = docEditor.createDecorationsCollection();
 function highlightLines(startLine: number, endLine: number) {
@@ -144,7 +165,7 @@ async function runLint() {
         const desc = descriptionFor(code) || d.message;
         return `<li class="${sev}" data-sl="${d.range.start.line + 1}" data-el="${d.range.end.line + 1}" data-code="${escapeHtml(code)}">
           <span class="sev ${sev}" title="${sev}"></span>
-          <code>${escapeHtml(code)}</code>
+          <span class="rule-name" title="${escapeHtml(code)}">${escapeHtml(titleCase(code))}</span>
           <span class="msg" title="${escapeHtml(desc)}">${escapeHtml(d.message)}</span>
           <span class="loc">L${d.range.start.line + 1}</span>
           <button class="edit-btn" title="Edit this rule">✎ edit</button>
@@ -184,13 +205,18 @@ function ruleDefForEditing(code: string): any {
 function openRuleModal(code: string) {
   modalRuleName = code;
   const builtin = !COMPILED_RULES[code] && userOverrides[code] === undefined;
-  $('#modal-title').textContent = code;
+  $('#modal-title').textContent = titleCase(code);
   $('#rule-note').textContent = builtin
     ? 'Built-in rule from the extended ruleset — edit the severity (error/warn/info/hint/off) or replace with a full rule definition.'
     : 'Edit this rule. Apply re-lints with your change.';
-  ruleEditor.setValue(stringifyYaml({ [code]: ruleDefForEditing(code) }));
+  // show the modal first so the editor container has real dimensions, then create/lay out
   ($('#modal') as HTMLElement).hidden = false;
-  setTimeout(() => ruleEditor.layout(), 0);
+  const ed = ensureRuleEditor();
+  ed.setValue(stringifyYaml({ [code]: ruleDefForEditing(code) }));
+  requestAnimationFrame(() => {
+    ed.layout();
+    ed.focus();
+  });
 }
 function closeModal() {
   ($('#modal') as HTMLElement).hidden = true;
@@ -200,6 +226,7 @@ $('#modal').addEventListener('click', (e) => {
   if (e.target === $('#modal')) closeModal();
 });
 $('#rule-apply').addEventListener('click', () => {
+  if (!ruleEditor) return;
   try {
     const parsed = parseYaml(ruleEditor.getValue());
     const entry = parsed && typeof parsed === 'object' ? Object.entries(parsed)[0] : undefined;
