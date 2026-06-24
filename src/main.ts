@@ -6,7 +6,7 @@ import { lint, builtinDescriptions } from './spotlight';
 import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { ARTIFACTS, DEFAULT_RULESETS, SAMPLES, artifactById, type ArtifactType } from './artifacts';
 import { searchArtifacts, loadArtifactContent, type SearchHit } from './apisio';
-import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, type SavedDoc } from './storage';
+import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, loadRules, upsertRule, removeRule, getRule, type SavedDoc } from './storage';
 import './style.css';
 
 self.MonacoEnvironment = {
@@ -24,7 +24,7 @@ let docLang: 'yaml' | 'json' = 'yaml';
 let activeCategory = '';
 let activeId: string | null = null; // id of the localStorage doc being edited
 let suppressSave = false; // true while programmatically replacing editor content
-const userOverrides: Record<string, any> = {}; // ruleName -> definition
+const labelForFormat = (fmt: string) => ARTIFACTS.find((a) => a.format === fmt)?.label ?? fmt;
 
 // ---- editors ----------------------------------------------------------------
 const docEditor = monaco.editor.create($('#doc-editor'), {
@@ -160,8 +160,11 @@ function activeRulesetDef(): any {
     if (!passesCategory(rule)) continue;
     rules[name] = rule;
   }
-  // user edits applied on top
-  for (const [name, def] of Object.entries(userOverrides)) rules[name] = def;
+  // saved rule overrides for this format take priority over the originals
+  for (const r of loadRules()) {
+    if (r.format && r.format !== current.format) continue;
+    rules[r.name] = r.def;
+  }
 
   $('#active-count').textContent = String(Object.keys(rules).length);
   const ext = DEFAULT_RULESETS[current.id]?.extends;
@@ -330,8 +333,10 @@ function escapeHtml(s: string): string {
 
 // ---- rule editor modal ------------------------------------------------------
 let modalRuleName = '';
+let modalRuleFormat = ''; // format the edited rule belongs to (so overrides are scoped)
 function ruleDefForEditing(code: string): any {
-  if (userOverrides[code] !== undefined) return userOverrides[code];
+  const saved = getRule(code, modalRuleFormat);
+  if (saved) return saved.def;
   const r = ruleDef(code);
   if (r) {
     const { tags: _t, ...rest } = r; // hide tag noise while editing
@@ -339,13 +344,14 @@ function ruleDefForEditing(code: string): any {
   }
   return 'warn'; // built-in rule (from the extended ruleset) — edit as a severity toggle
 }
-function openRuleModal(code: string) {
+function openRuleModal(code: string, format: string = current.format) {
   modalRuleName = code;
-  const builtin = !ruleDef(code) && userOverrides[code] === undefined;
+  modalRuleFormat = format;
+  const builtin = !ruleDef(code) && !getRule(code, format);
   $('#modal-title').textContent = titleCase(code);
   $('#rule-note').textContent = builtin
     ? 'Built-in rule from the extended ruleset — edit the severity (error/warn/info/hint/off) or replace with a full rule definition.'
-    : 'Edit this rule. Apply re-lints with your change.';
+    : 'Edit this rule. Saving overrides the original when linting.';
   ($('#modal') as HTMLElement).hidden = false;
   const ed = ensureRuleEditor();
   ed.setValue(stringifyYaml({ [code]: ruleDefForEditing(code) }));
@@ -361,21 +367,24 @@ $('#rule-apply').addEventListener('click', () => {
   try {
     const parsed = parseYaml(ruleEditor.getValue());
     const entry = parsed && typeof parsed === 'object' ? Object.entries(parsed)[0] : undefined;
-    if (entry) userOverrides[entry[0]] = entry[1];
+    if (entry) upsertRule(entry[0], modalRuleFormat, entry[1]);
     closeModal();
+    renderSavedRules();
     runLint();
   } catch {
     $('#rule-note').textContent = 'Invalid YAML — fix and try again.';
   }
 });
 $('#rule-reset').addEventListener('click', () => {
-  delete userOverrides[modalRuleName];
+  removeRule(modalRuleName, modalRuleFormat);
   closeModal();
+  renderSavedRules();
   runLint();
 });
 $('#rule-disable').addEventListener('click', () => {
-  userOverrides[modalRuleName] = 'off';
+  upsertRule(modalRuleName, modalRuleFormat, 'off');
   closeModal();
+  renderSavedRules();
   runLint();
 });
 
@@ -432,22 +441,53 @@ function renderSaved() {
   list.innerHTML = docs.length
     ? docs
         .map((d) => `<li class="${d.id === activeId ? 'active' : ''}" data-id="${d.id}">
-          <span class="saved-name" title="${escapeHtml(d.name)}">${escapeHtml(d.name)}</span>
-          <span class="saved-meta">${escapeHtml(artifactById(d.type).label)} · ${timeAgo(d.updatedAt)}</span>
-          <button class="saved-load" type="button">Load</button>
-          <button class="saved-del" type="button" title="Remove">&times;</button>
+          <span class="store-name" title="${escapeHtml(d.name)}">${escapeHtml(d.name)}</span>
+          <span class="store-meta">${escapeHtml(artifactById(d.type).label)} · ${timeAgo(d.updatedAt)}</span>
+          <button class="store-btn" type="button">Load</button>
+          <button class="store-del" type="button" title="Remove">&times;</button>
         </li>`)
         .join('')
-    : '<li class="saved-empty">No saved documents yet — your edits autosave here.</li>';
+    : '<li class="store-empty">No saved documents yet — your edits autosave here.</li>';
   list.querySelectorAll<HTMLLIElement>('li[data-id]').forEach((li) => {
     const id = li.dataset.id!;
-    li.querySelector<HTMLButtonElement>('.saved-load')?.addEventListener('click', () => {
+    li.querySelector<HTMLButtonElement>('.store-btn')?.addEventListener('click', () => {
       const d = getDoc(id);
       if (d) { loadDocIntoEditor(d); switchTab('results'); }
     });
-    li.querySelector<HTMLButtonElement>('.saved-del')?.addEventListener('click', (e) => {
+    li.querySelector<HTMLButtonElement>('.store-del')?.addEventListener('click', (e) => {
       e.stopPropagation();
       removeSaved(id);
+    });
+  });
+}
+function renderSavedRules() {
+  const rules = loadRules().sort((a, b) => b.updatedAt - a.updatedAt);
+  $('#rules-count').textContent = String(rules.length);
+  const list = $('#saved-rules-list');
+  list.innerHTML = rules.length
+    ? rules
+        .map((r) => {
+          const state = r.def === 'off' || r.def === false ? 'disabled' : typeof r.def === 'object' && r.def?.severity ? r.def.severity : 'custom';
+          return `<li data-name="${escapeHtml(r.name)}" data-format="${escapeHtml(r.format)}">
+            <span class="store-name" title="${escapeHtml(r.name)}">${escapeHtml(titleCase(r.name))}</span>
+            <span class="store-meta">${escapeHtml(labelForFormat(r.format))} · ${escapeHtml(String(state))} · ${timeAgo(r.updatedAt)}</span>
+            <button class="store-btn rule-edit" type="button">Edit</button>
+            <button class="store-del rule-del" type="button" title="Revert to original">&times;</button>
+          </li>`;
+        })
+        .join('')
+    : '<li class="store-empty">No saved rules yet — edit a rule from a result to override it.</li>';
+  list.querySelectorAll<HTMLLIElement>('li[data-name]').forEach((li) => {
+    const name = li.dataset.name!;
+    const fmt = li.dataset.format!;
+    li.querySelector<HTMLButtonElement>('.rule-edit')?.addEventListener('click', () => {
+      switchTab('results');
+      openRuleModal(name, fmt);
+    });
+    li.querySelector<HTMLButtonElement>('.rule-del')?.addEventListener('click', () => {
+      removeRule(name, fmt);
+      renderSavedRules();
+      runLint();
     });
   });
 }
@@ -467,6 +507,7 @@ function switchTab(name: string) {
   document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
   ($('#tab-results') as HTMLElement).hidden = name !== 'results';
   ($('#tab-saved') as HTMLElement).hidden = name !== 'saved';
+  ($('#tab-rules') as HTMLElement).hidden = name !== 'rules';
 }
 document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.addEventListener('click', () => switchTab(t.dataset.tab!)));
 
@@ -501,6 +542,7 @@ docEditor.onDidChangeModelContent(() => {
   scheduleLint();
   if (!suppressSave) scheduleSave();
 });
+renderSavedRules();
 const restoreId = getActiveId();
 const restored = restoreId ? getDoc(restoreId) : undefined;
 if (restored) loadDocIntoEditor(restored);

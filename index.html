@@ -44,7 +44,8 @@
       <section class="pane">
         <div class="tabs" role="tablist">
           <button class="tab active" data-tab="results" type="button">Results</button>
-          <button class="tab" data-tab="saved" type="button">Saved <span class="badge" id="saved-count">0</span></button>
+          <button class="tab" data-tab="saved" type="button">Saved Artifacts <span class="badge" id="saved-count">0</span></button>
+          <button class="tab" data-tab="rules" type="button">Saved Rules <span class="badge" id="rules-count">0</span></button>
         </div>
 
         <div class="tab-panel" id="tab-results">
@@ -65,7 +66,15 @@
             Your documents autosave to this browser's local storage as you edit — no account needed.
             They'll <strong>disappear if you clear your browser cache</strong>. Saving to the cloud is coming soon.
           </p>
-          <ul id="saved-list"></ul>
+          <ul id="saved-list" class="store-list"></ul>
+        </div>
+
+        <div class="tab-panel" id="tab-rules" hidden>
+          <p class="saved-notice">
+            Rules you save here <strong>override the built-in rule of the same name</strong> when linting, and
+            persist in this browser. Remove one to revert to the original. Edit a rule from any result to save it.
+          </p>
+          <ul id="saved-rules-list" class="store-list"></ul>
         </div>
       </section>
     </main>

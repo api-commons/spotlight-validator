@@ -54,3 +54,44 @@ export function setActiveId(id: string | null): void {
 export function newId(): string {
   return globalThis.crypto?.randomUUID?.() ?? 'd' + Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
+
+// ---- saved rule overrides ----------------------------------------------------
+// A saved rule overrides the built-in/compiled rule of the same name for its
+// format. `def` is a rule definition object, or 'off' to disable.
+export interface SavedRule {
+  name: string;
+  format: string;
+  def: any;
+  updatedAt: number;
+}
+const RULES_KEY = 'spotlight-validator:rules';
+
+export function loadRules(): SavedRule[] {
+  try {
+    const v = JSON.parse(localStorage.getItem(RULES_KEY) || '[]');
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+}
+export function saveRules(rules: SavedRule[]): void {
+  try {
+    localStorage.setItem(RULES_KEY, JSON.stringify(rules));
+  } catch {
+    /* storage disabled or over quota */
+  }
+}
+export function upsertRule(name: string, format: string, def: any): void {
+  const rules = loadRules();
+  const entry: SavedRule = { name, format, def, updatedAt: Date.now() };
+  const i = rules.findIndex((r) => r.name === name && r.format === format);
+  if (i >= 0) rules[i] = entry;
+  else rules.push(entry);
+  saveRules(rules);
+}
+export function removeRule(name: string, format: string): void {
+  saveRules(loadRules().filter((r) => !(r.name === name && r.format === format)));
+}
+export function getRule(name: string, format: string): SavedRule | undefined {
+  return loadRules().find((r) => r.name === name && r.format === format);
+}
