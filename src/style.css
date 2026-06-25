@@ -208,3 +208,9 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .lint-tooltip[hidden] { display: none; }
 .lint-tooltip .tt-title { font-weight: 700; color: var(--accent); font-size: 0.88rem; margin-bottom: 0.35rem; }
 .lint-tooltip .tt-desc { font-size: 0.83rem; line-height: 1.5; color: #e4e9ef; }
+
+/* search-source toggles in Config */
+.config-note { font-size: 12px; color: var(--muted, #9aa0a6); margin: 0 0 6px; }
+.src-toggle { display: flex; align-items: center; gap: 6px; font-size: 13px; padding: 3px 0; cursor: pointer; }
+.src-toggle input { margin: 0; }
+.src-hint { color: var(--muted, #9aa0a6); font-size: 11px; }

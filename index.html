@@ -27,9 +27,10 @@
       <section class="pane">
         <div class="artifact-toolbar">
           <select id="artifact-type" class="art-select" aria-label="Artifact type"></select>
+          <select id="source-select" class="art-select" aria-label="Search source" title="Where to search (toggle sources in Config)"></select>
           <div class="search-wrap">
-            <input id="artifact-search" type="search" placeholder="Search APIs.io…" autocomplete="off" />
-            <button id="artifact-search-btn" title="Search APIs.io">Search</button>
+            <input id="artifact-search" type="search" placeholder="Search…" autocomplete="off" />
+            <button id="artifact-search-btn" title="Search">Search</button>
             <div id="search-results" class="search-results" hidden></div>
           </div>
           <div class="lang-toggle" role="group" aria-label="Editor format">
@@ -112,12 +113,36 @@
               </div>
             </details>
             <details class="rule-group config-group" open>
-              <summary><span class="group-name">Git</span></summary>
+              <summary><span class="group-name">Search sources</span></summary>
+              <div class="config-fields">
+                <p class="config-note">Where Search looks. APIs.io &amp; GitHub are on by default; GitLab &amp; Bitbucket need their tokens below.</p>
+                <label class="src-toggle"><input type="checkbox" id="src-apis.io" checked disabled> APIs.io <span class="src-hint">(always on)</span></label>
+                <label class="src-toggle"><input type="checkbox" id="src-github" checked> GitHub</label>
+                <label class="src-toggle"><input type="checkbox" id="src-gitlab"> GitLab</label>
+                <label class="src-toggle"><input type="checkbox" id="src-bitbucket"> Bitbucket</label>
+              </div>
+            </details>
+            <details class="rule-group config-group" open>
+              <summary><span class="group-name">Git tokens</span></summary>
               <div class="config-fields">
                 <div class="config-field">
                   <div class="config-label"><label for="cfg-github">GitHub personal access token</label>
                     <a class="config-help" href="https://github.com/settings/tokens" target="_blank" rel="noopener">create a token ↗</a></div>
                   <input type="password" id="cfg-github" autocomplete="off" spellcheck="false" placeholder="ghp_…">
+                </div>
+                <div class="config-field">
+                  <div class="config-label"><label for="cfg-gitlab">GitLab personal access token</label>
+                    <a class="config-help" href="https://gitlab.com/-/user_settings/personal_access_tokens" target="_blank" rel="noopener">create a token ↗</a></div>
+                  <input type="password" id="cfg-gitlab" autocomplete="off" spellcheck="false" placeholder="glpat-…">
+                </div>
+                <div class="config-field">
+                  <div class="config-label"><label for="cfg-bitbucketUser">Bitbucket username</label></div>
+                  <input type="text" id="cfg-bitbucketUser" autocomplete="off" spellcheck="false" placeholder="workspace / username">
+                </div>
+                <div class="config-field">
+                  <div class="config-label"><label for="cfg-bitbucket">Bitbucket app password</label>
+                    <a class="config-help" href="https://bitbucket.org/account/settings/app-passwords/" target="_blank" rel="noopener">create one ↗</a></div>
+                  <input type="password" id="cfg-bitbucket" autocomplete="off" spellcheck="false" placeholder="app password">
                 </div>
               </div>
             </details>

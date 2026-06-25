@@ -75,6 +75,10 @@ export interface Config {
   gemini?: string;
   chatgpt?: string;
   github?: string;
+  gitlab?: string;
+  bitbucketUser?: string;
+  bitbucket?: string;
+  sources?: Record<string, boolean>; // search source toggles (apis.io/github/gitlab/bitbucket)
 }
 export function loadConfig(): Config {
   try {

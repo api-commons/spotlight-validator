@@ -5,7 +5,7 @@ import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
 import { lint, builtinDescriptions, builtinRulesByFormat } from './spotlight';
 import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { ARTIFACTS, DEFAULT_RULESETS, SAMPLES, artifactById, type ArtifactType } from './artifacts';
-import { searchArtifacts, loadArtifactContent, type SearchHit } from './apisio';
+import { searchSource, loadHit, enabledSources, type Hit, type SourceId, type Tokens } from './sources';
 import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, loadRules, upsertRule, removeRule, getRule, clearAll, loadConfig, saveConfig, type SavedDoc, type Config } from './storage';
 import builtinMetaRaw from './builtin-meta.json';
 import './style.css';
@@ -98,6 +98,23 @@ for (const a of ARTIFACTS) {
   typeSelect.appendChild(o);
 }
 typeSelect.addEventListener('change', () => setArtifact(typeSelect.value));
+
+// ---- search source selector (APIs.io default + GitHub; GitLab/Bitbucket opt-in) ----
+const sourceSelect = $<HTMLSelectElement>('#source-select');
+let currentSource: SourceId = 'apis.io';
+export function populateSources() {
+  const cfg = loadConfig();
+  const enabled = enabledSources(cfg.sources);
+  sourceSelect.innerHTML = enabled.map((s) => `<option value="${s.id}">${s.label}</option>`).join('');
+  if (!enabled.some((s) => s.id === currentSource)) currentSource = 'apis.io';
+  sourceSelect.value = currentSource;
+}
+function gitTokens(): Tokens {
+  const c = loadConfig();
+  return { github: c.github, gitlab: c.gitlab, bitbucketUser: c.bitbucketUser, bitbucket: c.bitbucket };
+}
+populateSources();
+sourceSelect.addEventListener('change', () => { currentSource = sourceSelect.value as SourceId; });
 
 function setArtifact(id: string) {
   hideResults();
@@ -199,17 +216,18 @@ function showResultsMessage(msg: string) {
 }
 async function runSearch() {
   const q = searchInput.value.trim();
-  showResultsMessage('Searching APIs.io…');
+  const srcLabel = sourceSelect.options[sourceSelect.selectedIndex]?.textContent || currentSource;
+  showResultsMessage(`Searching ${srcLabel}…`);
   try {
-    const hits = await searchArtifacts(current.endpoint, q);
+    const hits = await searchSource(currentSource, current, q, gitTokens());
     if (!hits.length) {
-      showResultsMessage(current.searchNote ?? `No ${current.label} results for “${q}”.`);
+      showResultsMessage(current.searchNote ?? `No ${current.label} results for “${q}” on ${srcLabel}.`);
       return;
     }
     resultsBox.innerHTML = hits
       .map((h, i) => `<div class="hit" data-i="${i}">
-        <span class="hit-name">${escapeHtml(h.name || h.aid)}</span>
-        <span class="hit-provider">${escapeHtml(h.provider_name || h.provider_slug || '')}</span>
+        <span class="hit-name">${escapeHtml(h.name)}</span>
+        <span class="hit-provider">${escapeHtml(h.repo || '')}</span>
       </div>`)
       .join('');
     resultsBox.hidden = false;
@@ -218,24 +236,24 @@ async function runSearch() {
     });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
-    showResultsMessage(`APIs.io search unavailable (${msg}). The API must allow this origin (CORS) — deploy apis-io-aws.`);
+    showResultsMessage(`${srcLabel} search unavailable: ${msg}`);
   }
 }
 function looksLikeMarkup(text: string): boolean {
   const t = text.trimStart().slice(0, 200).toLowerCase();
   return t.startsWith('<!doctype') || /^<(html|head|body)[\s>]/.test(t);
 }
-async function selectHit(hit: SearchHit) {
-  showResultsMessage(`Loading ${hit.name || hit.aid}…`);
+async function selectHit(hit: Hit) {
+  showResultsMessage(`Loading ${hit.name}…`);
   try {
-    const text = await loadArtifactContent(hit);
+    const text = await loadHit(hit, gitTokens());
     if (looksLikeMarkup(text)) {
-      showResultsMessage(`“${hit.name || hit.aid}” links to an HTML page, not a machine-readable ${current.label} document — can’t load it.`);
+      showResultsMessage(`“${hit.name}” links to an HTML page, not a machine-readable ${current.label} document — can’t load it.`);
       return;
     }
     // Load as YAML and store it as a named local doc (reusing one if already loaded).
     const yaml = toYaml(text);
-    const name = hit.name || hit.aid;
+    const name = hit.name;
     let doc = findDoc(current.id, name);
     if (doc) Object.assign(doc, { content: yaml, lang: 'yaml' as const, updatedAt: Date.now() });
     else doc = { id: newId(), name, type: current.id, lang: 'yaml', content: yaml, updatedAt: Date.now() };
@@ -654,28 +672,41 @@ $('#ruleset-list').addEventListener('toggle', (e) => {
 
 // ---- configuration (API keys / tokens) --------------------------------------
 const CFG_FIELDS: Array<[string, keyof Config]> = [
-  ['cfg-claude', 'claude'], ['cfg-gemini', 'gemini'], ['cfg-chatgpt', 'chatgpt'], ['cfg-github', 'github'],
+  ['cfg-claude', 'claude'], ['cfg-gemini', 'gemini'], ['cfg-chatgpt', 'chatgpt'],
+  ['cfg-github', 'github'], ['cfg-gitlab', 'gitlab'], ['cfg-bitbucketUser', 'bitbucketUser'], ['cfg-bitbucket', 'bitbucket'],
 ];
+const CFG_SECRETS = ['cfg-claude', 'cfg-gemini', 'cfg-chatgpt', 'cfg-github', 'cfg-gitlab', 'cfg-bitbucket']; // password fields
 (function initConfig() {
   const cfg = loadConfig();
   for (const [id, key] of CFG_FIELDS) {
     const el = $<HTMLInputElement>('#' + id);
-    el.value = cfg[key] ?? '';
+    el.value = (cfg[key] as string) ?? '';
     let t: number | undefined;
     el.addEventListener('input', () => {
       clearTimeout(t);
       t = window.setTimeout(() => {
         const c = loadConfig();
         const v = el.value.trim();
-        if (v) c[key] = v;
+        if (v) (c[key] as string) = v;
         else delete c[key];
         saveConfig(c);
       }, 300);
     });
   }
+  // Search-source toggles — persist to cfg.sources and re-populate the source dropdown.
+  for (const id of ['github', 'gitlab', 'bitbucket'] as const) {
+    const el = $<HTMLInputElement>('#src-' + id);
+    el.checked = (cfg.sources?.[id]) ?? (id === 'github');
+    el.addEventListener('change', () => {
+      const c = loadConfig();
+      c.sources = { ...(c.sources || {}), [id]: el.checked };
+      saveConfig(c);
+      populateSources();
+    });
+  }
   $<HTMLInputElement>('#cfg-show').addEventListener('change', (e) => {
     const type = (e.target as HTMLInputElement).checked ? 'text' : 'password';
-    for (const [id] of CFG_FIELDS) $<HTMLInputElement>('#' + id).type = type;
+    for (const id of CFG_SECRETS) $<HTMLInputElement>('#' + id).type = type;
   });
 })();
 document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.addEventListener('click', () => switchTab(t.dataset.tab!)));
