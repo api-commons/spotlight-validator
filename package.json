@@ -9,7 +9,8 @@
     "compile-rules": "node tools/compile-rules.mjs",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check:skill-sync": "node tools/check-skill-sync.mjs"
   },
   "dependencies": {
     "@spotlight-rules/spotlight-core": "^1.0.0",

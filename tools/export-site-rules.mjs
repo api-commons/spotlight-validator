@@ -9,6 +9,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse, stringify } from 'yaml';
 import { createRequire } from 'node:module';
+import { checkSkillSync } from './check-skill-sync.mjs';
 
 const require = createRequire(import.meta.url);
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -97,3 +98,9 @@ mkdirSync(join(SITE, '_data'), { recursive: true });
 writeFileSync(join(SITE, '_data', 'rule_index.json'), JSON.stringify(index, null, 1));
 console.log(`exported ${written} rule pages across ${Object.keys(index).length} artifacts`);
 for (const [a, v] of Object.entries(index)) console.log(`  ${a}: ${v.rules.length}`);
+
+// Guard: the agent-skill catalog must mirror the executable spotlight:skill ruleset.
+if (!checkSkillSync()) {
+  console.error('Catalog drift detected — fix rules/defaults/agent-skill.yaml to match spotlight:skill.');
+  process.exit(1);
+}
