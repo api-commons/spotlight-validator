@@ -98,3 +98,48 @@ rules:
       - spec:body
       - experience:usability
       - experience:reliability
+  skill-version-semver:
+    description: If a skill declares a version, it should be semantic (e.g. 1.0.0) so consumers can reason about changes between releases.
+    message: Skill version should be semantic (e.g. 1.0.0).
+    given: $.frontmatter.version
+    severity: warn
+    then:
+      function: pattern
+    tags:
+      - format:agent-skill
+      - spec:frontmatter
+      - experience:versioning
+  skill-body-present:
+    description: A skill must have body content, not just frontmatter — the body is the instruction set the agent actually follows.
+    message: A skill must have body content.
+    given: $.words
+    severity: error
+    then:
+      function: schema
+    tags:
+      - format:agent-skill
+      - spec:body
+      - experience:documentation
+      - experience:reliability
+  skill-has-examples-section:
+    description: A skill body should show concrete examples under an Examples section so agents and humans can see how it is meant to be invoked.
+    message: Skill body should have an "Examples" section.
+    given: $
+    severity: info
+    then:
+      function: headingPresent
+    tags:
+      - format:agent-skill
+      - spec:body
+      - experience:documentation
+  skill-single-title:
+    description: A skill body should have at most one level-1 heading — the frontmatter name is the title, and sections should use level-2 headings.
+    message: Skill body should have at most one level-1 heading.
+    given: $
+    severity: warn
+    then:
+      function: headingCount
+    tags:
+      - format:agent-skill
+      - spec:body
+      - experience:consistency
