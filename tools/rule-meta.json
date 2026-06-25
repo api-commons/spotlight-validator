@@ -1,0 +1,4906 @@
+{
+ "openapi|paths-kebab-case": {
+  "slug": "path-segments-kebab-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|path-parameters-camelCase-alphanumeric": {
+  "slug": "path-parameters-camel-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "parameters"
+  ]
+ },
+ "openapi|definitions-camelCase-alphanumeric": {
+  "slug": "schema-definitions-camel-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|properties-camelCase-alphanumeric": {
+  "slug": "schema-properties-camel-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|headers-hyphenated-pascal-case": {
+  "slug": "header-names-hyphenated-pascal-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "headers"
+  ]
+ },
+ "openapi|request-support-json": {
+  "slug": "request-support-json-media-type",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "request-body",
+   "media-types"
+  ]
+ },
+ "openapi|protocol-https-only": {
+  "slug": "require-https-servers",
+  "experience": [
+   "security"
+  ],
+  "spec": [
+   "servers"
+  ]
+ },
+ "openapi|response-success-hal": {
+  "slug": "success-response-use-hal-json",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|response-success-OK": {
+  "slug": "ok-response-use-hal-or-problem-json",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|response-success-hal-body": {
+  "slug": "success-response-match-hal-schema",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|no-get-request-body": {
+  "slug": "get-no-request-body",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "request-body"
+  ]
+ },
+ "openapi|not-post-to-get-info": {
+  "slug": "post-not-for-retrieval",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|put-with-request-body": {
+  "slug": "put-require-request-body",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|delete-with-request-body": {
+  "slug": "delete-no-request-body",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "request-body"
+  ]
+ },
+ "openapi|no-verbs-in-paths": {
+  "slug": "paths-no-verbs",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|real-like-examples": {
+  "slug": "require-realistic-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "examples"
+  ]
+ },
+ "openapi|stable-semantic-version": {
+  "slug": "version-semantic-and-stable",
+  "experience": [
+   "versioning",
+   "consistency"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|security-section-required": {
+  "slug": "require-root-security",
+  "experience": [
+   "security",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|components-required": {
+  "slug": "require-components-section",
+  "experience": [
+   "consistency",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|security-schemes-required": {
+  "slug": "require-security-schemes",
+  "experience": [
+   "security",
+   "governance"
+  ],
+  "spec": [
+   "components"
+  ]
+ },
+ "openapi|x-leanixid-required": {
+  "slug": "info-require-leanix-id",
+  "experience": [
+   "governance",
+   "discoverability"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|x-leanixid-uuid": {
+  "slug": "leanix-id-valid-uuid",
+  "experience": [
+   "governance",
+   "consistency"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|x-gateway-required": {
+  "slug": "info-require-gateway",
+  "experience": [
+   "governance"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|x-gateway-required-enumeration": {
+  "slug": "gateway-from-allowed-list",
+  "experience": [
+   "governance",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|hypermedia-links-required": {
+  "slug": "responses-include-hypermedia-links",
+  "experience": [
+   "discoverability",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|can-use-correct-uri-versioning": {
+  "slug": "uri-versioning-single-version",
+  "experience": [
+   "versioning",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|must-use-camel-case-for-property-names": {
+  "slug": "property-names-camel-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "request-body",
+   "responses",
+   "media-types",
+   "schemas"
+  ]
+ },
+ "openapi|must-use-additional-standard-http-status-codes": {
+  "slug": "use-standard-status-codes",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|must-use-additional-standard-http-status-codes-422": {
+  "slug": "prefer-400-over-422",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|should-use-additional-well-understood-http-status-codes": {
+  "slug": "operation-well-understood-status-codes",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|must-use-tracing": {
+  "slug": "require-tracing-headers",
+  "experience": [
+   "reliability",
+   "governance"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|must-provide-api-audience": {
+  "slug": "info-require-audience",
+  "experience": [
+   "governance",
+   "discoverability"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|must-use-camel-case-for-query-parameters": {
+  "slug": "query-parameters-camel-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "parameters"
+  ]
+ },
+ "openapi|ratelimit-headers": {
+  "slug": "responses-include-ratelimit-headers",
+  "experience": [
+   "reliability",
+   "documentation"
+  ],
+  "spec": [
+   "responses"
+  ]
+ },
+ "openapi|properties-must-include-examples": {
+  "slug": "properties-require-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|params-must-include-examples": {
+  "slug": "parameters-require-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "parameters"
+  ]
+ },
+ "openapi|headers-must-include-examples": {
+  "slug": "headers-require-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "headers"
+  ]
+ },
+ "openapi|endpoint-must-be-ref": {
+  "slug": "operations-use-ref",
+  "experience": [
+   "consistency",
+   "governance"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|path-must-include-version": {
+  "slug": "paths-include-version",
+  "experience": [
+   "versioning",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|endpoint-ref-must-be-file": {
+  "slug": "operation-ref-resource-file",
+  "experience": [
+   "consistency",
+   "governance"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|common-responses-unauthorized": {
+  "slug": "responses-define-401",
+  "experience": [
+   "error-handling",
+   "documentation"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|common-responses-not-found": {
+  "slug": "responses-define-404",
+  "experience": [
+   "error-handling",
+   "documentation"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|common-responses-too-many-requests": {
+  "slug": "responses-define-429",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|common-responses-server-error": {
+  "slug": "responses-define-500",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|array-properties-must-have-items-with-type": {
+  "slug": "array-properties-typed-items",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|array-params-must-have-items-with-type": {
+  "slug": "array-parameters-typed-items",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "parameters"
+  ]
+ },
+ "openapi|schema-key-must-be-snake-cased": {
+  "slug": "schema-keys-snake-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|parameter-key-must-be-snake-cased": {
+  "slug": "parameter-keys-snake-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "components"
+  ]
+ },
+ "openapi|example-key-must-be-snake-cased": {
+  "slug": "example-keys-snake-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "components",
+   "examples"
+  ]
+ },
+ "openapi|response-key-must-be-snake-cased": {
+  "slug": "response-keys-snake-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "responses",
+   "components"
+  ]
+ },
+ "openapi|schema-properties-must-have-type": {
+  "slug": "schema-properties-require-type",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|operation-security-defined": {
+  "slug": "operation-require-security",
+  "experience": [
+   "security",
+   "governance"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|operation-security-scopes-defined": {
+  "slug": "operation-security-use-defined-scheme",
+  "experience": [
+   "security",
+   "consistency"
+  ],
+  "spec": [
+   "security",
+   "paths"
+  ]
+ },
+ "openapi|info-extension-valid": {
+  "slug": "info-microcks-extension-valid",
+  "experience": [
+   "governance",
+   "consistency"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|operation-extension-valid": {
+  "slug": "operation-microcks-extension-valid",
+  "experience": [
+   "governance",
+   "consistency"
+  ],
+  "spec": [
+   "channels",
+   "paths"
+  ]
+ },
+ "openapi|examples-in-required-parameter": {
+  "slug": "required-parameters-require-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "parameters"
+  ]
+ },
+ "openapi|examples-in-optional-parameter": {
+  "slug": "optional-parameters-include-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "parameters"
+  ]
+ },
+ "openapi|examples-in-request-content": {
+  "slug": "request-content-require-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "request-body",
+   "media-types"
+  ]
+ },
+ "openapi|examples-in-response-content": {
+  "slug": "response-content-require-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|examples-fragments-to-complete-mocks": {
+  "slug": "examples-form-complete-mocks",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|aas-examples-in-messages": {
+  "slug": "messages-require-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "channels",
+   "messages"
+  ]
+ },
+ "openapi|aas3-examples-in-messages": {
+  "slug": "component-messages-require-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "messages",
+   "components"
+  ]
+ },
+ "openapi|aas-examples-in-parameter": {
+  "slug": "channel-parameters-require-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "channels",
+   "parameters",
+   "schemas"
+  ]
+ },
+ "openapi|aas-examples-fragments-to-complete-mocks": {
+  "slug": "message-examples-form-complete-mocks",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "channels"
+  ]
+ },
+ "openapi|info-description": {
+  "slug": "info-require-description",
+  "experience": [
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|operation-operationId-valid-in-url": {
+  "slug": "operation-id-url-safe",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|path-declarations-must-exist": {
+  "slug": "path-parameters-not-empty",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|path-keys-no-trailing-slash": {
+  "slug": "paths-no-trailing-slash",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|path-not-include-query": {
+  "slug": "paths-no-query-string",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|cache-control-parameter-undocumented": {
+  "slug": "document-cache-control-parameter",
+  "experience": [
+   "documentation",
+   "reliability"
+  ],
+  "spec": [
+   "parameters",
+   "headers"
+  ]
+ },
+ "openapi|cache-responses-undocumented": {
+  "slug": "document-cache-response-headers",
+  "experience": [
+   "documentation",
+   "reliability"
+  ],
+  "spec": [
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|cache-responses-indeterminate-behavior": {
+  "slug": "cache-headers-no-conflict",
+  "experience": [
+   "reliability",
+   "consistency"
+  ],
+  "spec": [
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|paths-kebab-case-2": {
+  "slug": "path-segments-kebab-case-2",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|request-headers-pascal-case": {
+  "slug": "request-header-names-pascal-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "headers"
+  ]
+ },
+ "openapi|response-headers-pascal-case": {
+  "slug": "response-header-names-pascal-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|no-forbidden-headers": {
+  "slug": "no-forbidden-http-headers",
+  "experience": [
+   "consistency",
+   "governance"
+  ],
+  "spec": [
+   "parameters",
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|no-x-headers-request": {
+  "slug": "headers-no-x-prefix",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "headers"
+  ]
+ },
+ "openapi|no-x-headers-response": {
+  "slug": "response-headers-no-x-prefix",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|servers-description": {
+  "slug": "server-require-description",
+  "experience": [
+   "documentation"
+  ],
+  "spec": [
+   "servers",
+   "paths"
+  ]
+ },
+ "openapi|servers-use-https": {
+  "slug": "require-https-servers-2",
+  "experience": [
+   "security"
+  ],
+  "spec": [
+   "servers",
+   "paths"
+  ]
+ },
+ "openapi|has-x-summary": {
+  "slug": "info-require-summary",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|has-termsOfService": {
+  "slug": "info-require-terms-of-service",
+  "experience": [
+   "documentation",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|has-contact": {
+  "slug": "info-require-contact",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|has-x-api-id": {
+  "slug": "info-require-api-identifier",
+  "experience": [
+   "discoverability",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|use-semver": {
+  "slug": "version-must-be-semver",
+  "experience": [
+   "versioning",
+   "consistency"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|number-format": {
+  "slug": "number-require-format",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|integer-format": {
+  "slug": "integer-require-format",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|allowed-integer-format": {
+  "slug": "integer-format-allowed-values",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|allowed-number-format": {
+  "slug": "number-format-allowed-values",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|patch-media-type": {
+  "slug": "patch-media-type-not-plain-json",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "operations",
+   "request-body",
+   "media-types"
+  ]
+ },
+ "openapi|paths-status": {
+  "slug": "require-status-health-check-path",
+  "experience": [
+   "reliability",
+   "discoverability"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|paths-status-return-problem": {
+  "slug": "status-path-return-problem-type",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|paths-status-problem-schema": {
+  "slug": "status-path-problem-schema-fields",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses",
+   "media-types",
+   "schemas"
+  ]
+ },
+ "openapi|paths-http-method": {
+  "slug": "path-no-http-method-names",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|use-problem-json-for-errors": {
+  "slug": "error-response-use-problem-type",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|use-problem-schema": {
+  "slug": "error-response-match-problem-schema",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "schemas"
+  ]
+ },
+ "openapi|hint-problem-schema": {
+  "slug": "error-schema-problem-property-names",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "responses",
+   "schemas"
+  ]
+ },
+ "openapi|missing-retry-after": {
+  "slug": "throttled-response-require-retry-after",
+  "experience": [
+   "reliability",
+   "error-handling"
+  ],
+  "spec": [
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|missing-ratelimit": {
+  "slug": "success-response-require-ratelimit-headers",
+  "experience": [
+   "reliability",
+   "security"
+  ],
+  "spec": [
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|array-boundaries": {
+  "slug": "array-require-min-max-items",
+  "experience": [
+   "security",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|number-boundaries": {
+  "slug": "number-require-min-max",
+  "experience": [
+   "security",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|no-additionalProperties": {
+  "slug": "object-disallow-additional-properties",
+  "experience": [
+   "security",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|no-default-additionalProperties": {
+  "slug": "object-set-additional-properties",
+  "experience": [
+   "security",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|constrained-additionalProperties": {
+  "slug": "object-constrain-additional-properties",
+  "experience": [
+   "security",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|security-protection-get": {
+  "slug": "get-operation-require-security",
+  "experience": [
+   "security"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|security-protection-non-idempotent": {
+  "slug": "write-operation-require-security",
+  "experience": [
+   "security"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|securitySchemes-oauth": {
+  "slug": "oauth-scheme-require-description",
+  "experience": [
+   "security",
+   "documentation"
+  ],
+  "spec": [
+   "security"
+  ]
+ },
+ "openapi|securitySchemes-jwt": {
+  "slug": "jwt-scheme-require-description",
+  "experience": [
+   "security",
+   "documentation"
+  ],
+  "spec": [
+   "security"
+  ]
+ },
+ "openapi|securitySchemes-oauth-http": {
+  "slug": "oauth-endpoints-require-https",
+  "experience": [
+   "security"
+  ],
+  "spec": [
+   "security"
+  ]
+ },
+ "openapi|securitySchemes-oauth-allowed-flows": {
+  "slug": "oauth-disallow-insecure-flows",
+  "experience": [
+   "security"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|string-maxlength": {
+  "slug": "string-require-max-length",
+  "experience": [
+   "security",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|string-pattern-or-format-or-enum": {
+  "slug": "string-require-pattern-or-format",
+  "experience": [
+   "security",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|api-server-url-invalid": {
+  "slug": "server-url-meet-standards",
+  "experience": [
+   "consistency",
+   "governance"
+  ],
+  "spec": [
+   "servers"
+  ]
+ },
+ "openapi|api-server-url-version-invalid": {
+  "slug": "server-url-include-version",
+  "experience": [
+   "versioning",
+   "consistency"
+  ],
+  "spec": [
+   "servers"
+  ]
+ },
+ "openapi|openapi-v3-schema-properties-names-camel-case": {
+  "slug": "schema-properties-camel-case-2",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|no-http-verbs-in-path": {
+  "slug": "path-no-http-verbs",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|structured-data-format": {
+  "slug": "write-response-support-json",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|structured-data-format-support-json-response-body": {
+  "slug": "get-response-support-json",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|tdp-http-response-code": {
+  "slug": "response-code-must-be-valid",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "responses"
+  ]
+ },
+ "openapi|check-queryparameter-in-endpoint": {
+  "slug": "path-require-query-parameter",
+  "experience": [
+   "usability",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|tdp-does-spec-contains-valid-http-verbs": {
+  "slug": "path-require-valid-http-verb",
+  "experience": [
+   "consistency",
+   "governance"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|tdp-spec-should-not-be-empty": {
+  "slug": "spec-must-not-be-empty",
+  "experience": [
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|tdp-tag-pascal-case": {
+  "slug": "tag-no-pascal-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "tags"
+  ]
+ },
+ "openapi|tdp-tag-camel-case": {
+  "slug": "tag-no-camel-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "tags"
+  ]
+ },
+ "openapi|tdp-tag-no-versions": {
+  "slug": "tag-no-version-info",
+  "experience": [
+   "naming",
+   "versioning"
+  ],
+  "spec": [
+   "paths",
+   "tags"
+  ]
+ },
+ "openapi|tdp-operation-summary-description": {
+  "slug": "operation-summary-description-differ",
+  "experience": [
+   "documentation"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|operation-delete-204-status-code": {
+  "slug": "delete-require-204-response",
+  "experience": [
+   "consistency",
+   "error-handling"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|tdp-operation-post-201-202-status-code": {
+  "slug": "post-require-201-or-202-response",
+  "experience": [
+   "consistency",
+   "error-handling"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|operation-400-response-body": {
+  "slug": "response-400-require-body",
+  "experience": [
+   "error-handling",
+   "documentation"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|check-content-type-for-206-get-response-code": {
+  "slug": "response-206-require-content-range",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|standard-error-payload": {
+  "slug": "error-response-standard-payload",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|check-description-for-all-error-responses": {
+  "slug": "error-response-require-description",
+  "experience": [
+   "documentation",
+   "error-handling"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|check-description-for-all-success-responses": {
+  "slug": "success-response-require-description",
+  "experience": [
+   "documentation"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|check-for-content-type-in-put-and-post-responses": {
+  "slug": "write-response-require-content-type",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|tdp-check-for-path-parameters-in-parameter-block": {
+  "slug": "path-params-declared-in-block",
+  "experience": [
+   "consistency",
+   "documentation"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|tdp-check-for-response-in-every-request": {
+  "slug": "operation-require-response",
+  "experience": [
+   "documentation",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|delete-must-not-return-body": {
+  "slug": "delete-no-response-body",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|tdp-invalid-symbol-in-path": {
+  "slug": "path-no-invalid-symbols",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|no-http-basic": {
+  "slug": "no-http-basic-auth",
+  "experience": [
+   "security"
+  ],
+  "spec": [
+   "security",
+   "components"
+  ]
+ },
+ "openapi|no-collection-paging-capability": {
+  "slug": "collection-response-support-paging",
+  "experience": [
+   "pagination",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses",
+   "media-types",
+   "schemas"
+  ]
+ },
+ "openapi|collection-missing-results-array": {
+  "slug": "collection-require-results-array",
+  "experience": [
+   "pagination",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses",
+   "media-types",
+   "schemas"
+  ]
+ },
+ "openapi|missing-pagination-query-parameters": {
+  "slug": "collection-require-pagination-params",
+  "experience": [
+   "pagination",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|post-request-body-missing-paging-object": {
+  "slug": "post-collection-require-paging-object",
+  "experience": [
+   "pagination",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "request-body",
+   "media-types",
+   "schemas"
+  ]
+ },
+ "openapi|disallow-resource-identifier-filtering": {
+  "slug": "no-id-query-parameter",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "parameters"
+  ]
+ },
+ "openapi|filtering-only-get-requests": {
+  "slug": "filter-param-only-on-get",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "parameters"
+  ]
+ },
+ "openapi|hybird-filtering-exists-with-root-filter": {
+  "slug": "no-hybrid-and-root-filtering",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "parameters"
+  ]
+ },
+ "openapi|sorting-parameters-only-get-requests": {
+  "slug": "sort-param-only-on-get",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "parameters"
+  ]
+ },
+ "openapi|unknown-error-format": {
+  "slug": "error-response-use-problem-type-2",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|no-keyword-conflicts": {
+  "slug": "property-no-language-keywords",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|camel-case-properties": {
+  "slug": "property-names-camel-case-2",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|disallowed-prepositions": {
+  "slug": "property-no-prepositions",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|disallowed-boolean-prefixes": {
+  "slug": "boolean-no-prefix",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|ref-property-name": {
+  "slug": "ref-property-require-format",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|ref-schema": {
+  "slug": "ref-property-standard-schema",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|invalid-id-type": {
+  "slug": "id-property-must-be-string",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|mandate-abbreviations-identifier": {
+  "slug": "use-id-not-identifier",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|mandate-abbreviations-organization": {
+  "slug": "use-org-not-organization",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|invalid-ref-type": {
+  "slug": "ref-property-must-be-string",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|invalid-orgid-type": {
+  "slug": "orgid-property-must-be-string",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|invalid-name-type": {
+  "slug": "name-property-must-be-string",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|invalid-description-type": {
+  "slug": "description-property-must-be-string",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|invalid-request-id-type": {
+  "slug": "requestid-property-must-be-string",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|invalid-created-date-time-type": {
+  "slug": "created-datetime-must-be-date-time",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|invalid-created-by-type": {
+  "slug": "createdby-property-must-be-string",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|invalid-modified-date-time-type": {
+  "slug": "modified-datetime-must-be-date-time",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|invalid-modified-by-type": {
+  "slug": "modifiedby-property-must-be-string",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|invalid-deleted-by-type": {
+  "slug": "deletedby-property-must-be-string",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|invalid-fingerprint-type": {
+  "slug": "fingerprint-property-must-be-string",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|fingerprint-naming": {
+  "slug": "use-fingerprint-not-hash",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|invalid-response-body": {
+  "slug": "response-body-must-be-object",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "media-types",
+   "schemas"
+  ]
+ },
+ "openapi|invalid-status-code": {
+  "slug": "use-standard-status-codes-2",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "responses"
+  ]
+ },
+ "openapi|missing-500-response": {
+  "slug": "operation-define-500-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|no-x-headers": {
+  "slug": "no-x-prefixed-request-headers",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "headers"
+  ]
+ },
+ "openapi|no-x-response-headers": {
+  "slug": "no-x-prefixed-response-headers",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "headers"
+  ]
+ },
+ "openapi|invalid-location-header": {
+  "slug": "location-header-only-on-201",
+  "experience": [
+   "consistency",
+   "error-handling"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|authorization-missing": {
+  "slug": "require-root-security-scheme",
+  "experience": [
+   "security",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|default-content-language": {
+  "slug": "default-content-language-en-us",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "headers",
+   "media-types",
+   "schemas"
+  ]
+ },
+ "openapi|no-explicit-headers": {
+  "slug": "no-operational-headers-in-spec",
+  "experience": [
+   "consistency",
+   "governance"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|invalid-custom-header-format": {
+  "slug": "custom-header-naming-format",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|sensitive-data-in-headers": {
+  "slug": "no-sensitive-data-in-headers",
+  "experience": [
+   "security",
+   "governance"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "headers"
+  ]
+ },
+ "openapi|no-resource-extensions": {
+  "slug": "no-format-extensions-in-paths",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|invalid-mime-type": {
+  "slug": "use-standard-mime-types",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|invalid-http-method": {
+  "slug": "use-standard-http-methods",
+  "experience": [
+   "consistency",
+   "naming"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|request-get-invalid-body": {
+  "slug": "get-must-not-have-request-body",
+  "experience": [
+   "consistency",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "request-body"
+  ]
+ },
+ "openapi|response-get-missing-body": {
+  "slug": "get-must-return-response-body",
+  "experience": [
+   "consistency",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|invalid-get-response-code": {
+  "slug": "get-response-codes-allowed",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|response-get-missing-success-code": {
+  "slug": "get-must-return-200",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|invalid-post-response-code": {
+  "slug": "post-response-codes-allowed",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|invalid-put-response-code": {
+  "slug": "put-response-codes-allowed",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|invalid-delete-response-code": {
+  "slug": "delete-response-codes-allowed",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|request-delete-invalid-body": {
+  "slug": "delete-must-not-have-request-body",
+  "experience": [
+   "consistency",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "request-body"
+  ]
+ },
+ "openapi|response-delete-invalid-body": {
+  "slug": "delete-must-not-return-body",
+  "experience": [
+   "consistency",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|invalid-patch-response-code": {
+  "slug": "patch-response-codes-allowed",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|request-patch-missing-body": {
+  "slug": "patch-must-have-request-body",
+  "experience": [
+   "consistency",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|invalid-head-response-code": {
+  "slug": "head-response-codes-allowed",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|request-head-invalid-body": {
+  "slug": "head-must-not-have-request-body",
+  "experience": [
+   "consistency",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "request-body"
+  ]
+ },
+ "openapi|response-head-invalid-body": {
+  "slug": "head-must-not-return-body",
+  "experience": [
+   "consistency",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|invalid-options-response-code": {
+  "slug": "options-response-codes-allowed",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|request-options-invalid-body": {
+  "slug": "options-must-not-have-request-body",
+  "experience": [
+   "consistency",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "request-body"
+  ]
+ },
+ "openapi|response-options-invalid-body": {
+  "slug": "options-must-not-return-body",
+  "experience": [
+   "consistency",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|request-support-json-2": {
+  "slug": "request-must-support-json",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "request-body",
+   "media-types"
+  ]
+ },
+ "openapi|no-numeric-ids": {
+  "slug": "avoid-integer-id-parameters",
+  "experience": [
+   "security",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths",
+   "parameters",
+   "schemas"
+  ]
+ },
+ "openapi|semver": {
+  "slug": "version-must-use-semver",
+  "experience": [
+   "versioning",
+   "consistency"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|schema-names-pascal-case": {
+  "slug": "schema-names-pascal-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|response-names-pascal-case": {
+  "slug": "response-names-pascal-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "responses",
+   "components"
+  ]
+ },
+ "openapi|limit-path-size": {
+  "slug": "limit-path-length",
+  "experience": [
+   "usability",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|hosts-https-only": {
+  "slug": "servers-must-use-https",
+  "experience": [
+   "security",
+   "reliability"
+  ],
+  "spec": [
+   "servers"
+  ]
+ },
+ "openapi|hosts-lowercase": {
+  "slug": "server-url-must-be-lowercase",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "servers"
+  ]
+ },
+ "openapi|hosts-domain": {
+  "slug": "servers-on-approved-domain",
+  "experience": [
+   "governance",
+   "consistency"
+  ],
+  "spec": [
+   "servers"
+  ]
+ },
+ "openapi|path-no-environment": {
+  "slug": "no-environment-names-in-paths",
+  "experience": [
+   "naming",
+   "governance"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|hosts-no-port": {
+  "slug": "servers-must-not-specify-port",
+  "experience": [
+   "usability",
+   "consistency"
+  ],
+  "spec": [
+   "servers"
+  ]
+ },
+ "openapi|paths-expose-technology": {
+  "slug": "no-technology-leak-in-paths",
+  "experience": [
+   "security",
+   "naming"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|paths-expose-extension": {
+  "slug": "no-file-extension-in-paths",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|paths-kebab-case-3": {
+  "slug": "path-segments-kebab-case-3",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|paths-trailing-slash": {
+  "slug": "no-trailing-slash-in-paths",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|paths-with-api": {
+  "slug": "no-api-prefix-in-paths",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|paths-empty-segments": {
+  "slug": "no-empty-path-segments",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|paths-limit-path-parameters": {
+  "slug": "limit-path-parameters",
+  "experience": [
+   "usability",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|paths-limit-sub-resources": {
+  "slug": "limit-nested-sub-resources",
+  "experience": [
+   "usability",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|paths-with-http-methods": {
+  "slug": "no-http-methods-in-paths",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|paths-params-camel-case": {
+  "slug": "path-parameters-camel-case-2",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "parameters"
+  ]
+ },
+ "openapi|query-params-characters": {
+  "slug": "query-parameter-allowed-characters",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "parameters"
+  ]
+ },
+ "openapi|query-params-camel-case": {
+  "slug": "query-parameters-camel-case-2",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "parameters"
+  ]
+ },
+ "openapi|query-params-not-required": {
+  "slug": "query-parameters-must-be-optional",
+  "experience": [
+   "usability",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "parameters"
+  ]
+ },
+ "openapi|query-params-no-api-keys": {
+  "slug": "no-api-keys-in-query-parameters",
+  "experience": [
+   "security",
+   "governance"
+  ],
+  "spec": [
+   "paths",
+   "parameters"
+  ]
+ },
+ "openapi|query-params-not-in-path": {
+  "slug": "no-query-strings-in-paths",
+  "experience": [
+   "consistency",
+   "naming"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|openapi-response-content-type-json-error": {
+  "slug": "response-must-use-json-content-type",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses",
+   "media-types"
+  ]
+ },
+ "openapi|openapi-request-body-content-type-json-error": {
+  "slug": "request-body-must-use-json-content-type",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "request-body",
+   "media-types"
+  ]
+ },
+ "openapi|openapi-info-description-eval-error": {
+  "slug": "info-description-no-eval-tag",
+  "experience": [
+   "security",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-description-length-error": {
+  "slug": "info-description-length-limit",
+  "experience": [
+   "documentation",
+   "consistency"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-description-script-error": {
+  "slug": "info-description-no-script-tag",
+  "experience": [
+   "security",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-title-error": {
+  "slug": "info-require-title",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-title-length-error": {
+  "slug": "info-title-max-length",
+  "experience": [
+   "consistency",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-title-upper-case-error": {
+  "slug": "info-title-capitalized",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-operations-description-length-error": {
+  "slug": "operation-description-max-length",
+  "experience": [
+   "documentation",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-operations-summary-error": {
+  "slug": "operation-require-summary",
+  "experience": [
+   "documentation"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-operations-summary-length-error": {
+  "slug": "operation-summary-max-length",
+  "experience": [
+   "documentation",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-operations-summary-period-none-error": {
+  "slug": "operation-summary-no-period",
+  "experience": [
+   "consistency",
+   "documentation"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|openapi-operations-tags-error": {
+  "slug": "operation-require-tags",
+  "experience": [
+   "discoverability",
+   "documentation"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-operations-tags-one-error": {
+  "slug": "operation-require-one-tag",
+  "experience": [
+   "discoverability",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-operations-tags-upper-case-error": {
+  "slug": "operation-tags-title-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "tags"
+  ]
+ },
+ "openapi|openapi-schema-description-error": {
+  "slug": "schema-require-description",
+  "experience": [
+   "documentation",
+   "data-modeling"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-description-length-error": {
+  "slug": "schema-description-max-length",
+  "experience": [
+   "documentation",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-names-error": {
+  "slug": "schema-require-name",
+  "experience": [
+   "naming",
+   "data-modeling"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-names-length-error": {
+  "slug": "schema-name-max-length",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-response-get-401-status-code-error": {
+  "slug": "get-define-401-response",
+  "experience": [
+   "security",
+   "error-handling"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-post-400-status-code-error": {
+  "slug": "post-define-400-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-post-401-status-code-error": {
+  "slug": "post-define-401-response",
+  "experience": [
+   "security",
+   "error-handling"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-put-401-status-code-error": {
+  "slug": "put-define-401-response",
+  "experience": [
+   "security",
+   "error-handling"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-delete-401-status-code-error": {
+  "slug": "delete-define-401-response",
+  "experience": [
+   "security",
+   "error-handling"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-patch-200-status-code-error": {
+  "slug": "patch-define-200-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-patch-400-status-code-error": {
+  "slug": "patch-define-400-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-patch-404-status-code-error": {
+  "slug": "patch-define-404-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-429-rate-limit-error": {
+  "slug": "operation-define-429-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-info-contact-email-error": {
+  "slug": "contact-require-email",
+  "experience": [
+   "discoverability",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-contact-error": {
+  "slug": "info-require-contact-2",
+  "experience": [
+   "discoverability",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-contact-name-error": {
+  "slug": "contact-require-name",
+  "experience": [
+   "discoverability",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-contact-url-error": {
+  "slug": "contact-require-url",
+  "experience": [
+   "discoverability",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-error": {
+  "slug": "require-info-object",
+  "experience": [
+   "documentation",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|openapi-info-version-error": {
+  "slug": "info-require-version",
+  "experience": [
+   "versioning"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-license-error": {
+  "slug": "info-require-license",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-license-name-error": {
+  "slug": "license-require-name",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-license-url-error": {
+  "slug": "license-require-url",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-info-terms-of-service-error": {
+  "slug": "info-require-terms-of-service-2",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "info"
+  ]
+ },
+ "openapi|openapi-external-docs-error": {
+  "slug": "require-external-docs",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|openapi-paths-kebab-case-error": {
+  "slug": "path-segments-kebab-case-4",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|openapi-paths-no-file-extensions-error": {
+  "slug": "paths-no-file-extensions",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|openapi-operation-id-required-error": {
+  "slug": "operation-require-operation-id",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-schema-properties-camel-case-error": {
+  "slug": "schema-properties-camel-case-3",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-parameter-query-camel-case-error": {
+  "slug": "query-parameters-camel-case-3",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "parameters"
+  ]
+ },
+ "openapi|openapi-operation-security-definitions-error": {
+  "slug": "operation-require-security-2",
+  "experience": [
+   "security",
+   "governance"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-operations-description-error": {
+  "slug": "operation-require-description",
+  "experience": [
+   "documentation"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-operations-operation-ids-camel-case-error": {
+  "slug": "operation-id-camel-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-operations-operation-ids-error": {
+  "slug": "operation-require-identifier",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-pagination-limit-parameter-error": {
+  "slug": "collection-require-limit-parameter",
+  "experience": [
+   "pagination",
+   "usability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "parameters"
+  ]
+ },
+ "openapi|openapi-pagination-parameters-query-error": {
+  "slug": "pagination-params-in-query",
+  "experience": [
+   "pagination",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "parameters"
+  ]
+ },
+ "openapi|openapi-components-parameters-casing-camel-error": {
+  "slug": "parameter-names-camel-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "components"
+  ]
+ },
+ "openapi|openapi-components-parameters-description-error": {
+  "slug": "parameter-require-description",
+  "experience": [
+   "documentation"
+  ],
+  "spec": [
+   "paths",
+   "parameters"
+  ]
+ },
+ "openapi|openapi-components-parameters-description-length-error": {
+  "slug": "parameter-description-max-length",
+  "experience": [
+   "documentation",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "components"
+  ]
+ },
+ "openapi|openapi-components-parameters-enum-casing-error": {
+  "slug": "parameter-enum-upper-snake-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "components"
+  ]
+ },
+ "openapi|openapi-components-parameters-in-error": {
+  "slug": "parameter-require-in",
+  "experience": [
+   "data-modeling",
+   "documentation"
+  ],
+  "spec": [
+   "parameters",
+   "components"
+  ]
+ },
+ "openapi|openapi-components-parameters-name-error": {
+  "slug": "parameter-require-name",
+  "experience": [
+   "naming",
+   "documentation"
+  ],
+  "spec": [
+   "parameters",
+   "components"
+  ]
+ },
+ "openapi|openapi-components-parameters-name-length-error": {
+  "slug": "parameter-name-max-length",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "components"
+  ]
+ },
+ "openapi|openapi-components-parameters-required-error": {
+  "slug": "parameter-require-required-flag",
+  "experience": [
+   "data-modeling",
+   "documentation"
+  ],
+  "spec": [
+   "parameters",
+   "components"
+  ]
+ },
+ "openapi|openapi-paths-declarations-error": {
+  "slug": "require-paths-declared",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|openapi-paths-max-nesting-depth-error": {
+  "slug": "path-max-nesting-depth",
+  "experience": [
+   "consistency",
+   "usability"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|openapi-paths-resource-plural-error": {
+  "slug": "path-resources-plural",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "openapi|openapi-request-bodies-delete-error": {
+  "slug": "delete-no-request-body-2",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-request-bodies-get-error": {
+  "slug": "get-no-request-body-2",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-request-body-on-post-error": {
+  "slug": "post-require-request-body",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-request-bodies-put-error": {
+  "slug": "put-require-request-body-2",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations"
+  ]
+ },
+ "openapi|openapi-response-delete-204-status-code-error": {
+  "slug": "delete-define-204-response",
+  "experience": [
+   "reliability",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-delete-404-schema-ref-error": {
+  "slug": "delete-404-use-schema-ref",
+  "experience": [
+   "error-handling",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-delete-500-status-code-error": {
+  "slug": "delete-define-500-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-get-200-status-code-error": {
+  "slug": "get-define-200-response",
+  "experience": [
+   "reliability",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-get-404-status-code-error": {
+  "slug": "get-define-404-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "schemas"
+  ]
+ },
+ "openapi|openapi-response-get-500-status-code-error": {
+  "slug": "get-define-500-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-post-201-status-code-error": {
+  "slug": "post-define-201-response",
+  "experience": [
+   "reliability",
+   "consistency"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-post-500-status-code-error": {
+  "slug": "post-define-500-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-put-400-status-code-error": {
+  "slug": "put-define-400-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-response-put-500-status-code-error": {
+  "slug": "put-define-500-response",
+  "experience": [
+   "error-handling",
+   "reliability"
+  ],
+  "spec": [
+   "paths",
+   "operations",
+   "responses"
+  ]
+ },
+ "openapi|openapi-components-parameters-schema-error": {
+  "slug": "parameter-require-schema",
+  "experience": [
+   "data-modeling",
+   "documentation"
+  ],
+  "spec": [
+   "parameters",
+   "components"
+  ]
+ },
+ "openapi|openapi-components-parameters-schema-ref-error": {
+  "slug": "parameter-schema-use-ref",
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ],
+  "spec": [
+   "parameters",
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-components-parameters-schema-type-error": {
+  "slug": "parameter-schema-require-type",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-descriptions-error": {
+  "slug": "schema-property-require-description",
+  "experience": [
+   "documentation",
+   "data-modeling"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-descriptions-length-error": {
+  "slug": "schema-property-description-max-length",
+  "experience": [
+   "documentation",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-enum-casing-error": {
+  "slug": "schema-property-enum-upper-snake-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-names-camel-case-error": {
+  "slug": "schema-property-names-camel-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-names-length-error": {
+  "slug": "schema-property-names-length-limit",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-type-error": {
+  "slug": "schema-require-type",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-components-parameters-schema-items-array-error": {
+  "slug": "parameter-array-require-items",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "parameters",
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-components-parameters-schema-type-integer-maximum-warn": {
+  "slug": "parameter-integer-require-maximum",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|openapi-components-parameters-schema-type-integer-minimum-warn": {
+  "slug": "parameter-integer-require-minimum",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|openapi-components-parameters-schema-type-string-maxlength-warn": {
+  "slug": "parameter-string-require-max-length",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|openapi-components-parameters-schema-type-string-minlength-warn": {
+  "slug": "parameter-string-require-min-length",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|openapi-components-parameters-schema-type-string-pattern-warn": {
+  "slug": "parameter-string-require-pattern",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas"
+  ]
+ },
+ "openapi|openapi-schema-properties-array-items-error": {
+  "slug": "schema-array-property-require-items",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-array-maxitems-error": {
+  "slug": "schema-array-property-require-max-items",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-array-minitems-error": {
+  "slug": "schema-array-property-require-min-items",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-define-number-maximum-error": {
+  "slug": "schema-number-property-require-maximum",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-define-number-minimum-error": {
+  "slug": "schema-number-property-require-minimum",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-string-maxlength-error": {
+  "slug": "schema-string-property-require-max-length",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-schema-properties-string-minlength-error": {
+  "slug": "schema-string-property-require-min-length",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "schemas",
+   "components"
+  ]
+ },
+ "openapi|openapi-tags-description-error": {
+  "slug": "tags-require-description",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "tags"
+  ]
+ },
+ "openapi|openapi-tags-name-error": {
+  "slug": "tags-require-name",
+  "experience": [
+   "discoverability",
+   "naming"
+  ],
+  "spec": [
+   "tags"
+  ]
+ },
+ "openapi|openapi-tags-object-error": {
+  "slug": "require-tags-object",
+  "experience": [
+   "discoverability",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|openapi-tags-one-error": {
+  "slug": "require-at-least-one-tag",
+  "experience": [
+   "discoverability",
+   "consistency"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|openapi-tags-upper-case-error": {
+  "slug": "tag-names-title-case",
+  "experience": [
+   "naming",
+   "consistency"
+  ],
+  "spec": [
+   "tags"
+  ]
+ },
+ "openapi|openapi-version-3x-error": {
+  "slug": "require-openapi-version-3x",
+  "experience": [
+   "versioning",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|openapi-servers-defined-error": {
+  "slug": "require-servers-defined",
+  "experience": [
+   "usability",
+   "discoverability"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "openapi|openapi-servers-url-https-error": {
+  "slug": "server-url-require-https",
+  "experience": [
+   "security"
+  ],
+  "spec": [
+   "servers"
+  ]
+ },
+ "openapi|openapi-no-version-in-path-error": {
+  "slug": "paths-no-version-segment",
+  "experience": [
+   "versioning",
+   "consistency"
+  ],
+  "spec": [
+   "paths"
+  ]
+ },
+ "apis-json|apis-aid-error": {
+  "slug": "api-require-aid",
+  "experience": [
+   "discoverability",
+   "governance"
+  ],
+  "spec": [
+   "apis"
+  ]
+ },
+ "apis-json|apis-baseURL-error": {
+  "slug": "api-require-base-url",
+  "experience": [
+   "usability",
+   "discoverability"
+  ],
+  "spec": [
+   "apis"
+  ]
+ },
+ "apis-json|apis-contact-email-error": {
+  "slug": "contact-include-email",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "apis"
+  ]
+ },
+ "apis-json|apis-contact-error": {
+  "slug": "api-include-contact",
+  "experience": [
+   "discoverability",
+   "documentation"
+  ],
+  "spec": [
+   "apis"
+  ]
+ },
+ "apis-json|apis-contact-fn-error": {
+  "slug": "contact-include-full-name",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "apis"
+  ]
+ },
+ "apis-json|apis-properties-about-info": {
+  "slug": "api-include-about-page",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-apiop-cycles-business-impact-canvas-info": {
+  "slug": "include-business-impact-canvas",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "collection"
+  ]
+ },
+ "apis-json|apis-properties-apiop-cycles-business-model-canvas-info": {
+  "slug": "include-business-model-canvas",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "collection"
+  ]
+ },
+ "apis-json|apis-properties-apiop-cycles-capacity-canvas-info": {
+  "slug": "include-capacity-canvas",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "collection"
+  ]
+ },
+ "apis-json|apis-properties-apiop-cycles-customer-journey-canvas-info": {
+  "slug": "include-customer-journey-canvas",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "collection"
+  ]
+ },
+ "apis-json|apis-properties-apiop-cycles-domain-canvas-info": {
+  "slug": "include-domain-canvas",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "collection"
+  ]
+ },
+ "apis-json|apis-properties-apiop-cycles-event-canvas-info": {
+  "slug": "include-event-canvas",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "collection"
+  ]
+ },
+ "apis-json|apis-properties-apiop-cycles-interaction-canvas-info": {
+  "slug": "include-interaction-canvas",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "collection"
+  ]
+ },
+ "apis-json|apis-properties-apiop-cycles-locations-canvas-info": {
+  "slug": "include-locations-canvas",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "collection"
+  ]
+ },
+ "apis-json|apis-properties-apiop-cycles-rest-canvas-info": {
+  "slug": "include-rest-canvas",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "collection"
+  ]
+ },
+ "apis-json|apis-properties-apiop-cycles-value-proposition-canvas-info": {
+  "slug": "include-value-proposition-canvas",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "collection"
+  ]
+ },
+ "apis-json|apis-properties-apis-json-rules-info": {
+  "slug": "include-operational-rules",
+  "experience": [
+   "governance"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-apis-json-validator-info": {
+  "slug": "include-business-validator",
+  "experience": [
+   "governance"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-authentication-info": {
+  "slug": "include-authentication-page",
+  "experience": [
+   "security",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-blog-feed-info": {
+  "slug": "include-blog-feed",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-blog-info": {
+  "slug": "include-blog",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-change-log-info": {
+  "slug": "include-change-log",
+  "experience": [
+   "versioning",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-compare-info": {
+  "slug": "include-version-comparison",
+  "experience": [
+   "versioning",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-deprecation-policy-info": {
+  "slug": "include-deprecation-policy",
+  "experience": [
+   "versioning",
+   "governance"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-documentation-info": {
+  "slug": "include-documentation",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-environments-production-info": {
+  "slug": "include-production-environment",
+  "experience": [
+   "usability",
+   "reliability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-environments-staging-info": {
+  "slug": "include-staging-environment",
+  "experience": [
+   "usability",
+   "reliability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-examples-info": {
+  "slug": "include-examples",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-feedback-email-info": {
+  "slug": "include-feedback-email",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-feedback-issues-info": {
+  "slug": "include-feedback-issues-url",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-forum-info": {
+  "slug": "include-discussion-forum",
+  "experience": [
+   "usability",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-gateway-info": {
+  "slug": "include-gateway-reference",
+  "experience": [
+   "governance",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-getting-started-info": {
+  "slug": "include-getting-started",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-github-action-info": {
+  "slug": "include-github-action",
+  "experience": [
+   "governance",
+   "reliability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-github-organization-info": {
+  "slug": "include-github-organization",
+  "experience": [
+   "discoverability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-github-repository-info": {
+  "slug": "include-github-repository",
+  "experience": [
+   "discoverability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-insomnia-collection-info": {
+  "slug": "include-insomnia-collection",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-license-info": {
+  "slug": "include-interface-license",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-lifecycle-info": {
+  "slug": "include-api-lifecycle",
+  "experience": [
+   "governance",
+   "versioning"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-mock-server-info": {
+  "slug": "include-mock-server",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-openapi-info": {
+  "slug": "include-openapi-definition",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-openapi-rules-info": {
+  "slug": "include-openapi-governance-rules",
+  "experience": [
+   "governance"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-openapi-validator-info": {
+  "slug": "include-openapi-validator",
+  "experience": [
+   "governance"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-performance-info": {
+  "slug": "include-performance-testing",
+  "experience": [
+   "reliability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-plans-info": {
+  "slug": "include-api-plans",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-policies-info": {
+  "slug": "include-governance-policies",
+  "experience": [
+   "governance"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-portal-info": {
+  "slug": "include-developer-portal",
+  "experience": [
+   "discoverability",
+   "usability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-postman-collection-info": {
+  "slug": "include-postman-collection",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-postman-public-workspace-info": {
+  "slug": "include-postman-public-workspace",
+  "experience": [
+   "usability",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-pricing-info": {
+  "slug": "include-pricing",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-privacy-policy-info": {
+  "slug": "include-privacy-policy",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-questions-issues-info": {
+  "slug": "include-questions-issues-url",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-rate-limits-info": {
+  "slug": "include-rate-limits-reference",
+  "experience": [
+   "reliability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-road-map-info": {
+  "slug": "api-property-require-road-map",
+  "experience": [
+   "discoverability",
+   "documentation",
+   "governance"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-rules-info": {
+  "slug": "api-property-require-linting-rules",
+  "experience": [
+   "governance",
+   "consistency"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-sandbox-info": {
+  "slug": "api-property-require-sandbox",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-sdk-go-info": {
+  "slug": "api-property-require-go-sdk",
+  "experience": [
+   "usability",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-sdk-info": {
+  "slug": "api-property-require-sdk",
+  "experience": [
+   "usability",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-sdk-java-info": {
+  "slug": "api-property-require-java-sdk",
+  "experience": [
+   "usability",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-sdk-node-info": {
+  "slug": "api-property-require-node-sdk",
+  "experience": [
+   "usability",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-sdk-python-info": {
+  "slug": "api-property-require-python-sdk",
+  "experience": [
+   "usability",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-security-info": {
+  "slug": "api-property-require-security-page",
+  "experience": [
+   "security",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-signup-info": {
+  "slug": "api-property-require-signup",
+  "experience": [
+   "usability",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-status-info": {
+  "slug": "api-property-require-status-page",
+  "experience": [
+   "reliability",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-support-email-info": {
+  "slug": "api-property-require-support-email",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-support-issues-info": {
+  "slug": "api-property-require-support-issues-url",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-support-support-info": {
+  "slug": "api-property-require-support-page",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-teams-info": {
+  "slug": "api-property-require-team",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-terms-of-service-info": {
+  "slug": "api-property-require-terms-of-service",
+  "experience": [
+   "governance",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-url-info": {
+  "slug": "api-property-require-valid-url",
+  "experience": [
+   "consistency",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-use-cases-info": {
+  "slug": "api-property-require-use-cases",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-versioning-info": {
+  "slug": "api-property-require-versioning",
+  "experience": [
+   "versioning",
+   "documentation"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-video-info": {
+  "slug": "api-property-require-video",
+  "experience": [
+   "documentation",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-properties-vocabulary-info": {
+  "slug": "api-property-require-vocabulary",
+  "experience": [
+   "consistency",
+   "naming",
+   "governance"
+  ],
+  "spec": [
+   "apis",
+   "properties"
+  ]
+ },
+ "apis-json|apis-tags-error": {
+  "slug": "api-entry-require-tags",
+  "experience": [
+   "discoverability",
+   "data-modeling"
+  ],
+  "spec": [
+   "apis"
+  ]
+ },
+ "apis-json|apis-tags-upper-case-error": {
+  "slug": "api-tags-require-upper-case",
+  "experience": [
+   "naming",
+   "consistency",
+   "discoverability"
+  ],
+  "spec": [
+   "apis",
+   "tags"
+  ]
+ },
+ "apis-json|tags-upper-case-error": {
+  "slug": "tags-require-upper-case",
+  "experience": [
+   "naming",
+   "consistency",
+   "discoverability"
+  ],
+  "spec": [
+   "tags"
+  ]
+ },
+ "finops|finops-name": {
+  "slug": "finops-require-name",
+  "experience": [
+   "data-modeling",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "finops|finops-description": {
+  "slug": "finops-require-description",
+  "experience": [
+   "documentation",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "finops|finops-currency": {
+  "slug": "finops-require-currency",
+  "experience": [
+   "governance",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "finops|finops-budget": {
+  "slug": "finops-require-budget",
+  "experience": [
+   "governance",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "finops|finops-costs": {
+  "slug": "finops-require-costs",
+  "experience": [
+   "governance",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "finops|finops-cost-service": {
+  "slug": "finops-cost-require-service",
+  "experience": [
+   "governance",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "finops|finops-cost-monthly": {
+  "slug": "finops-cost-require-monthly",
+  "experience": [
+   "governance",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "json-ld|json-ld-context": {
+  "slug": "require-context",
+  "experience": [
+   "data-modeling",
+   "discoverability"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "json-ld|json-ld-type": {
+  "slug": "require-type",
+  "experience": [
+   "data-modeling",
+   "discoverability"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "json-ld|json-ld-id": {
+  "slug": "require-id",
+  "experience": [
+   "data-modeling",
+   "discoverability"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "jsonschema|json-schema-schema": {
+  "slug": "require-schema",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "jsonschema|json-schema-id": {
+  "slug": "require-id",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "jsonschema|json-schema-title": {
+  "slug": "require-title",
+  "experience": [
+   "documentation",
+   "data-modeling"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "jsonschema|json-schema-description": {
+  "slug": "require-description",
+  "experience": [
+   "documentation",
+   "data-modeling"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "jsonschema|json-schema-type": {
+  "slug": "require-type",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "jsonschema|json-schema-properties": {
+  "slug": "require-properties",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "jsonschema|json-schema-required": {
+  "slug": "require-required-list",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "jsonschema|json-schema-property-type": {
+  "slug": "property-require-type",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "properties"
+  ]
+ },
+ "jsonschema|json-schema-property-description": {
+  "slug": "property-require-description",
+  "experience": [
+   "documentation",
+   "data-modeling"
+  ],
+  "spec": [
+   "properties"
+  ]
+ },
+ "json-structure|json-structure-schema": {
+  "slug": "require-schema",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "json-structure|json-structure-id": {
+  "slug": "require-id",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "json-structure|json-structure-name": {
+  "slug": "require-name",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "json-structure|json-structure-type": {
+  "slug": "require-type",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "json-structure|json-structure-properties": {
+  "slug": "require-properties",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "schema"
+  ]
+ },
+ "json-structure|json-structure-property-type": {
+  "slug": "property-require-type",
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ],
+  "spec": [
+   "properties"
+  ]
+ },
+ "mcp|mcp-name": {
+  "slug": "require-name",
+  "experience": [
+   "data-modeling",
+   "discoverability"
+  ],
+  "spec": [
+   "server"
+  ]
+ },
+ "mcp|mcp-version": {
+  "slug": "require-version",
+  "experience": [
+   "versioning",
+   "data-modeling"
+  ],
+  "spec": [
+   "server"
+  ]
+ },
+ "mcp|mcp-description": {
+  "slug": "require-description",
+  "experience": [
+   "documentation",
+   "data-modeling"
+  ],
+  "spec": [
+   "server"
+  ]
+ },
+ "mcp|mcp-protocolversion": {
+  "slug": "require-protocol-version",
+  "experience": [
+   "versioning",
+   "consistency"
+  ],
+  "spec": [
+   "server"
+  ]
+ },
+ "mcp|mcp-capabilities": {
+  "slug": "require-capabilities",
+  "experience": [
+   "data-modeling",
+   "discoverability"
+  ],
+  "spec": [
+   "server"
+  ]
+ },
+ "mcp|mcp-instructions": {
+  "slug": "require-instructions",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "server"
+  ]
+ },
+ "mcp|mcp-capability-tools": {
+  "slug": "capability-require-tools",
+  "experience": [
+   "data-modeling",
+   "discoverability"
+  ],
+  "spec": [
+   "capabilities"
+  ]
+ },
+ "mcp|mcp-capability-resources": {
+  "slug": "capability-require-resources",
+  "experience": [
+   "data-modeling",
+   "discoverability"
+  ],
+  "spec": [
+   "capabilities"
+  ]
+ },
+ "mcp|mcp-capability-prompts": {
+  "slug": "capability-require-prompts",
+  "experience": [
+   "data-modeling",
+   "discoverability"
+  ],
+  "spec": [
+   "capabilities"
+  ]
+ },
+ "plans|plans-name": {
+  "slug": "require-name",
+  "experience": [
+   "data-modeling",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "plans|plans-description": {
+  "slug": "require-description",
+  "experience": [
+   "documentation",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "plans|plans-currency": {
+  "slug": "require-currency",
+  "experience": [
+   "governance",
+   "usability"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "plans|plans-plans": {
+  "slug": "require-plans",
+  "experience": [
+   "data-modeling",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "plans|plans-plan-name": {
+  "slug": "plan-require-name",
+  "experience": [
+   "data-modeling",
+   "governance"
+  ],
+  "spec": [
+   "plans"
+  ]
+ },
+ "plans|plans-plan-description": {
+  "slug": "plan-require-description",
+  "experience": [
+   "documentation",
+   "usability"
+  ],
+  "spec": [
+   "plans"
+  ]
+ },
+ "plans|plans-plan-price": {
+  "slug": "plan-require-price",
+  "experience": [
+   "governance",
+   "usability"
+  ],
+  "spec": [
+   "plans"
+  ]
+ },
+ "plans|plans-plan-features": {
+  "slug": "plan-require-features",
+  "experience": [
+   "usability",
+   "documentation"
+  ],
+  "spec": [
+   "plans"
+  ]
+ },
+ "plans|plans-plan-limits": {
+  "slug": "plan-require-limits",
+  "experience": [
+   "governance",
+   "reliability"
+  ],
+  "spec": [
+   "plans"
+  ]
+ },
+ "rate-limits|rate-limits-name": {
+  "slug": "require-name",
+  "experience": [
+   "data-modeling",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "rate-limits|rate-limits-description": {
+  "slug": "require-description",
+  "experience": [
+   "documentation",
+   "governance"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "rate-limits|rate-limits-limits": {
+  "slug": "require-limits",
+  "experience": [
+   "reliability",
+   "data-modeling"
+  ],
+  "spec": [
+   "document"
+  ]
+ },
+ "rate-limits|rate-limits-limit-name": {
+  "slug": "limit-require-name",
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ],
+  "spec": [
+   "limits"
+  ]
+ },
+ "rate-limits|rate-limits-limit-window": {
+  "slug": "limit-require-window",
+  "experience": [
+   "reliability",
+   "governance"
+  ],
+  "spec": [
+   "limits"
+  ]
+ },
+ "rate-limits|rate-limits-limit-max": {
+  "slug": "limit-require-max",
+  "experience": [
+   "reliability",
+   "governance"
+  ],
+  "spec": [
+   "limits"
+  ]
+ },
+ "rate-limits|rate-limits-limit-scope": {
+  "slug": "limit-require-scope",
+  "experience": [
+   "reliability",
+   "governance"
+  ],
+  "spec": [
+   "limits"
+  ]
+ }
+}

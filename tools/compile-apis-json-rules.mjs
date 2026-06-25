@@ -32,6 +32,8 @@ const toJs = (node) =>
         k === 'function' && typeof v === 'string' ? [k, FN[v] ?? v] : [k, toJs(v)]))
     : node;
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const META = (() => { try { return JSON.parse(readFileSync(join(ROOT, 'tools', 'rule-meta.json'), 'utf8')); } catch { return {}; } })();
+const metaTags = (m) => [...(m?.spec ?? []).map((s) => `spec:${s}`), ...(m?.experience ?? []).map((e) => `experience:${e}`)];
 const SRC = '/Users/kinlane/GitHub/api-evangelist/rules';
 
 // ---- gather + merge source rules (multi-doc) ----
@@ -72,10 +74,12 @@ for (const [origName, rule] of Object.entries(merged)) {
   if (origName.endsWith('-info') && isConfirmation(rule)) { dropped++; continue; }
   const clean = {};
   for (const [k, v] of Object.entries(rule)) if (VALID.has(k)) clean[k] = v;
-  let key = origName.replace(/^apis-json-/, '');
+  const curSlug = origName.replace(/^apis-json-/, '');
+  const m = META[`apis-json|${curSlug}`];
+  let key = m?.slug ?? curSlug;
   if (used.has(key)) { let i = 2; while (used.has(`${key}-${i}`)) i++; key = `${key}-${i}`; }
   used.add(key);
-  clean.tags = ['format:apis-json', `category:${inferCategory(origName)}`];
+  clean.tags = ['format:apis-json', ...metaTags(m), ...(m ? [] : [`category:${inferCategory(origName)}`])];
   out[key] = clean;
 }
 

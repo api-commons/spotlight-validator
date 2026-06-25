@@ -71,7 +71,7 @@ export const ruleset = {
     ]
   ],
   "rules": {
-    "paths-kebab-case": {
+    "path-segments-kebab-case": {
       "description": "All YAML/JSON paths MUST follow kebab-case. It requires the targeted value to match the pattern `^/([a-z0-9]+(-[a-z0-9]+)*)?(/[a-z0-9]+(-[a-z0-9]+)*|/{.+})*$` (evaluated at `$.paths[*]~`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
@@ -86,10 +86,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:naming"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "path-parameters-camelCase-alphanumeric": {
+    "path-parameters-camel-case": {
       "description": "Path parameters MUST follow camelCase. It requires the targeted value to match the pattern `^[a-z][a-zA-Z0-9]+$` (evaluated at `$..parameters[?(@.in == 'path')].name`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
@@ -104,10 +106,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:naming"
+        "spec:parameters",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "definitions-camelCase-alphanumeric": {
+    "schema-definitions-camel-case": {
       "description": "All YAML/JSON definitions MUST follow fields-camelCase and be ASCII alphanumeric characters or `_` or `$`. It requires the targeted value to match the pattern `/^[a-z$_]{1}[A-Z09$_]*/` (evaluated at `$.definitions[*]~`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -122,10 +126,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "properties-camelCase-alphanumeric": {
+    "schema-properties-camel-case": {
       "description": "All JSON Schema properties MUST follow fields-camelCase and be ASCII alphanumeric characters or `_` or `$`. It requires the targeted value to match the pattern `/^[a-z$_]{1}[A-Z09$_]*/` (evaluated at `$.definitions..properties[*]~`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -140,10 +146,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "headers-hyphenated-pascal-case": {
+    "header-names-hyphenated-pascal-case": {
       "description": "All `HTTP` headers MUST use `Hyphenated-Pascal-Case` notation. It requires the targeted value to match the pattern `/^([A-Z][a-z0-9]-)*([A-Z][a-z0-9])+/` (evaluated at `$..parameters[?(@.in == 'header')].name`). Severity: error.",
       "severity": "error",
       "given": "$..parameters[?(@.in == 'header')].name",
@@ -159,11 +167,14 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:naming",
+        "spec:parameters",
+        "spec:headers",
+        "experience:naming",
+        "experience:consistency",
         "source:sps-commerce"
       ]
     },
-    "request-support-json": {
+    "request-support-json-media-type": {
       "description": "Every request MUST support `application/json` media type. It requires the targeted value to be absent or empty (evaluated at `$.paths.[*].requestBody.content[?(@property.indexOf('json') === -1)]^`). Severity: error.",
       "formats": [
         "oas3"
@@ -178,10 +189,14 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:request-body",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "protocol-https-only": {
+    "require-https-servers": {
       "description": "ALL requests MUST go through `https` protocol only. It requires the targeted value to match the pattern `/^https:/` (evaluated at `$.servers..url`). Severity: error.",
       "formats": [
         "oas3"
@@ -199,10 +214,11 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:security"
+        "spec:servers",
+        "experience:security"
       ]
     },
-    "response-success-hal": {
+    "success-response-use-hal-json": {
       "description": "All success responses MUST be of media type `application/hal+json`. It requires the targeted value to be one of [\"application/hal+json\"] (evaluated at `$.paths..responses[?( @property >= 201 && @property < 300 && @property != 204)].content[*]~`). Severity: error.",
       "severity": "error",
       "given": "$.paths..responses[?( @property >= 201 && @property < 300 && @property != 204)].content[*]~",
@@ -222,10 +238,14 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "response-success-OK": {
+    "ok-response-use-hal-or-problem-json": {
       "description": "All success responses MUST be of media type `application/hal+json` or `application/problem+json`. It requires the targeted value to be one of [\"application/hal+json\",\"application/problem+json\"] (evaluated at `$.paths..responses[?( @property == 200 )].content[*]~`). Severity: error.",
       "severity": "error",
       "given": "$.paths..responses[?( @property == 200 )].content[*]~",
@@ -246,10 +266,14 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "response-success-hal-body": {
+    "success-response-match-hal-schema": {
       "description": "All success responses MUST follow `application/hal+json` schema. It validates the `schema` field against a JSON Schema (evaluated at `$.paths..responses[?( @property == 200 && @property < 300 && @property != 204)].content[?(@property === \"application/hal+json\")]`). Severity: error.",
       "severity": "error",
       "given": "$.paths..responses[?( @property == 200 && @property < 300 && @property != 204)].content[?(@property === \"application/hal+json\")]",
@@ -271,10 +295,14 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "spec:media-types",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "no-get-request-body": {
+    "get-no-request-body": {
       "description": "GET requests MUST NOT have a request body. It requires the targeted value to be absent or empty (evaluated at `$.paths[*].get.requestBody`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -289,10 +317,14 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:request-body",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "not-post-to-get-info": {
+    "post-not-for-retrieval": {
       "description": "POST requests SHOULD NOT be used for retrieving information. Use GET instead. It requires the `summary` field not to match `(retrieve|fetch|get|read)` (evaluated at `$.paths[*].post`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -311,10 +343,13 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:operations",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "put-with-request-body": {
+    "put-require-request-body": {
       "description": "PUT requests MUST have a request body. It requires the `requestBody` field to be present and non-empty (evaluated at `$.paths[*].put`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -330,10 +365,13 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "delete-with-request-body": {
+    "delete-no-request-body": {
       "description": "DELETE requests MUST NOT have a request body. It requires the targeted value to be absent or empty (evaluated at `$.paths[*].delete.requestBody`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -348,10 +386,14 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:request-body",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "no-verbs-in-paths": {
+    "paths-no-verbs": {
       "description": "API paths MUST be resource-focused and MUST NOT include verbs like 'get', 'update', 'create', or 'delete'. It requires the targeted value not to match `/\\b(get|update|create|delete|fetch|retrieve)\\b/` (evaluated at `$.paths[*]~`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
@@ -369,10 +411,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "real-like-examples": {
+    "require-realistic-examples": {
       "description": "API design SHOULD include real-like examples for request and response definitions. It requires the `example` field to be present and non-empty (evaluated at `$..[?(@.example || @.examples)]`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
@@ -388,10 +432,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:documentation"
+        "spec:examples",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "stable-semantic-version": {
+    "version-semantic-and-stable": {
       "description": "The API contract MUST have a stable version and MUST follow semantic versioning (e.g., '1.0.0'). Words like 'SNAPSHOT' or 'RELEASE' are not allowed. It requires the targeted value to match the pattern `^(?!.*\\b(SNAPSHOT|RELEASE)\\b)(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$` (evaluated at `$.info.version`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -409,10 +455,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:versioning"
+        "spec:info",
+        "experience:versioning",
+        "experience:consistency"
       ]
     },
-    "security-section-required": {
+    "require-root-security": {
       "description": "The API contract MUST include a 'security' section at the root level. It requires the `security` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -428,10 +476,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:security"
+        "spec:document",
+        "experience:security",
+        "experience:governance"
       ]
     },
-    "components-required": {
+    "require-components-section": {
       "description": "The API contract MUST include a 'components' section. It requires the `components` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -447,10 +497,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:consistency",
+        "experience:governance"
       ]
     },
-    "security-schemes-required": {
+    "require-security-schemes": {
       "description": "The API contract MUST include a 'securitySchemes' subsection under the 'components' section. It requires the `securitySchemes` field to be present and non-empty (evaluated at `$.components`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -466,11 +518,13 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:security",
+        "spec:components",
+        "experience:security",
+        "experience:governance",
         "source:api-evangelist"
       ]
     },
-    "x-leanixid-required": {
+    "info-require-leanix-id": {
       "description": "The API contract SHOULD include a custom field 'x-leanixid' in the 'info' section. It requires the `x-leanixid` field to be present and non-empty (evaluated at `$.info`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
@@ -486,10 +540,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:general"
+        "spec:info",
+        "experience:governance",
+        "experience:discoverability"
       ]
     },
-    "x-leanixid-uuid": {
+    "leanix-id-valid-uuid": {
       "description": "The API contract SHOULD include a custom field 'x-leanixid' containing a valid UUID. It requires the targeted value to match the pattern `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$` (evaluated at `$.info.x-leanixid`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
@@ -507,10 +563,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:general"
+        "spec:info",
+        "experience:governance",
+        "experience:consistency"
       ]
     },
-    "x-gateway-required": {
+    "info-require-gateway": {
       "description": "The API contract SHOULD include a custom field 'x-gateway' in the 'info' section. It requires the `x-gateway` field to be present and non-empty (evaluated at `$.info`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
@@ -526,10 +584,11 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:general"
+        "spec:info",
+        "experience:governance"
       ]
     },
-    "x-gateway-required-enumeration": {
+    "gateway-from-allowed-list": {
       "description": "The 'x-gateway' property, if present, MUST have a value in the enumeration: kong, nginx, aws, akamai, sap, other. It requires the `x-gateway` field to be one of [\"kong\",\"nginx\",\"aws\",\"akamai\",\"sap\",\"other\"] (evaluated at `$`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
@@ -554,10 +613,12 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:governance",
+        "experience:consistency"
       ]
     },
-    "hypermedia-links-required": {
+    "responses-include-hypermedia-links": {
       "description": "The API contract MAY include hypermedia links to represent the state of resources and be navigable. It requires the `links` field to be present and non-empty (evaluated at `$.paths[*][*].responses[*]`). Severity: hint.",
       "severity": "hint",
       "recommended": true,
@@ -573,10 +634,13 @@ export const ruleset = {
       "tags": [
         "source:adidas",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "experience:discoverability",
+        "experience:usability"
       ]
     },
-    "can-use-correct-uri-versioning": {
+    "uri-versioning-single-version": {
       "message": "Path can contain correct URI versioning",
       "description": "CAN use correct URI versioning [115a]. It requires the targeted value to match the pattern `^((?!.*\\/v\\d+(\\/.*)?\\/v\\d+)\\/.*)$` (evaluated at `$.paths.*~`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/can-use-correct-URI-versioning.test.md",
@@ -591,10 +655,12 @@ export const ruleset = {
       "tags": [
         "source:baloise",
         "format:openapi",
-        "category:versioning"
+        "spec:paths",
+        "experience:versioning",
+        "experience:consistency"
       ]
     },
-    "must-use-camel-case-for-property-names": {
+    "property-names-camel-case": {
       "message": "Property name has to be ASCII camelCase",
       "description": "MUST property names must be ASCII camelCase [118a]. It requires the targeted value to match the pattern `^[a-z]+((\\d)|([A-Z0-9][a-z0-9]+))*([A-Z])?$` (evaluated at `$.paths.*.*[responses,requestBody]..content..schema..properties.*~`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/property-names-must-be-ascii-camel-case.md",
@@ -609,10 +675,16 @@ export const ruleset = {
       "tags": [
         "source:baloise",
         "format:openapi",
-        "category:naming"
+        "spec:paths",
+        "spec:request-body",
+        "spec:responses",
+        "spec:media-types",
+        "spec:schemas",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "must-use-additional-standard-http-status-codes": {
+    "use-standard-status-codes": {
       "message": "{{property}} is not a standardized response code",
       "description": "MUST use standard HTTP status codes [150a]. It requires the targeted value to be one of [\"100\",\"101\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"300\",\"301\",\"302\",\"303\",\"304\",\"305\",\"307\",\"400\",\"401\",\"402\",\"403\",\"404\",\"405\",\"406\",\"407\",\"408\",\"409\",\"410\",\"411\",\"412\",\"413\",\"414\",\"415\",\"416\",\"417\",\"422\",\"423\",\"426\",\"428\",\"429\",\"431\",\"500\",\"501\",\"502\",\"503\",\"504\",\"505\",\"511\",\"default\"] (evaluated at `$.paths.*.*.responses.*~`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/must-use-additional-standard-http-status-codes.md",
@@ -677,10 +749,13 @@ export const ruleset = {
       "tags": [
         "source:baloise",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "must-use-additional-standard-http-status-codes-422": {
+    "prefer-400-over-422": {
       "message": "Prefer 400 over 422 as response code",
       "description": "MUST use standard HTTP status codes [150a]. It requires the `422` field to be defined (evaluated at `$.paths.*.*.responses.422`). Severity: warn.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/must-use-additional-standard-http-status-codes.md",
@@ -693,10 +768,13 @@ export const ruleset = {
       "tags": [
         "source:baloise",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "should-use-additional-well-understood-http-status-codes": {
+    "operation-well-understood-status-codes": {
       "message": "{{error}}",
       "description": "MUST use standard HTTP status codes [150]. It applies a custom validation to the targeted value (evaluated at `$.paths.*`). Severity: warn.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/should-use-additional-well-understood-http-status-codes.md",
@@ -813,10 +891,12 @@ export const ruleset = {
       "tags": [
         "source:baloise",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "must-use-tracing": {
+    "require-tracing-headers": {
       "message": "Header X-B3-Traceid, X-B3-Spanid or traceparent (w3c) missing",
       "description": "MUST use b3 or w3c tracing [233a]. It applies a custom validation to the targeted value (evaluated at `$.paths.*`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/requests-must-use-tracing.md",
@@ -828,10 +908,12 @@ export const ruleset = {
       "tags": [
         "source:baloise",
         "format:openapi",
-        "category:general"
+        "spec:paths",
+        "experience:reliability",
+        "experience:governance"
       ]
     },
-    "must-provide-api-audience": {
+    "info-require-audience": {
       "message": "Missing or wrong `info.x-audience`.",
       "description": "MUST provide API audience [219]. It requires the `x-audience` field to be present and non-empty, and requires the `x-audience` field to match the pattern `^(team-internal|domain-internal|company-internal|external-partner|external-public)$` (evaluated at `$.info`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/property-names-must-be-ascii-camel-case.md",
@@ -853,10 +935,12 @@ export const ruleset = {
       "tags": [
         "source:baloise",
         "format:openapi",
-        "category:general"
+        "spec:info",
+        "experience:governance",
+        "experience:discoverability"
       ]
     },
-    "must-use-camel-case-for-query-parameters": {
+    "query-parameters-camel-case": {
       "message": "Query parameter name has to be ASCII camelCase",
       "description": "MUST query parameter names must be ASCII camelCase [130a]. It requires the targeted value to match the pattern `^[a-z]+((\\d)|([A-Z0-9][a-z0-9]+))*([A-Z])?$` (evaluated at `$.paths.*.*.parameters[?(@ && @.in=='query')].name`). Severity: error.",
       "documentationUrl": "https://github.com/baloise-incubator/spectral-ruleset/blob/main/doc/rules/query-parameter-names-must-be-ascii-camel-case.md",
@@ -871,10 +955,13 @@ export const ruleset = {
       "tags": [
         "source:baloise",
         "format:openapi",
-        "category:naming"
+        "spec:paths",
+        "spec:parameters",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "ratelimit-headers": {
+    "responses-include-ratelimit-headers": {
       "description": "Response must include ratelimit-x headers. It requires the `headers.ratelimit-limit` field to be present and non-empty, and requires the `headers.ratelimit-remaining` field to be present and non-empty, and requires the `headers.ratelimit-reset` field to be present and non-empty (evaluated at `$..responses.*`). Severity: error.",
       "message": "{{description}}; missing {{property}}",
       "severity": "error",
@@ -896,10 +983,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:pagination"
+        "spec:responses",
+        "experience:reliability",
+        "experience:documentation"
       ]
     },
-    "properties-must-include-examples": {
+    "properties-require-examples": {
       "description": "Object properties must include examples. It applies a custom validation to the targeted value (evaluated at `$..properties..properties.*`). Severity: error.",
       "given": "$..properties..properties.*",
       "severity": "error",
@@ -910,10 +999,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:documentation"
+        "spec:schemas",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "params-must-include-examples": {
+    "parameters-require-examples": {
       "description": "Parameters must include examples. It requires exactly one of [\"example\",\"examples\"] to be present (evaluated at `$..parameters.*`). Severity: error.",
       "given": "$..parameters.*",
       "severity": "error",
@@ -930,10 +1021,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:documentation"
+        "spec:parameters",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "headers-must-include-examples": {
+    "headers-require-examples": {
       "description": "Headers must include examples. It applies a custom validation to the targeted value (evaluated at `$..headers.*`). Severity: error.",
       "given": "$..headers.*",
       "severity": "error",
@@ -944,10 +1037,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:documentation"
+        "spec:headers",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "endpoint-must-be-ref": {
+    "operations-use-ref": {
       "description": "Endpoint must be a $ref. It requires the `$ref` field to be present and non-empty (evaluated at `$.paths.*.*`). Severity: error.",
       "message": "{{description}}; {{property}} incorrect",
       "severity": "error",
@@ -960,10 +1055,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:consistency",
+        "experience:governance"
       ]
     },
-    "path-must-include-version": {
+    "paths-include-version": {
       "description": "Path must include the version. It requires the targeted value to match the pattern `^(/v[12]/.*|/api/v[12]/.*)$` (evaluated at `$.paths[?(@property!='/<upload_url>')]~`). Severity: error.",
       "message": "{{description}}; {{property}} incorrect",
       "severity": "error",
@@ -978,10 +1075,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:versioning"
+        "spec:paths",
+        "experience:versioning",
+        "experience:consistency"
       ]
     },
-    "endpoint-ref-must-be-file": {
+    "operation-ref-resource-file": {
       "description": "Endpoint must a $ref to a file in resources/. It requires the targeted value to match the pattern `^resources/.*yml$` (evaluated at `$.paths.*.$ref`). Severity: error.",
       "message": "{{description}}; {{value}} incorrect",
       "severity": "error",
@@ -996,10 +1095,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:consistency",
+        "experience:governance"
       ]
     },
-    "common-responses-unauthorized": {
+    "responses-define-401": {
       "description": "Responses should contain common response - 401 (unauthorized). It requires the `401` field to be present and non-empty (evaluated at `$.paths..responses`). Severity: error.",
       "message": "{{description}}. Missing {{property}}",
       "severity": "error",
@@ -1011,10 +1112,13 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:security"
+        "spec:paths",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:documentation"
       ]
     },
-    "common-responses-not-found": {
+    "responses-define-404": {
       "description": "Responses should contain common response - 404 (not found). It requires the `404` field to be present and non-empty (evaluated at `$.paths[?(@property.match(/.*\\/{.*}.*/))]..responses`). Severity: error.",
       "message": "{{description}}. Missing {{property}}",
       "severity": "error",
@@ -1026,10 +1130,13 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:documentation"
       ]
     },
-    "common-responses-too-many-requests": {
+    "responses-define-429": {
       "description": "Responses should contain common response - 429 (too many requests). It requires the `429` field to be present and non-empty (evaluated at `$.paths..responses`). Severity: error.",
       "message": "{{description}}. Missing {{property}}",
       "severity": "error",
@@ -1041,10 +1148,13 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "common-responses-server-error": {
+    "responses-define-500": {
       "description": "Responses should contain common response - 500 (server error). It requires the `500` field to be present and non-empty (evaluated at `$.paths..responses`). Severity: error.",
       "message": "{{description}}. Missing {{property}}",
       "severity": "error",
@@ -1056,10 +1166,13 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "array-properties-must-have-items-with-type": {
+    "array-properties-typed-items": {
       "description": "Array properties must have an items attribute with a type. It applies a custom validation to the targeted value (evaluated at `$..*.properties[*]`). Severity: error.",
       "given": "$..*.properties[*]",
       "severity": "error",
@@ -1070,10 +1183,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:general"
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "array-params-must-have-items-with-type": {
+    "array-parameters-typed-items": {
       "description": "Array parameters must have an items attribute with a type. It applies a custom validation to the targeted value (evaluated at `$..*.parameters[*]`). Severity: error.",
       "given": "$..*.parameters[*]",
       "severity": "error",
@@ -1084,10 +1199,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "schema-key-must-be-snake-cased": {
+    "schema-keys-snake-case": {
       "description": "schema key must be snake cased (e.g. snake_case). It applies a custom validation to the targeted value (evaluated at `$.components['schemas'].*~`). Severity: error.",
       "type": "style",
       "given": "$.components['schemas'].*~",
@@ -1099,10 +1216,13 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "parameter-key-must-be-snake-cased": {
+    "parameter-keys-snake-case": {
       "description": "parameter key must be snake cased (e.g. snake_case). It applies a custom validation to the targeted value (evaluated at `$.components['parameters'].*~`). Severity: error.",
       "type": "style",
       "given": "$.components['parameters'].*~",
@@ -1114,10 +1234,13 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:naming"
+        "spec:parameters",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "example-key-must-be-snake-cased": {
+    "example-keys-snake-case": {
       "description": "example key must be snake cased (e.g. snake_case). It applies a custom validation to the targeted value (evaluated at `$.components['examples'].*~`). Severity: error.",
       "type": "style",
       "given": "$.components['examples'].*~",
@@ -1129,10 +1252,13 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:naming"
+        "spec:components",
+        "spec:examples",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "response-key-must-be-snake-cased": {
+    "response-keys-snake-case": {
       "description": "response key must be snake cased (e.g. snake_case). It applies a custom validation to the targeted value (evaluated at `$.components['responses'].*~`). Severity: error.",
       "type": "style",
       "given": "$.components['responses'].*~",
@@ -1144,10 +1270,13 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:naming"
+        "spec:responses",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "schema-properties-must-have-type": {
+    "schema-properties-require-type": {
       "description": "Schema properties must have a type defined. It applies a custom validation to the targeted value (evaluated at `$..properties.*`). Severity: error.",
       "given": "$..properties.*",
       "severity": "error",
@@ -1158,10 +1287,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:structure"
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "operation-security-defined": {
+    "operation-require-security": {
       "description": "Check operation security is defined. It requires the `security` field to be present and non-empty (evaluated at `$.paths.*.*`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*.*",
@@ -1172,10 +1303,12 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:security"
+        "spec:paths",
+        "experience:security",
+        "experience:governance"
       ]
     },
-    "operation-security-scopes-defined": {
+    "operation-security-use-defined-scheme": {
       "description": "Check operation security uses a defined security scheme. It validates the targeted value against a JSON Schema (evaluated at `$.paths[*][*]..security.*`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*]..security.*",
@@ -1201,10 +1334,13 @@ export const ruleset = {
       "tags": [
         "source:digitalocean",
         "format:openapi",
-        "category:security"
+        "spec:security",
+        "spec:paths",
+        "experience:security",
+        "experience:consistency"
       ]
     },
-    "info-extension-valid": {
+    "info-microcks-extension-valid": {
       "description": "x-microcks extension must be valid. It validates the targeted value against a JSON Schema (evaluated at `$.info.x-microcks`). Severity: warn.",
       "message": "x-microcks extension must be valid",
       "formats": [
@@ -1237,10 +1373,12 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:governance",
+        "experience:consistency"
       ]
     },
-    "operation-extension-valid": {
+    "operation-microcks-extension-valid": {
       "description": "x-microcks-operation extension must be valid. It validates the targeted value against a JSON Schema (evaluated at `$.paths.*.*.x-microcks-operation`, `$.channels.*.[publish,subscribe].x-microcks-operation`, `$.operations.*.x-microcks-operation`). Severity: warn.",
       "message": "x-microcks-operation extension must be valid",
       "formats": [
@@ -1314,10 +1452,13 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:structure"
+        "spec:channels",
+        "spec:paths",
+        "experience:governance",
+        "experience:consistency"
       ]
     },
-    "examples-in-required-parameter": {
+    "required-parameters-require-examples": {
       "description": "Required param must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$..parameters[?(@ && @.required == true)]`). Severity: warn.",
       "message": "Required param must have examples",
       "formats": [
@@ -1332,10 +1473,12 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:documentation"
+        "spec:parameters",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "examples-in-optional-parameter": {
+    "optional-parameters-include-examples": {
       "description": "Optional param should have examples. It requires the `examples` field to be present and non-empty (evaluated at `$..parameters[?(@ && @.required != true)]`). Severity: info.",
       "message": "Optional param should have examples",
       "formats": [
@@ -1350,10 +1493,12 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:documentation"
+        "spec:parameters",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "examples-in-request-content": {
+    "request-content-require-examples": {
       "description": "Request with content must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$.paths..requestBody..content.*`). Severity: warn.",
       "message": "Request with content must have examples",
       "formats": [
@@ -1368,10 +1513,14 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:request-body",
+        "spec:media-types",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "examples-in-response-content": {
+    "response-content-require-examples": {
       "description": "Response with content must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$.paths..responses..content.*`). Severity: warn.",
       "message": "Response with content must have examples",
       "formats": [
@@ -1386,10 +1535,14 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:responses",
+        "spec:media-types",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "examples-fragments-to-complete-mocks": {
+    "examples-form-complete-mocks": {
       "description": "Response example must match required params examples to form full mocks. It applies a custom validation to the targeted value (evaluated at `$.paths.*.*`). Severity: warn.",
       "message": "{{error}}",
       "formats": [
@@ -1403,10 +1556,12 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "aas-examples-in-messages": {
+    "messages-require-examples": {
       "description": "Message must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$.channels.*.[publish,subscribe].message`). Severity: warn.",
       "message": "Message must have examples",
       "formats": [
@@ -1421,10 +1576,13 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:documentation"
+        "spec:channels",
+        "spec:messages",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "aas3-examples-in-messages": {
+    "component-messages-require-examples": {
       "description": "Message must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$.components.messages.*`). Severity: warn.",
       "message": "Message must have examples",
       "formats": [
@@ -1439,10 +1597,13 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:documentation"
+        "spec:messages",
+        "spec:components",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "aas-examples-in-parameter": {
+    "channel-parameters-require-examples": {
       "description": "Parameter must have examples. It requires the `examples` field to be present and non-empty (evaluated at `$.channels.*.parameters.*.schema`). Severity: warn.",
       "message": "Parameter must have examples",
       "formats": [
@@ -1457,10 +1618,14 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:documentation"
+        "spec:channels",
+        "spec:parameters",
+        "spec:schemas",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "aas-examples-fragments-to-complete-mocks": {
+    "message-examples-form-complete-mocks": {
       "description": "Message example must match params examples to form full mocks. It applies a custom validation to the targeted value (evaluated at `$.channels.*`). Severity: warn.",
       "message": "{{error}}",
       "formats": [
@@ -1474,10 +1639,12 @@ export const ruleset = {
       "tags": [
         "source:microcks",
         "format:openapi",
-        "category:documentation"
+        "spec:channels",
+        "experience:documentation",
+        "experience:usability"
       ]
     },
-    "info-description": {
+    "info-require-description": {
       "description": "Info section is missing a description. It requires the `description` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
       "formats": [
         "oas3",
@@ -1495,11 +1662,12 @@ export const ruleset = {
       "tags": [
         "source:paystack",
         "format:openapi",
-        "category:documentation",
+        "spec:info",
+        "experience:documentation",
         "source:api-evangelist"
       ]
     },
-    "operation-operationId-valid-in-url": {
+    "operation-id-url-safe": {
       "description": "OperationId must use URL friendly characters. It requires the `operationId` field to match the pattern `^[A-Za-z0-9-._~:/?#\\[\\]@!\\$&'()*+,;=]*$` (evaluated at `$.paths[*][*]`). Severity: error.",
       "formats": [
         "oas3",
@@ -1520,10 +1688,12 @@ export const ruleset = {
       "tags": [
         "source:paystack",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "path-declarations-must-exist": {
+    "path-parameters-not-empty": {
       "description": "Path parameter declarations must not be empty ex. `/api/{}` is invalid. It requires the targeted value not to match `{}` (evaluated at `$.paths`). Severity: error.",
       "formats": [
         "oas3",
@@ -1543,10 +1713,12 @@ export const ruleset = {
       "tags": [
         "source:paystack",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "path-keys-no-trailing-slash": {
+    "paths-no-trailing-slash": {
       "description": "Path must not end with a slash. It requires the targeted value not to match `.+\\/$` (evaluated at `$.paths`). Severity: warn.",
       "formats": [
         "oas3",
@@ -1566,10 +1738,12 @@ export const ruleset = {
       "tags": [
         "source:paystack",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "path-not-include-query": {
+    "paths-no-query-string": {
       "description": "Path must not include query string. It requires the targeted value not to match `\\?` (evaluated at `$.paths`). Severity: error.",
       "formats": [
         "oas3",
@@ -1589,10 +1763,12 @@ export const ruleset = {
       "tags": [
         "source:paystack",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "cache-control-parameter-undocumented": {
+    "document-cache-control-parameter": {
       "description": "Cache usage SHOULD be extensively detailed in the `description` property to avoid data leaks or the usage of stale data. This rule should ensure in some way that the api provider documented extensively the cache usage to avoid data leaks or usage of stale data. For now this ruleset tests: * the presence of following keywords in the `description`: `max-age`, `private`, `no-store`, `no-cache`. * that one and only one between Expires and Cache-Control is used. `Cache-Control` and `Expires` should not be used in conjuction, because `Cache-Control` overrides `Expires` when `max-age` is set. Instead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache like described in RFC7234. It requires the `description` field to be present and non-empty, and requires the `description` field to match the pattern `.*(max-age|private|no-store|no-cache).*` (evaluated at `$..[parameters][?(@.in == \"header\" && @.name.match(/Cache-Control/i))]`). Severity: warn.",
       "message": "Cache usage SHOULD be documented when used.",
       "formats": [
@@ -1617,10 +1793,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:documentation"
+        "spec:parameters",
+        "spec:headers",
+        "experience:documentation",
+        "experience:reliability"
       ]
     },
-    "cache-responses-undocumented": {
+    "document-cache-response-headers": {
       "description": "Cache usage SHOULD be extensively detailed in the `description` property to avoid data leaks or the usage of stale data. This rule should ensure in some way that the api provider documented extensively the cache usage to avoid data leaks or usage of stale data. For now this ruleset tests: * the presence of following keywords in the `description`: `max-age`, `private`, `no-store`, `no-cache`. * that one and only one between Expires and Cache-Control is used. `Cache-Control` and `Expires` should not be used in conjuction, because `Cache-Control` overrides `Expires` when `max-age` is set. Instead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache like described in RFC7234. It requires the `description` field to be present and non-empty, and requires the `description` field to match the pattern `.*(max-age|private|no-store|no-cache).*` (evaluated at `$.[responses][?(@property[0] == \"2\" )][headers].[?(@property.match(/Cache-Control|Expires/i))]]`). Severity: info.",
       "message": "Cache usage in responses SHOULD be documented in Cache-Control and/or Expires. {{error}}",
       "formats": [
@@ -1645,10 +1824,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:documentation"
+        "spec:responses",
+        "spec:headers",
+        "experience:documentation",
+        "experience:reliability"
       ]
     },
-    "cache-responses-indeterminate-behavior": {
+    "cache-headers-no-conflict": {
       "description": "Cache usage SHOULD be extensively detailed in the `description` property to avoid data leaks or the usage of stale data. This rule should ensure in some way that the api provider documented extensively the cache usage to avoid data leaks or usage of stale data. For now this ruleset tests: * the presence of following keywords in the `description`: `max-age`, `private`, `no-store`, `no-cache`. * that one and only one between Expires and Cache-Control is used. `Cache-Control` and `Expires` should not be used in conjuction, because `Cache-Control` overrides `Expires` when `max-age` is set. Instead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache like described in RFC7234. It requires exactly one of [\"Expires\",\"Cache-Control\"] to be present (evaluated at `$.[responses][?(@property[0] == \"2\" )][headers]`). Severity: info.",
       "message": "{{error}}",
       "formats": [
@@ -1671,10 +1853,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:structure"
+        "spec:responses",
+        "spec:headers",
+        "experience:reliability",
+        "experience:consistency"
       ]
     },
-    "paths-kebab-case-2": {
+    "path-segments-kebab-case-2": {
       "x-tags": [
         "it"
       ],
@@ -1692,10 +1877,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:naming"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "request-headers-pascal-case": {
+    "request-header-names-pascal-case": {
       "x-tags": [
         "it"
       ],
@@ -1718,10 +1905,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:naming"
+        "spec:parameters",
+        "spec:headers",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "response-headers-pascal-case": {
+    "response-header-names-pascal-case": {
       "x-tags": [
         "it"
       ],
@@ -1744,10 +1934,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:naming"
+        "spec:responses",
+        "spec:headers",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "no-forbidden-headers": {
+    "no-forbidden-http-headers": {
       "x-tags": [
         "standards"
       ],
@@ -1767,10 +1960,14 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:responses",
+        "spec:headers",
+        "experience:consistency",
+        "experience:governance"
       ]
     },
-    "no-x-headers-request": {
+    "headers-no-x-prefix": {
       "x-tags": [
         "standards"
       ],
@@ -1791,10 +1988,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:headers",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "no-x-headers-response": {
+    "response-headers-no-x-prefix": {
       "x-tags": [
         "standards"
       ],
@@ -1815,10 +2015,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:structure"
+        "spec:responses",
+        "spec:headers",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "servers-description": {
+    "server-require-description": {
       "x-tags": [
         "metadata",
         "it"
@@ -1838,10 +2041,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:documentation"
+        "spec:servers",
+        "spec:paths",
+        "experience:documentation"
       ]
     },
-    "servers-use-https": {
+    "require-https-servers-2": {
       "x-tags": [
         "security"
       ],
@@ -1863,10 +2068,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:security"
+        "spec:servers",
+        "spec:paths",
+        "experience:security"
       ]
     },
-    "has-x-summary": {
+    "info-require-summary": {
       "x-tags": [
         "it",
         "metadata"
@@ -1887,10 +2094,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:documentation"
+        "spec:document",
+        "experience:documentation",
+        "experience:discoverability"
       ]
     },
-    "has-termsOfService": {
+    "info-require-terms-of-service": {
       "x-tags": [
         "metadata"
       ],
@@ -1910,10 +2119,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:documentation",
+        "experience:governance"
       ]
     },
-    "has-contact": {
+    "info-require-contact": {
       "x-tags": [
         "metadata"
       ],
@@ -1932,10 +2143,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:documentation"
+        "spec:document",
+        "experience:documentation",
+        "experience:discoverability"
       ]
     },
-    "has-x-api-id": {
+    "info-require-api-identifier": {
       "x-tags": [
         "it",
         "metadata"
@@ -1953,10 +2166,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:discoverability",
+        "experience:governance"
       ]
     },
-    "use-semver": {
+    "version-must-be-semver": {
       "description": "The API version field should follow [semantic versioning](https://semver.org/#semantic-versioning-specification-semver). It requires the targeted value to match the pattern `^[0-9]+.[0-9]+.[0-9]+(-[a-z0-9+.-]+)?` (evaluated at `$.info.version`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -1971,10 +2186,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:info",
+        "experience:versioning",
+        "experience:consistency"
       ]
     },
-    "number-format": {
+    "number-require-format": {
       "x-tags": [
         "it",
         "RAC_REST_FORMAT_004"
@@ -1994,10 +2211,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "integer-format": {
+    "integer-require-format": {
       "x-tags": [
         "it",
         "RAC_REST_FORMAT_004"
@@ -2017,10 +2236,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "allowed-integer-format": {
+    "integer-format-allowed-values": {
       "x-tags": [
         "it",
         "RAC_REST_FORMAT_004"
@@ -2046,10 +2267,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "allowed-number-format": {
+    "number-format-allowed-values": {
       "x-tags": [
         "it",
         "RAC_REST_FORMAT_004"
@@ -2078,10 +2301,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "patch-media-type": {
+    "patch-media-type-not-plain-json": {
       "x-tags": [
         "standards"
       ],
@@ -2100,10 +2325,14 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:structure"
+        "spec:operations",
+        "spec:request-body",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "paths-status": {
+    "require-status-health-check-path": {
       "x-tags": [
         "it"
       ],
@@ -2119,10 +2348,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:errors"
+        "spec:document",
+        "experience:reliability",
+        "experience:discoverability"
       ]
     },
-    "paths-status-return-problem": {
+    "status-path-return-problem-type": {
       "x-tags": [
         "it"
       ],
@@ -2143,10 +2374,15 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "spec:media-types",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "paths-status-problem-schema": {
+    "status-path-problem-schema-fields": {
       "x-tags": [
         "it"
       ],
@@ -2172,10 +2408,16 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "spec:media-types",
+        "spec:schemas",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "paths-http-method": {
+    "path-no-http-method-names": {
       "x-tags": [
         "it"
       ],
@@ -2194,10 +2436,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "use-problem-json-for-errors": {
+    "error-response-use-problem-type": {
       "description": "Error management is a key enabler of a resilient API ecosystem. Enforcing a consistent schema for errors between different APIs, enables client to properly implement an error management strategy, with positive impacts for users. Error responses should return one of the media-type defined in RFC7807: - `application/problem+json` - `application/problem+xml` An example of a valid response: ``` responses: \"503\": content: application/problem+json: schema: ... ```. It requires the targeted value to be one of [\"application/problem+xml\",\"application/problem+json\"] (evaluated at `$.paths.[*].responses[?(@property.match(/^(4|5|default)/))].content.*~`). Severity: error.",
       "message": "Error responses should support RFC7807 in {{path}}.",
       "formats": [
@@ -2217,10 +2462,14 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:responses",
+        "spec:media-types",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "use-problem-schema": {
+    "error-response-match-problem-schema": {
       "description": "WARN: This rule is under implementation and just provides an hint. Error management is a key enabler of a resilient API ecosystem. Enforcing a consistent schema for errors between different APIs, enables client to properly implement an error management strategy, with positive impacts for users. This rule inspects the schema returned by an error response and verifies whether it contains the main properties defined in RFC7807: `status`, `title` and `detail`. An example of a valid payload is ``` { \"title\": \"Not Found\", \"status\": 404, \"detail\": \"Book does not exist; id: 123\" } ``` See recommendation RAC_REST_NAME_007. It validates the targeted value against a JSON Schema (evaluated at `$.paths.[*].responses[?(@property.match(/^(4|5|default)/))][[schema]]`). Severity: hint.",
       "message": "Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}",
       "formats": [
@@ -2251,10 +2500,14 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:responses",
+        "spec:schemas",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "hint-problem-schema": {
+    "error-schema-problem-property-names": {
       "description": "WARN: This rule is under implementation and just provides an hint. Error management is a key enabler of a resilient API ecosystem. Enforcing a consistent schema for errors between different APIs, enables client to properly implement an error management strategy, with positive impacts for users. Errors should return RFC7807 objects. Instead, this schema seems to use non standard properties such as: `message`, `msg` and `code`. An error of the following form ``` { \"msg\": \"Book with id: 123 does not exist.\", \"code\": 6063 } ``` can be expressed in RFC7807 with ``` { \"detail\": \"Book with id: 123 does not exist.\", \"type\": \"https://api.example/v1/errors/6063\", \"status\": 404, \"title\": \"Not Found\" } ``` Returning an URI in `type`, instead of an opaque `code` can help the client in better identifying the error; moreover the URI though it should not be dereferenced automatically, can return an actual resource providing guidance in addressing the issue. See recommendation RAC_REST_NAME_007. It requires the `@key` field not to match `message|code|msg` (evaluated at `$.[responses][?(@property.match(/^(4|5|default)/))][[schema]][properties].*~`). Severity: hint.",
       "message": "Error response doesn't seem to match RFC7807. Are you sure it is ok? {{path}}",
       "formats": [
@@ -2273,10 +2526,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:errors"
+        "spec:responses",
+        "spec:schemas",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "missing-retry-after": {
+    "throttled-response-require-retry-after": {
       "description": "When a client is either: * throttled out with a 429 status code; * warned about a temporary server issue with a 503 status code; the server should explicitly communicate how long to wait before issuing further requests using the Retry-After header. Retry-After is defined in RFC7231. It requires the `Retry-After` field to be present and non-empty (evaluated at `$.[responses][?(@property == \"429\" || @property == \"503\"  )][headers]`). Severity: warn.",
       "message": "Missing ratelimit header: {{property}} in {{path}}",
       "formats": [
@@ -2292,10 +2548,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:responses",
+        "spec:headers",
+        "experience:reliability",
+        "experience:error-handling"
       ]
     },
-    "missing-ratelimit": {
+    "success-response-require-ratelimit-headers": {
       "x-tags": [
         "it"
       ],
@@ -2339,10 +2598,13 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:pagination"
+        "spec:responses",
+        "spec:headers",
+        "experience:reliability",
+        "experience:security"
       ]
     },
-    "array-boundaries": {
+    "array-require-min-max-items": {
       "description": "Array size should be limited to mitigate resource exhaustion attacks. This can be done using `maxItems` and `minItems`, like in the example below. ``` Limited: type: array maxItems: 10 items: type: string format: date ``` You should ensure that the schema referenced in `items` is constrained too. If you delegate input validation to a library or framework, be sure to test it thoroughly and ensure that it verifies `maxItems`. It requires the `maxItems` field to be defined, and requires the `minItems` field to be defined (evaluated at `$.[?(@.type==\"array\")]`). Severity: warn.",
       "message": "Schema of type array must specify maxItems and minItems. {{path}} {{error}}",
       "formats": [
@@ -2366,10 +2628,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:security",
+        "experience:data-modeling"
       ]
     },
-    "number-boundaries": {
+    "number-require-min-max": {
       "description": "Numeric values should be limited in size to mitigate resource exhaustion using `maximum` and `minimum`. If you delegate input validation to a library or framework, be sure to test it thoroughly. It requires the `maximum` field to be defined, and requires the `minimum` field to be defined (evaluated at `$.[?(@.type==\"number\")]`, `$.[?(@.type==\"integer\")]`). Severity: warn.",
       "message": "Schema of type number or integer must specify a maximum and a minimum. {{path}} {{error}}",
       "formats": [
@@ -2394,10 +2658,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:security",
+        "experience:data-modeling"
       ]
     },
-    "no-additionalProperties": {
+    "object-disallow-additional-properties": {
       "description": "By default, jsonschema allows additionalProperties. This means that schema validators can be bypassed using further, unspecified fields. While forbidding additionalProperties can create rigidity and hinder the evolution of an API - eg making it hard to accept new parameters or fields - it is possible that this flexibility can be used to bypass the schema validator and force the application to process unwanted information. Disable `additionalProperties` with `false` ``` Person: type: object additionalProperties: false properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` Or constraint them using `maxProperties` ``` Person: type: object additionalProperties: type: string pattern: /+39[0-9]{,14}/ maxProperties: 3 properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` - no additionalProperties - constrained additionalProperties. It requires the `additionalProperties` field to be absent or empty (evaluated at `$.[?(@.type==\"object\" && @.additionalProperties==true)]`). Severity: warn.",
       "message": "Objects should not allow additionalProperties. Disable them with `additionalProperties: false` or constraint them.",
       "formats": [
@@ -2417,10 +2683,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:security",
+        "experience:data-modeling"
       ]
     },
-    "no-default-additionalProperties": {
+    "object-set-additional-properties": {
       "description": "By default, jsonschema allows additionalProperties. This means that schema validators can be bypassed using further, unspecified fields. While forbidding additionalProperties can create rigidity and hinder the evolution of an API - eg making it hard to accept new parameters or fields - it is possible that this flexibility can be used to bypass the schema validator and force the application to process unwanted information. Disable `additionalProperties` with `false` ``` Person: type: object additionalProperties: false properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` Or constraint them using `maxProperties` ``` Person: type: object additionalProperties: type: string pattern: /+39[0-9]{,14}/ maxProperties: 3 properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` - no additionalProperties - constrained additionalProperties. It requires the `additionalProperties` field to be defined (evaluated at `$.[?(@.type==\"object\" && ! @.additionalProperties)]`). Severity: warn.",
       "message": "Objects should not allow additionalProperties. Disable them with `additionalProperties: false` or constraint them.",
       "formats": [
@@ -2440,10 +2708,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:security",
+        "experience:data-modeling"
       ]
     },
-    "constrained-additionalProperties": {
+    "object-constrain-additional-properties": {
       "description": "By default, jsonschema allows additionalProperties. This means that schema validators can be bypassed using further, unspecified fields. While forbidding additionalProperties can create rigidity and hinder the evolution of an API - eg making it hard to accept new parameters or fields - it is possible that this flexibility can be used to bypass the schema validator and force the application to process unwanted information. Disable `additionalProperties` with `false` ``` Person: type: object additionalProperties: false properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` Or constraint them using `maxProperties` ``` Person: type: object additionalProperties: type: string pattern: /+39[0-9]{,14}/ maxProperties: 3 properties: given_name: type: string pattern: [a-zA-Z ]{24} ``` - no additionalProperties - constrained additionalProperties. It requires the `maxProperties` field to be defined (evaluated at `$.[?(@.type==\"object\" && @.additionalProperties &&  @.additionalProperties!=true &&  @.additionalProperties!=false )]`). Severity: warn.",
       "message": "Objects should not allow additionalProperties. Disable them with `additionalProperties: false` or constraint them.",
       "formats": [
@@ -2463,10 +2733,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:security",
+        "experience:data-modeling"
       ]
     },
-    "security-protection-get": {
+    "get-operation-require-security": {
       "description": "Your API should be protected by a `security` rule either at global or operation level. Operations should be protected specially when they are tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`. This is done with one or more non-empty `security` rules. Security rules are defined in the `securityScheme` section. An example of a security rule applied at global level. ``` security: - BasicAuth: [] paths: /books: {} /users: {} securitySchemes: BasicAuth: scheme: http type: basic ``` An example of a security rule applied at operation level, which eventually overrides the global one ``` paths: /books: post: security: - AccessToken: [] securitySchemes: BasicAuth: scheme: http type: basic AccessToken: scheme: http type: bearer bearerFormat: JWT ```. It validates the `security` field against a JSON Schema (evaluated at `$.paths.*.get`). Severity: info.",
       "message": "The following operation is not protected by a `security` rule: {{path}}",
       "formats": [
@@ -2496,10 +2768,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:security"
+        "spec:paths",
+        "spec:operations",
+        "experience:security"
       ]
     },
-    "security-protection-non-idempotent": {
+    "write-operation-require-security": {
       "description": "Your API should be protected by a `security` rule either at global or operation level. Operations should be protected specially when they are tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`. This is done with one or more non-empty `security` rules. Security rules are defined in the `securityScheme` section. An example of a security rule applied at global level. ``` security: - BasicAuth: [] paths: /books: {} /users: {} securitySchemes: BasicAuth: scheme: http type: basic ``` An example of a security rule applied at operation level, which eventually overrides the global one ``` paths: /books: post: security: - AccessToken: [] securitySchemes: BasicAuth: scheme: http type: basic AccessToken: scheme: http type: bearer bearerFormat: JWT ```. It validates the `security` field against a JSON Schema (evaluated at `$.paths.*[?(@property.match(/^(post|put|patch|delete)/))]`). Severity: error.",
       "message": "The following non-idempotent operation is not protected by a `security` rule: {{path}}",
       "formats": [
@@ -2529,10 +2803,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:security"
+        "spec:paths",
+        "spec:operations",
+        "experience:security"
       ]
     },
-    "securitySchemes-oauth": {
+    "oauth-scheme-require-description": {
       "description": "Json Web Tokens RFC7519 is a compact, URL-safe means of representing claims to be transferred between two parties. JWT can be enclosed in encrypted or signed tokens like JWS and JWE. The [JOSE IANA registry](https://www.iana.org/assignments/jose/jose.xhtml) provides algorithms information. RFC8725 describes common pitfalls in the JWx specifications and in their implementations, such as: - the ability to ignore algorithms, eg. `{\"alg\": \"none\"}`; - using insecure algorithms like `RSASSA-PKCS1-v1_5` eg. `{\"alg\": \"RS256\"}`. An API using JWT should explicit in the `description` that the implementation conforms to RFC8725. ``` components: securitySchemes: JWTBearer: type: http scheme: bearer bearerFormat: JWT description: |- A bearer token in the format of a JWS and conformato to the specifications included in RFC8725. ```. It requires the `description` field to be present and non-empty, and requires the `description` field to match the pattern `.*RFC8725.*` (evaluated at `$.[securitySchemes][?(@.type==\"oauth2\")]`). Severity: warn.",
       "message": "JWT usage should be detailed in `description` {{error}}.",
       "given": [
@@ -2554,10 +2830,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:security"
+        "spec:security",
+        "experience:security",
+        "experience:documentation"
       ]
     },
-    "securitySchemes-jwt": {
+    "jwt-scheme-require-description": {
       "description": "Json Web Tokens RFC7519 is a compact, URL-safe means of representing claims to be transferred between two parties. JWT can be enclosed in encrypted or signed tokens like JWS and JWE. The [JOSE IANA registry](https://www.iana.org/assignments/jose/jose.xhtml) provides algorithms information. RFC8725 describes common pitfalls in the JWx specifications and in their implementations, such as: - the ability to ignore algorithms, eg. `{\"alg\": \"none\"}`; - using insecure algorithms like `RSASSA-PKCS1-v1_5` eg. `{\"alg\": \"RS256\"}`. An API using JWT should explicit in the `description` that the implementation conforms to RFC8725. ``` components: securitySchemes: JWTBearer: type: http scheme: bearer bearerFormat: JWT description: |- A bearer token in the format of a JWS and conformato to the specifications included in RFC8725. ```. It requires the `description` field to be present and non-empty, and requires the `description` field to match the pattern `.*RFC8725.*` (evaluated at `$.[securitySchemes][?(@.bearerFormat==\"jwt\" || @.bearerFormat==\"JWT\")]`). Severity: warn.",
       "message": "JWT usage should be detailed in `description` {{error}}.",
       "given": [
@@ -2579,10 +2857,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:security"
+        "spec:security",
+        "experience:security",
+        "experience:documentation"
       ]
     },
-    "securitySchemes-oauth-http": {
+    "oauth-endpoints-require-https": {
       "description": "OAuth2 endpoints must use `https://`. It requires the `value` field to match the pattern `^https://` (evaluated at `$.[securitySchemes][?(@.type==\"oauth2\")][*].[?(@property.match(/url$/i))]`). Severity: error.",
       "message": "OAuth endpoints must use https://",
       "formats": [
@@ -2605,10 +2885,11 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:security"
+        "spec:security",
+        "experience:security"
       ]
     },
-    "securitySchemes-oauth-allowed-flows": {
+    "oauth-disallow-insecure-flows": {
       "description": "The OAuth2 authorization framework defines various [grant types](https://tools.ietf.org/html/rfc6749#section-1.3), most notably the [AuthorizationCode](https://tools.ietf.org/html/rfc6749#section-1.3.1) and the [Client Credentials](https://tools.ietf.org/html/rfc6749#section-1.3.4). Some grant types are now considered insecure and MUST not be used, including `implicit` and `password`. The new [OAuth2.1](https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01) still in draft, removes them and suggests to replace the `implicit` with `authorizationCode` + PKCE defined in RFC7636. It requires the `implicit` field to be absent or empty, and requires the `password` field to be absent or empty (evaluated at `$.[?(@.type==\"oauth2\")].flows`). Severity: error.",
       "message": "Do not use oauth2 insecure flow: \"{{property}}\".",
       "formats": [
@@ -2632,10 +2913,11 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:security"
+        "spec:document",
+        "experience:security"
       ]
     },
-    "string-maxlength": {
+    "string-require-max-length": {
       "description": "String length should be limited to avoid an attacker to send very long strings to your service. You can do this in different ways: - specify a `maxLength` - constraint the possible values with an `enum` - use a constrained `format` like `date` or `date-time`. A constrained string using the `date` format. ``` ConstrainedString: type: string format: date ``` Another constrained string using `maxLength`. You can always add further constraints using a `pattern` or a `format`. ``` ZipCode: type: string maxLength: 5 pattern: '[0-9]{5}' ``` For further security, you can always limit string length even in conjunction with `format` and `pattern`. It requires the `maxLength` field to be defined (evaluated at `$.[?(@.type==\"string\" && !@.enum && @.format!=\"date\" && @.format !=\"date-time\" )]`). Severity: warn.",
       "message": "Strings (non enum) must specify a maximum length. {{path}} {{error}}",
       "formats": [
@@ -2655,10 +2937,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:security",
+        "experience:data-modeling"
       ]
     },
-    "string-pattern-or-format-or-enum": {
+    "string-require-pattern-or-format": {
       "description": "String length should be limited to avoid an attacker to send very long strings to your service. You can do this in different ways: - specify a `maxLength` - constraint the possible values with an `enum` - use a constrained `format` like `date` or `date-time`. A constrained string using the `date` format. ``` ConstrainedString: type: string format: date ``` Another constrained string using `maxLength`. You can always add further constraints using a `pattern` or a `format`. ``` ZipCode: type: string maxLength: 5 pattern: '[0-9]{5}' ``` For further security, you can always limit string length even in conjunction with `format` and `pattern`. It validates the targeted value against a JSON Schema (evaluated at `$.[?(@.type==\"string\" && !@.enum && @.format!=\"date\" && @.format !=\"date-time\" )]`). Severity: hint.",
       "message": "Strings (non enum) must specify a pattern or a format. {{path}}",
       "formats": [
@@ -2693,10 +2977,12 @@ export const ruleset = {
       "tags": [
         "source:team-digitale",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:security",
+        "experience:data-modeling"
       ]
     },
-    "api-server-url-invalid": {
+    "server-url-meet-standards": {
       "description": "API URLs should meet the Trimble API Standards. It applies a custom validation to the targeted value (evaluated at `$.servers`). Severity: warn.",
       "message": "{{error}}",
       "given": "$.servers",
@@ -2707,10 +2993,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:servers",
+        "experience:consistency",
+        "experience:governance"
       ]
     },
-    "api-server-url-version-invalid": {
+    "server-url-include-version": {
       "description": "API URLs versions should meet the Trimble API Standards. It applies a custom validation to the targeted value (evaluated at `$.servers`). Severity: warn.",
       "message": "{{error}}",
       "given": "$.servers",
@@ -2721,10 +3009,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:versioning"
+        "spec:servers",
+        "experience:versioning",
+        "experience:consistency"
       ]
     },
-    "openapi-v3-schema-properties-names-camel-case": {
+    "schema-properties-camel-case-2": {
       "description": "Ensuring that schema property names are camel case. It requires the `@key` field to match the pattern `^[a-z][a-zA-Z0-9]*$` (evaluated at `$..properties.`). Severity: error.",
       "message": "All schema property names MUST be camel case.",
       "severity": "error",
@@ -2740,10 +3030,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "no-http-verbs-in-path": {
+    "path-no-http-verbs": {
       "description": "HTTP verbs should be not be in URL paths. It applies a custom validation to the `@key` field (evaluated at `$.paths`). Severity: warn.",
       "message": "{{property}} has HTTP verb in path: {{error}}",
       "recommended": true,
@@ -2756,10 +3048,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "structured-data-format": {
+    "write-response-support-json": {
       "description": "All APIs returning structured data SHOULD support JSON as the default format. It applies a custom validation to the targeted value (evaluated at `$.paths.*.`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
@@ -2770,10 +3064,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:general"
+        "spec:paths",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "structured-data-format-support-json-response-body": {
+    "get-response-support-json": {
       "description": "All APIs returning structured data SHOULD support JSON as the default format. It applies a custom validation to the targeted value (evaluated at `$.paths.*.`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
@@ -2784,10 +3080,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "tdp-http-response-code": {
+    "response-code-must-be-valid": {
       "description": "All APIs should return a valid http response code. It applies a custom validation to the `@key` field (evaluated at `$..responses`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
@@ -2799,10 +3097,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "check-queryparameter-in-endpoint": {
+    "path-require-query-parameter": {
       "description": "Check if the given resource path has queryparameter. It applies a custom validation to the `@key` field (evaluated at `$.paths`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
@@ -2814,10 +3114,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:usability",
+        "experience:consistency"
       ]
     },
-    "tdp-does-spec-contains-valid-http-verbs": {
+    "path-require-valid-http-verb": {
       "description": "All APIs MUST have a valid http verb. It applies a custom validation to the `@key` field (evaluated at `$.paths.*`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
@@ -2829,10 +3131,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:general"
+        "spec:paths",
+        "experience:consistency",
+        "experience:governance"
       ]
     },
-    "tdp-spec-should-not-be-empty": {
+    "spec-must-not-be-empty": {
       "description": "Spec should not be empty. It applies a custom validation to the targeted value (evaluated at `$`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
@@ -2843,10 +3147,11 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:general"
+        "spec:document",
+        "experience:governance"
       ]
     },
-    "tdp-tag-pascal-case": {
+    "tag-no-pascal-case": {
       "severity": "warn",
       "recommended": true,
       "message": "Tag names cannot use Pascal Case. Please rename {{value}}.",
@@ -2863,11 +3168,14 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:naming"
+        "spec:paths",
+        "spec:tags",
+        "experience:naming",
+        "experience:consistency"
       ],
       "description": "Tag names cannot use Pascal Case. Please rename {{value}}. It requires the targeted value not to match `/[A-Z][a-z]+[A-Z][a-z]+$/g` (evaluated at `$.tags[*].name`, `$.paths[*][*].tags[*]`). Severity: warn."
     },
-    "tdp-tag-camel-case": {
+    "tag-no-camel-case": {
       "description": "Detects a tag with camelCase (personalItem) text within it. It requires the targeted value not to match `/^[a-z]+[A-Z][a-z]+$/g` (evaluated at `$.tags[*].name`, `$.paths[*][*].tags[*]`). Severity: warn.",
       "severity": "warn",
       "recommended": true,
@@ -2885,10 +3193,13 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:naming"
+        "spec:paths",
+        "spec:tags",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "tdp-tag-no-versions": {
+    "tag-no-version-info": {
       "severity": "warn",
       "recommended": true,
       "message": "Tag names cannot have version information {{value}}. Consider versioning your API.",
@@ -2905,11 +3216,14 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:versioning"
+        "spec:paths",
+        "spec:tags",
+        "experience:naming",
+        "experience:versioning"
       ],
       "description": "Tag names cannot have version information {{value}}. Consider versioning your API. It requires the targeted value not to match `/(V|v)\\s?[0-9]+/g` (evaluated at `$.tags[*].name`, `$.paths[*][*].tags[*]`). Severity: warn."
     },
-    "tdp-operation-summary-description": {
+    "operation-summary-description-differ": {
       "description": "Operation summaries and description should not match. It applies a custom validation to the targeted value (evaluated at `$.paths[*].[get,post,put,patch,delete]`). Severity: warn.",
       "message": "{{error}}",
       "severity": "warn",
@@ -2925,10 +3239,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:operations",
+        "experience:documentation"
       ]
     },
-    "operation-delete-204-status-code": {
+    "delete-require-204-response": {
       "description": "All DELETE methods MUST have a 204 response. It requires the `204` field to be present and non-empty (evaluated at `$.paths[*].delete.responses`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -2945,10 +3261,14 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:consistency",
+        "experience:error-handling"
       ]
     },
-    "tdp-operation-post-201-202-status-code": {
+    "post-require-201-or-202-response": {
       "description": "All POST methods MUST have a 201 or 202 response. It applies a custom validation to the targeted value (evaluated at `$.paths[*].post.responses`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -2964,10 +3284,14 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:consistency",
+        "experience:error-handling"
       ]
     },
-    "operation-400-response-body": {
+    "response-400-require-body": {
       "description": "All 400 responses must include a response body. It requires the `content` field to be present and non-empty (evaluated at `$.paths.*.*.responses['400']`). Severity: error.",
       "severity": "error",
       "recommended": true,
@@ -2984,10 +3308,13 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:documentation"
       ]
     },
-    "check-content-type-for-206-get-response-code": {
+    "response-206-require-content-range": {
       "description": "Check if the get response code 206 has content-type and content-range. It applies a custom validation to the targeted value (evaluated at `$.paths.*.`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
@@ -2998,10 +3325,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "standard-error-payload": {
+    "error-response-standard-payload": {
       "description": "All 4XX and 5XX response codes must follow Trimble API Standard. It applies a custom validation to the targeted value (evaluated at `$.paths.*.*.responses.`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*.*.responses.",
@@ -3012,10 +3341,13 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "check-description-for-all-error-responses": {
+    "error-response-require-description": {
       "description": "Check if the response description is appropriate for all requests. It applies a custom validation to the targeted value (evaluated at `$.paths.*.*.responses.`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
@@ -3026,10 +3358,13 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:responses",
+        "experience:documentation",
+        "experience:error-handling"
       ]
     },
-    "check-description-for-all-success-responses": {
+    "success-response-require-description": {
       "description": "Check if the response description is appropriate for all requests. It applies a custom validation to the targeted value (evaluated at `$.paths.*.`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
@@ -3040,10 +3375,11 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "experience:documentation"
       ]
     },
-    "check-for-content-type-in-put-and-post-responses": {
+    "write-response-require-content-type": {
       "description": "All API responses MUST include the Content-Type header in all responses. It applies a custom validation to the targeted value (evaluated at `$.paths[*].post.responses`, `$.paths[*].put.responses`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
@@ -3057,10 +3393,14 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "tdp-check-for-path-parameters-in-parameter-block": {
+    "path-params-declared-in-block": {
       "description": "Check for the path parameter in the parameter block. It applies a custom validation to the targeted value (evaluated at `$.paths.`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
@@ -3071,10 +3411,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:consistency",
+        "experience:documentation"
       ]
     },
-    "tdp-check-for-response-in-every-request": {
+    "operation-require-response": {
       "description": "Check if every request has their respective responses. It applies a custom validation to the targeted value (evaluated at `$.paths.*`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
@@ -3085,10 +3427,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:documentation",
+        "experience:consistency"
       ]
     },
-    "delete-must-not-return-body": {
+    "delete-no-response-body": {
       "description": "Check if the delete response does not have any body. It applies a custom validation to the targeted value (evaluated at `$.paths.*.`). Severity: warn.",
       "severity": "warn",
       "message": "{{error}}",
@@ -3099,10 +3443,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:general"
+        "spec:paths",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "tdp-invalid-symbol-in-path": {
+    "path-no-invalid-symbols": {
       "description": "Check if the given endpoint has queryparameter. It applies a custom validation to the `@key` field (evaluated at `$.paths.`). Severity: error.",
       "severity": "error",
       "message": "{{error}}",
@@ -3114,10 +3460,12 @@ export const ruleset = {
       "tags": [
         "source:trimble",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "no-http-basic": {
+    "no-http-basic-auth": {
       "description": "Consider a more secure alternative to HTTP Basic. It requires the `scheme` field not to match `basic` (evaluated at `$.components.securitySchemes[*]`). Severity: error.",
       "message": "HTTP Basic is an insecure way to pass credentials around, use an alternative.",
       "severity": "error",
@@ -3132,10 +3480,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:security"
+        "spec:security",
+        "spec:components",
+        "experience:security"
       ]
     },
-    "no-collection-paging-capability": {
+    "collection-response-support-paging": {
       "description": "Response bodies from collection endpoints SHOULD offer paging capability. It requires the `paging` field to be present and non-empty, and requires the `paging` field to match the pattern `object`, and requires the `paging.type` field to match the pattern `object` (evaluated at `$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}.*$/))].get.responses['200'].content.application/json.schema.properties`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}.*$/))].get.responses['200'].content.application/json.schema.properties",
@@ -3162,10 +3512,16 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:general"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "spec:media-types",
+        "spec:schemas",
+        "experience:pagination",
+        "experience:usability"
       ]
     },
-    "collection-missing-results-array": {
+    "collection-require-results-array": {
       "description": "Response bodies must have a root element called results and is an array of objects. It requires the `type` field to match the pattern `array`, and requires the `items.type` field to match the pattern `object` (evaluated at `$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}$/))].get.responses['200'].content.application/json.schema.properties.results`). Severity: error.",
       "severity": "error",
       "given": "$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}$/))].get.responses['200'].content.application/json.schema.properties.results",
@@ -3188,10 +3544,16 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:general"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "spec:media-types",
+        "spec:schemas",
+        "experience:pagination",
+        "experience:data-modeling"
       ]
     },
-    "missing-pagination-query-parameters": {
+    "collection-require-pagination-params": {
       "description": "Collection GET endpoints SHOULD support pagination using query parameters. Offset or cursor based pagination is required. It validates the `parameters` field against a JSON Schema (evaluated at `$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}\\/*.*/))].get`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}\\/*.*/))].get",
@@ -3255,10 +3617,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:pagination"
+        "spec:paths",
+        "spec:operations",
+        "experience:pagination",
+        "experience:usability"
       ]
     },
-    "post-request-body-missing-paging-object": {
+    "post-collection-require-paging-object": {
       "description": "POST collection endpoints MUST have a request body schema that includes paging parameters. It requires the `type` field to match the pattern `object` (evaluated at `$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}$/))].post.requestBody.content.application/json.schema.properties.paging`). Severity: error.",
       "severity": "error",
       "given": "$.paths[?(!@property.match(/.*\\/\\{[^}]+\\}$/))].post.requestBody.content.application/json.schema.properties.paging",
@@ -3272,10 +3637,16 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:request-body",
+        "spec:media-types",
+        "spec:schemas",
+        "experience:pagination",
+        "experience:data-modeling"
       ]
     },
-    "disallow-resource-identifier-filtering": {
+    "no-id-query-parameter": {
       "description": "Resource identifier filtering is not allowed as a query parameter. Use the resource identifier in the URL path. It requires the `name` field not to match `^id$` (evaluated at `$.paths..get.parameters.[?(@.in=='query' && @.name=='id')]`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths..get.parameters.[?(@.in=='query' && @.name=='id')]",
@@ -3289,10 +3660,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:parameters",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "filtering-only-get-requests": {
+    "filter-param-only-on-get": {
       "description": "Only GET-based endpoints SHOULD have have the query parameter 'filter'. It requires the targeted value to be absent or empty (evaluated at `$.paths.*[?(@property!='get')].parameters.[?(@.in=='query' && @.name=='filter')].name`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*[?(@property!='get')].parameters.[?(@.in=='query' && @.name=='filter')].name",
@@ -3302,10 +3677,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:parameters",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "hybird-filtering-exists-with-root-filter": {
+    "no-hybrid-and-root-filtering": {
       "description": "Hybrid filtering MAY be offered on multiple attributes, but MUST never exist if a root \"filter\" query parameter is present. It validates the targeted value against a JSON Schema (evaluated at `$.paths..get.parameters^`). Severity: error.",
       "severity": "error",
       "given": "$.paths..get.parameters^",
@@ -3373,10 +3752,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:general"
+        "spec:paths",
+        "spec:operations",
+        "spec:parameters",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "sorting-parameters-only-get-requests": {
+    "sort-param-only-on-get": {
       "description": "Non-GET endpoints MUST NOT have sorting query parameters. Parameter names such as sort, sorting, orderBy, etc. It requires the `name` field not to match `^sort|sorting|sortBy|order|ordering|orderBy$` (evaluated at `$.paths.*[?(@property!='get')].parameters.[?(@.in=='query')]`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*[?(@property!='get')].parameters.[?(@.in=='query')]",
@@ -3390,10 +3773,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:parameters",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "unknown-error-format": {
+    "error-response-use-problem-type-2": {
       "description": "Every error response SHOULD support RFC 7807. It requires the targeted value to be one of [\"application/problem+xml\",\"application/problem+json\"] (evaluated at `$.paths...responses[?(@property.match(/^(4|5)/))].content.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths...responses[?(@property.match(/^(4|5)/))].content.*~",
@@ -3409,10 +3796,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:responses",
+        "spec:media-types",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "no-keyword-conflicts": {
+    "property-no-language-keywords": {
       "description": "Names that may conflict with keywords in common programming languages SHOULD NOT be used. It requires the targeted value not to match `^(abstract|for|new|switch|assert|default|goto|package|synchronized|boolean|do|if|private|this|break|double|implements|throw|byte|else|import|public|throws|case|enum|instanceof|return|transient|catch|extends|int|short|try|char|final|interface|static|void|class|finally|long|volatile|const|float|native|super|while)$` (evaluated at `$..properties.*~`). Severity: warn.",
       "severity": "warn",
       "given": "$..properties.*~",
@@ -3425,10 +3816,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "camel-case-properties": {
+    "property-names-camel-case-2": {
       "description": "Property names and acronyms MUST be in camelCase. It requires the targeted value to match the pattern `^[a-z][a-z0-9]*(([A-Z]{2}|[A-Z])[a-z0-9]+)*$` (evaluated at `$..properties.*~`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3444,10 +3837,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "disallowed-prepositions": {
+    "property-no-prepositions": {
       "description": "Property names SHOULD NOT include prepositions (e.g. \"for\", \"during\", \"at\", etc.). It requires the targeted value not to match `(^(about|above|across|after|against|among|around|at|before|behind|below|beside|between|down|during|for|from|in|inside|into|near|of|off|on|out|over|through|to|toward|under|up|with|as|but|like|since|than|till|unlike|until|upon|within|without)([A-Z]|$)|.*(About|Above|Across|After|Against|Among|Around|At|Before|Behind|Below|Beside|Between|Down|During|For|From|In|Inside|Into|Near|Of|Off|On|Out|Over|Through|To|Toward|Under|Up|With|As|But|Like|Since|Than|Till|Unlike|Until|Upon|Within|Without)([A-Z]|$)).*` (evaluated at `$..properties.*~`). Severity: warn.",
       "severity": "warn",
       "formats": [
@@ -3463,10 +3858,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "disallowed-boolean-prefixes": {
+    "boolean-no-prefix": {
       "description": "Boolean properties SHOULD NOT use is, has, or another prefix. It requires the targeted value not to match `^(is|has|was|will|needs|uses|should|can)([A-Z]|$).*` (evaluated at `$..properties[?(@ && @.type == 'boolean')]~`). Severity: warn.",
       "severity": "warn",
       "formats": [
@@ -3482,10 +3879,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "ref-property-name": {
+    "ref-property-require-format": {
       "description": "Property with the name 'ref' MUST use a format 'sps-ref'. It requires the `format` field to be present and non-empty, and requires the `format` field to match the pattern `^sps-ref$` (evaluated at `$..properties..[?((@property=== \"ref\" || @property === \"Ref\") && @.$ref == null && @.allOf == null && @.oneOf == null && @.type != null)]`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3509,10 +3908,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "ref-schema": {
+    "ref-property-standard-schema": {
       "description": "Properties following 'sps-ref' format MUST use the standardized schema - maxLength (255), minLength(7), pattern (includes 'sps'), type (string). It validates the targeted value against a JSON Schema, and requires the `pattern` field to match the pattern `sps`, and requires the `type` field to match the pattern `^string$` (evaluated at `$..[?(@property=== \"format\" && @ == \"sps-ref\")]^`). Severity: error.",
       "message": "{{property}} is not provided or not following required schema values.",
       "severity": "error",
@@ -3571,10 +3972,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-id-type": {
+    "id-property-must-be-string": {
       "description": "id SHOULD use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"id\")].type`). Severity: warn.",
       "severity": "warn",
       "formats": [
@@ -3590,10 +3993,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "mandate-abbreviations-identifier": {
+    "use-id-not-identifier": {
       "description": "Use abbreviations instead of long form names, i.e. identifier SHOULD BE id. It requires the targeted value not to match `^identifier$` (evaluated at `$..properties.*~`). Severity: warn.",
       "severity": "warn",
       "formats": [
@@ -3609,10 +4014,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "mandate-abbreviations-organization": {
+    "use-org-not-organization": {
       "description": "Use abbreviations instead of long form names, i.e. organization SHOULD BE org. It requires the targeted value not to match `(^organization([A-Z]|$)|Organization([A-Z]|$))` (evaluated at `$..properties.*~`). Severity: warn.",
       "severity": "warn",
       "formats": [
@@ -3628,10 +4035,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "invalid-ref-type": {
+    "ref-property-must-be-string": {
       "description": "ref MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"ref\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3647,10 +4056,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-orgid-type": {
+    "orgid-property-must-be-string": {
       "description": "orgId MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"orgId\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3666,10 +4077,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-name-type": {
+    "name-property-must-be-string": {
       "description": "name MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"name\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3685,10 +4098,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-description-type": {
+    "description-property-must-be-string": {
       "description": "description MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"description\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3704,10 +4119,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-request-id-type": {
+    "requestid-property-must-be-string": {
       "description": "requestId MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"requestId\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3723,10 +4140,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-created-date-time-type": {
+    "created-datetime-must-be-date-time": {
       "description": "createdDateTime MUST use a data type of 'string' with the format 'date-time'. It requires the `type` field to match the pattern `^string$`, and requires the `format` field to be present and non-empty, and requires the `format` field to match the pattern `^date-time$` (evaluated at `$..properties.createdDateTime`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3756,10 +4175,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-created-by-type": {
+    "createdby-property-must-be-string": {
       "description": "createdBy MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"createdBy\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3775,10 +4196,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-modified-date-time-type": {
+    "modified-datetime-must-be-date-time": {
       "description": "modifiedDateTime MUST use a data type of 'string' with the format 'date-time'. It requires the `type` field to match the pattern `^string$`, and requires the `format` field to be present and non-empty, and requires the `format` field to match the pattern `^date-time$` (evaluated at `$..properties.modifiedDateTime`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3808,10 +4231,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-modified-by-type": {
+    "modifiedby-property-must-be-string": {
       "description": "modifiedBy MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"modifiedBy\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3827,10 +4252,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-deleted-by-type": {
+    "deletedby-property-must-be-string": {
       "description": "deletedBy MUST use a data type of 'string'. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"deletedBy\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3846,10 +4273,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-fingerprint-type": {
+    "fingerprint-property-must-be-string": {
       "description": "Fingerprint values MUST use a data type of `string`. It requires the targeted value to match the pattern `^string$` (evaluated at `$..[?(@property === \"fingerprint\")].type`). Severity: error.",
       "severity": "error",
       "formats": [
@@ -3865,10 +4294,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:document",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "fingerprint-naming": {
+    "use-fingerprint-not-hash": {
       "description": "Rather than property names refering to the implementation for 'hash' or 'hashkey', you MUST use the property name 'fingerprint'. It requires the targeted value not to match `^hashkey|hashKey|hash$` (evaluated at `$.components.schemas..properties.*~`). Severity: error.",
       "message": "{{property}} is not using property name fingerprint.",
       "severity": "error",
@@ -3885,10 +4316,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "invalid-response-body": {
+    "response-body-must-be-object": {
       "description": "Response bodies must be an object type. It requires the targeted value to match the pattern `object` (evaluated at `$.paths[*][*].responses[*].content.application/json.schema.type`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[*].content.application/json.schema.type",
@@ -3901,10 +4335,15 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "spec:media-types",
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "invalid-status-code": {
+    "use-standard-status-codes-2": {
       "description": "An API MUST return HTTP response codes in conformance with RFC-2616 and common usage. It requires the targeted value to be one of [\"200\",\"201\",\"202\",\"204\",\"400\",\"401\",\"403\",\"404\",\"405\",\"406\",\"409\",\"412\",\"415\",\"428\",\"429\",\"500\"] (evaluated at `$.paths...responses.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths...responses.*~",
@@ -3934,10 +4373,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "missing-500-response": {
+    "operation-define-500-response": {
       "description": "Every endpoint SHOULD have a 500 response. It requires the `responses.500` field to be present and non-empty (evaluated at `$.paths[*][*]`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*][*]",
@@ -3948,10 +4390,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "no-x-headers": {
+    "no-x-prefixed-request-headers": {
       "description": "Do not use headers with X-. It requires the targeted value not to match `^(x|X)-` (evaluated at `$..parameters.[?(@.in === 'header')].name`). Severity: warn.",
       "severity": "warn",
       "message": "Headers cannot start with X-. More: https://tools.ietf.org/html/rfc6648",
@@ -3965,10 +4409,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:headers",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "no-x-response-headers": {
+    "no-x-prefixed-response-headers": {
       "description": "Do not use headers with X-. It requires the targeted value not to match `^(x|X)-` (evaluated at `$..headers.*~`). Severity: warn.",
       "severity": "warn",
       "message": "Headers cannot start with X-, so please find a new name for {{property}}. More: https://tools.ietf.org/html/rfc6648",
@@ -3982,10 +4429,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:headers",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "invalid-location-header": {
+    "location-header-only-on-201": {
       "description": "Location header MUST NOT be present in non-201 responses. It requires the `Location` field to be absent or empty (evaluated at `$.paths[*][*].responses[?(@property !== '201')].headers`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[?(@property !== '201')].headers",
@@ -3996,10 +4445,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "spec:headers",
+        "experience:consistency",
+        "experience:error-handling"
       ]
     },
-    "authorization-missing": {
+    "require-root-security-scheme": {
       "description": "Security field MUST be present at the root of the spec with at least one item (ie. HTTPBearer, Token, APIKey, etc.). It validates the `security` field against a JSON Schema (evaluated at `$`). Severity: error.",
       "severity": "error",
       "given": "$",
@@ -4016,10 +4469,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:document",
+        "experience:security",
+        "experience:governance"
       ]
     },
-    "default-content-language": {
+    "default-content-language-en-us": {
       "description": "Content-Language is optional but MUST default locale to en-US when none provided. It requires the targeted value to match the pattern `en-US` (evaluated at `$.paths[*][*].responses[*].headers.Content-Language.schema.default`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[*].headers.Content-Language.schema.default",
@@ -4032,10 +4487,16 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "spec:headers",
+        "spec:media-types",
+        "spec:schemas",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "no-explicit-headers": {
+    "no-operational-headers-in-spec": {
       "description": "Access-Control-*, Content-Type, and Accept Headers SHOULD NOT be specified explicitly in a spec as it an operational concern. It requires the targeted value not to match `^(Access-Control-.*|Content-Type|Accept)$` (evaluated at `$.paths[*][*].responses[*].headers`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*][*].responses[*].headers",
@@ -4048,10 +4509,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "spec:headers",
+        "experience:consistency",
+        "experience:governance"
       ]
     },
-    "invalid-custom-header-format": {
+    "custom-header-naming-format": {
       "description": "Custom headers MUST NOT be longer than 50 chars, and MUST only contain alphanumeric and dash chars, and MUST begin with Sps- not X-. It requires the targeted value to match the pattern `^(Sps-[a-zA-Z0-9-]{1,50}|Accept|Access-Control.*|Authorization|Cache-Control|Content-Disposition|Content-Language|Content-Length|Content-Type|Date|ETag|Host|If-Match|If-None-Match|Location|Origin|User-Agent)$` (evaluated at `$.paths[*][*].responses[*].headers.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[*].headers.*~",
@@ -4064,10 +4529,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "spec:headers",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "sensitive-data-in-headers": {
+    "no-sensitive-data-in-headers": {
       "description": "Headers MUST NOT contain sensitive data. It requires the targeted value not to match `^(SPS-Token|SPS-Password|SPS-Identity|Password)$` (evaluated at `$.paths[*][*].responses[*].headers.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[*].headers.*~",
@@ -4080,10 +4549,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "spec:headers",
+        "experience:security",
+        "experience:governance"
       ]
     },
-    "no-resource-extensions": {
+    "no-format-extensions-in-paths": {
       "description": "Request and Response media type formats MUST NOT be implied using extensions on resources (i.e. .json or .xml). Instead, use the standard resource path with the appropriate Content-Type header. It requires the targeted value not to match `\\.json|\\.xml|\\.yml|\\.yaml` (evaluated at `$.paths.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -4096,10 +4569,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "invalid-mime-type": {
+    "use-standard-mime-types": {
       "description": "MIME types MUST be standard (application/json, application/problem+json, application/problem+xml) or use custom format application/vnd.*. It requires the targeted value to match the pattern `^application/(json|problem\\+json|problem\\+xml|vnd\\..*)$` (evaluated at `$.paths[*][*].responses[*].content.*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][*].responses[*].content.*~",
@@ -4112,10 +4587,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:responses",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "invalid-http-method": {
+    "use-standard-http-methods": {
       "description": "Operations MUST use only the common HTTP methods as outlined in the standards guide, and must be in lower-case. It requires the `method` field to be one of [\"get\",\"post\",\"put\",\"patch\",\"delete\",\"head\",\"options\"] (evaluated at `$.paths[*].*~`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*].*~",
@@ -4137,10 +4616,12 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:consistency",
+        "experience:naming"
       ]
     },
-    "request-get-invalid-body": {
+    "get-must-not-have-request-body": {
       "description": "A `GET` request MUST NOT accept a request body. It requires the targeted value to be undefined (evaluated at `$.paths[*][get].requestBody`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][get].requestBody",
@@ -4150,10 +4631,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:request-body",
+        "experience:consistency",
+        "experience:reliability"
       ]
     },
-    "response-get-missing-body": {
+    "get-must-return-response-body": {
       "description": "A `GET` operation must return a response body. It requires the `content` field to be present and non-empty (evaluated at `$.paths[*].get.responses[*]`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*].get.responses[*]",
@@ -4164,10 +4649,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:consistency",
+        "experience:reliability"
       ]
     },
-    "invalid-get-response-code": {
+    "get-response-codes-allowed": {
       "description": "GET operations should not use status codes 201, 202, 204, 409, 412. It requires the `@key` field not to match `^(201|202|204|409|412)$` (evaluated at `$.paths[*].get.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].get.responses",
@@ -4181,10 +4670,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "response-get-missing-success-code": {
+    "get-must-return-200": {
       "description": "GET operations must always return 200 status code. It requires the `200` field to be present and non-empty (evaluated at `$.paths[*].get.responses`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*].get.responses",
@@ -4197,10 +4690,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "invalid-post-response-code": {
+    "post-response-codes-allowed": {
       "description": "POST operations should not return 412 status codes. It requires the `@key` field not to match `412` (evaluated at `$.paths[*].post.responses`). Severity: warn.",
       "given": "$.paths[*].post.responses",
       "severity": "warn",
@@ -4214,10 +4711,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "invalid-put-response-code": {
+    "put-response-codes-allowed": {
       "description": "PUT operations should not return 200 or 201 status codes. It requires the `@key` field not to match `^(200|201)$` (evaluated at `$.paths[*].put.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].put.responses",
@@ -4231,10 +4732,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "invalid-delete-response-code": {
+    "delete-response-codes-allowed": {
       "description": "DELETE operations should not return 200 or 201 status codes. It requires the `@key` field not to match `^(200|201)$` (evaluated at `$.paths[*].delete.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].delete.responses",
@@ -4248,10 +4753,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "request-delete-invalid-body": {
+    "delete-must-not-have-request-body": {
       "description": "DELETE operations must not accept a request body. It requires the targeted value to be undefined (evaluated at `$.paths[*].delete.requestBody`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*].delete.requestBody",
@@ -4261,10 +4770,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:request-body",
+        "experience:consistency",
+        "experience:reliability"
       ]
     },
-    "response-delete-invalid-body": {
+    "delete-must-not-return-body": {
       "description": "DELETE operations must not have a response body. It requires the targeted value to be absent or empty (evaluated at `$.paths.*.delete.responses[202,204].content`). Severity: error.",
       "severity": "error",
       "given": "$.paths.*.delete.responses[202,204].content",
@@ -4274,10 +4787,15 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:reliability"
       ]
     },
-    "invalid-patch-response-code": {
+    "patch-response-codes-allowed": {
       "description": "PATCH operations should not return 201 status code. It requires the `@key` field not to match `^201$` (evaluated at `$.paths[*].patch.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].patch.responses",
@@ -4291,10 +4809,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "request-patch-missing-body": {
+    "patch-must-have-request-body": {
       "description": "PATCH operations must have a request body. It validates the `requestBody` field against a JSON Schema (evaluated at `$.paths[*].patch`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*].patch",
@@ -4310,10 +4832,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:consistency",
+        "experience:reliability"
       ]
     },
-    "invalid-head-response-code": {
+    "head-response-codes-allowed": {
       "description": "HEAD operations should not return 201, 202, 204, 409, 412 status codes. It requires the `@key` field not to match `^(201|202|204|409|412)$` (evaluated at `$.paths[*].head.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].head.responses",
@@ -4327,10 +4852,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "request-head-invalid-body": {
+    "head-must-not-have-request-body": {
       "description": "A `HEAD` request MUST NOT accept a request body. It requires the targeted value to be undefined (evaluated at `$.paths[*][head].requestBody`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][head].requestBody",
@@ -4340,10 +4869,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:request-body",
+        "experience:consistency",
+        "experience:reliability"
       ]
     },
-    "response-head-invalid-body": {
+    "head-must-not-return-body": {
       "description": "HEAD operations should not return a response body for success. It requires the targeted value to be absent or empty (evaluated at `$.paths.*.head.responses[200].content`). Severity: error.",
       "given": "$.paths.*.head.responses[200].content",
       "severity": "error",
@@ -4353,10 +4886,15 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:reliability"
       ]
     },
-    "invalid-options-response-code": {
+    "options-response-codes-allowed": {
       "description": "OPTIONS operations should not return 201, 202, 409, 412 status codes. It requires the `@key` field not to match `^(201|202|409|412)$` (evaluated at `$.paths[*].options.responses`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths[*].options.responses",
@@ -4370,10 +4908,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "request-options-invalid-body": {
+    "options-must-not-have-request-body": {
       "description": "An `OPTIONS` request MUST NOT accept a request body. It requires the targeted value to be undefined (evaluated at `$.paths[*][options].requestBody`). Severity: error.",
       "severity": "error",
       "given": "$.paths[*][options].requestBody",
@@ -4383,10 +4925,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:request-body",
+        "experience:consistency",
+        "experience:reliability"
       ]
     },
-    "response-options-invalid-body": {
+    "options-must-not-return-body": {
       "description": "OPTIONS operations should not return a response body for success. It requires the targeted value to be absent or empty (evaluated at `$.paths.*.options.responses[200, 204].content`). Severity: error.",
       "given": "$.paths.*.options.responses[200, 204].content",
       "severity": "error",
@@ -4396,10 +4942,15 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:reliability"
       ]
     },
-    "request-support-json-2": {
+    "request-support-json-media-type-2": {
       "description": "Every request MUST support `application/json` media type. It validates the targeted value against a JSON Schema (evaluated at `$.paths[*][*].requestBody.content`). Severity: error.",
       "formats": [
         "oas3"
@@ -4423,10 +4974,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:request-body",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "no-numeric-ids": {
+    "avoid-integer-id-parameters": {
       "description": "Avoid exposing IDs as an integer, UUIDs or other interoperable strings are preferred. It validates the targeted value against a JSON Schema (evaluated at `$.paths..parameters[*].[?(@property === \"name\" && (@ === \"id\" || @ === \"ID\" || @ === \"Id\"))]^.schema`). Severity: warn.",
       "severity": "warn",
       "given": "$.paths..parameters[*].[?(@property === \"name\" && (@ === \"id\" || @ === \"ID\" || @ === \"Id\"))]^.schema",
@@ -4453,10 +5008,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:general"
+        "spec:paths",
+        "spec:parameters",
+        "spec:schemas",
+        "experience:security",
+        "experience:data-modeling"
       ]
     },
-    "semver": {
+    "version-must-use-semver": {
       "severity": "warn",
       "message": "Version should use semantic versioning. {{value}} is not a valid version.",
       "given": "$.info.version",
@@ -4469,7 +5028,9 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:general"
+        "spec:info",
+        "experience:versioning",
+        "experience:consistency"
       ],
       "description": "Version should use semantic versioning. {{value}} is not a valid version. It requires the targeted value to match the pattern `^([0-9]+.[0-9]+.[0-9]+)$` (evaluated at `$.info.version`). Severity: warn."
     },
@@ -4489,7 +5050,10 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
     "response-names-pascal-case": {
@@ -4508,10 +5072,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:naming"
+        "spec:responses",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "limit-path-size": {
+    "limit-path-length": {
       "message": "APIs SHOULD NOT expand their total URL length beyond a few hundred characters.",
       "severity": "warn",
       "given": "$.paths.*~",
@@ -4524,11 +5091,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:usability",
+        "experience:consistency"
       ],
       "description": "APIs SHOULD NOT expand their total URL length beyond a few hundred characters. It constrains the length of the targeted value and at most 100 (evaluated at `$.paths.*~`). Severity: warn."
     },
-    "hosts-https-only": {
+    "servers-must-use-https": {
       "message": "Servers MUST be https and no other protocol is allowed unless using localhost.",
       "formats": [
         "oas3"
@@ -4544,11 +5113,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:servers",
+        "experience:security",
+        "experience:reliability"
       ],
       "description": "Servers MUST be https and no other protocol is allowed unless using localhost. It requires the targeted value to match the pattern `^(https:|http://localhost)` (evaluated at `$.servers..url`). Severity: error."
     },
-    "hosts-lowercase": {
+    "server-url-must-be-lowercase": {
       "message": "Server URL SHOULD BE lowercase.",
       "formats": [
         "oas3"
@@ -4564,11 +5135,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:servers",
+        "experience:naming",
+        "experience:consistency"
       ],
       "description": "Server URL SHOULD BE lowercase. It requires the targeted value to match the pattern `^[^A-Z]*$` (evaluated at `$.servers..url`). Severity: warn."
     },
-    "hosts-domain": {
+    "servers-on-approved-domain": {
       "message": "APIs SHOULD be accessible under api.spscommerce.com.",
       "formats": [
         "oas3"
@@ -4584,11 +5157,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:servers",
+        "experience:governance",
+        "experience:consistency"
       ],
       "description": "APIs SHOULD be accessible under api.spscommerce.com. It requires the targeted value to match the pattern `api.spscommerce.com|api.sps-internal.com|localhost` (evaluated at `$.servers..url`). Severity: warn."
     },
-    "path-no-environment": {
+    "no-environment-names-in-paths": {
       "message": "API paths MUST NOT indicate environment names.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -4601,11 +5176,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:governance"
       ],
       "description": "API paths MUST NOT indicate environment names. It requires the targeted value not to match `/prod/|/preprod/|/dev/|/test/|/integration/|/stage/` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "hosts-no-port": {
+    "servers-must-not-specify-port": {
       "message": "Port MUST NOT be specified or required to use the API, except for 'localhost' testing in a spec.",
       "formats": [
         "oas3"
@@ -4621,11 +5198,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:servers",
+        "experience:usability",
+        "experience:consistency"
       ],
       "description": "Port MUST NOT be specified or required to use the API, except for 'localhost' testing in a spec. It requires the targeted value not to match `(?!https?://localhost)(https?://.*):(\\d*)\\/?(.*)` (evaluated at `$.servers..url`). Severity: error."
     },
-    "paths-expose-technology": {
+    "no-technology-leak-in-paths": {
       "message": "A resource MUST NOT leak or expose format or technology-specific information at any point in the path.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -4638,11 +5217,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:security",
+        "experience:naming"
       ],
       "description": "A resource MUST NOT leak or expose format or technology-specific information at any point in the path. It requires the targeted value not to match `(.php|.asp|.jsp|.cgi|.psp|.json|.xml)` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "paths-expose-extension": {
+    "no-file-extension-in-paths": {
       "message": "A resource SHOULD NOT make use of an extension at any point in the path.",
       "severity": "warn",
       "given": "$.paths.*~",
@@ -4655,11 +5236,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ],
       "description": "A resource SHOULD NOT make use of an extension at any point in the path. It requires the targeted value not to match `\\.` (evaluated at `$.paths.*~`). Severity: warn."
     },
-    "paths-kebab-case-3": {
+    "path-segments-kebab-case-3": {
       "message": "A resource containing multiple words MUST be separated using kebab-case (lower case and separated with hyphens).",
       "severity": "error",
       "given": "$.paths[?(/^((?!_webhooks).)*$/i.test(@property))]~",
@@ -4672,11 +5255,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ],
       "description": "A resource containing multiple words MUST be separated using kebab-case (lower case and separated with hyphens). It requires the targeted value not to match `(\\/[a-z]+_.)|(\\/([a-z]|[A-Z])+[A-Z])` (evaluated at `$.paths[?(/^((?!_webhooks).)*$/i.test(@property))]~`). Severity: error."
     },
-    "paths-trailing-slash": {
+    "no-trailing-slash-in-paths": {
       "message": "A resource MUST be addressable without a trailing slash on the path.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -4689,12 +5274,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure",
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency",
         "source:api-evangelist"
       ],
       "description": "A resource MUST be addressable without a trailing slash on the path. It requires the targeted value not to match `/$` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "paths-with-api": {
+    "no-api-prefix-in-paths": {
       "message": "A resource SHOULD NOT contain 'api' as a prefix in or a part of the path.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -4707,11 +5294,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ],
       "description": "A resource SHOULD NOT contain 'api' as a prefix in or a part of the path. It requires the targeted value not to match `/api|/api/|-api/` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "paths-empty-segments": {
+    "no-empty-path-segments": {
       "message": "A resource MUST use normalized paths without empty path segments.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -4724,11 +5313,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ],
       "description": "A resource MUST use normalized paths without empty path segments. It requires the targeted value not to match `//` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "paths-limit-path-parameters": {
+    "limit-path-parameters": {
       "message": "The URL path should not contain more than 3 dynamic path parameters.",
       "severity": "warn",
       "given": "$.paths.*~",
@@ -4741,11 +5332,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:usability",
+        "experience:consistency"
       ],
       "description": "The URL path should not contain more than 3 dynamic path parameters. It requires the targeted value not to match `^(.*{{1}.*){4,}` (evaluated at `$.paths.*~`). Severity: warn."
     },
-    "paths-limit-sub-resources": {
+    "limit-nested-sub-resources": {
       "message": "The hierarchy of nested resources SHOULD NOT contain more than 8 resource names in the path.",
       "severity": "warn",
       "given": "$.paths.*~",
@@ -4758,11 +5351,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:usability",
+        "experience:consistency"
       ],
       "description": "The hierarchy of nested resources SHOULD NOT contain more than 8 resource names in the path. It requires the targeted value not to match `^([^/]*/){9,}` (evaluated at `$.paths.*~`). Severity: warn."
     },
-    "paths-with-http-methods": {
+    "no-http-methods-in-paths": {
       "message": "A resource SHOULD NOT contain HTTP methods.",
       "severity": "error",
       "given": "$.paths.*~",
@@ -4775,11 +5370,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ],
       "description": "A resource SHOULD NOT contain HTTP methods. It requires the targeted value not to match `(\\/get|\\/post|\\/put|\\/delete|\\/patch)` (evaluated at `$.paths.*~`). Severity: error."
     },
-    "paths-params-camel-case": {
+    "path-parameters-camel-case-2": {
       "message": "Path parameter keys MUST use camelCase.",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@.in=='path')].name",
@@ -4793,11 +5390,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:parameters",
+        "experience:naming",
+        "experience:consistency"
       ],
       "description": "Path parameter keys MUST use camelCase. It requires camel casing on the targeted value (evaluated at `$.paths.*.*.parameters[?(@.in=='path')].name`). Severity: error."
     },
-    "query-params-characters": {
+    "query-parameter-allowed-characters": {
       "message": "Query parameter keys MUST include only alpha-numeric characters and periods: [Aa0-Zz9]'.",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@.in=='query')].name",
@@ -4810,11 +5410,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:parameters",
+        "experience:naming",
+        "experience:consistency"
       ],
       "description": "Query parameter keys MUST include only alpha-numeric characters and periods: [Aa0-Zz9]'. It requires the targeted value to match the pattern `^[A-Za-z0-9\\.]+$` (evaluated at `$.paths.*.*.parameters[?(@.in=='query')].name`). Severity: error."
     },
-    "query-params-camel-case": {
+    "query-parameters-camel-case-2": {
       "message": "Query parameter keys MUST use camelCase.",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@.in=='query')].name",
@@ -4832,11 +5435,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:parameters",
+        "experience:naming",
+        "experience:consistency"
       ],
       "description": "Query parameter keys MUST use camelCase. It requires camel casing on the targeted value (evaluated at `$.paths.*.*.parameters[?(@.in=='query')].name`). Severity: error."
     },
-    "query-params-not-required": {
+    "query-parameters-must-be-optional": {
       "message": "Query parameters MUST be optional.",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@.in=='query')].required",
@@ -4846,11 +5452,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:parameters",
+        "experience:usability",
+        "experience:consistency"
       ],
       "description": "Query parameters MUST be optional. It requires the targeted value to be absent or empty (evaluated at `$.paths.*.*.parameters[?(@.in=='query')].required`). Severity: error."
     },
-    "query-params-no-api-keys": {
+    "no-api-keys-in-query-parameters": {
       "message": "Query parameters MUST not contain sensitive information, like API tokens or keys.",
       "severity": "error",
       "given": "$.paths.*.*.parameters[?(@.in=='query')].name",
@@ -4863,11 +5472,14 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:parameters",
+        "experience:security",
+        "experience:governance"
       ],
       "description": "Query parameters MUST not contain sensitive information, like API tokens or keys. It requires the targeted value not to match `apiKey|token` (evaluated at `$.paths.*.*.parameters[?(@.in=='query')].name`). Severity: error."
     },
-    "query-params-not-in-path": {
+    "no-query-strings-in-paths": {
       "message": "Paths SHOULD NOT have query parameters in them. They should be defined separately in the OpenAPI.",
       "severity": "warn",
       "given": "$.paths.*~",
@@ -4880,11 +5492,13 @@ export const ruleset = {
       "tags": [
         "source:sps-commerce",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:consistency",
+        "experience:naming"
       ],
       "description": "Paths SHOULD NOT have query parameters in them. They should be defined separately in the OpenAPI. It requires the targeted value not to match `\\?` (evaluated at `$.paths.*~`). Severity: warn."
     },
-    "openapi-response-content-type-json-error": {
+    "response-must-use-json-content-type": {
       "description": "API responses should use application/json as the primary content type. Analysis of 773 specs shows application/json is used by 92% of APIs, making it the universal standard for modern REST APIs. It requires the `application/json` field to be present and non-empty (evaluated at `$.paths.*[get,post,put,patch,delete].responses[*].content`). Severity: error.",
       "message": "Response MUST Use application/json Content Type",
       "severity": "error",
@@ -4896,10 +5510,15 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "openapi-request-body-content-type-json-error": {
+    "request-body-must-use-json-content-type": {
       "description": "Request bodies should use application/json as the primary content type for consistency across API operations and client implementations. It requires the `application/json` field to be present and non-empty (evaluated at `$.paths.*[post,put,patch].requestBody.content`). Severity: error.",
       "message": "Request Body MUST Use application/json Content Type",
       "severity": "error",
@@ -4911,10 +5530,15 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:request-body",
+        "spec:media-types",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "openapi-info-description-eval-error": {
+    "info-description-no-eval-tag": {
       "description": "Eval functions MUST not be included in the description of an API, keeping descriptions to just the text that is needed, and relying on the rest of the OpenAPI to describe what is possible. It requires the `description` field not to match `^\\b(<eval)\\b` (evaluated at `$.info`). Severity: error.",
       "message": "Info Description MUST NOT Have Eval Tag",
       "severity": "error",
@@ -4929,10 +5553,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:security",
+        "experience:documentation"
       ]
     },
-    "openapi-info-description-length-error": {
+    "info-description-length-limit": {
       "description": "Having a restriction on the length of the API description expressed as the OpenAPI info description helps provide constraints for consumers when adding a description, and keeps portals, landing pages, documentation, and discovery results more consistent. It constrains the length of the `description` field and at most 500 (evaluated at `$.info`). Severity: error.",
       "message": "Info description MUST be less than 500 characters.",
       "severity": "error",
@@ -4947,10 +5573,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:documentation",
+        "experience:consistency"
       ]
     },
-    "openapi-info-description-script-error": {
+    "info-description-no-script-tag": {
       "description": "Script tags MUST not be included in the description of an API, keeping descriptions to just the text that is needed, and relying on the rest of the OpenAPI to describe what is possible. It requires the `description` field not to match `^\\b(<script)\\b` (evaluated at `$.info`). Severity: error.",
       "message": "Info Description MUST NOT Have Script Tag",
       "severity": "error",
@@ -4965,10 +5593,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:security",
+        "experience:documentation"
       ]
     },
-    "openapi-info-title-error": {
+    "info-require-title": {
       "description": "Having a intuitive and helpful title for your API using the OpenAPI info title is the first impression you will make on the consumers of your API. It requires the `title` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
       "message": "Info MUST Have Title",
       "severity": "error",
@@ -4980,10 +5610,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:documentation",
+        "experience:discoverability"
       ]
     },
-    "openapi-info-title-length-error": {
+    "info-title-max-length": {
       "description": "Having a limitation on the length of the title for your API helps provide constraints for teams naming it, but also keep consistent with other APIs from across teams. It constrains the length of the `title` field and at most 50 (evaluated at `$.info`). Severity: error.",
       "message": "Info Title MUST Be Less Than 50 Characters",
       "severity": "error",
@@ -4998,10 +5630,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:consistency",
+        "experience:documentation"
       ]
     },
-    "openapi-info-title-upper-case-error": {
+    "info-title-capitalized": {
       "description": "Having a consistent casing for the title for your API helps provide constraints for teams naming the API, but also keep consistent with other APIs from across teams. It requires the targeted value to match the pattern `[A-Z]\\w*` (evaluated at `$.info.title`). Severity: error.",
       "message": "Info Title Has First Characters Capitalized",
       "severity": "error",
@@ -5015,10 +5649,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-operations-description-length-error": {
+    "operation-description-max-length": {
       "description": "Having a length limitation for each description of each API operation helps apply constraints to how you describe your APIs, while helping drive consistency across APIs when it comes to search, documentation, and other ways an API is made available. It constrains the length of the `description` field and at most 250 (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: warn.",
       "message": "Operation Description MUST Be Less Than 250 Characters",
       "given": "$.paths.*[get,post,patch,put,delete]",
@@ -5034,10 +5670,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:operations",
+        "experience:documentation",
+        "experience:consistency"
       ]
     },
-    "openapi-operations-summary-error": {
+    "operation-require-summary": {
       "description": "Having short and intuitive summary for each API operation helps API consumers understand what is possible with each API request. It requires the `summary` field to be present and non-empty (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
       "message": "Operation MUST Have a Summary",
       "severity": "error",
@@ -5051,10 +5690,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:operations",
+        "experience:documentation"
       ]
     },
-    "openapi-operations-summary-length-error": {
+    "operation-summary-max-length": {
       "description": "Apply length constraints to the operation summary helps keep them consistent for publishing in documentation. It constrains the length of the `summary` field and at most 50 (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: warn.",
       "message": "Operation Summary MUST Be Less Than 50 Characters",
       "given": "$.paths.*[get,post,patch,put,delete]",
@@ -5071,10 +5712,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:operations",
+        "experience:documentation",
+        "experience:consistency"
       ]
     },
-    "openapi-operations-summary-period-none-error": {
+    "operation-summary-no-period": {
       "description": "Operation summaries should not have a period, keeping the primary summary for each API as consistent as possible for publishing in documentation. It requires the targeted value not to match `\\.$` (evaluated at `$.paths[*][*].summary`). Severity: error.",
       "message": "Operation MUST Not Have a Period.",
       "severity": "error",
@@ -5088,10 +5732,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "experience:consistency",
+        "experience:documentation"
       ]
     },
-    "openapi-operations-tags-error": {
+    "operation-require-tags": {
       "description": "Having tags applied to each API operations helps organize and group APIs in portals, documentation, search, and other ways in which APIs are made available. It requires the `tags` field to be present and non-empty (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
       "message": "Operations MUST Have Tags",
       "severity": "error",
@@ -5105,10 +5751,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:operations",
+        "experience:discoverability",
+        "experience:documentation"
       ]
     },
-    "openapi-operations-tags-one-error": {
+    "operation-require-one-tag": {
       "description": "Having tags applied to each API operations helps organize and group APIs in portals, documentation, search, and other ways in which APIs are made available. It constrains the length of the `tags` field to at least 1 (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
       "message": "MUST Be At Least One Operation Tag",
       "given": "$.paths.*[get,post,patch,put,delete]",
@@ -5123,10 +5772,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:operations",
+        "experience:discoverability",
+        "experience:consistency"
       ]
     },
-    "openapi-operations-tags-upper-case-error": {
+    "operation-tags-title-case": {
       "description": "Having the first letter of each word applied as a tag to API operations helps keep a consistent layout when published via search, documentation, and other ways APIs are made available. It requires the targeted value to match the pattern `[A-Z]\\w*` (evaluated at `$.paths.*[get,post,patch,put,delete].tags.*`). Severity: error.",
       "message": "Operation Tag Names MUST Have First Letter in Each Word Capitalized",
       "severity": "error",
@@ -5140,10 +5792,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:paths",
+        "spec:operations",
+        "spec:tags",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-schema-description-error": {
+    "schema-require-description": {
       "description": "Schema should have descriptions that provide a narrative of what a schema object is for, and how it can be used, leaving examples to demonstrate what can actually be expected. It requires the `description` field to be present and non-empty (evaluated at `$.components.schemas.*`). Severity: error.",
       "message": "Schema MUST Have a Description.",
       "severity": "error",
@@ -5155,10 +5811,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:schemas",
+        "spec:components",
+        "experience:documentation",
+        "experience:data-modeling"
       ]
     },
-    "openapi-schema-description-length-error": {
+    "schema-description-max-length": {
       "description": "Schema should have a length limit applied, restricting how long schema descriptions can be, helping keep them concise and consistent. It constrains the length of the `description` field and at most 250 (evaluated at `$.components.schemas.*`). Severity: error.",
       "message": "Schema Description MUST be Less Than 250 Characters",
       "severity": "error",
@@ -5173,10 +5832,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:schemas",
+        "spec:components",
+        "experience:documentation",
+        "experience:consistency"
       ]
     },
-    "openapi-schema-names-error": {
+    "schema-require-name": {
       "description": "Schema names, keeping the naming of them consistent across APIs, standardizing how consumers can use in their applications. It requires the `@key` field to be present and non-empty (evaluated at `$.components.schemas`). Severity: error.",
       "message": "Schema Names MUST Exist",
       "severity": "error",
@@ -5188,10 +5850,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:schemas",
+        "spec:components",
+        "experience:naming",
+        "experience:data-modeling"
       ]
     },
-    "openapi-schema-names-length-error": {
+    "schema-name-max-length": {
       "description": "Schema should have a length limit applied keeping the names of schema consistent across APIs. It constrains the length of the `@key` field and at most 25 (evaluated at `$.components.schemas`). Severity: error.",
       "message": "Schema Names MUST Be Less Than 25 Characters",
       "severity": "error",
@@ -5206,10 +5871,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:schemas",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-response-get-401-status-code-error": {
+    "get-define-401-response": {
       "description": "GET operations should define a 401 Unauthorized response. Analysis of 773 specs shows 401 is the second most common response code with 4805 occurrences, confirming authentication errors must be documented. It requires the `401` field to be present and non-empty (evaluated at `$.paths[*].get.responses`). Severity: error.",
       "message": "GET MUST Have 401 Response",
       "severity": "error",
@@ -5221,10 +5889,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:security",
+        "experience:error-handling"
       ]
     },
-    "openapi-response-post-400-status-code-error": {
+    "post-define-400-response": {
       "description": "POST operations should define a 400 Bad Request response for input validation errors. Analysis shows 400 is the 4th most common response code across 2516 operations. It requires the `400` field to be present and non-empty (evaluated at `$.paths[*].post.responses`). Severity: error.",
       "message": "POST MUST Have 400 Response",
       "severity": "error",
@@ -5236,10 +5908,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-response-post-401-status-code-error": {
+    "post-define-401-response": {
       "description": "POST operations should define a 401 Unauthorized response to document authentication requirements for write operations. It requires the `401` field to be present and non-empty (evaluated at `$.paths[*].post.responses`). Severity: error.",
       "message": "POST MUST Have 401 Response",
       "severity": "error",
@@ -5251,10 +5927,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:security",
+        "experience:error-handling"
       ]
     },
-    "openapi-response-put-401-status-code-error": {
+    "put-define-401-response": {
       "description": "PUT operations should define a 401 Unauthorized response to document authentication requirements for update operations. It requires the `401` field to be present and non-empty (evaluated at `$.paths[*].put.responses`). Severity: error.",
       "message": "PUT MUST Have 401 Response",
       "severity": "error",
@@ -5266,10 +5946,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:security",
+        "experience:error-handling"
       ]
     },
-    "openapi-response-delete-401-status-code-error": {
+    "delete-define-401-response": {
       "description": "DELETE operations should define a 401 Unauthorized response to document authentication requirements for destructive operations. It requires the `401` field to be present and non-empty (evaluated at `$.paths[*].delete.responses`). Severity: error.",
       "message": "DELETE MUST Have 401 Response",
       "severity": "error",
@@ -5281,10 +5965,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:security",
+        "experience:error-handling"
       ]
     },
-    "openapi-response-patch-200-status-code-error": {
+    "patch-define-200-response": {
       "description": "PATCH operations should define a 200 OK response for successful partial updates. Analysis shows PATCH is used in 17.7% of APIs. It requires the `200` field to be present and non-empty (evaluated at `$.paths[*].patch.responses`). Severity: error.",
       "message": "PATCH MUST Have 200 Response",
       "severity": "error",
@@ -5296,10 +5984,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-response-patch-400-status-code-error": {
+    "patch-define-400-response": {
       "description": "PATCH operations should define a 400 Bad Request response for validation errors on partial update payloads. It requires the `400` field to be present and non-empty (evaluated at `$.paths[*].patch.responses`). Severity: error.",
       "message": "PATCH MUST Have 400 Response",
       "severity": "error",
@@ -5311,10 +6003,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-response-patch-404-status-code-error": {
+    "patch-define-404-response": {
       "description": "PATCH operations should define a 404 Not Found response for cases where the resource to be updated does not exist. It requires the `404` field to be present and non-empty (evaluated at `$.paths[*].patch.responses`). Severity: error.",
       "message": "PATCH MUST Have 404 Response",
       "severity": "error",
@@ -5326,10 +6022,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-response-429-rate-limit-error": {
+    "operation-define-429-response": {
       "description": "APIs should define a 429 Too Many Requests response to document rate limiting behavior. Analysis shows 429 appears in 671 operations, confirming rate limiting is a common API pattern. It requires the `429` field to be present and non-empty (evaluated at `$.paths.*[get,post,put,patch,delete].responses`). Severity: error.",
       "message": "Operations MUST Have 429 Response",
       "severity": "error",
@@ -5341,10 +6041,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:errors"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-info-contact-email-error": {
+    "contact-require-email": {
       "description": "Having a contact email address associated with the technical contract ensures that anyone who comes across the API has someone to email and get more information. It requires the `email` field to be present and non-empty (evaluated at `$.info.contact`). Severity: error.",
       "message": "Info MUST Have Contact Email",
       "given": "$.info.contact",
@@ -5356,10 +6060,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:discoverability",
+        "experience:documentation"
       ]
     },
-    "openapi-info-contact-error": {
+    "info-require-contact-2": {
       "description": "Having a contact object associated with the technical contract ensures that anyone who comes across the API has someone to contact and get more information. It requires the `contact` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
       "message": "Info MUST Have Contact Object",
       "severity": "error",
@@ -5371,10 +6077,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:discoverability",
+        "experience:documentation"
       ]
     },
-    "openapi-info-contact-name-error": {
+    "contact-require-name": {
       "description": "Having a contact name associated with the technical contract ensures that anyone who comes across the API knows who to contact. It requires the `name` field to be present and non-empty (evaluated at `$.info.contact`). Severity: error.",
       "message": "Info MUST Have Contact Name",
       "given": "$.info.contact",
@@ -5386,10 +6094,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:discoverability",
+        "experience:documentation"
       ]
     },
-    "openapi-info-contact-url-error": {
+    "contact-require-url": {
       "description": "Having a contact url associated with the technical contract ensures that anyone who comes across the API knows where to go to contact someone. It requires the `url` field to be present and non-empty (evaluated at `$.info.contact`). Severity: error.",
       "message": "Info MUST Have Contact URL",
       "given": "$.info.contact",
@@ -5401,10 +6111,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:discoverability",
+        "experience:documentation"
       ]
     },
-    "openapi-info-error": {
+    "require-info-object": {
       "description": "Having an info object provides much of the metadata needed for the collection of APIs described in an OpenAPI. It requires the `info` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "message": "Info Object MUST Exist",
       "severity": "error",
@@ -5416,10 +6128,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:document",
+        "experience:documentation",
+        "experience:governance"
       ]
     },
-    "openapi-info-version-error": {
+    "info-require-version": {
       "description": "Publishing a version for your OpenAPI technical contract helps you communicate change with consumers using Semantic or date-based versioning published to the info version property. It requires the `version` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
       "message": "Info MUST Have Version",
       "given": "$.info",
@@ -5431,10 +6145,11 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:versioning"
       ]
     },
-    "openapi-info-license-error": {
+    "info-require-license": {
       "description": "Having a license defined in the info object clarifies the terms under which the API can be used. Analysis shows only 44.4% of APIs define a license, but it is essential for API governance and compliance. It requires the `license` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
       "message": "Info MUST Have License",
       "severity": "error",
@@ -5446,10 +6161,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:governance",
+        "experience:documentation"
       ]
     },
-    "openapi-info-license-name-error": {
+    "license-require-name": {
       "description": "The license object should include a name property identifying the license type, such as Apache 2.0, MIT, or a proprietary license. It requires the `name` field to be present and non-empty (evaluated at `$.info.license`). Severity: error.",
       "message": "Info License MUST Have Name",
       "severity": "error",
@@ -5461,10 +6178,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:governance",
+        "experience:documentation"
       ]
     },
-    "openapi-info-license-url-error": {
+    "license-require-url": {
       "description": "The license object should include a URL linking to the full license text so API consumers can review the terms. It requires the `url` field to be present and non-empty (evaluated at `$.info.license`). Severity: error.",
       "message": "Info License MUST Have URL",
       "severity": "error",
@@ -5476,10 +6195,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:governance",
+        "experience:documentation"
       ]
     },
-    "openapi-info-terms-of-service-error": {
+    "info-require-terms-of-service-2": {
       "description": "Having terms of service defined helps API consumers understand usage policies. Analysis shows 51.1% of APIs include terms of service, and it should be standard for any production API. It requires the `termsOfService` field to be present and non-empty (evaluated at `$.info`). Severity: error.",
       "message": "Info MUST Have Terms of Service",
       "severity": "error",
@@ -5491,10 +6212,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:info",
+        "experience:governance",
+        "experience:documentation"
       ]
     },
-    "openapi-external-docs-error": {
+    "require-external-docs": {
       "description": "Defining external documentation provides a link to detailed API guides, tutorials, and reference material beyond the OpenAPI spec. Analysis shows 57.1% of APIs include external docs. It requires the `externalDocs` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "message": "External Docs MUST Be Defined",
       "severity": "error",
@@ -5506,10 +6229,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:documentation"
+        "spec:document",
+        "experience:documentation",
+        "experience:discoverability"
       ]
     },
-    "openapi-paths-kebab-case-error": {
+    "path-segments-kebab-case-4": {
       "description": "API path segments should use kebab-case (lowercase with hyphens). Consistent path naming reduces confusion and improves developer experience across API consumers and documentation. It requires the targeted value to match the pattern `^(/[a-z0-9{}][a-z0-9\\-{}]*)*$` (evaluated at `$.paths`). Severity: error.",
       "message": "Path Segments MUST Use kebab-case",
       "severity": "error",
@@ -5523,10 +6248,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:naming"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-paths-no-file-extensions-error": {
+    "paths-no-file-extensions": {
       "description": "API paths should not include file extensions like .json or .xml. Content negotiation should be handled through Accept headers rather than path suffixes. It requires the targeted value not to match `\\.(json|xml|html|yaml|yml|csv|pdf)$` (evaluated at `$.paths`). Severity: error.",
       "message": "Paths MUST NOT Contain File Extensions",
       "severity": "error",
@@ -5540,10 +6267,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:naming"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-operation-id-required-error": {
+    "operation-require-operation-id": {
       "description": "Every operation should have an operationId for SDK generation and documentation linking. Analysis shows operationId styles across 8878 operations with camelCase dominant at 92%. It requires the `operationId` field to be present and non-empty (evaluated at `$.paths.*[get,post,put,patch,delete]`). Severity: error.",
       "message": "Operation MUST Have operationId",
       "severity": "error",
@@ -5555,10 +6284,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:naming"
+        "spec:paths",
+        "spec:operations",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "openapi-schema-properties-camel-case-error": {
+    "schema-properties-camel-case-3": {
       "description": "Schema property names should use camelCase. Analysis of 773 specs shows camelCase is the dominant convention at 65% (12958 properties), followed by snake_case at 33% (6661 properties). It requires the targeted value to match the pattern `^[a-z][a-zA-Z0-9]*$` (evaluated at `$.components.schemas[*].properties`). Severity: error.",
       "message": "Schema Properties MUST Use camelCase",
       "severity": "error",
@@ -5572,10 +6304,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:naming"
+        "spec:schemas",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-parameter-query-camel-case-error": {
+    "query-parameters-camel-case-3": {
       "description": "Query parameter names should use camelCase for consistency. Analysis shows camelCase is the most common query parameter style at 54% (2519 parameters), followed by snake_case at 36%. It requires camel casing on the `name` field (evaluated at `$.paths[*][*].parameters[?(@.in == 'query')]`). Severity: error.",
       "message": "Query Parameters MUST Use camelCase",
       "severity": "error",
@@ -5590,10 +6325,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:naming"
+        "spec:paths",
+        "spec:parameters",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-operation-security-definitions-error": {
+    "operation-require-security-2": {
       "description": "Each API operation should have a security definition referencing the central security scheme express for an OpenAPI. It requires the `security` field to be present and non-empty (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
       "message": "Operations MUST Have a Security Definition",
       "severity": "error",
@@ -5605,10 +6343,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:security",
+        "experience:governance"
       ]
     },
-    "openapi-operations-description-error": {
+    "operation-require-description": {
       "description": "Having a paragraph or two description of each API operation helps API consumers understand what is possible with each API request. It requires the `description` field to be present and non-empty (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
       "message": "Operation MUST Have Description",
       "severity": "error",
@@ -5622,10 +6363,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:documentation"
       ]
     },
-    "openapi-operations-operation-ids-camel-case-error": {
+    "operation-id-camel-case": {
       "description": "Operation identifiers provide a unique way to identify each individual API, and requiring them to have consistent casing reduces friction when generating SDKs and automating around APIs. It requires the targeted value to match the pattern `^[a-z]+(?:[A-Z][a-z]+)*$` (evaluated at `$.paths.*[get,post,patch,put,delete].operationId`). Severity: error.",
       "message": "Operation Identifier MUST Be camelCase",
       "severity": "error",
@@ -5641,10 +6384,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-operations-operation-ids-error": {
+    "operation-require-identifier": {
       "description": "Operation identifiers provide a unique way to identify each individual API, which then used for SDK generation and other automation. It requires the `operationId` field to be present and non-empty (evaluated at `$.paths.*[get,post,patch,put,delete]`). Severity: error.",
       "message": "Operation MUST Have Identifier",
       "severity": "error",
@@ -5658,10 +6404,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "openapi-pagination-limit-parameter-error": {
+    "collection-require-limit-parameter": {
       "description": "GET operations returning collections should include a limit parameter for pagination. Analysis shows limit is the most common pagination parameter (116 of 773 specs), used in 24% of APIs with pagination. It validates the targeted value against a JSON Schema (evaluated at `$.paths[*].get.parameters[*]`). Severity: error.",
       "message": "Collection GET MUST Have Limit Parameter",
       "severity": "error",
@@ -5677,10 +6426,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:pagination"
+        "spec:paths",
+        "spec:operations",
+        "spec:parameters",
+        "experience:pagination",
+        "experience:usability"
       ]
     },
-    "openapi-pagination-parameters-query-error": {
+    "pagination-params-in-query": {
       "description": "Pagination parameters like page, limit, offset, and cursor should be passed as query parameters, not in headers or path segments. Analysis confirms 100% of pagination parameters observed are query parameters. It requires the `in` field to match the pattern `query` (evaluated at `$.paths[*].get.parameters[?(@.name == 'page' || @.name == 'limit' || @.name == 'offset' || @.name == 'cursor' || @.name == 'per_page' || @.name == 'page_size')]`). Severity: error.",
       "message": "Pagination Parameters MUST Be Query Parameters",
       "severity": "error",
@@ -5695,10 +6448,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:pagination"
+        "spec:paths",
+        "spec:operations",
+        "spec:parameters",
+        "experience:pagination",
+        "experience:consistency"
       ]
     },
-    "openapi-components-parameters-casing-camel-error": {
+    "parameter-names-camel-case": {
       "description": "Providing parameters with consistent naming helps make it easier for API consumers to understand how they are able to configure their API requests. It requires the `name` field not to match `^[a-z]+(?:[A-Z][a-z]+)*$`, and requires the `name` field to match the pattern `^[A-Z](([a-z0-9]+[A-Z]?)*)$` (evaluated at `$.components.parameters.*`). Severity: error.",
       "message": "Parameters Names MUST Be Camel Case",
       "severity": "error",
@@ -5722,10 +6479,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-components-parameters-description-error": {
+    "parameter-require-description": {
       "description": "Having a parameters description provides more depth to what a parameter does and will be displayed via documentation, and other tooling used across the API lifecycle. It requires the `description` field to be present and non-empty (evaluated at `$.paths.*.*.parameters.*`). Severity: warn.",
       "message": "Parameters MUST Have a Description",
       "given": "$.paths.*.*.parameters.*",
@@ -5736,10 +6496,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:parameters",
+        "experience:documentation"
       ]
     },
-    "openapi-components-parameters-description-length-error": {
+    "parameter-description-max-length": {
       "description": "Limiting the length of parameters description forces us to be more concise in how we describe each parameter, while keeping our documentation and other ways descriptions show up in discovery and portals more consistent. It constrains the length of the `summary` field and at most 500 (evaluated at `$.components.parameters.*`). Severity: warn.",
       "message": "Parameters Description MUST Be Less Than 500 Characters",
       "given": "$.components.parameters.*",
@@ -5753,10 +6515,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:components",
+        "experience:documentation",
+        "experience:consistency"
       ]
     },
-    "openapi-components-parameters-enum-casing-error": {
+    "parameter-enum-upper-snake-case": {
       "description": "Keeping parameters enumerator casing consistent across APIs helps reduce confusion by consumers, and can keep aligned with services and applications putting an API to work. It requires the targeted value not to match `^[A-Z]+(?:_[A-Z]+)*$` (evaluated at `$.components.parameters.*.enum.*`). Severity: error.",
       "message": "Parameters Enums MUST Must Be Upper Snake Case",
       "severity": "error",
@@ -5770,10 +6535,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-components-parameters-in-error": {
+    "parameter-require-in": {
       "description": "Providing an in property for parameters gets explicit about whether a parameter is in the path, query, or a header, making it clear to consumers where they can configure their request. It requires the `in` field to be present and non-empty (evaluated at `$.components.parameters.*`). Severity: warn.",
       "message": "Parameters In Property MUST Be Set",
       "given": "$.components.parameters.*",
@@ -5784,10 +6552,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:documentation"
       ]
     },
-    "openapi-components-parameters-name-error": {
+    "parameter-require-name": {
       "description": "Providing a simple, intuitive, and consistent names for your parameters helps make it easier for API consumers to understand how they are able to configure their API requests. It requires the `name` field to be present and non-empty (evaluated at `$.components.parameters.*`). Severity: error.",
       "message": "Parameters MUST Have a Name",
       "severity": "error",
@@ -5799,10 +6570,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:components",
+        "experience:naming",
+        "experience:documentation"
       ]
     },
-    "openapi-components-parameters-name-length-error": {
+    "parameter-name-max-length": {
       "description": "Providing short and concise names for your parameters helps make it easier for API consumers to understand how they are able to configure their API requests. It constrains the length of the `summary` field and at most 25 (evaluated at `$.components.parameters[?(@.in=='path')].name`). Severity: warn.",
       "message": "Parameters Name Length MUST Be Less Than 25 Characters",
       "given": "$.components.parameters[?(@.in=='path')].name",
@@ -5816,10 +6590,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-components-parameters-required-error": {
+    "parameter-require-required-flag": {
       "description": "Providrequiredg an required property for parameters gets explicit about whether a parameter is required the path, query, or a header, making it clear to consumers where they can configure their request. It requires the `required` field to be present and non-empty (evaluated at `$.components.parameters.*`). Severity: error.",
       "message": "Parameters Required Property MUST Be Set",
       "given": "$.components.parameters.*",
@@ -5831,10 +6608,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:documentation"
       ]
     },
-    "openapi-paths-declarations-error": {
+    "require-paths-declared": {
       "description": "There must be a paths property and have paths declared, providing the minimum viable definition for an API. It requires the `@key` field not to match `{}` (evaluated at `$.paths`). Severity: error.",
       "message": "OpenAPI Path Declarations Error",
       "severity": "error",
@@ -5850,10 +6630,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:governance",
+        "experience:documentation"
       ]
     },
-    "openapi-paths-max-nesting-depth-error": {
+    "path-max-nesting-depth": {
       "description": "API paths should not exceed 4 levels of nesting depth. Analysis of 6627 paths across 773 specs shows an average depth of 3.04 segments, with deeper paths indicating overly complex resource hierarchies. It requires the targeted value not to match `^(/[^/]+){5,}` (evaluated at `$.paths`). Severity: error.",
       "message": "Path Nesting MUST NOT Exceed 4 Levels",
       "severity": "error",
@@ -5867,10 +6649,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:consistency",
+        "experience:usability"
       ]
     },
-    "openapi-paths-resource-plural-error": {
+    "path-resources-plural": {
       "description": "Resource names in paths should use plural nouns to maintain consistency and follow REST conventions for collection-oriented resource design. It requires the targeted value to match the pattern `^(/[a-z].*s(/\\{[^}]+\\})?)*$` (evaluated at `$.paths`). Severity: warn.",
       "message": "Path Resources Should Be Plural",
       "severity": "warn",
@@ -5884,10 +6668,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-request-bodies-delete-error": {
+    "delete-no-request-body-2": {
       "description": "DELETE HTTP methods should not have a request body, keeping API requests compliant with the HTTP standard. It requires the `requestBody` field to be absent or empty (evaluated at `$.paths.*.delete`). Severity: error.",
       "message": "DELETE Request Body",
       "given": "$.paths.*.delete",
@@ -5899,10 +6685,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "openapi-request-bodies-get-error": {
+    "get-no-request-body-2": {
       "description": "GET HTTP methods should not have a request body, keeping API requests compliant with the HTTP standard. It requires the `requestBody` field to be absent or empty (evaluated at `$.paths.*.get`). Severity: error.",
       "message": "GET Request Body",
       "given": "$.paths.*.get",
@@ -5914,10 +6703,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "openapi-request-body-on-post-error": {
+    "post-require-request-body": {
       "description": "POST HTTP methods can have a request body, providing a structured payload for configuring each API request. It requires the `requestBody` field to be present and non-empty (evaluated at `$.paths.*.post`). Severity: error.",
       "message": "POST Requests MUST Have a Body",
       "given": "$.paths.*.post",
@@ -5929,10 +6721,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "openapi-request-bodies-put-error": {
+    "put-require-request-body-2": {
       "description": "PUT HTTP methods can have a request body, providing a structured payload for configuring each API request. It requires the `requestBody` field to be present and non-empty (evaluated at `$.paths.*.put`). Severity: error.",
       "message": "PUT Requests MUST Have a Body",
       "given": "$.paths.*.put",
@@ -5944,10 +6739,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "openapi-response-delete-204-status-code-error": {
+    "delete-define-204-response": {
       "description": "DELETE responses should have a 204 success HTTP status codes, communicating a success created response to consumers. It requires the `204` field to be present and non-empty (evaluated at `$.paths.*.delete.responses`). Severity: info.",
       "message": "DELETE 204 Status Code",
       "severity": "info",
@@ -5959,10 +6757,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:reliability",
+        "experience:consistency"
       ]
     },
-    "openapi-response-delete-404-schema-ref-error": {
+    "delete-404-use-schema-ref": {
       "description": "DELETE 404 not found HTTP status codes have a schema references to standardize the response payload returned for the error response. It requires the `$ref` field to be absent or empty (evaluated at `$.paths.*.delete.responses.404`). Severity: error.",
       "message": "DELETE 404 Responses MUST Use Schema Reference",
       "severity": "error",
@@ -5974,10 +6776,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:consistency"
       ]
     },
-    "openapi-response-delete-500-status-code-error": {
+    "delete-define-500-response": {
       "description": "DELETE responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers. It requires the `500` field to be present and non-empty (evaluated at `$.paths.*.delete.responses`). Severity: error.",
       "message": "DELETE Responses MUST Have 500 Status Codes",
       "severity": "error",
@@ -5989,10 +6795,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-response-get-200-status-code-error": {
+    "get-define-200-response": {
       "description": "GET responses should have a 200 success HTTP status codes, communicating a successful response to consumers. It requires the `200` field to be present and non-empty (evaluated at `$.paths.*.get.responses`). Severity: error.",
       "message": "GET Responses MUST Have 200 Status Codes",
       "severity": "error",
@@ -6004,10 +6814,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:reliability",
+        "experience:consistency"
       ]
     },
-    "openapi-response-get-404-status-code-error": {
+    "get-define-404-response": {
       "description": "GET responses should have a 404 not found HTTP status code, communicating that nothing was found to consumers. It requires the `404` field to be present and non-empty (evaluated at `$.paths.*.get[?(@.properties)]`). Severity: error.",
       "message": "GET Responses MUST Have 404 Status Code",
       "severity": "error",
@@ -6019,10 +6833,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:schemas",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-response-get-500-status-code-error": {
+    "get-define-500-response": {
       "description": "GET responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers. It requires the `500` field to be present and non-empty (evaluated at `$.paths.*.get.responses`). Severity: error.",
       "message": "GET Responses MUST Have 500 Status Code",
       "severity": "error",
@@ -6034,10 +6852,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-response-post-201-status-code-error": {
+    "post-define-201-response": {
       "description": "POST responses should have a 201 success HTTP status codes, communicating a success created response to consumers. It requires the `201` field to be present and non-empty (evaluated at `$.paths[*].post.responses`). Severity: error.",
       "message": "POST Responses MUST Have 201 Status Codes",
       "severity": "error",
@@ -6049,10 +6871,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:reliability",
+        "experience:consistency"
       ]
     },
-    "openapi-response-post-500-status-code-error": {
+    "post-define-500-response": {
       "description": "POST responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers. It requires the `500` field to be present and non-empty (evaluated at `$.paths.*.post.responses`). Severity: error.",
       "message": "POST Responses MUST Have 500 Status Codes",
       "severity": "error",
@@ -6064,10 +6890,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-response-put-400-status-code-error": {
+    "put-define-400-response": {
       "description": "PUT responses should have a 400 not found HTTP status code, communicating nothing was found to consumers. It requires the `400` field to be present and non-empty (evaluated at `$.paths.*.put.responses`). Severity: error.",
       "message": "PUT Responses MUST Have 400 Status Codes",
       "severity": "error",
@@ -6079,10 +6909,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-response-put-500-status-code-error": {
+    "put-define-500-response": {
       "description": "PUT responses should have a 500 internal server erorr HTTP status code, communicating the API had a problem to consumers. It requires the `500` field to be present and non-empty (evaluated at `$.paths.*.put.responses`). Severity: error.",
       "message": "PUT Responses MUST Have 500 Status Codes",
       "severity": "error",
@@ -6094,10 +6928,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:paths",
+        "spec:operations",
+        "spec:responses",
+        "experience:error-handling",
+        "experience:reliability"
       ]
     },
-    "openapi-components-parameters-schema-error": {
+    "parameter-require-schema": {
       "description": "Parameters must always possess a schema to help define the format and shape of the parameter, setting expections with consumers about what should be passed in. It requires the `schema` field to be present and non-empty (evaluated at `$.components.parameters.*`). Severity: warn.",
       "message": "Parameters MUST Have Schema",
       "given": "$.components.parameters.*",
@@ -6108,10 +6946,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:documentation"
       ]
     },
-    "openapi-components-parameters-schema-ref-error": {
+    "parameter-schema-use-ref": {
       "description": "Parameters must always use a schema reference that utilizes reusable schema that are defined as part of a centralized schema components library. It requires the `$ref` field to be absent or empty (evaluated at `$.components.parameters.*.schema`). Severity: error.",
       "message": "Parameters MUST Use Schema Reference",
       "severity": "error",
@@ -6123,10 +6964,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:schemas",
+        "spec:components",
+        "experience:consistency",
+        "experience:data-modeling"
       ]
     },
-    "openapi-components-parameters-schema-type-error": {
+    "parameter-schema-require-type": {
       "description": "Parameters must always have their schema type defined, being precise about what type of data can be inputted and used to configure an API request. It requires the `type` field to be present and non-empty (evaluated at `$.components.parameters.*.schema`). Severity: error.",
       "message": "Parameter Schema Type",
       "given": "$.components.parameters.*.schema",
@@ -6138,10 +6983,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:parameters",
+        "spec:schemas",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "openapi-schema-properties-descriptions-error": {
+    "schema-property-require-description": {
       "description": "Schema properties should have descriptions that provide a narrative of the property contains, and how it can be used. It requires the `description` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type == 'string')]`). Severity: error.",
       "message": "Schema Properties MUST Have Description",
       "severity": "error",
@@ -6153,10 +7002,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:schemas",
+        "spec:components",
+        "experience:documentation",
+        "experience:data-modeling"
       ]
     },
-    "openapi-schema-properties-descriptions-length-error": {
+    "schema-property-description-max-length": {
       "description": "Schema property descriptions should have a length limit applied, applying constraints to writing descriptions, and keeping consistent across APIs. It constrains the length of the `description` field and at most 250 (evaluated at `$.components.schemas.*.properties[?(@.type == 'string')]`). Severity: error.",
       "message": "Schema Properties Description MUST Have 250 Characters",
       "severity": "error",
@@ -6171,10 +7023,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:schemas",
+        "spec:components",
+        "experience:documentation",
+        "experience:consistency"
       ]
     },
-    "openapi-schema-properties-enum-casing-error": {
+    "schema-property-enum-upper-snake-case": {
       "description": "Schema property enumerators are consistent casing, keeping all entries upper snake case, and consistent across all APIs. It requires the targeted value to match the pattern `^[A-Z]+(?:_[A-Z]+)*$` (evaluated at `$.components.schemas.*.properties.*.enum.*`). Severity: error.",
       "message": "Schema Property Enum MUST Be Upper Snake Case",
       "severity": "error",
@@ -6188,10 +7043,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:schemas",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-schema-properties-names-camel-case-error": {
+    "schema-property-names-camel-case": {
       "description": "Schema property names are camel case, providing consistent casing across all the schema properties used by APIs. It requires the `@key` field not to match `^[A-Z][a-z0-9]*[A-Z0-9][a-z0-9]+[A-Za-z0-9]*$` (evaluated at `$.components.schemas.*.properties`). Severity: error.",
       "message": "Schema Property Names MUST Be camelCase.",
       "severity": "error",
@@ -6208,10 +7066,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:schemas",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-schema-properties-names-length-error": {
+    "schema-property-names-length-limit": {
       "description": "Schema property names have a length restriction applied, keeping names consistent, and avoiding being too long. It constrains the length of the `@key` field and at most 25 (evaluated at `$.components.schemas.*.properties`). Severity: error.",
       "message": "Schema Properties Name Length",
       "severity": "error",
@@ -6226,10 +7087,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:schemas",
+        "spec:components",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-schema-type-error": {
+    "schema-require-type": {
       "description": "Schema should have a type defined, being explicit about type of data a schema describes and can be used to validate, helping standardize the type of data being made available. It requires the `type` field to be present and non-empty (evaluated at `$.components.schemas.*`). Severity: error.",
       "message": "Schema MUST Have Type Property",
       "severity": "error",
@@ -6241,10 +7105,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:schemas",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "openapi-components-parameters-schema-items-array-error": {
+    "parameter-array-require-items": {
       "description": "Parameters that are of an array type should always have the items defined, being explicit about what is continued as part of the array. It requires the `items` field to be present and non-empty (evaluated at `$.components.parameters.schema[?(@.type=='array')]`). Severity: error.",
       "message": "Parameter Schema Array MUST Have Items",
       "given": "$.components.parameters.schema[?(@.type=='array')]",
@@ -6256,10 +7123,14 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:parameters",
+        "spec:schemas",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "openapi-components-parameters-schema-type-integer-maximum-warn": {
+    "parameter-integer-require-maximum": {
       "description": "Parameters that are of the integer schema type must have their maximum value set, defining the shape of parameter data passed in with a request. It requires the `maximum` field to be present and non-empty (evaluated at `$.apis.*.properties.*`, `$.common.*`). Severity: warn.",
       "message": "Parameter Schema Type Integer Maximum",
       "given": [
@@ -6274,10 +7145,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-components-parameters-schema-type-integer-minimum-warn": {
+    "parameter-integer-require-minimum": {
       "description": "Parameters that are of the integer schema type must have their minimum value set, defining the shape of parameter data passed in with a request. It requires the `minimum` field to be present and non-empty (evaluated at `$.apis.*.properties.*`, `$.common.*`). Severity: warn.",
       "message": "Parameter Schema Type Integer Minimum",
       "given": [
@@ -6292,10 +7165,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-components-parameters-schema-type-string-maxlength-warn": {
+    "parameter-string-require-max-length": {
       "description": "Parameters that are of the string schema type must have their maximum value set, defining the shape of parameter data passed in with a request. It requires the `maxLength` field to be present and non-empty (evaluated at `$.apis.*.properties.*`, `$.common.*`). Severity: warn.",
       "message": "Parameter Schema Type String MaxLength",
       "given": [
@@ -6310,10 +7185,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-components-parameters-schema-type-string-minlength-warn": {
+    "parameter-string-require-min-length": {
       "description": "Parameters that are of the string schema type must have their minimum value set, defining the shape of parameter data passed in with a request. It requires the `minLength` field to be present and non-empty (evaluated at `$.apis.*.properties.*`, `$.common.*`). Severity: warn.",
       "message": "Parameter Schema Type String MinLength",
       "given": [
@@ -6328,10 +7205,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-components-parameters-schema-type-string-pattern-warn": {
+    "parameter-string-require-pattern": {
       "description": "Parameters that are of the string schema type must have a pattern set, using a regex to define the shape of parameter data passed in with a request. It requires the `pattern` field to be present and non-empty (evaluated at `$.apis.*.properties.*`, `$.common.*`). Severity: warn.",
       "message": "Parameter Schema Type String Pattern",
       "given": [
@@ -6346,10 +7225,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-schema-properties-array-items-error": {
+    "schema-array-property-require-items": {
       "description": "Schema properties that are of the type array must have an items property defined. It requires the `items` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type==\"array\")]`). Severity: error.",
       "message": "Schema Array Properties MUST Have Items",
       "severity": "error",
@@ -6361,10 +7242,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:consistency"
       ]
     },
-    "openapi-schema-properties-array-maxitems-error": {
+    "schema-array-property-require-max-items": {
       "description": "Schema properties that are of the type array should have a max items property defined. It requires the `maxItems` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type==\"array\")]`). Severity: error.",
       "message": "Schema Array Properties MUST Have Max Items",
       "severity": "error",
@@ -6378,10 +7262,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-schema-properties-array-minitems-error": {
+    "schema-array-property-require-min-items": {
       "description": "Schema properties that are of the type array should have a min items property defined. It requires the `minItems` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type==\"array\")]`). Severity: error.",
       "message": "Schema Array Properties MUST Have Min Items",
       "severity": "error",
@@ -6395,10 +7282,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-schema-properties-define-number-maximum-error": {
+    "schema-number-property-require-maximum": {
       "description": "Schema properties that are of the type number should have a maximum property defined. It requires the `maximum` field to be defined (evaluated at `$.components.schemas.*.properties[?(@.type==\"number\")]`). Severity: error.",
       "message": "Schema Number Properties MUST Have Maximum",
       "severity": "error",
@@ -6412,10 +7302,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-schema-properties-define-number-minimum-error": {
+    "schema-number-property-require-minimum": {
       "description": "Schema properties that are of the type number should have a minimum property defined. It requires the `minimum` field to be defined (evaluated at `$.components.schemas.*.properties[?(@.type==\"number\")]`). Severity: error.",
       "message": "Schema Number Properties MUST Have Minimum",
       "severity": "error",
@@ -6429,10 +7322,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-schema-properties-string-maxlength-error": {
+    "schema-string-property-require-max-length": {
       "description": "Schema properties that are of the string type have the max length applied defining the shape of the property. It requires the `maxLength` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type == 'string')]`). Severity: error.",
       "message": "Schema String Properties MUST Have Maximum Length",
       "severity": "error",
@@ -6444,10 +7340,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-schema-properties-string-minlength-error": {
+    "schema-string-property-require-min-length": {
       "description": "Schema properties that are of the string type have the min length applied defining the shape of the property. It requires the `minLength` field to be present and non-empty (evaluated at `$.components.schemas.*.properties[?(@.type == 'string')]`). Severity: error.",
       "message": "Schema String Properties MUST Have Minimum Length",
       "severity": "error",
@@ -6459,10 +7358,13 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:security"
+        "spec:schemas",
+        "spec:components",
+        "experience:data-modeling",
+        "experience:reliability"
       ]
     },
-    "openapi-tags-description-error": {
+    "tags-require-description": {
       "description": "Tags used as part of an OpenAPI should have descriptions, providing more of a narrative behind what a tag means when it is applied to an API. It requires the `description` field to be present and non-empty (evaluated at `$.tags[*]`). Severity: error.",
       "message": "Tags MUST Have a Description",
       "given": "$.tags[*]",
@@ -6474,10 +7376,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:tags",
+        "experience:documentation",
+        "experience:discoverability"
       ]
     },
-    "openapi-tags-name-error": {
+    "tags-require-name": {
       "description": "Tags used as part of an OpenAPI should have names, providing a simple key word or phrase that represents the tag being applied to APIs. It requires the `name` field to be present and non-empty (evaluated at `$.tags[*]`). Severity: error.",
       "message": "Tags MUST Have a Name",
       "given": "$.tags[*]",
@@ -6489,10 +7393,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:tags",
+        "experience:discoverability",
+        "experience:naming"
       ]
     },
-    "openapi-tags-object-error": {
+    "require-tags-object": {
       "description": "There needs to be a central tags object applied to the OpenAPI, providing central tags that can be applied across all operations within an OpenAPI. It requires the `tags` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "message": "OpenAPIs MUST Have a Tag Object",
       "given": "$",
@@ -6504,10 +7410,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:document",
+        "experience:discoverability",
+        "experience:consistency"
       ]
     },
-    "openapi-tags-one-error": {
+    "require-at-least-one-tag": {
       "description": "There needs to be at least one tag applied to an OpenAPI, providing a key word or phrase that can be applied to API operations. It constrains the length of the `tags` field to at least 1 (evaluated at `$`). Severity: error.",
       "message": "MUST Be At Least One Tag",
       "given": "$",
@@ -6522,10 +7430,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:document",
+        "experience:discoverability",
+        "experience:consistency"
       ]
     },
-    "openapi-tags-upper-case-error": {
+    "tag-names-title-case": {
       "description": "The first letter of each word in a tag being applied to APIs needs to be capitalized, keeping the tags being applied across APIs the same look and feel for organizing and publishing to documentation. It requires the targeted value to match the pattern `[A-Z]\\w*` (evaluated at `$.tags.*.name`). Severity: error.",
       "message": "Tag Names MUST Have First Letter in Each Word Capitalized",
       "severity": "error",
@@ -6539,10 +7449,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:structure"
+        "spec:tags",
+        "experience:naming",
+        "experience:consistency"
       ]
     },
-    "openapi-version-3x-error": {
+    "require-openapi-version-3x": {
       "description": "APIs should use OpenAPI 3.x specification. Analysis of 773 API specs shows 97% use OpenAPI 3.x, with 86% on 3.1.0, making it the dominant standard for modern API definitions. It requires the `openapi` field to match the pattern `^3\\.` (evaluated at `$`). Severity: error.",
       "message": "OpenAPI MUST Be Version 3.x",
       "severity": "error",
@@ -6557,10 +7469,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:versioning"
+        "spec:document",
+        "experience:versioning",
+        "experience:governance"
       ]
     },
-    "openapi-servers-defined-error": {
+    "require-servers-defined": {
       "description": "Every OpenAPI should define at least one server URL. Analysis shows 97.2% of APIs define servers, providing consumers with the base URL needed to make requests. It requires the `servers` field to be present and non-empty (evaluated at `$`). Severity: error.",
       "message": "Servers MUST Be Defined",
       "severity": "error",
@@ -6572,10 +7486,12 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:versioning"
+        "spec:document",
+        "experience:usability",
+        "experience:discoverability"
       ]
     },
-    "openapi-servers-url-https-error": {
+    "server-url-require-https": {
       "description": "API server URLs should use HTTPS to ensure encrypted communication between clients and servers, protecting sensitive data in transit. It requires the `url` field to match the pattern `^https://` (evaluated at `$.servers[*]`). Severity: error.",
       "message": "Server URL MUST Use HTTPS",
       "severity": "error",
@@ -6590,10 +7506,11 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:versioning"
+        "spec:servers",
+        "experience:security"
       ]
     },
-    "openapi-no-version-in-path-error": {
+    "paths-no-version-segment": {
       "description": "API paths should not contain version numbers like v1 or v2. API versioning should be handled through headers, query parameters, or server URLs rather than embedded in resource paths. It requires the targeted value not to match `/v[0-9]` (evaluated at `$.paths`). Severity: error.",
       "message": "Paths MUST NOT Contain API Version",
       "severity": "error",
@@ -6607,7 +7524,9 @@ export const ruleset = {
       "tags": [
         "source:api-evangelist",
         "format:openapi",
-        "category:versioning"
+        "spec:paths",
+        "experience:versioning",
+        "experience:consistency"
       ]
     }
   }

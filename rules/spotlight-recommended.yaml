@@ -6,7 +6,7 @@ extends:
   - - spotlight:oas
     - recommended
 rules:
-  paths-kebab-case:
+  path-segments-kebab-case:
     description: "All YAML/JSON paths MUST follow kebab-case. It requires the
       targeted value to match the pattern
       `^/([a-z0-9]+(-[a-z0-9]+)*)?(/[a-z0-9]+(-[a-z0-9]+)*|/{.+})*$` (evaluated
@@ -22,8 +22,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:naming
-  path-parameters-camelCase-alphanumeric:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  path-parameters-camel-case:
     description: "Path parameters MUST follow camelCase. It requires the targeted
       value to match the pattern `^[a-z][a-zA-Z0-9]+$` (evaluated at
       `$..parameters[?(@.in == 'path')].name`). Severity: warn."
@@ -38,8 +40,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:naming
-  definitions-camelCase-alphanumeric:
+      - spec:parameters
+      - experience:naming
+      - experience:consistency
+  schema-definitions-camel-case:
     description: "All YAML/JSON definitions MUST follow fields-camelCase and be
       ASCII alphanumeric characters or `_` or `$`. It requires the targeted
       value to match the pattern `/^[a-z$_]{1}[A-Z09$_]*/` (evaluated at
@@ -56,8 +60,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:naming
-  properties-camelCase-alphanumeric:
+      - spec:document
+      - experience:naming
+      - experience:consistency
+  schema-properties-camel-case:
     description: "All JSON Schema properties MUST follow fields-camelCase and be
       ASCII alphanumeric characters or `_` or `$`. It requires the targeted
       value to match the pattern `/^[a-z$_]{1}[A-Z09$_]*/` (evaluated at
@@ -74,8 +80,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:naming
-  headers-hyphenated-pascal-case:
+      - spec:schemas
+      - experience:naming
+      - experience:consistency
+  header-names-hyphenated-pascal-case:
     description: "All `HTTP` headers MUST use `Hyphenated-Pascal-Case` notation. It
       requires the targeted value to match the pattern
       `/^([A-Z][a-z0-9]-)*([A-Z][a-z0-9])+/` (evaluated at `$..parameters[?(@.in
@@ -92,9 +100,12 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:naming
+      - spec:parameters
+      - spec:headers
+      - experience:naming
+      - experience:consistency
       - source:sps-commerce
-  request-support-json:
+  request-support-json-media-type:
     description: "Every request MUST support `application/json` media type. It
       requires the targeted value to be absent or empty (evaluated at
       `$.paths.[*].requestBody.content[?(@property.indexOf('json') === -1)]^`).
@@ -110,8 +121,12 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:structure
-  protocol-https-only:
+      - spec:paths
+      - spec:request-body
+      - spec:media-types
+      - experience:consistency
+      - experience:usability
+  require-https-servers:
     description: "ALL requests MUST go through `https` protocol only. It requires
       the targeted value to match the pattern `/^https:/` (evaluated at
       `$.servers..url`). Severity: error."
@@ -128,8 +143,9 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:security
-  response-success-hal:
+      - spec:servers
+      - experience:security
+  success-response-use-hal-json:
     description: 'All success responses MUST be of media type
       `application/hal+json`. It requires the targeted value to be one of
       ["application/hal+json"] (evaluated at `$.paths..responses[?( @property >=
@@ -150,8 +166,12 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:structure
-  response-success-OK:
+      - spec:paths
+      - spec:responses
+      - spec:media-types
+      - experience:consistency
+      - experience:data-modeling
+  ok-response-use-hal-or-problem-json:
     description: 'All success responses MUST be of media type `application/hal+json`
       or `application/problem+json`. It requires the targeted value to be one of
       ["application/hal+json","application/problem+json"] (evaluated at
@@ -173,8 +193,12 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:structure
-  response-success-hal-body:
+      - spec:paths
+      - spec:responses
+      - spec:media-types
+      - experience:consistency
+      - experience:data-modeling
+  success-response-match-hal-schema:
     description: 'All success responses MUST follow `application/hal+json` schema.
       It validates the `schema` field against a JSON Schema (evaluated at
       `$.paths..responses[?( @property == 200 && @property < 300 && @property !=
@@ -197,8 +221,12 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:structure
-  no-get-request-body:
+      - spec:paths
+      - spec:responses
+      - spec:media-types
+      - experience:data-modeling
+      - experience:consistency
+  get-no-request-body:
     description: "GET requests MUST NOT have a request body. It requires the
       targeted value to be absent or empty (evaluated at
       `$.paths[*].get.requestBody`). Severity: error."
@@ -213,8 +241,12 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:structure
-  not-post-to-get-info:
+      - spec:paths
+      - spec:operations
+      - spec:request-body
+      - experience:consistency
+      - experience:usability
+  post-not-for-retrieval:
     description: "POST requests SHOULD NOT be used for retrieving information. Use
       GET instead. It requires the `summary` field not to match
       `(retrieve|fetch|get|read)` (evaluated at `$.paths[*].post`). Severity:
@@ -233,8 +265,11 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:documentation
-  put-with-request-body:
+      - spec:paths
+      - spec:operations
+      - experience:consistency
+      - experience:usability
+  put-require-request-body:
     description: "PUT requests MUST have a request body. It requires the
       `requestBody` field to be present and non-empty (evaluated at
       `$.paths[*].put`). Severity: error."
@@ -250,8 +285,11 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:structure
-  delete-with-request-body:
+      - spec:paths
+      - spec:operations
+      - experience:consistency
+      - experience:usability
+  delete-no-request-body:
     description: "DELETE requests MUST NOT have a request body. It requires the
       targeted value to be absent or empty (evaluated at
       `$.paths[*].delete.requestBody`). Severity: error."
@@ -266,8 +304,12 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:structure
-  no-verbs-in-paths:
+      - spec:paths
+      - spec:operations
+      - spec:request-body
+      - experience:consistency
+      - experience:usability
+  paths-no-verbs:
     description: "API paths MUST be resource-focused and MUST NOT include verbs like
       'get', 'update', 'create', or 'delete'. It requires the targeted value not
       to match `/\\b(get|update|create|delete|fetch|retrieve)\\b/` (evaluated at
@@ -286,8 +328,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:structure
-  real-like-examples:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  require-realistic-examples:
     description: "API design SHOULD include real-like examples for request and
       response definitions. It requires the `example` field to be present and
       non-empty (evaluated at `$..[?(@.example || @.examples)]`). Severity:
@@ -305,8 +349,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:documentation
-  stable-semantic-version:
+      - spec:examples
+      - experience:documentation
+      - experience:usability
+  version-semantic-and-stable:
     description: "The API contract MUST have a stable version and MUST follow
       semantic versioning (e.g., '1.0.0'). Words like 'SNAPSHOT' or 'RELEASE'
       are not allowed. It requires the targeted value to match the pattern
@@ -325,8 +371,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:versioning
-  security-section-required:
+      - spec:info
+      - experience:versioning
+      - experience:consistency
+  require-root-security:
     description: "The API contract MUST include a 'security' section at the root
       level. It requires the `security` field to be present and non-empty
       (evaluated at `$`). Severity: error."
@@ -342,8 +390,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:security
-  components-required:
+      - spec:document
+      - experience:security
+      - experience:governance
+  require-components-section:
     description: "The API contract MUST include a 'components' section. It requires
       the `components` field to be present and non-empty (evaluated at `$`).
       Severity: error."
@@ -359,8 +409,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:general
-  security-schemes-required:
+      - spec:document
+      - experience:consistency
+      - experience:governance
+  require-security-schemes:
     description: "The API contract MUST include a 'securitySchemes' subsection under
       the 'components' section. It requires the `securitySchemes` field to be
       present and non-empty (evaluated at `$.components`). Severity: error."
@@ -376,9 +428,11 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:security
+      - spec:components
+      - experience:security
+      - experience:governance
       - source:api-evangelist
-  x-leanixid-required:
+  info-require-leanix-id:
     description: "The API contract SHOULD include a custom field 'x-leanixid' in the
       'info' section. It requires the `x-leanixid` field to be present and
       non-empty (evaluated at `$.info`). Severity: warn."
@@ -394,8 +448,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:general
-  x-leanixid-uuid:
+      - spec:info
+      - experience:governance
+      - experience:discoverability
+  leanix-id-valid-uuid:
     description: "The API contract SHOULD include a custom field 'x-leanixid'
       containing a valid UUID. It requires the targeted value to match the
       pattern
@@ -414,8 +470,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:general
-  x-gateway-required:
+      - spec:info
+      - experience:governance
+      - experience:consistency
+  info-require-gateway:
     description: "The API contract SHOULD include a custom field 'x-gateway' in the
       'info' section. It requires the `x-gateway` field to be present and
       non-empty (evaluated at `$.info`). Severity: warn."
@@ -431,8 +489,9 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:general
-  x-gateway-required-enumeration:
+      - spec:info
+      - experience:governance
+  gateway-from-allowed-list:
     description: "The 'x-gateway' property, if present, MUST have a value in the
       enumeration: kong, nginx, aws, akamai, sap, other. It requires the
       `x-gateway` field to be one of
@@ -457,8 +516,10 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:general
-  hypermedia-links-required:
+      - spec:document
+      - experience:governance
+      - experience:consistency
+  responses-include-hypermedia-links:
     description: "The API contract MAY include hypermedia links to represent the
       state of resources and be navigable. It requires the `links` field to be
       present and non-empty (evaluated at `$.paths[*][*].responses[*]`).
@@ -475,8 +536,11 @@ rules:
     tags:
       - source:adidas
       - format:openapi
-      - category:structure
-  can-use-correct-uri-versioning:
+      - spec:paths
+      - spec:responses
+      - experience:discoverability
+      - experience:usability
+  uri-versioning-single-version:
     message: Path can contain correct URI versioning
     description: "CAN use correct URI versioning [115a]. It requires the targeted
       value to match the pattern `^((?!.*\\/v\\d+(\\/.*)?\\/v\\d+)\\/.*)$`
@@ -491,8 +555,10 @@ rules:
     tags:
       - source:baloise
       - format:openapi
-      - category:versioning
-  must-use-camel-case-for-property-names:
+      - spec:paths
+      - experience:versioning
+      - experience:consistency
+  property-names-camel-case:
     message: Property name has to be ASCII camelCase
     description: "MUST property names must be ASCII camelCase [118a]. It requires
       the targeted value to match the pattern
@@ -509,8 +575,14 @@ rules:
     tags:
       - source:baloise
       - format:openapi
-      - category:naming
-  must-use-additional-standard-http-status-codes:
+      - spec:paths
+      - spec:request-body
+      - spec:responses
+      - spec:media-types
+      - spec:schemas
+      - experience:naming
+      - experience:consistency
+  use-standard-status-codes:
     message: "{{property}} is not a standardized response code"
     description: 'MUST use standard HTTP status codes [150a]. It requires the
       targeted value to be one of
@@ -575,8 +647,11 @@ rules:
     tags:
       - source:baloise
       - format:openapi
-      - category:errors
-  must-use-additional-standard-http-status-codes-422:
+      - spec:paths
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  prefer-400-over-422:
     message: Prefer 400 over 422 as response code
     description: "MUST use standard HTTP status codes [150a]. It requires the `422`
       field to be defined (evaluated at `$.paths.*.*.responses.422`). Severity:
@@ -590,8 +665,11 @@ rules:
     tags:
       - source:baloise
       - format:openapi
-      - category:errors
-  should-use-additional-well-understood-http-status-codes:
+      - spec:paths
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  operation-well-understood-status-codes:
     message: "{{error}}"
     description: "MUST use standard HTTP status codes [150]. It applies a custom
       validation to the targeted value (evaluated at `$.paths.*`). Severity:
@@ -680,8 +758,10 @@ rules:
     tags:
       - source:baloise
       - format:openapi
-      - category:errors
-  must-use-tracing:
+      - spec:paths
+      - experience:error-handling
+      - experience:consistency
+  require-tracing-headers:
     message: Header X-B3-Traceid, X-B3-Spanid or traceparent (w3c) missing
     description: "MUST use b3 or w3c tracing [233a]. It applies a custom validation
       to the targeted value (evaluated at `$.paths.*`). Severity: error."
@@ -693,8 +773,10 @@ rules:
     tags:
       - source:baloise
       - format:openapi
-      - category:general
-  must-provide-api-audience:
+      - spec:paths
+      - experience:reliability
+      - experience:governance
+  info-require-audience:
     message: Missing or wrong `info.x-audience`.
     description: "MUST provide API audience [219]. It requires the `x-audience`
       field to be present and non-empty, and requires the `x-audience` field to
@@ -714,8 +796,10 @@ rules:
     tags:
       - source:baloise
       - format:openapi
-      - category:general
-  must-use-camel-case-for-query-parameters:
+      - spec:info
+      - experience:governance
+      - experience:discoverability
+  query-parameters-camel-case:
     message: Query parameter name has to be ASCII camelCase
     description: "MUST query parameter names must be ASCII camelCase [130a]. It
       requires the targeted value to match the pattern
@@ -731,8 +815,11 @@ rules:
     tags:
       - source:baloise
       - format:openapi
-      - category:naming
-  ratelimit-headers:
+      - spec:paths
+      - spec:parameters
+      - experience:naming
+      - experience:consistency
+  responses-include-ratelimit-headers:
     description: "Response must include ratelimit-x headers. It requires the
       `headers.ratelimit-limit` field to be present and non-empty, and requires
       the `headers.ratelimit-remaining` field to be present and non-empty, and
@@ -751,8 +838,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:pagination
-  properties-must-include-examples:
+      - spec:responses
+      - experience:reliability
+      - experience:documentation
+  properties-require-examples:
     description: "Object properties must include examples. It applies a custom
       validation to the targeted value (evaluated at
       `$..properties..properties.*`). Severity: error."
@@ -764,8 +853,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:documentation
-  params-must-include-examples:
+      - spec:schemas
+      - experience:documentation
+      - experience:usability
+  parameters-require-examples:
     description: 'Parameters must include examples. It requires exactly one of
       ["example","examples"] to be present (evaluated at `$..parameters.*`).
       Severity: error.'
@@ -781,8 +872,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:documentation
-  headers-must-include-examples:
+      - spec:parameters
+      - experience:documentation
+      - experience:usability
+  headers-require-examples:
     description: "Headers must include examples. It applies a custom validation to
       the targeted value (evaluated at `$..headers.*`). Severity: error."
     given: $..headers.*
@@ -793,8 +886,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:documentation
-  endpoint-must-be-ref:
+      - spec:headers
+      - experience:documentation
+      - experience:usability
+  operations-use-ref:
     description: "Endpoint must be a $ref. It requires the `$ref` field to be
       present and non-empty (evaluated at `$.paths.*.*`). Severity: error."
     message: "{{description}}; {{property}} incorrect"
@@ -807,8 +902,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:structure
-  path-must-include-version:
+      - spec:paths
+      - experience:consistency
+      - experience:governance
+  paths-include-version:
     description: "Path must include the version. It requires the targeted value to
       match the pattern `^(/v[12]/.*|/api/v[12]/.*)$` (evaluated at
       `$.paths[?(@property!='/<upload_url>')]~`). Severity: error."
@@ -823,8 +920,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:versioning
-  endpoint-ref-must-be-file:
+      - spec:paths
+      - experience:versioning
+      - experience:consistency
+  operation-ref-resource-file:
     description: "Endpoint must a $ref to a file in resources/. It requires the
       targeted value to match the pattern `^resources/.*yml$` (evaluated at
       `$.paths.*.$ref`). Severity: error."
@@ -839,8 +938,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:structure
-  common-responses-unauthorized:
+      - spec:paths
+      - experience:consistency
+      - experience:governance
+  responses-define-401:
     description: "Responses should contain common response - 401 (unauthorized). It
       requires the `401` field to be present and non-empty (evaluated at
       `$.paths..responses`). Severity: error."
@@ -853,8 +954,11 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:security
-  common-responses-not-found:
+      - spec:paths
+      - spec:responses
+      - experience:error-handling
+      - experience:documentation
+  responses-define-404:
     description: "Responses should contain common response - 404 (not found). It
       requires the `404` field to be present and non-empty (evaluated at
       `$.paths[?(@property.match(/.*\\/{.*}.*/))]..responses`). Severity:
@@ -868,8 +972,11 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:structure
-  common-responses-too-many-requests:
+      - spec:paths
+      - spec:responses
+      - experience:error-handling
+      - experience:documentation
+  responses-define-429:
     description: "Responses should contain common response - 429 (too many
       requests). It requires the `429` field to be present and non-empty
       (evaluated at `$.paths..responses`). Severity: error."
@@ -882,8 +989,11 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:structure
-  common-responses-server-error:
+      - spec:paths
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  responses-define-500:
     description: "Responses should contain common response - 500 (server error). It
       requires the `500` field to be present and non-empty (evaluated at
       `$.paths..responses`). Severity: error."
@@ -896,8 +1006,11 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:errors
-  array-properties-must-have-items-with-type:
+      - spec:paths
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  array-properties-typed-items:
     description: "Array properties must have an items attribute with a type. It
       applies a custom validation to the targeted value (evaluated at
       `$..*.properties[*]`). Severity: error."
@@ -909,8 +1022,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:general
-  array-params-must-have-items-with-type:
+      - spec:schemas
+      - experience:data-modeling
+      - experience:consistency
+  array-parameters-typed-items:
     description: "Array parameters must have an items attribute with a type. It
       applies a custom validation to the targeted value (evaluated at
       `$..*.parameters[*]`). Severity: error."
@@ -922,8 +1037,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:structure
-  schema-key-must-be-snake-cased:
+      - spec:parameters
+      - experience:data-modeling
+      - experience:consistency
+  schema-keys-snake-case:
     description: "schema key must be snake cased (e.g. snake_case). It applies a
       custom validation to the targeted value (evaluated at
       `$.components['schemas'].*~`). Severity: error."
@@ -936,8 +1053,11 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:naming
-  parameter-key-must-be-snake-cased:
+      - spec:schemas
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  parameter-keys-snake-case:
     description: "parameter key must be snake cased (e.g. snake_case). It applies a
       custom validation to the targeted value (evaluated at
       `$.components['parameters'].*~`). Severity: error."
@@ -950,8 +1070,11 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:naming
-  example-key-must-be-snake-cased:
+      - spec:parameters
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  example-keys-snake-case:
     description: "example key must be snake cased (e.g. snake_case). It applies a
       custom validation to the targeted value (evaluated at
       `$.components['examples'].*~`). Severity: error."
@@ -964,8 +1087,11 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:naming
-  response-key-must-be-snake-cased:
+      - spec:components
+      - spec:examples
+      - experience:naming
+      - experience:consistency
+  response-keys-snake-case:
     description: "response key must be snake cased (e.g. snake_case). It applies a
       custom validation to the targeted value (evaluated at
       `$.components['responses'].*~`). Severity: error."
@@ -978,8 +1104,11 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:naming
-  schema-properties-must-have-type:
+      - spec:responses
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  schema-properties-require-type:
     description: "Schema properties must have a type defined. It applies a custom
       validation to the targeted value (evaluated at `$..properties.*`).
       Severity: error."
@@ -991,8 +1120,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:structure
-  operation-security-defined:
+      - spec:schemas
+      - experience:data-modeling
+      - experience:consistency
+  operation-require-security:
     description: "Check operation security is defined. It requires the `security`
       field to be present and non-empty (evaluated at `$.paths.*.*`). Severity:
       error."
@@ -1004,8 +1135,10 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:security
-  operation-security-scopes-defined:
+      - spec:paths
+      - experience:security
+      - experience:governance
+  operation-security-use-defined-scheme:
     description: "Check operation security uses a defined security scheme. It
       validates the targeted value against a JSON Schema (evaluated at
       `$.paths[*][*]..security.*`). Severity: error."
@@ -1023,8 +1156,11 @@ rules:
     tags:
       - source:digitalocean
       - format:openapi
-      - category:security
-  info-extension-valid:
+      - spec:security
+      - spec:paths
+      - experience:security
+      - experience:consistency
+  info-microcks-extension-valid:
     description: "x-microcks extension must be valid. It validates the targeted
       value against a JSON Schema (evaluated at `$.info.x-microcks`). Severity:
       warn."
@@ -1051,8 +1187,10 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:documentation
-  operation-extension-valid:
+      - spec:info
+      - experience:governance
+      - experience:consistency
+  operation-microcks-extension-valid:
     description: "x-microcks-operation extension must be valid. It validates the
       targeted value against a JSON Schema (evaluated at
       `$.paths.*.*.x-microcks-operation`,
@@ -1110,8 +1248,11 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:structure
-  examples-in-required-parameter:
+      - spec:channels
+      - spec:paths
+      - experience:governance
+      - experience:consistency
+  required-parameters-require-examples:
     description: "Required param must have examples. It requires the `examples`
       field to be present and non-empty (evaluated at `$..parameters[?(@ &&
       @.required == true)]`). Severity: warn."
@@ -1126,8 +1267,10 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:documentation
-  examples-in-optional-parameter:
+      - spec:parameters
+      - experience:documentation
+      - experience:usability
+  optional-parameters-include-examples:
     description: "Optional param should have examples. It requires the `examples`
       field to be present and non-empty (evaluated at `$..parameters[?(@ &&
       @.required != true)]`). Severity: info."
@@ -1142,8 +1285,10 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:documentation
-  examples-in-request-content:
+      - spec:parameters
+      - experience:documentation
+      - experience:usability
+  request-content-require-examples:
     description: "Request with content must have examples. It requires the
       `examples` field to be present and non-empty (evaluated at
       `$.paths..requestBody..content.*`). Severity: warn."
@@ -1158,8 +1303,12 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:documentation
-  examples-in-response-content:
+      - spec:paths
+      - spec:request-body
+      - spec:media-types
+      - experience:documentation
+      - experience:usability
+  response-content-require-examples:
     description: "Response with content must have examples. It requires the
       `examples` field to be present and non-empty (evaluated at
       `$.paths..responses..content.*`). Severity: warn."
@@ -1174,8 +1323,12 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:documentation
-  examples-fragments-to-complete-mocks:
+      - spec:paths
+      - spec:responses
+      - spec:media-types
+      - experience:documentation
+      - experience:usability
+  examples-form-complete-mocks:
     description: "Response example must match required params examples to form full
       mocks. It applies a custom validation to the targeted value (evaluated at
       `$.paths.*.*`). Severity: warn."
@@ -1189,8 +1342,10 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:documentation
-  aas-examples-in-messages:
+      - spec:paths
+      - experience:documentation
+      - experience:usability
+  messages-require-examples:
     description: "Message must have examples. It requires the `examples` field to be
       present and non-empty (evaluated at
       `$.channels.*.[publish,subscribe].message`). Severity: warn."
@@ -1205,8 +1360,11 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:documentation
-  aas3-examples-in-messages:
+      - spec:channels
+      - spec:messages
+      - experience:documentation
+      - experience:usability
+  component-messages-require-examples:
     description: "Message must have examples. It requires the `examples` field to be
       present and non-empty (evaluated at `$.components.messages.*`). Severity:
       warn."
@@ -1221,8 +1379,11 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:documentation
-  aas-examples-in-parameter:
+      - spec:messages
+      - spec:components
+      - experience:documentation
+      - experience:usability
+  channel-parameters-require-examples:
     description: "Parameter must have examples. It requires the `examples` field to
       be present and non-empty (evaluated at
       `$.channels.*.parameters.*.schema`). Severity: warn."
@@ -1237,8 +1398,12 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:documentation
-  aas-examples-fragments-to-complete-mocks:
+      - spec:channels
+      - spec:parameters
+      - spec:schemas
+      - experience:documentation
+      - experience:usability
+  message-examples-form-complete-mocks:
     description: "Message example must match params examples to form full mocks. It
       applies a custom validation to the targeted value (evaluated at
       `$.channels.*`). Severity: warn."
@@ -1252,8 +1417,10 @@ rules:
     tags:
       - source:microcks
       - format:openapi
-      - category:documentation
-  info-description:
+      - spec:channels
+      - experience:documentation
+      - experience:usability
+  info-require-description:
     description: "Info section is missing a description. It requires the
       `description` field to be present and non-empty (evaluated at `$.info`).
       Severity: error."
@@ -1271,9 +1438,10 @@ rules:
     tags:
       - source:paystack
       - format:openapi
-      - category:documentation
+      - spec:info
+      - experience:documentation
       - source:api-evangelist
-  operation-operationId-valid-in-url:
+  operation-id-url-safe:
     description: "OperationId must use URL friendly characters. It requires the
       `operationId` field to match the pattern
       `^[A-Za-z0-9-._~:/?#\\[\\]@!\\$&'()*+,;=]*$` (evaluated at
@@ -1294,8 +1462,10 @@ rules:
     tags:
       - source:paystack
       - format:openapi
-      - category:structure
-  path-declarations-must-exist:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  path-parameters-not-empty:
     description: "Path parameter declarations must not be empty ex. `/api/{}` is
       invalid. It requires the targeted value not to match `{}` (evaluated at
       `$.paths`). Severity: error."
@@ -1314,8 +1484,10 @@ rules:
     tags:
       - source:paystack
       - format:openapi
-      - category:structure
-  path-keys-no-trailing-slash:
+      - spec:paths
+      - experience:consistency
+      - experience:usability
+  paths-no-trailing-slash:
     description: "Path must not end with a slash. It requires the targeted value not
       to match `.+\\/$` (evaluated at `$.paths`). Severity: warn."
     formats:
@@ -1333,8 +1505,10 @@ rules:
     tags:
       - source:paystack
       - format:openapi
-      - category:structure
-  path-not-include-query:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  paths-no-query-string:
     description: "Path must not include query string. It requires the targeted value
       not to match `\\?` (evaluated at `$.paths`). Severity: error."
     formats:
@@ -1352,8 +1526,10 @@ rules:
     tags:
       - source:paystack
       - format:openapi
-      - category:structure
-  cache-control-parameter-undocumented:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  document-cache-control-parameter:
     description: 'Cache usage SHOULD be extensively detailed in the `description`
       property to avoid data leaks or the usage of stale data. This rule should
       ensure in some way that the api provider documented extensively the cache
@@ -1385,8 +1561,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:documentation
-  cache-responses-undocumented:
+      - spec:parameters
+      - spec:headers
+      - experience:documentation
+      - experience:reliability
+  document-cache-response-headers:
     description: 'Cache usage SHOULD be extensively detailed in the `description`
       property to avoid data leaks or the usage of stale data. This rule should
       ensure in some way that the api provider documented extensively the cache
@@ -1421,8 +1600,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:documentation
-  cache-responses-indeterminate-behavior:
+      - spec:responses
+      - spec:headers
+      - experience:documentation
+      - experience:reliability
+  cache-headers-no-conflict:
     description: 'Cache usage SHOULD be extensively detailed in the `description`
       property to avoid data leaks or the usage of stale data. This rule should
       ensure in some way that the api provider documented extensively the cache
@@ -1451,8 +1633,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:structure
-  paths-kebab-case-2:
+      - spec:responses
+      - spec:headers
+      - experience:reliability
+      - experience:consistency
+  path-segments-kebab-case-2:
     x-tags:
       - it
     description: "Paths should be kebab-case. See Italian recommendation
@@ -1470,8 +1655,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:naming
-  request-headers-pascal-case:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  request-header-names-pascal-case:
     x-tags:
       - it
     description: 'Headers should be pascal-case. See Italian recommendation
@@ -1491,8 +1678,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:naming
-  response-headers-pascal-case:
+      - spec:parameters
+      - spec:headers
+      - experience:naming
+      - experience:consistency
+  response-header-names-pascal-case:
     x-tags:
       - it
     description: "Headers should be pascal-case. See Italian recommendation
@@ -1512,8 +1702,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:naming
-  no-forbidden-headers:
+      - spec:responses
+      - spec:headers
+      - experience:naming
+      - experience:consistency
+  no-forbidden-http-headers:
     x-tags:
       - standards
     description: "OAS do not allow using the following HTTP headers in a
@@ -1534,8 +1727,12 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:structure
-  no-x-headers-request:
+      - spec:parameters
+      - spec:responses
+      - spec:headers
+      - experience:consistency
+      - experience:governance
+  headers-no-x-prefix:
     x-tags:
       - standards
     description: "'HTTP' headers SHOULD NOT start with 'X-' RFC6648. It requires the
@@ -1554,8 +1751,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:structure
-  no-x-headers-response:
+      - spec:parameters
+      - spec:headers
+      - experience:naming
+      - experience:consistency
+  response-headers-no-x-prefix:
     x-tags:
       - standards
     description: "'HTTP' headers SHOULD NOT start with 'X-' RFC6648. It requires the
@@ -1574,8 +1774,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:structure
-  servers-description:
+      - spec:responses
+      - spec:headers
+      - experience:naming
+      - experience:consistency
+  server-require-description:
     x-tags:
       - metadata
       - it
@@ -1594,8 +1797,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:documentation
-  servers-use-https:
+      - spec:servers
+      - spec:paths
+      - experience:documentation
+  require-https-servers-2:
     x-tags:
       - security
     description: 'Servers must use https to ensure the origin of the responses and
@@ -1619,8 +1824,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:security
-  has-x-summary:
+      - spec:servers
+      - spec:paths
+      - experience:security
+  info-require-summary:
     x-tags:
       - it
       - metadata
@@ -1644,8 +1851,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:documentation
-  has-termsOfService:
+      - spec:document
+      - experience:documentation
+      - experience:discoverability
+  info-require-terms-of-service:
     x-tags:
       - metadata
     message: "API MUST reference the URL of the Terms of Service  in
@@ -1665,8 +1874,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  has-contact:
+      - spec:document
+      - experience:documentation
+      - experience:governance
+  info-require-contact:
     x-tags:
       - metadata
     description: "API MUST reference a contact, either url or email in
@@ -1684,8 +1895,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:documentation
-  has-x-api-id:
+      - spec:document
+      - experience:documentation
+      - experience:discoverability
+  info-require-api-identifier:
     x-tags:
       - it
       - metadata
@@ -1704,8 +1917,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  use-semver:
+      - spec:document
+      - experience:discoverability
+      - experience:governance
+  version-must-be-semver:
     description: "The API version field should follow [semantic
       versioning](https://semver.org/#semantic-versioning-specification-semver).
       It requires the targeted value to match the pattern
@@ -1722,8 +1937,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  number-format:
+      - spec:info
+      - experience:versioning
+      - experience:consistency
+  number-require-format:
     x-tags:
       - it
       - RAC_REST_FORMAT_004
@@ -1745,8 +1962,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  integer-format:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  integer-require-format:
     x-tags:
       - it
       - RAC_REST_FORMAT_004
@@ -1771,8 +1990,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  allowed-integer-format:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  integer-format-allowed-values:
     x-tags:
       - it
       - RAC_REST_FORMAT_004
@@ -1800,8 +2021,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  allowed-number-format:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  number-format-allowed-values:
     x-tags:
       - it
       - RAC_REST_FORMAT_004
@@ -1834,8 +2057,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  patch-media-type:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  patch-media-type-not-plain-json:
     x-tags:
       - standards
     description: 'The PATCH specification explicits that the request body contains a
@@ -1861,8 +2086,12 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:structure
-  paths-status:
+      - spec:operations
+      - spec:request-body
+      - spec:media-types
+      - experience:consistency
+      - experience:data-modeling
+  require-status-health-check-path:
     x-tags:
       - it
     description: "You must define a `/status` path that can be used to health-check
@@ -1883,8 +2112,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:errors
-  paths-status-return-problem:
+      - spec:document
+      - experience:reliability
+      - experience:discoverability
+  status-path-return-problem-type:
     x-tags:
       - it
     description: "\"/status\" must return a Problem object. It requires the targeted
@@ -1904,8 +2135,13 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:errors
-  paths-status-problem-schema:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - spec:media-types
+      - experience:error-handling
+      - experience:reliability
+  status-path-problem-schema-fields:
     x-tags:
       - it
     description: "\"/status\" schema is not a Problem object. It requires the
@@ -1928,8 +2164,14 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:errors
-  paths-http-method:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - spec:media-types
+      - spec:schemas
+      - experience:error-handling
+      - experience:reliability
+  path-no-http-method-names:
     x-tags:
       - it
     description: "When you design a REST API, you don't usually need to mention
@@ -1962,8 +2204,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:structure
-  use-problem-json-for-errors:
+      - spec:paths
+      - spec:operations
+      - experience:naming
+      - experience:consistency
+  error-response-use-problem-type:
     description: 'Error management is a key enabler of a resilient API ecosystem.
       Enforcing a consistent schema for errors between different APIs, enables
       client to properly implement an error management strategy, with positive
@@ -1989,8 +2234,12 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:errors
-  use-problem-schema:
+      - spec:paths
+      - spec:responses
+      - spec:media-types
+      - experience:error-handling
+      - experience:consistency
+  error-response-match-problem-schema:
     description: 'WARN: This rule is under implementation and just provides an hint.
       Error management is a key enabler of a resilient API ecosystem. Enforcing
       a consistent schema for errors between different APIs, enables client to
@@ -2024,8 +2273,12 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:errors
-  hint-problem-schema:
+      - spec:paths
+      - spec:responses
+      - spec:schemas
+      - experience:error-handling
+      - experience:consistency
+  error-schema-problem-property-names:
     description: 'WARN: This rule is under implementation and just provides an hint.
       Error management is a key enabler of a resilient API ecosystem. Enforcing
       a consistent schema for errors between different APIs, enables client to
@@ -2058,8 +2311,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:errors
-  missing-retry-after:
+      - spec:responses
+      - spec:schemas
+      - experience:error-handling
+      - experience:consistency
+  throttled-response-require-retry-after:
     description: 'When a client is either: * throttled out with a 429 status code; *
       warned about a temporary server issue with a 503 status code; the server
       should explicitly communicate how long to wait before issuing further
@@ -2079,8 +2335,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  missing-ratelimit:
+      - spec:responses
+      - spec:headers
+      - experience:reliability
+      - experience:error-handling
+  success-response-require-ratelimit-headers:
     x-tags:
       - it
     description: 'Ratelimiting API preserves a service and limits attack scenario
@@ -2125,8 +2384,11 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:pagination
-  array-boundaries:
+      - spec:responses
+      - spec:headers
+      - experience:reliability
+      - experience:security
+  array-require-min-max-items:
     description: 'Array size should be limited to mitigate resource exhaustion
       attacks. This can be done using `maxItems` and `minItems`, like in the
       example below. ``` Limited: type: array maxItems: 10 items: type: string
@@ -2151,8 +2413,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  number-boundaries:
+      - spec:document
+      - experience:security
+      - experience:data-modeling
+  number-require-min-max:
     description: 'Numeric values should be limited in size to mitigate resource
       exhaustion using `maximum` and `minimum`. If you delegate input validation
       to a library or framework, be sure to test it thoroughly. It requires the
@@ -2176,8 +2440,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  no-additionalProperties:
+      - spec:document
+      - experience:security
+      - experience:data-modeling
+  object-disallow-additional-properties:
     description: 'By default, jsonschema allows additionalProperties. This means
       that schema validators can be bypassed using further, unspecified fields.
       While forbidding additionalProperties can create rigidity and hinder the
@@ -2207,8 +2473,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  no-default-additionalProperties:
+      - spec:document
+      - experience:security
+      - experience:data-modeling
+  object-set-additional-properties:
     description: 'By default, jsonschema allows additionalProperties. This means
       that schema validators can be bypassed using further, unspecified fields.
       While forbidding additionalProperties can create rigidity and hinder the
@@ -2237,8 +2505,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  constrained-additionalProperties:
+      - spec:document
+      - experience:security
+      - experience:data-modeling
+  object-constrain-additional-properties:
     description: 'By default, jsonschema allows additionalProperties. This means
       that schema validators can be bypassed using further, unspecified fields.
       While forbidding additionalProperties can create rigidity and hinder the
@@ -2270,8 +2540,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  security-protection-get:
+      - spec:document
+      - experience:security
+      - experience:data-modeling
+  get-operation-require-security:
     description: "Your API should be protected by a `security` rule either at global
       or operation level. Operations should be protected specially when they are
       tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and
@@ -2305,8 +2577,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:security
-  security-protection-non-idempotent:
+      - spec:paths
+      - spec:operations
+      - experience:security
+  write-operation-require-security:
     description: "Your API should be protected by a `security` rule either at global
       or operation level. Operations should be protected specially when they are
       tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and
@@ -2342,8 +2616,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:security
-  securitySchemes-oauth:
+      - spec:paths
+      - spec:operations
+      - experience:security
+  oauth-scheme-require-description:
     description: 'Json Web Tokens RFC7519 is a compact, URL-safe means of
       representing claims to be transferred between two parties. JWT can be
       enclosed in encrypted or signed tokens like JWS and JWE. The [JOSE IANA
@@ -2372,8 +2648,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:security
-  securitySchemes-jwt:
+      - spec:security
+      - experience:security
+      - experience:documentation
+  jwt-scheme-require-description:
     description: 'Json Web Tokens RFC7519 is a compact, URL-safe means of
       representing claims to be transferred between two parties. JWT can be
       enclosed in encrypted or signed tokens like JWS and JWE. The [JOSE IANA
@@ -2403,8 +2681,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:security
-  securitySchemes-oauth-http:
+      - spec:security
+      - experience:security
+      - experience:documentation
+  oauth-endpoints-require-https:
     description: 'OAuth2 endpoints must use `https://`. It requires the `value`
       field to match the pattern `^https://` (evaluated at
       `$.[securitySchemes][?(@.type=="oauth2")][*].[?(@property.match(/url$/i))]`).
@@ -2424,8 +2704,9 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:security
-  securitySchemes-oauth-allowed-flows:
+      - spec:security
+      - experience:security
+  oauth-disallow-insecure-flows:
     description: 'The OAuth2 authorization framework defines various [grant
       types](https://tools.ietf.org/html/rfc6749#section-1.3), most notably the
       [AuthorizationCode](https://tools.ietf.org/html/rfc6749#section-1.3.1) and
@@ -2454,8 +2735,9 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:security
-  string-maxlength:
+      - spec:document
+      - experience:security
+  string-require-max-length:
     description: "String length should be limited to avoid an attacker to send very
       long strings to your service. You can do this in different ways: - specify
       a `maxLength` - constraint the possible values with an `enum` - use a
@@ -2482,8 +2764,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  string-pattern-or-format-or-enum:
+      - spec:document
+      - experience:security
+      - experience:data-modeling
+  string-require-pattern-or-format:
     description: "String length should be limited to avoid an attacker to send very
       long strings to your service. You can do this in different ways: - specify
       a `maxLength` - constraint the possible values with an `enum` - use a
@@ -2518,8 +2802,10 @@ rules:
     tags:
       - source:team-digitale
       - format:openapi
-      - category:general
-  api-server-url-invalid:
+      - spec:document
+      - experience:security
+      - experience:data-modeling
+  server-url-meet-standards:
     description: "API URLs should meet the Trimble API Standards. It applies a
       custom validation to the targeted value (evaluated at `$.servers`).
       Severity: warn."
@@ -2531,8 +2817,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  api-server-url-version-invalid:
+      - spec:servers
+      - experience:consistency
+      - experience:governance
+  server-url-include-version:
     description: "API URLs versions should meet the Trimble API Standards. It
       applies a custom validation to the targeted value (evaluated at
       `$.servers`). Severity: warn."
@@ -2544,8 +2832,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:versioning
-  openapi-v3-schema-properties-names-camel-case:
+      - spec:servers
+      - experience:versioning
+      - experience:consistency
+  schema-properties-camel-case-2:
     description: "Ensuring that schema property names are camel case. It requires
       the `@key` field to match the pattern `^[a-z][a-zA-Z0-9]*$` (evaluated at
       `$..properties.`). Severity: error."
@@ -2561,8 +2851,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:naming
-  no-http-verbs-in-path:
+      - spec:schemas
+      - experience:naming
+      - experience:consistency
+  path-no-http-verbs:
     description: "HTTP verbs should be not be in URL paths. It applies a custom
       validation to the `@key` field (evaluated at `$.paths`). Severity: warn."
     message: "{{property}} has HTTP verb in path: {{error}}"
@@ -2575,8 +2867,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  structured-data-format:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  write-response-support-json:
     description: "All APIs returning structured data SHOULD support JSON as the
       default format. It applies a custom validation to the targeted value
       (evaluated at `$.paths.*.`). Severity: error."
@@ -2588,8 +2882,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:general
-  structured-data-format-support-json-response-body:
+      - spec:paths
+      - experience:consistency
+      - experience:data-modeling
+  get-response-support-json:
     description: "All APIs returning structured data SHOULD support JSON as the
       default format. It applies a custom validation to the targeted value
       (evaluated at `$.paths.*.`). Severity: warn."
@@ -2601,8 +2897,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  tdp-http-response-code:
+      - spec:paths
+      - experience:consistency
+      - experience:data-modeling
+  response-code-must-be-valid:
     description: "All APIs should return a valid http response code. It applies a
       custom validation to the `@key` field (evaluated at `$..responses`).
       Severity: warn."
@@ -2615,8 +2913,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  check-queryparameter-in-endpoint:
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  path-require-query-parameter:
     description: "Check if the given resource path has queryparameter. It applies a
       custom validation to the `@key` field (evaluated at `$.paths`). Severity:
       warn."
@@ -2629,8 +2929,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  tdp-does-spec-contains-valid-http-verbs:
+      - spec:paths
+      - experience:usability
+      - experience:consistency
+  path-require-valid-http-verb:
     description: "All APIs MUST have a valid http verb. It applies a custom
       validation to the `@key` field (evaluated at `$.paths.*`). Severity:
       warn."
@@ -2643,8 +2945,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:general
-  tdp-spec-should-not-be-empty:
+      - spec:paths
+      - experience:consistency
+      - experience:governance
+  spec-must-not-be-empty:
     description: "Spec should not be empty. It applies a custom validation to the
       targeted value (evaluated at `$`). Severity: error."
     severity: error
@@ -2655,8 +2959,9 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:general
-  tdp-tag-pascal-case:
+      - spec:document
+      - experience:governance
+  tag-no-pascal-case:
     severity: warn
     recommended: true
     message: Tag names cannot use Pascal Case. Please rename {{value}}.
@@ -2670,11 +2975,14 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:naming
+      - spec:paths
+      - spec:tags
+      - experience:naming
+      - experience:consistency
     description: "Tag names cannot use Pascal Case. Please rename {{value}}. It
       requires the targeted value not to match `/[A-Z][a-z]+[A-Z][a-z]+$/g`
       (evaluated at `$.tags[*].name`, `$.paths[*][*].tags[*]`). Severity: warn."
-  tdp-tag-camel-case:
+  tag-no-camel-case:
     description: "Detects a tag with camelCase (personalItem) text within it. It
       requires the targeted value not to match `/^[a-z]+[A-Z][a-z]+$/g`
       (evaluated at `$.tags[*].name`, `$.paths[*][*].tags[*]`). Severity: warn."
@@ -2691,8 +2999,11 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:naming
-  tdp-tag-no-versions:
+      - spec:paths
+      - spec:tags
+      - experience:naming
+      - experience:consistency
+  tag-no-version-info:
     severity: warn
     recommended: true
     message: Tag names cannot have version information {{value}}. Consider
@@ -2707,12 +3018,15 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:versioning
+      - spec:paths
+      - spec:tags
+      - experience:naming
+      - experience:versioning
     description: "Tag names cannot have version information {{value}}. Consider
       versioning your API. It requires the targeted value not to match
       `/(V|v)\\s?[0-9]+/g` (evaluated at `$.tags[*].name`,
       `$.paths[*][*].tags[*]`). Severity: warn."
-  tdp-operation-summary-description:
+  operation-summary-description-differ:
     description: "Operation summaries and description should not match. It applies a
       custom validation to the targeted value (evaluated at
       `$.paths[*].[get,post,put,patch,delete]`). Severity: warn."
@@ -2727,8 +3041,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:documentation
-  operation-delete-204-status-code:
+      - spec:paths
+      - spec:operations
+      - experience:documentation
+  delete-require-204-response:
     description: "All DELETE methods MUST have a 204 response. It requires the `204`
       field to be present and non-empty (evaluated at
       `$.paths[*].delete.responses`). Severity: error."
@@ -2744,8 +3060,12 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:errors
-  tdp-operation-post-201-202-status-code:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:consistency
+      - experience:error-handling
+  post-require-201-or-202-response:
     description: "All POST methods MUST have a 201 or 202 response. It applies a
       custom validation to the targeted value (evaluated at
       `$.paths[*].post.responses`). Severity: error."
@@ -2760,8 +3080,12 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:errors
-  operation-400-response-body:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:consistency
+      - experience:error-handling
+  response-400-require-body:
     description: "All 400 responses must include a response body. It requires the
       `content` field to be present and non-empty (evaluated at
       `$.paths.*.*.responses['400']`). Severity: error."
@@ -2777,8 +3101,11 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  check-content-type-for-206-get-response-code:
+      - spec:paths
+      - spec:responses
+      - experience:error-handling
+      - experience:documentation
+  response-206-require-content-range:
     description: "Check if the get response code 206 has content-type and
       content-range. It applies a custom validation to the targeted value
       (evaluated at `$.paths.*.`). Severity: warn."
@@ -2790,8 +3117,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  standard-error-payload:
+      - spec:paths
+      - experience:consistency
+      - experience:data-modeling
+  error-response-standard-payload:
     description: "All 4XX and 5XX response codes must follow Trimble API Standard.
       It applies a custom validation to the targeted value (evaluated at
       `$.paths.*.*.responses.`). Severity: error."
@@ -2803,8 +3132,11 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:errors
-  check-description-for-all-error-responses:
+      - spec:paths
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  error-response-require-description:
     description: "Check if the response description is appropriate for all requests.
       It applies a custom validation to the targeted value (evaluated at
       `$.paths.*.*.responses.`). Severity: warn."
@@ -2816,8 +3148,11 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:documentation
-  check-description-for-all-success-responses:
+      - spec:paths
+      - spec:responses
+      - experience:documentation
+      - experience:error-handling
+  success-response-require-description:
     description: "Check if the response description is appropriate for all requests.
       It applies a custom validation to the targeted value (evaluated at
       `$.paths.*.`). Severity: warn."
@@ -2829,8 +3164,9 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:documentation
-  check-for-content-type-in-put-and-post-responses:
+      - spec:paths
+      - experience:documentation
+  write-response-require-content-type:
     description: "All API responses MUST include the Content-Type header in all
       responses. It applies a custom validation to the targeted value (evaluated
       at `$.paths[*].post.responses`, `$.paths[*].put.responses`). Severity:
@@ -2845,8 +3181,12 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  tdp-check-for-path-parameters-in-parameter-block:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:consistency
+      - experience:data-modeling
+  path-params-declared-in-block:
     description: "Check for the path parameter in the parameter block. It applies a
       custom validation to the targeted value (evaluated at `$.paths.`).
       Severity: error."
@@ -2858,8 +3198,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  tdp-check-for-response-in-every-request:
+      - spec:paths
+      - experience:consistency
+      - experience:documentation
+  operation-require-response:
     description: "Check if every request has their respective responses. It applies
       a custom validation to the targeted value (evaluated at `$.paths.*`).
       Severity: error."
@@ -2871,8 +3213,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  delete-must-not-return-body:
+      - spec:paths
+      - experience:documentation
+      - experience:consistency
+  delete-no-response-body:
     description: "Check if the delete response does not have any body. It applies a
       custom validation to the targeted value (evaluated at `$.paths.*.`).
       Severity: warn."
@@ -2884,8 +3228,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:general
-  tdp-invalid-symbol-in-path:
+      - spec:paths
+      - experience:consistency
+      - experience:data-modeling
+  path-no-invalid-symbols:
     description: "Check if the given endpoint has queryparameter. It applies a
       custom validation to the `@key` field (evaluated at `$.paths.`). Severity:
       error."
@@ -2898,8 +3244,10 @@ rules:
     tags:
       - source:trimble
       - format:openapi
-      - category:structure
-  no-http-basic:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  no-http-basic-auth:
     description: "Consider a more secure alternative to HTTP Basic. It requires the
       `scheme` field not to match `basic` (evaluated at
       `$.components.securitySchemes[*]`). Severity: error."
@@ -2915,8 +3263,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:security
-  no-collection-paging-capability:
+      - spec:security
+      - spec:components
+      - experience:security
+  collection-response-support-paging:
     description: "Response bodies from collection endpoints SHOULD offer paging
       capability. It requires the `paging` field to be present and non-empty,
       and requires the `paging` field to match the pattern `object`, and
@@ -2940,8 +3290,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:general
-  collection-missing-results-array:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - spec:media-types
+      - spec:schemas
+      - experience:pagination
+      - experience:usability
+  collection-require-results-array:
     description: "Response bodies must have a root element called results and is an
       array of objects. It requires the `type` field to match the pattern
       `array`, and requires the `items.type` field to match the pattern `object`
@@ -2962,8 +3318,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:general
-  missing-pagination-query-parameters:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - spec:media-types
+      - spec:schemas
+      - experience:pagination
+      - experience:data-modeling
+  collection-require-pagination-params:
     description: "Collection GET endpoints SHOULD support pagination using query
       parameters. Offset or cursor based pagination is required. It validates
       the `parameters` field against a JSON Schema (evaluated at
@@ -3005,8 +3367,11 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:pagination
-  post-request-body-missing-paging-object:
+      - spec:paths
+      - spec:operations
+      - experience:pagination
+      - experience:usability
+  post-collection-require-paging-object:
     description: "POST collection endpoints MUST have a request body schema that
       includes paging parameters. It requires the `type` field to match the
       pattern `object` (evaluated at
@@ -3022,8 +3387,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  disallow-resource-identifier-filtering:
+      - spec:paths
+      - spec:operations
+      - spec:request-body
+      - spec:media-types
+      - spec:schemas
+      - experience:pagination
+      - experience:data-modeling
+  no-id-query-parameter:
     description: "Resource identifier filtering is not allowed as a query parameter.
       Use the resource identifier in the URL path. It requires the `name` field
       not to match `^id$` (evaluated at
@@ -3039,8 +3410,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  filtering-only-get-requests:
+      - spec:paths
+      - spec:operations
+      - spec:parameters
+      - experience:consistency
+      - experience:usability
+  filter-param-only-on-get:
     description: "Only GET-based endpoints SHOULD have have the query parameter
       'filter'. It requires the targeted value to be absent or empty (evaluated
       at `$.paths.*[?(@property!='get')].parameters.[?(@.in=='query' &&
@@ -3053,8 +3428,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  hybird-filtering-exists-with-root-filter:
+      - spec:paths
+      - spec:operations
+      - spec:parameters
+      - experience:consistency
+      - experience:usability
+  no-hybrid-and-root-filtering:
     description: 'Hybrid filtering MAY be offered on multiple attributes, but MUST
       never exist if a root "filter" query parameter is present. It validates
       the targeted value against a JSON Schema (evaluated at
@@ -3100,8 +3479,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:general
-  sorting-parameters-only-get-requests:
+      - spec:paths
+      - spec:operations
+      - spec:parameters
+      - experience:consistency
+      - experience:usability
+  sort-param-only-on-get:
     description: "Non-GET endpoints MUST NOT have sorting query parameters.
       Parameter names such as sort, sorting, orderBy, etc. It requires the
       `name` field not to match `^sort|sorting|sortBy|order|ordering|orderBy$`
@@ -3118,8 +3501,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  unknown-error-format:
+      - spec:paths
+      - spec:operations
+      - spec:parameters
+      - experience:consistency
+      - experience:usability
+  error-response-use-problem-type-2:
     description: 'Every error response SHOULD support RFC 7807. It requires the
       targeted value to be one of
       ["application/problem+xml","application/problem+json"] (evaluated at
@@ -3136,8 +3523,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:errors
-  no-keyword-conflicts:
+      - spec:paths
+      - spec:responses
+      - spec:media-types
+      - experience:error-handling
+      - experience:consistency
+  property-no-language-keywords:
     description: "Names that may conflict with keywords in common programming
       languages SHOULD NOT be used. It requires the targeted value not to match
       `^(abstract|for|new|switch|assert|default|goto|package|synchronized|boole\
@@ -3155,8 +3546,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  camel-case-properties:
+      - spec:schemas
+      - experience:naming
+      - experience:consistency
+  property-names-camel-case-2:
     description: "Property names and acronyms MUST be in camelCase. It requires the
       targeted value to match the pattern
       `^[a-z][a-z0-9]*(([A-Z]{2}|[A-Z])[a-z0-9]+)*$` (evaluated at
@@ -3172,8 +3565,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  disallowed-prepositions:
+      - spec:schemas
+      - experience:naming
+      - experience:consistency
+  property-no-prepositions:
     description: 'Property names SHOULD NOT include prepositions (e.g. "for",
       "during", "at", etc.). It requires the targeted value not to match
       `(^(about|above|across|after|against|among|around|at|before|behind|below|beside|between|down|during|for|from|in|inside|into|near|of|off|on|out|over|through|to|toward|under|up|with|as|but|like|since|than|till|unlike|until|upon|within|without)([A-Z]|$)|.*(About|Above|Across|After|Against|Among|Around|At|Before|Behind|Below|Beside|Between|Down|During|For|From|In|Inside|Into|Near|Of|Off|On|Out|Over|Through|To|Toward|Under|Up|With|As|But|Like|Since|Than|Till|Unlike|Until|Upon|Within|Without)([A-Z]|$)).*`
@@ -3189,8 +3584,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  disallowed-boolean-prefixes:
+      - spec:schemas
+      - experience:naming
+      - experience:consistency
+  boolean-no-prefix:
     description: "Boolean properties SHOULD NOT use is, has, or another prefix. It
       requires the targeted value not to match
       `^(is|has|was|will|needs|uses|should|can)([A-Z]|$).*` (evaluated at
@@ -3206,8 +3603,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  ref-property-name:
+      - spec:schemas
+      - experience:naming
+      - experience:consistency
+  ref-property-require-format:
     description: "Property with the name 'ref' MUST use a format 'sps-ref'. It
       requires the `format` field to be present and non-empty, and requires the
       `format` field to match the pattern `^sps-ref$` (evaluated at
@@ -3230,8 +3629,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  ref-schema:
+      - spec:schemas
+      - experience:data-modeling
+      - experience:consistency
+  ref-property-standard-schema:
     description: "Properties following 'sps-ref' format MUST use the standardized
       schema - maxLength (255), minLength(7), pattern (includes 'sps'), type
       (string). It validates the targeted value against a JSON Schema, and
@@ -3277,8 +3678,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-id-type:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  id-property-must-be-string:
     description: "id SHOULD use a data type of 'string'. It requires the targeted
       value to match the pattern `^string$` (evaluated at `$..[?(@property ===
       \"id\")].type`). Severity: warn."
@@ -3293,8 +3696,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  mandate-abbreviations-identifier:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  use-id-not-identifier:
     description: "Use abbreviations instead of long form names, i.e. identifier
       SHOULD BE id. It requires the targeted value not to match `^identifier$`
       (evaluated at `$..properties.*~`). Severity: warn."
@@ -3309,8 +3714,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  mandate-abbreviations-organization:
+      - spec:schemas
+      - experience:naming
+      - experience:consistency
+  use-org-not-organization:
     description: "Use abbreviations instead of long form names, i.e. organization
       SHOULD BE org. It requires the targeted value not to match
       `(^organization([A-Z]|$)|Organization([A-Z]|$))` (evaluated at
@@ -3326,8 +3733,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-ref-type:
+      - spec:schemas
+      - experience:naming
+      - experience:consistency
+  ref-property-must-be-string:
     description: "ref MUST use a data type of 'string'. It requires the targeted
       value to match the pattern `^string$` (evaluated at `$..[?(@property ===
       \"ref\")].type`). Severity: error."
@@ -3342,8 +3751,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-orgid-type:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  orgid-property-must-be-string:
     description: "orgId MUST use a data type of 'string'. It requires the targeted
       value to match the pattern `^string$` (evaluated at `$..[?(@property ===
       \"orgId\")].type`). Severity: error."
@@ -3358,8 +3769,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-name-type:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  name-property-must-be-string:
     description: "name MUST use a data type of 'string'. It requires the targeted
       value to match the pattern `^string$` (evaluated at `$..[?(@property ===
       \"name\")].type`). Severity: error."
@@ -3374,8 +3787,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-description-type:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  description-property-must-be-string:
     description: "description MUST use a data type of 'string'. It requires the
       targeted value to match the pattern `^string$` (evaluated at
       `$..[?(@property === \"description\")].type`). Severity: error."
@@ -3390,8 +3805,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-request-id-type:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  requestid-property-must-be-string:
     description: "requestId MUST use a data type of 'string'. It requires the
       targeted value to match the pattern `^string$` (evaluated at
       `$..[?(@property === \"requestId\")].type`). Severity: error."
@@ -3406,8 +3823,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-created-date-time-type:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  created-datetime-must-be-date-time:
     description: "createdDateTime MUST use a data type of 'string' with the format
       'date-time'. It requires the `type` field to match the pattern `^string$`,
       and requires the `format` field to be present and non-empty, and requires
@@ -3431,8 +3850,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-created-by-type:
+      - spec:schemas
+      - experience:data-modeling
+      - experience:consistency
+  createdby-property-must-be-string:
     description: "createdBy MUST use a data type of 'string'. It requires the
       targeted value to match the pattern `^string$` (evaluated at
       `$..[?(@property === \"createdBy\")].type`). Severity: error."
@@ -3447,8 +3868,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-modified-date-time-type:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  modified-datetime-must-be-date-time:
     description: "modifiedDateTime MUST use a data type of 'string' with the format
       'date-time'. It requires the `type` field to match the pattern `^string$`,
       and requires the `format` field to be present and non-empty, and requires
@@ -3472,8 +3895,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-modified-by-type:
+      - spec:schemas
+      - experience:data-modeling
+      - experience:consistency
+  modifiedby-property-must-be-string:
     description: "modifiedBy MUST use a data type of 'string'. It requires the
       targeted value to match the pattern `^string$` (evaluated at
       `$..[?(@property === \"modifiedBy\")].type`). Severity: error."
@@ -3488,8 +3913,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-deleted-by-type:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  deletedby-property-must-be-string:
     description: "deletedBy MUST use a data type of 'string'. It requires the
       targeted value to match the pattern `^string$` (evaluated at
       `$..[?(@property === \"deletedBy\")].type`). Severity: error."
@@ -3504,8 +3931,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-fingerprint-type:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  fingerprint-property-must-be-string:
     description: 'Fingerprint values MUST use a data type of `string`. It requires
       the targeted value to match the pattern `^string$` (evaluated at
       `$..[?(@property === "fingerprint")].type`). Severity: error.'
@@ -3520,8 +3949,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  fingerprint-naming:
+      - spec:document
+      - experience:data-modeling
+      - experience:consistency
+  use-fingerprint-not-hash:
     description: "Rather than property names refering to the implementation for
       'hash' or 'hashkey', you MUST use the property name 'fingerprint'. It
       requires the targeted value not to match `^hashkey|hashKey|hash$`
@@ -3538,8 +3969,11 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  invalid-response-body:
+      - spec:schemas
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  response-body-must-be-object:
     description: "Response bodies must be an object type. It requires the targeted
       value to match the pattern `object` (evaluated at
       `$.paths[*][*].responses[*].content.application/json.schema.type`).
@@ -3553,8 +3987,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-status-code:
+      - spec:paths
+      - spec:responses
+      - spec:media-types
+      - spec:schemas
+      - experience:data-modeling
+      - experience:consistency
+  use-standard-status-codes-2:
     description: 'An API MUST return HTTP response codes in conformance with
       RFC-2616 and common usage. It requires the targeted value to be one of
       ["200","201","202","204","400","401","403","404","405","406","409","412","415","428","429","500"]
@@ -3584,8 +4023,11 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  missing-500-response:
+      - spec:paths
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  operation-define-500-response:
     description: "Every endpoint SHOULD have a 500 response. It requires the
       `responses.500` field to be present and non-empty (evaluated at
       `$.paths[*][*]`). Severity: warn."
@@ -3597,8 +4039,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  no-x-headers:
+      - spec:paths
+      - experience:error-handling
+      - experience:reliability
+  no-x-prefixed-request-headers:
     description: "Do not use headers with X-. It requires the targeted value not to
       match `^(x|X)-` (evaluated at `$..parameters.[?(@.in ===
       'header')].name`). Severity: warn."
@@ -3612,8 +4056,11 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  no-x-response-headers:
+      - spec:parameters
+      - spec:headers
+      - experience:naming
+      - experience:consistency
+  no-x-prefixed-response-headers:
     description: "Do not use headers with X-. It requires the targeted value not to
       match `^(x|X)-` (evaluated at `$..headers.*~`). Severity: warn."
     severity: warn
@@ -3627,8 +4074,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-location-header:
+      - spec:headers
+      - experience:naming
+      - experience:consistency
+  location-header-only-on-201:
     description: "Location header MUST NOT be present in non-201 responses. It
       requires the `Location` field to be absent or empty (evaluated at
       `$.paths[*][*].responses[?(@property !== '201')].headers`). Severity:
@@ -3641,8 +4090,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  authorization-missing:
+      - spec:paths
+      - spec:responses
+      - spec:headers
+      - experience:consistency
+      - experience:error-handling
+  require-root-security-scheme:
     description: "Security field MUST be present at the root of the spec with at
       least one item (ie. HTTPBearer, Token, APIKey, etc.). It validates the
       `security` field against a JSON Schema (evaluated at `$`). Severity:
@@ -3659,8 +4112,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  default-content-language:
+      - spec:document
+      - experience:security
+      - experience:governance
+  default-content-language-en-us:
     description: "Content-Language is optional but MUST default locale to en-US when
       none provided. It requires the targeted value to match the pattern `en-US`
       (evaluated at
@@ -3675,8 +4130,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  no-explicit-headers:
+      - spec:paths
+      - spec:responses
+      - spec:headers
+      - spec:media-types
+      - spec:schemas
+      - experience:consistency
+      - experience:usability
+  no-operational-headers-in-spec:
     description: "Access-Control-*, Content-Type, and Accept Headers SHOULD NOT be
       specified explicitly in a spec as it an operational concern. It requires
       the targeted value not to match
@@ -3691,8 +4152,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-custom-header-format:
+      - spec:paths
+      - spec:responses
+      - spec:headers
+      - experience:consistency
+      - experience:governance
+  custom-header-naming-format:
     description: "Custom headers MUST NOT be longer than 50 chars, and MUST only
       contain alphanumeric and dash chars, and MUST begin with Sps- not X-. It
       requires the targeted value to match the pattern
@@ -3709,8 +4174,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  sensitive-data-in-headers:
+      - spec:paths
+      - spec:responses
+      - spec:headers
+      - experience:naming
+      - experience:consistency
+  no-sensitive-data-in-headers:
     description: "Headers MUST NOT contain sensitive data. It requires the targeted
       value not to match `^(SPS-Token|SPS-Password|SPS-Identity|Password)$`
       (evaluated at `$.paths[*][*].responses[*].headers.*~`). Severity: error."
@@ -3723,8 +4192,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  no-resource-extensions:
+      - spec:paths
+      - spec:responses
+      - spec:headers
+      - experience:security
+      - experience:governance
+  no-format-extensions-in-paths:
     description: "Request and Response media type formats MUST NOT be implied using
       extensions on resources (i.e. .json or .xml). Instead, use the standard
       resource path with the appropriate Content-Type header. It requires the
@@ -3739,8 +4212,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-mime-type:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  use-standard-mime-types:
     description: "MIME types MUST be standard (application/json,
       application/problem+json, application/problem+xml) or use custom format
       application/vnd.*. It requires the targeted value to match the pattern
@@ -3755,8 +4230,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-http-method:
+      - spec:paths
+      - spec:responses
+      - spec:media-types
+      - experience:consistency
+      - experience:data-modeling
+  use-standard-http-methods:
     description: 'Operations MUST use only the common HTTP methods as outlined in
       the standards guide, and must be in lower-case. It requires the `method`
       field to be one of ["get","post","put","patch","delete","head","options"]
@@ -3778,8 +4257,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  request-get-invalid-body:
+      - spec:paths
+      - experience:consistency
+      - experience:naming
+  get-must-not-have-request-body:
     description: "A `GET` request MUST NOT accept a request body. It requires the
       targeted value to be undefined (evaluated at
       `$.paths[*][get].requestBody`). Severity: error."
@@ -3790,8 +4271,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  response-get-missing-body:
+      - spec:paths
+      - spec:operations
+      - spec:request-body
+      - experience:consistency
+      - experience:reliability
+  get-must-return-response-body:
     description: "A `GET` operation must return a response body. It requires the
       `content` field to be present and non-empty (evaluated at
       `$.paths[*].get.responses[*]`). Severity: error."
@@ -3803,8 +4288,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-get-response-code:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:consistency
+      - experience:reliability
+  get-response-codes-allowed:
     description: "GET operations should not use status codes 201, 202, 204, 409,
       412. It requires the `@key` field not to match `^(201|202|204|409|412)$`
       (evaluated at `$.paths[*].get.responses`). Severity: warn."
@@ -3818,8 +4307,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  response-get-missing-success-code:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  get-must-return-200:
     description: "GET operations must always return 200 status code. It requires the
       `200` field to be present and non-empty (evaluated at
       `$.paths[*].get.responses`). Severity: error."
@@ -3831,8 +4324,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-post-response-code:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  post-response-codes-allowed:
     description: "POST operations should not return 412 status codes. It requires
       the `@key` field not to match `412` (evaluated at
       `$.paths[*].post.responses`). Severity: warn."
@@ -3846,8 +4343,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-put-response-code:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  put-response-codes-allowed:
     description: "PUT operations should not return 200 or 201 status codes. It
       requires the `@key` field not to match `^(200|201)$` (evaluated at
       `$.paths[*].put.responses`). Severity: warn."
@@ -3861,8 +4362,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-delete-response-code:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  delete-response-codes-allowed:
     description: "DELETE operations should not return 200 or 201 status codes. It
       requires the `@key` field not to match `^(200|201)$` (evaluated at
       `$.paths[*].delete.responses`). Severity: warn."
@@ -3876,8 +4381,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  request-delete-invalid-body:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  delete-must-not-have-request-body:
     description: "DELETE operations must not accept a request body. It requires the
       targeted value to be undefined (evaluated at
       `$.paths[*].delete.requestBody`). Severity: error."
@@ -3888,8 +4397,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  response-delete-invalid-body:
+      - spec:paths
+      - spec:operations
+      - spec:request-body
+      - experience:consistency
+      - experience:reliability
+  delete-must-not-return-body:
     description: "DELETE operations must not have a response body. It requires the
       targeted value to be absent or empty (evaluated at
       `$.paths.*.delete.responses[202,204].content`). Severity: error."
@@ -3900,8 +4413,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-patch-response-code:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - spec:media-types
+      - experience:consistency
+      - experience:reliability
+  patch-response-codes-allowed:
     description: "PATCH operations should not return 201 status code. It requires
       the `@key` field not to match `^201$` (evaluated at
       `$.paths[*].patch.responses`). Severity: warn."
@@ -3915,8 +4433,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  request-patch-missing-body:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  patch-must-have-request-body:
     description: "PATCH operations must have a request body. It validates the
       `requestBody` field against a JSON Schema (evaluated at
       `$.paths[*].patch`). Severity: error."
@@ -3931,8 +4453,11 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-head-response-code:
+      - spec:paths
+      - spec:operations
+      - experience:consistency
+      - experience:reliability
+  head-response-codes-allowed:
     description: "HEAD operations should not return 201, 202, 204, 409, 412 status
       codes. It requires the `@key` field not to match `^(201|202|204|409|412)$`
       (evaluated at `$.paths[*].head.responses`). Severity: warn."
@@ -3946,8 +4471,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  request-head-invalid-body:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  head-must-not-have-request-body:
     description: "A `HEAD` request MUST NOT accept a request body. It requires the
       targeted value to be undefined (evaluated at
       `$.paths[*][head].requestBody`). Severity: error."
@@ -3958,8 +4487,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  response-head-invalid-body:
+      - spec:paths
+      - spec:operations
+      - spec:request-body
+      - experience:consistency
+      - experience:reliability
+  head-must-not-return-body:
     description: "HEAD operations should not return a response body for success. It
       requires the targeted value to be absent or empty (evaluated at
       `$.paths.*.head.responses[200].content`). Severity: error."
@@ -3970,8 +4503,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  invalid-options-response-code:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - spec:media-types
+      - experience:consistency
+      - experience:reliability
+  options-response-codes-allowed:
     description: "OPTIONS operations should not return 201, 202, 409, 412 status
       codes. It requires the `@key` field not to match `^(201|202|409|412)$`
       (evaluated at `$.paths[*].options.responses`). Severity: warn."
@@ -3985,8 +4523,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  request-options-invalid-body:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  options-must-not-have-request-body:
     description: "An `OPTIONS` request MUST NOT accept a request body. It requires
       the targeted value to be undefined (evaluated at
       `$.paths[*][options].requestBody`). Severity: error."
@@ -3997,8 +4539,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  response-options-invalid-body:
+      - spec:paths
+      - spec:operations
+      - spec:request-body
+      - experience:consistency
+      - experience:reliability
+  options-must-not-return-body:
     description: "OPTIONS operations should not return a response body for success.
       It requires the targeted value to be absent or empty (evaluated at
       `$.paths.*.options.responses[200, 204].content`). Severity: error."
@@ -4009,8 +4555,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  request-support-json-2:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - spec:media-types
+      - experience:consistency
+      - experience:reliability
+  request-support-json-media-type-2:
     description: "Every request MUST support `application/json` media type. It
       validates the targeted value against a JSON Schema (evaluated at
       `$.paths[*][*].requestBody.content`). Severity: error."
@@ -4030,8 +4581,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
-  no-numeric-ids:
+      - spec:paths
+      - spec:request-body
+      - spec:media-types
+      - experience:consistency
+      - experience:usability
+  avoid-integer-id-parameters:
     description: 'Avoid exposing IDs as an integer, UUIDs or other interoperable
       strings are preferred. It validates the targeted value against a JSON
       Schema (evaluated at `$.paths..parameters[*].[?(@property === "name" && (@
@@ -4054,8 +4609,12 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:general
-  semver:
+      - spec:paths
+      - spec:parameters
+      - spec:schemas
+      - experience:security
+      - experience:data-modeling
+  version-must-use-semver:
     severity: warn
     message: Version should use semantic versioning. {{value}} is not a valid version.
     given: $.info.version
@@ -4066,7 +4625,9 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:general
+      - spec:info
+      - experience:versioning
+      - experience:consistency
     description: "Version should use semantic versioning. {{value}} is not a valid
       version. It requires the targeted value to match the pattern
       `^([0-9]+.[0-9]+.[0-9]+)$` (evaluated at `$.info.version`). Severity:
@@ -4087,7 +4648,10 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
+      - spec:schemas
+      - spec:components
+      - experience:naming
+      - experience:consistency
   response-names-pascal-case:
     severity: warn
     description: "Response names SHOULD be written in PascalCase. It requires the
@@ -4104,8 +4668,11 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:naming
-  limit-path-size:
+      - spec:responses
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  limit-path-length:
     message: APIs SHOULD NOT expand their total URL length beyond a few hundred
       characters.
     severity: warn
@@ -4117,11 +4684,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:usability
+      - experience:consistency
     description: "APIs SHOULD NOT expand their total URL length beyond a few hundred
       characters. It constrains the length of the targeted value and at most 100
       (evaluated at `$.paths.*~`). Severity: warn."
-  hosts-https-only:
+  servers-must-use-https:
     message: Servers MUST be https and no other protocol is allowed unless using
       localhost.
     formats:
@@ -4135,12 +4704,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:servers
+      - experience:security
+      - experience:reliability
     description: "Servers MUST be https and no other protocol is allowed unless
       using localhost. It requires the targeted value to match the pattern
       `^(https:|http://localhost)` (evaluated at `$.servers..url`). Severity:
       error."
-  hosts-lowercase:
+  server-url-must-be-lowercase:
     message: Server URL SHOULD BE lowercase.
     formats:
       - oas3
@@ -4153,11 +4724,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:servers
+      - experience:naming
+      - experience:consistency
     description: "Server URL SHOULD BE lowercase. It requires the targeted value to
       match the pattern `^[^A-Z]*$` (evaluated at `$.servers..url`). Severity:
       warn."
-  hosts-domain:
+  servers-on-approved-domain:
     message: APIs SHOULD be accessible under api.spscommerce.com.
     formats:
       - oas3
@@ -4170,12 +4743,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:servers
+      - experience:governance
+      - experience:consistency
     description: "APIs SHOULD be accessible under api.spscommerce.com. It requires
       the targeted value to match the pattern
       `api.spscommerce.com|api.sps-internal.com|localhost` (evaluated at
       `$.servers..url`). Severity: warn."
-  path-no-environment:
+  no-environment-names-in-paths:
     message: API paths MUST NOT indicate environment names.
     severity: error
     given: $.paths.*~
@@ -4186,12 +4761,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:naming
+      - experience:governance
     description: "API paths MUST NOT indicate environment names. It requires the
       targeted value not to match
       `/prod/|/preprod/|/dev/|/test/|/integration/|/stage/` (evaluated at
       `$.paths.*~`). Severity: error."
-  hosts-no-port:
+  servers-must-not-specify-port:
     message: Port MUST NOT be specified or required to use the API, except for
       'localhost' testing in a spec.
     formats:
@@ -4205,12 +4782,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:servers
+      - experience:usability
+      - experience:consistency
     description: "Port MUST NOT be specified or required to use the API, except for
       'localhost' testing in a spec. It requires the targeted value not to match
       `(?!https?://localhost)(https?://.*):(\\d*)\\/?(.*)` (evaluated at
       `$.servers..url`). Severity: error."
-  paths-expose-technology:
+  no-technology-leak-in-paths:
     message: A resource MUST NOT leak or expose format or technology-specific
       information at any point in the path.
     severity: error
@@ -4222,12 +4801,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:security
+      - experience:naming
     description: "A resource MUST NOT leak or expose format or technology-specific
       information at any point in the path. It requires the targeted value not
       to match `(.php|.asp|.jsp|.cgi|.psp|.json|.xml)` (evaluated at
       `$.paths.*~`). Severity: error."
-  paths-expose-extension:
+  no-file-extension-in-paths:
     message: A resource SHOULD NOT make use of an extension at any point in the path.
     severity: warn
     given: $.paths.*~
@@ -4238,11 +4819,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:naming
+      - experience:consistency
     description: "A resource SHOULD NOT make use of an extension at any point in the
       path. It requires the targeted value not to match `\\.` (evaluated at
       `$.paths.*~`). Severity: warn."
-  paths-kebab-case-3:
+  path-segments-kebab-case-3:
     message: A resource containing multiple words MUST be separated using kebab-case
       (lower case and separated with hyphens).
     severity: error
@@ -4254,13 +4837,15 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:naming
+      - experience:consistency
     description: "A resource containing multiple words MUST be separated using
       kebab-case (lower case and separated with hyphens). It requires the
       targeted value not to match `(\\/[a-z]+_.)|(\\/([a-z]|[A-Z])+[A-Z])`
       (evaluated at `$.paths[?(/^((?!_webhooks).)*$/i.test(@property))]~`).
       Severity: error."
-  paths-trailing-slash:
+  no-trailing-slash-in-paths:
     message: A resource MUST be addressable without a trailing slash on the path.
     severity: error
     given: $.paths.*~
@@ -4271,12 +4856,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:naming
+      - experience:consistency
       - source:api-evangelist
     description: "A resource MUST be addressable without a trailing slash on the
       path. It requires the targeted value not to match `/$` (evaluated at
       `$.paths.*~`). Severity: error."
-  paths-with-api:
+  no-api-prefix-in-paths:
     message: A resource SHOULD NOT contain 'api' as a prefix in or a part of the path.
     severity: error
     given: $.paths.*~
@@ -4287,11 +4874,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:naming
+      - experience:consistency
     description: "A resource SHOULD NOT contain 'api' as a prefix in or a part of
       the path. It requires the targeted value not to match `/api|/api/|-api/`
       (evaluated at `$.paths.*~`). Severity: error."
-  paths-empty-segments:
+  no-empty-path-segments:
     message: A resource MUST use normalized paths without empty path segments.
     severity: error
     given: $.paths.*~
@@ -4302,11 +4891,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:naming
+      - experience:consistency
     description: "A resource MUST use normalized paths without empty path segments.
       It requires the targeted value not to match `//` (evaluated at
       `$.paths.*~`). Severity: error."
-  paths-limit-path-parameters:
+  limit-path-parameters:
     message: The URL path should not contain more than 3 dynamic path parameters.
     severity: warn
     given: $.paths.*~
@@ -4317,11 +4908,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:usability
+      - experience:consistency
     description: "The URL path should not contain more than 3 dynamic path
       parameters. It requires the targeted value not to match `^(.*{{1}.*){4,}`
       (evaluated at `$.paths.*~`). Severity: warn."
-  paths-limit-sub-resources:
+  limit-nested-sub-resources:
     message: The hierarchy of nested resources SHOULD NOT contain more than 8
       resource names in the path.
     severity: warn
@@ -4333,11 +4926,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:usability
+      - experience:consistency
     description: "The hierarchy of nested resources SHOULD NOT contain more than 8
       resource names in the path. It requires the targeted value not to match
       `^([^/]*/){9,}` (evaluated at `$.paths.*~`). Severity: warn."
-  paths-with-http-methods:
+  no-http-methods-in-paths:
     message: A resource SHOULD NOT contain HTTP methods.
     severity: error
     given: $.paths.*~
@@ -4348,11 +4943,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:naming
+      - experience:consistency
     description: "A resource SHOULD NOT contain HTTP methods. It requires the
       targeted value not to match `(\\/get|\\/post|\\/put|\\/delete|\\/patch)`
       (evaluated at `$.paths.*~`). Severity: error."
-  paths-params-camel-case:
+  path-parameters-camel-case-2:
     message: Path parameter keys MUST use camelCase.
     severity: error
     given: $.paths.*.*.parameters[?(@.in=='path')].name
@@ -4364,11 +4961,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - spec:parameters
+      - experience:naming
+      - experience:consistency
     description: "Path parameter keys MUST use camelCase. It requires camel casing
       on the targeted value (evaluated at
       `$.paths.*.*.parameters[?(@.in=='path')].name`). Severity: error."
-  query-params-characters:
+  query-parameter-allowed-characters:
     message: "Query parameter keys MUST include only alpha-numeric characters and
       periods: [Aa0-Zz9]'."
     severity: error
@@ -4380,12 +4980,15 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - spec:parameters
+      - experience:naming
+      - experience:consistency
     description: "Query parameter keys MUST include only alpha-numeric characters
       and periods: [Aa0-Zz9]'. It requires the targeted value to match the
       pattern `^[A-Za-z0-9\\.]+$` (evaluated at
       `$.paths.*.*.parameters[?(@.in=='query')].name`). Severity: error."
-  query-params-camel-case:
+  query-parameters-camel-case-2:
     message: Query parameter keys MUST use camelCase.
     severity: error
     given: $.paths.*.*.parameters[?(@.in=='query')].name
@@ -4400,11 +5003,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - spec:parameters
+      - experience:naming
+      - experience:consistency
     description: "Query parameter keys MUST use camelCase. It requires camel casing
       on the targeted value (evaluated at
       `$.paths.*.*.parameters[?(@.in=='query')].name`). Severity: error."
-  query-params-not-required:
+  query-parameters-must-be-optional:
     message: Query parameters MUST be optional.
     severity: error
     given: $.paths.*.*.parameters[?(@.in=='query')].required
@@ -4413,11 +5019,14 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - spec:parameters
+      - experience:usability
+      - experience:consistency
     description: "Query parameters MUST be optional. It requires the targeted value
       to be absent or empty (evaluated at
       `$.paths.*.*.parameters[?(@.in=='query')].required`). Severity: error."
-  query-params-no-api-keys:
+  no-api-keys-in-query-parameters:
     message: Query parameters MUST not contain sensitive information, like API
       tokens or keys.
     severity: error
@@ -4429,12 +5038,15 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - spec:parameters
+      - experience:security
+      - experience:governance
     description: "Query parameters MUST not contain sensitive information, like API
       tokens or keys. It requires the targeted value not to match `apiKey|token`
       (evaluated at `$.paths.*.*.parameters[?(@.in=='query')].name`). Severity:
       error."
-  query-params-not-in-path:
+  no-query-strings-in-paths:
     message: Paths SHOULD NOT have query parameters in them. They should be defined
       separately in the OpenAPI.
     severity: warn
@@ -4446,11 +5058,13 @@ rules:
     tags:
       - source:sps-commerce
       - format:openapi
-      - category:structure
+      - spec:paths
+      - experience:consistency
+      - experience:naming
     description: "Paths SHOULD NOT have query parameters in them. They should be
       defined separately in the OpenAPI. It requires the targeted value not to
       match `\\?` (evaluated at `$.paths.*~`). Severity: warn."
-  openapi-response-content-type-json-error:
+  response-must-use-json-content-type:
     description: "API responses should use application/json as the primary content
       type. Analysis of 773 specs shows application/json is used by 92% of APIs,
       making it the universal standard for modern REST APIs. It requires the
@@ -4466,8 +5080,13 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-request-body-content-type-json-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - spec:media-types
+      - experience:consistency
+      - experience:usability
+  request-body-must-use-json-content-type:
     description: "Request bodies should use application/json as the primary content
       type for consistency across API operations and client implementations. It
       requires the `application/json` field to be present and non-empty
@@ -4482,8 +5101,13 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-info-description-eval-error:
+      - spec:paths
+      - spec:operations
+      - spec:request-body
+      - spec:media-types
+      - experience:consistency
+      - experience:usability
+  info-description-no-eval-tag:
     description: "Eval functions MUST not be included in the description of an API,
       keeping descriptions to just the text that is needed, and relying on the
       rest of the OpenAPI to describe what is possible. It requires the
@@ -4500,8 +5124,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-description-length-error:
+      - spec:info
+      - experience:security
+      - experience:documentation
+  info-description-length-limit:
     description: "Having a restriction on the length of the API description
       expressed as the OpenAPI info description helps provide constraints for
       consumers when adding a description, and keeps portals, landing pages,
@@ -4519,8 +5145,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-description-script-error:
+      - spec:info
+      - experience:documentation
+      - experience:consistency
+  info-description-no-script-tag:
     description: "Script tags MUST not be included in the description of an API,
       keeping descriptions to just the text that is needed, and relying on the
       rest of the OpenAPI to describe what is possible. It requires the
@@ -4537,8 +5165,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-title-error:
+      - spec:info
+      - experience:security
+      - experience:documentation
+  info-require-title:
     description: "Having a intuitive and helpful title for your API using the
       OpenAPI info title is the first impression you will make on the consumers
       of your API. It requires the `title` field to be present and non-empty
@@ -4552,8 +5182,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-title-length-error:
+      - spec:info
+      - experience:documentation
+      - experience:discoverability
+  info-title-max-length:
     description: "Having a limitation on the length of the title for your API helps
       provide constraints for teams naming it, but also keep consistent with
       other APIs from across teams. It constrains the length of the `title`
@@ -4569,8 +5201,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-title-upper-case-error:
+      - spec:info
+      - experience:consistency
+      - experience:documentation
+  info-title-capitalized:
     description: "Having a consistent casing for the title for your API helps
       provide constraints for teams naming the API, but also keep consistent
       with other APIs from across teams. It requires the targeted value to match
@@ -4585,8 +5219,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-operations-description-length-error:
+      - spec:info
+      - experience:naming
+      - experience:consistency
+  operation-description-max-length:
     description: "Having a length limitation for each description of each API
       operation helps apply constraints to how you describe your APIs, while
       helping drive consistency across APIs when it comes to search,
@@ -4603,8 +5239,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-operations-summary-error:
+      - spec:paths
+      - spec:operations
+      - experience:documentation
+      - experience:consistency
+  operation-require-summary:
     description: "Having short and intuitive summary for each API operation helps
       API consumers understand what is possible with each API request. It
       requires the `summary` field to be present and non-empty (evaluated at
@@ -4618,8 +5257,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-operations-summary-length-error:
+      - spec:paths
+      - spec:operations
+      - experience:documentation
+  operation-summary-max-length:
     description: "Apply length constraints to the operation summary helps keep them
       consistent for publishing in documentation. It constrains the length of
       the `summary` field and at most 50 (evaluated at
@@ -4635,8 +5276,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-operations-summary-period-none-error:
+      - spec:paths
+      - spec:operations
+      - experience:documentation
+      - experience:consistency
+  operation-summary-no-period:
     description: "Operation summaries should not have a period, keeping the primary
       summary for each API as consistent as possible for publishing in
       documentation. It requires the targeted value not to match `\\.$`
@@ -4651,8 +5295,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-operations-tags-error:
+      - spec:paths
+      - experience:consistency
+      - experience:documentation
+  operation-require-tags:
     description: "Having tags applied to each API operations helps organize and
       group APIs in portals, documentation, search, and other ways in which APIs
       are made available. It requires the `tags` field to be present and
@@ -4667,8 +5313,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-operations-tags-one-error:
+      - spec:paths
+      - spec:operations
+      - experience:discoverability
+      - experience:documentation
+  operation-require-one-tag:
     description: "Having tags applied to each API operations helps organize and
       group APIs in portals, documentation, search, and other ways in which APIs
       are made available. It constrains the length of the `tags` field to at
@@ -4685,8 +5334,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-operations-tags-upper-case-error:
+      - spec:paths
+      - spec:operations
+      - experience:discoverability
+      - experience:consistency
+  operation-tags-title-case:
     description: "Having the first letter of each word applied as a tag to API
       operations helps keep a consistent layout when published via search,
       documentation, and other ways APIs are made available. It requires the
@@ -4702,8 +5354,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-schema-description-error:
+      - spec:paths
+      - spec:operations
+      - spec:tags
+      - experience:naming
+      - experience:consistency
+  schema-require-description:
     description: "Schema should have descriptions that provide a narrative of what a
       schema object is for, and how it can be used, leaving examples to
       demonstrate what can actually be expected. It requires the `description`
@@ -4718,8 +5374,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-schema-description-length-error:
+      - spec:schemas
+      - spec:components
+      - experience:documentation
+      - experience:data-modeling
+  schema-description-max-length:
     description: "Schema should have a length limit applied, restricting how long
       schema descriptions can be, helping keep them concise and consistent. It
       constrains the length of the `description` field and at most 250
@@ -4735,8 +5394,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-schema-names-error:
+      - spec:schemas
+      - spec:components
+      - experience:documentation
+      - experience:consistency
+  schema-require-name:
     description: "Schema names, keeping the naming of them consistent across APIs,
       standardizing how consumers can use in their applications. It requires the
       `@key` field to be present and non-empty (evaluated at
@@ -4750,8 +5412,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-schema-names-length-error:
+      - spec:schemas
+      - spec:components
+      - experience:naming
+      - experience:data-modeling
+  schema-name-max-length:
     description: "Schema should have a length limit applied keeping the names of
       schema consistent across APIs. It constrains the length of the `@key`
       field and at most 25 (evaluated at `$.components.schemas`). Severity:
@@ -4767,8 +5432,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-response-get-401-status-code-error:
+      - spec:schemas
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  get-define-401-response:
     description: "GET operations should define a 401 Unauthorized response. Analysis
       of 773 specs shows 401 is the second most common response code with 4805
       occurrences, confirming authentication errors must be documented. It
@@ -4783,8 +5451,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-response-post-400-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:security
+      - experience:error-handling
+  post-define-400-response:
     description: "POST operations should define a 400 Bad Request response for input
       validation errors. Analysis shows 400 is the 4th most common response code
       across 2516 operations. It requires the `400` field to be present and
@@ -4798,8 +5470,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-response-post-401-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  post-define-401-response:
     description: "POST operations should define a 401 Unauthorized response to
       document authentication requirements for write operations. It requires the
       `401` field to be present and non-empty (evaluated at
@@ -4813,8 +5489,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-response-put-401-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:security
+      - experience:error-handling
+  put-define-401-response:
     description: "PUT operations should define a 401 Unauthorized response to
       document authentication requirements for update operations. It requires
       the `401` field to be present and non-empty (evaluated at
@@ -4828,8 +5508,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-response-delete-401-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:security
+      - experience:error-handling
+  delete-define-401-response:
     description: "DELETE operations should define a 401 Unauthorized response to
       document authentication requirements for destructive operations. It
       requires the `401` field to be present and non-empty (evaluated at
@@ -4843,8 +5527,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-response-patch-200-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:security
+      - experience:error-handling
+  patch-define-200-response:
     description: "PATCH operations should define a 200 OK response for successful
       partial updates. Analysis shows PATCH is used in 17.7% of APIs. It
       requires the `200` field to be present and non-empty (evaluated at
@@ -4858,8 +5546,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-response-patch-400-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  patch-define-400-response:
     description: "PATCH operations should define a 400 Bad Request response for
       validation errors on partial update payloads. It requires the `400` field
       to be present and non-empty (evaluated at `$.paths[*].patch.responses`).
@@ -4873,8 +5565,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-response-patch-404-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  patch-define-404-response:
     description: "PATCH operations should define a 404 Not Found response for cases
       where the resource to be updated does not exist. It requires the `404`
       field to be present and non-empty (evaluated at
@@ -4888,8 +5584,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-response-429-rate-limit-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  operation-define-429-response:
     description: "APIs should define a 429 Too Many Requests response to document
       rate limiting behavior. Analysis shows 429 appears in 671 operations,
       confirming rate limiting is a common API pattern. It requires the `429`
@@ -4904,8 +5604,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:errors
-  openapi-info-contact-email-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  contact-require-email:
     description: "Having a contact email address associated with the technical
       contract ensures that anyone who comes across the API has someone to email
       and get more information. It requires the `email` field to be present and
@@ -4919,8 +5623,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-contact-error:
+      - spec:info
+      - experience:discoverability
+      - experience:documentation
+  info-require-contact-2:
     description: "Having a contact object associated with the technical contract
       ensures that anyone who comes across the API has someone to contact and
       get more information. It requires the `contact` field to be present and
@@ -4934,8 +5640,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-contact-name-error:
+      - spec:info
+      - experience:discoverability
+      - experience:documentation
+  contact-require-name:
     description: "Having a contact name associated with the technical contract
       ensures that anyone who comes across the API knows who to contact. It
       requires the `name` field to be present and non-empty (evaluated at
@@ -4949,8 +5657,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-contact-url-error:
+      - spec:info
+      - experience:discoverability
+      - experience:documentation
+  contact-require-url:
     description: "Having a contact url associated with the technical contract
       ensures that anyone who comes across the API knows where to go to contact
       someone. It requires the `url` field to be present and non-empty
@@ -4964,8 +5674,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-error:
+      - spec:info
+      - experience:discoverability
+      - experience:documentation
+  require-info-object:
     description: "Having an info object provides much of the metadata needed for the
       collection of APIs described in an OpenAPI. It requires the `info` field
       to be present and non-empty (evaluated at `$`). Severity: error."
@@ -4978,8 +5690,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-version-error:
+      - spec:document
+      - experience:documentation
+      - experience:governance
+  info-require-version:
     description: "Publishing a version for your OpenAPI technical contract helps you
       communicate change with consumers using Semantic or date-based versioning
       published to the info version property. It requires the `version` field to
@@ -4993,8 +5707,9 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-license-error:
+      - spec:info
+      - experience:versioning
+  info-require-license:
     description: "Having a license defined in the info object clarifies the terms
       under which the API can be used. Analysis shows only 44.4% of APIs define
       a license, but it is essential for API governance and compliance. It
@@ -5009,8 +5724,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-license-name-error:
+      - spec:info
+      - experience:governance
+      - experience:documentation
+  license-require-name:
     description: "The license object should include a name property identifying the
       license type, such as Apache 2.0, MIT, or a proprietary license. It
       requires the `name` field to be present and non-empty (evaluated at
@@ -5024,8 +5741,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-license-url-error:
+      - spec:info
+      - experience:governance
+      - experience:documentation
+  license-require-url:
     description: "The license object should include a URL linking to the full
       license text so API consumers can review the terms. It requires the `url`
       field to be present and non-empty (evaluated at `$.info.license`).
@@ -5039,8 +5758,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-info-terms-of-service-error:
+      - spec:info
+      - experience:governance
+      - experience:documentation
+  info-require-terms-of-service-2:
     description: "Having terms of service defined helps API consumers understand
       usage policies. Analysis shows 51.1% of APIs include terms of service, and
       it should be standard for any production API. It requires the
@@ -5055,8 +5776,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-external-docs-error:
+      - spec:info
+      - experience:governance
+      - experience:documentation
+  require-external-docs:
     description: "Defining external documentation provides a link to detailed API
       guides, tutorials, and reference material beyond the OpenAPI spec.
       Analysis shows 57.1% of APIs include external docs. It requires the
@@ -5071,8 +5794,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:documentation
-  openapi-paths-kebab-case-error:
+      - spec:document
+      - experience:documentation
+      - experience:discoverability
+  path-segments-kebab-case-4:
     description: "API path segments should use kebab-case (lowercase with hyphens).
       Consistent path naming reduces confusion and improves developer experience
       across API consumers and documentation. It requires the targeted value to
@@ -5088,8 +5813,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:naming
-  openapi-paths-no-file-extensions-error:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  paths-no-file-extensions:
     description: "API paths should not include file extensions like .json or .xml.
       Content negotiation should be handled through Accept headers rather than
       path suffixes. It requires the targeted value not to match
@@ -5105,8 +5832,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:naming
-  openapi-operation-id-required-error:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  operation-require-operation-id:
     description: "Every operation should have an operationId for SDK generation and
       documentation linking. Analysis shows operationId styles across 8878
       operations with camelCase dominant at 92%. It requires the `operationId`
@@ -5121,8 +5850,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:naming
-  openapi-schema-properties-camel-case-error:
+      - spec:paths
+      - spec:operations
+      - experience:consistency
+      - experience:usability
+  schema-properties-camel-case-3:
     description: "Schema property names should use camelCase. Analysis of 773 specs
       shows camelCase is the dominant convention at 65% (12958 properties),
       followed by snake_case at 33% (6661 properties). It requires the targeted
@@ -5138,8 +5870,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:naming
-  openapi-parameter-query-camel-case-error:
+      - spec:schemas
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  query-parameters-camel-case-3:
     description: "Query parameter names should use camelCase for consistency.
       Analysis shows camelCase is the most common query parameter style at 54%
       (2519 parameters), followed by snake_case at 36%. It requires camel casing
@@ -5156,8 +5891,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:naming
-  openapi-operation-security-definitions-error:
+      - spec:paths
+      - spec:parameters
+      - experience:naming
+      - experience:consistency
+  operation-require-security-2:
     description: "Each API operation should have a security definition referencing
       the central security scheme express for an OpenAPI. It requires the
       `security` field to be present and non-empty (evaluated at
@@ -5171,8 +5909,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-operations-description-error:
+      - spec:paths
+      - spec:operations
+      - experience:security
+      - experience:governance
+  operation-require-description:
     description: "Having a paragraph or two description of each API operation helps
       API consumers understand what is possible with each API request. It
       requires the `description` field to be present and non-empty (evaluated at
@@ -5186,8 +5927,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-operations-operation-ids-camel-case-error:
+      - spec:paths
+      - spec:operations
+      - experience:documentation
+  operation-id-camel-case:
     description: "Operation identifiers provide a unique way to identify each
       individual API, and requiring them to have consistent casing reduces
       friction when generating SDKs and automating around APIs. It requires the
@@ -5203,8 +5946,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-operations-operation-ids-error:
+      - spec:paths
+      - spec:operations
+      - experience:naming
+      - experience:consistency
+  operation-require-identifier:
     description: "Operation identifiers provide a unique way to identify each
       individual API, which then used for SDK generation and other automation.
       It requires the `operationId` field to be present and non-empty (evaluated
@@ -5218,8 +5964,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-pagination-limit-parameter-error:
+      - spec:paths
+      - spec:operations
+      - experience:consistency
+      - experience:usability
+  collection-require-limit-parameter:
     description: "GET operations returning collections should include a limit
       parameter for pagination. Analysis shows limit is the most common
       pagination parameter (116 of 773 specs), used in 24% of APIs with
@@ -5236,8 +5985,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:pagination
-  openapi-pagination-parameters-query-error:
+      - spec:paths
+      - spec:operations
+      - spec:parameters
+      - experience:pagination
+      - experience:usability
+  pagination-params-in-query:
     description: "Pagination parameters like page, limit, offset, and cursor should
       be passed as query parameters, not in headers or path segments. Analysis
       confirms 100% of pagination parameters observed are query parameters. It
@@ -5258,8 +6011,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:pagination
-  openapi-components-parameters-casing-camel-error:
+      - spec:paths
+      - spec:operations
+      - spec:parameters
+      - experience:pagination
+      - experience:consistency
+  parameter-names-camel-case:
     description: "Providing parameters with consistent naming helps make it easier
       for API consumers to understand how they are able to configure their API
       requests. It requires the `name` field not to match
@@ -5281,8 +6038,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-description-error:
+      - spec:parameters
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  parameter-require-description:
     description: "Having a parameters description provides more depth to what a
       parameter does and will be displayed via documentation, and other tooling
       used across the API lifecycle. It requires the `description` field to be
@@ -5296,8 +6056,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-description-length-error:
+      - spec:paths
+      - spec:parameters
+      - experience:documentation
+  parameter-description-max-length:
     description: "Limiting the length of parameters description forces us to be more
       concise in how we describe each parameter, while keeping our documentation
       and other ways descriptions show up in discovery and portals more
@@ -5313,8 +6075,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-enum-casing-error:
+      - spec:parameters
+      - spec:components
+      - experience:documentation
+      - experience:consistency
+  parameter-enum-upper-snake-case:
     description: "Keeping parameters enumerator casing consistent across APIs helps
       reduce confusion by consumers, and can keep aligned with services and
       applications putting an API to work. It requires the targeted value not to
@@ -5330,8 +6095,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-in-error:
+      - spec:parameters
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  parameter-require-in:
     description: "Providing an in property for parameters gets explicit about
       whether a parameter is in the path, query, or a header, making it clear to
       consumers where they can configure their request. It requires the `in`
@@ -5345,8 +6113,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-name-error:
+      - spec:parameters
+      - spec:components
+      - experience:data-modeling
+      - experience:documentation
+  parameter-require-name:
     description: "Providing a simple, intuitive, and consistent names for your
       parameters helps make it easier for API consumers to understand how they
       are able to configure their API requests. It requires the `name` field to
@@ -5361,8 +6132,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-name-length-error:
+      - spec:parameters
+      - spec:components
+      - experience:naming
+      - experience:documentation
+  parameter-name-max-length:
     description: "Providing short and concise names for your parameters helps make
       it easier for API consumers to understand how they are able to configure
       their API requests. It constrains the length of the `summary` field and at
@@ -5378,8 +6152,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-required-error:
+      - spec:parameters
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  parameter-require-required-flag:
     description: "Providrequiredg an required property for parameters gets explicit
       about whether a parameter is required the path, query, or a header, making
       it clear to consumers where they can configure their request. It requires
@@ -5394,8 +6171,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-paths-declarations-error:
+      - spec:parameters
+      - spec:components
+      - experience:data-modeling
+      - experience:documentation
+  require-paths-declared:
     description: "There must be a paths property and have paths declared, providing
       the minimum viable definition for an API. It requires the `@key` field not
       to match `{}` (evaluated at `$.paths`). Severity: error."
@@ -5411,8 +6191,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-paths-max-nesting-depth-error:
+      - spec:paths
+      - experience:governance
+      - experience:documentation
+  path-max-nesting-depth:
     description: "API paths should not exceed 4 levels of nesting depth. Analysis of
       6627 paths across 773 specs shows an average depth of 3.04 segments, with
       deeper paths indicating overly complex resource hierarchies. It requires
@@ -5428,8 +6210,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-paths-resource-plural-error:
+      - spec:paths
+      - experience:consistency
+      - experience:usability
+  path-resources-plural:
     description: "Resource names in paths should use plural nouns to maintain
       consistency and follow REST conventions for collection-oriented resource
       design. It requires the targeted value to match the pattern
@@ -5444,8 +6228,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-request-bodies-delete-error:
+      - spec:paths
+      - experience:naming
+      - experience:consistency
+  delete-no-request-body-2:
     description: "DELETE HTTP methods should not have a request body, keeping API
       requests compliant with the HTTP standard. It requires the `requestBody`
       field to be absent or empty (evaluated at `$.paths.*.delete`). Severity:
@@ -5459,8 +6245,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-request-bodies-get-error:
+      - spec:paths
+      - spec:operations
+      - experience:consistency
+      - experience:data-modeling
+  get-no-request-body-2:
     description: "GET HTTP methods should not have a request body, keeping API
       requests compliant with the HTTP standard. It requires the `requestBody`
       field to be absent or empty (evaluated at `$.paths.*.get`). Severity:
@@ -5474,8 +6263,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-request-body-on-post-error:
+      - spec:paths
+      - spec:operations
+      - experience:consistency
+      - experience:data-modeling
+  post-require-request-body:
     description: "POST HTTP methods can have a request body, providing a structured
       payload for configuring each API request. It requires the `requestBody`
       field to be present and non-empty (evaluated at `$.paths.*.post`).
@@ -5489,8 +6281,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-request-bodies-put-error:
+      - spec:paths
+      - spec:operations
+      - experience:data-modeling
+      - experience:consistency
+  put-require-request-body-2:
     description: "PUT HTTP methods can have a request body, providing a structured
       payload for configuring each API request. It requires the `requestBody`
       field to be present and non-empty (evaluated at `$.paths.*.put`).
@@ -5504,8 +6299,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-response-delete-204-status-code-error:
+      - spec:paths
+      - spec:operations
+      - experience:data-modeling
+      - experience:consistency
+  delete-define-204-response:
     description: "DELETE responses should have a 204 success HTTP status codes,
       communicating a success created response to consumers. It requires the
       `204` field to be present and non-empty (evaluated at
@@ -5519,8 +6317,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-response-delete-404-schema-ref-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:reliability
+      - experience:consistency
+  delete-404-use-schema-ref:
     description: "DELETE 404 not found HTTP status codes have a schema references to
       standardize the response payload returned for the error response. It
       requires the `$ref` field to be absent or empty (evaluated at
@@ -5534,8 +6336,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-response-delete-500-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:consistency
+  delete-define-500-response:
     description: "DELETE responses should have a 500 internal server erorr HTTP
       status code, communicating the API had a problem to consumers. It requires
       the `500` field to be present and non-empty (evaluated at
@@ -5549,8 +6355,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-response-get-200-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  get-define-200-response:
     description: "GET responses should have a 200 success HTTP status codes,
       communicating a successful response to consumers. It requires the `200`
       field to be present and non-empty (evaluated at
@@ -5564,8 +6374,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-response-get-404-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:reliability
+      - experience:consistency
+  get-define-404-response:
     description: "GET responses should have a 404 not found HTTP status code,
       communicating that nothing was found to consumers. It requires the `404`
       field to be present and non-empty (evaluated at
@@ -5579,8 +6393,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-response-get-500-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:schemas
+      - experience:error-handling
+      - experience:reliability
+  get-define-500-response:
     description: "GET responses should have a 500 internal server erorr HTTP status
       code, communicating the API had a problem to consumers. It requires the
       `500` field to be present and non-empty (evaluated at
@@ -5594,8 +6412,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-response-post-201-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  post-define-201-response:
     description: "POST responses should have a 201 success HTTP status codes,
       communicating a success created response to consumers. It requires the
       `201` field to be present and non-empty (evaluated at
@@ -5609,8 +6431,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-response-post-500-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:reliability
+      - experience:consistency
+  post-define-500-response:
     description: "POST responses should have a 500 internal server erorr HTTP status
       code, communicating the API had a problem to consumers. It requires the
       `500` field to be present and non-empty (evaluated at
@@ -5624,8 +6450,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-response-put-400-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  put-define-400-response:
     description: "PUT responses should have a 400 not found HTTP status code,
       communicating nothing was found to consumers. It requires the `400` field
       to be present and non-empty (evaluated at `$.paths.*.put.responses`).
@@ -5639,8 +6469,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-response-put-500-status-code-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  put-define-500-response:
     description: "PUT responses should have a 500 internal server erorr HTTP status
       code, communicating the API had a problem to consumers. It requires the
       `500` field to be present and non-empty (evaluated at
@@ -5654,8 +6488,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-schema-error:
+      - spec:paths
+      - spec:operations
+      - spec:responses
+      - experience:error-handling
+      - experience:reliability
+  parameter-require-schema:
     description: "Parameters must always possess a schema to help define the format
       and shape of the parameter, setting expections with consumers about what
       should be passed in. It requires the `schema` field to be present and
@@ -5668,8 +6506,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-schema-ref-error:
+      - spec:parameters
+      - spec:components
+      - experience:data-modeling
+      - experience:documentation
+  parameter-schema-use-ref:
     description: "Parameters must always use a schema reference that utilizes
       reusable schema that are defined as part of a centralized schema
       components library. It requires the `$ref` field to be absent or empty
@@ -5683,8 +6524,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-schema-type-error:
+      - spec:parameters
+      - spec:schemas
+      - spec:components
+      - experience:consistency
+      - experience:data-modeling
+  parameter-schema-require-type:
     description: "Parameters must always have their schema type defined, being
       precise about what type of data can be inputted and used to configure an
       API request. It requires the `type` field to be present and non-empty
@@ -5698,8 +6543,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-schema-properties-descriptions-error:
+      - spec:parameters
+      - spec:schemas
+      - spec:components
+      - experience:data-modeling
+      - experience:consistency
+  schema-property-require-description:
     description: "Schema properties should have descriptions that provide a
       narrative of the property contains, and how it can be used. It requires
       the `description` field to be present and non-empty (evaluated at
@@ -5714,8 +6563,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-schema-properties-descriptions-length-error:
+      - spec:schemas
+      - spec:components
+      - experience:documentation
+      - experience:data-modeling
+  schema-property-description-max-length:
     description: "Schema property descriptions should have a length limit applied,
       applying constraints to writing descriptions, and keeping consistent
       across APIs. It constrains the length of the `description` field and at
@@ -5732,8 +6584,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-schema-properties-enum-casing-error:
+      - spec:schemas
+      - spec:components
+      - experience:documentation
+      - experience:consistency
+  schema-property-enum-upper-snake-case:
     description: "Schema property enumerators are consistent casing, keeping all
       entries upper snake case, and consistent across all APIs. It requires the
       targeted value to match the pattern `^[A-Z]+(?:_[A-Z]+)*$` (evaluated at
@@ -5748,8 +6603,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-schema-properties-names-camel-case-error:
+      - spec:schemas
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  schema-property-names-camel-case:
     description: "Schema property names are camel case, providing consistent casing
       across all the schema properties used by APIs. It requires the `@key`
       field not to match `^[A-Z][a-z0-9]*[A-Z0-9][a-z0-9]+[A-Za-z0-9]*$`
@@ -5765,8 +6623,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-schema-properties-names-length-error:
+      - spec:schemas
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  schema-property-names-length-limit:
     description: "Schema property names have a length restriction applied, keeping
       names consistent, and avoiding being too long. It constrains the length of
       the `@key` field and at most 25 (evaluated at
@@ -5782,8 +6643,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-schema-type-error:
+      - spec:schemas
+      - spec:components
+      - experience:naming
+      - experience:consistency
+  schema-require-type:
     description: "Schema should have a type defined, being explicit about type of
       data a schema describes and can be used to validate, helping standardize
       the type of data being made available. It requires the `type` field to be
@@ -5798,8 +6662,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-components-parameters-schema-items-array-error:
+      - spec:schemas
+      - spec:components
+      - experience:data-modeling
+      - experience:consistency
+  parameter-array-require-items:
     description: "Parameters that are of an array type should always have the items
       defined, being explicit about what is continued as part of the array. It
       requires the `items` field to be present and non-empty (evaluated at
@@ -5813,8 +6680,12 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-components-parameters-schema-type-integer-maximum-warn:
+      - spec:parameters
+      - spec:schemas
+      - spec:components
+      - experience:data-modeling
+      - experience:consistency
+  parameter-integer-require-maximum:
     description: "Parameters that are of the integer schema type must have their
       maximum value set, defining the shape of parameter data passed in with a
       request. It requires the `maximum` field to be present and non-empty
@@ -5830,8 +6701,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-components-parameters-schema-type-integer-minimum-warn:
+      - spec:schemas
+      - experience:data-modeling
+      - experience:reliability
+  parameter-integer-require-minimum:
     description: "Parameters that are of the integer schema type must have their
       minimum value set, defining the shape of parameter data passed in with a
       request. It requires the `minimum` field to be present and non-empty
@@ -5847,8 +6720,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-components-parameters-schema-type-string-maxlength-warn:
+      - spec:schemas
+      - experience:data-modeling
+      - experience:reliability
+  parameter-string-require-max-length:
     description: "Parameters that are of the string schema type must have their
       maximum value set, defining the shape of parameter data passed in with a
       request. It requires the `maxLength` field to be present and non-empty
@@ -5864,8 +6739,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-components-parameters-schema-type-string-minlength-warn:
+      - spec:schemas
+      - experience:data-modeling
+      - experience:reliability
+  parameter-string-require-min-length:
     description: "Parameters that are of the string schema type must have their
       minimum value set, defining the shape of parameter data passed in with a
       request. It requires the `minLength` field to be present and non-empty
@@ -5881,8 +6758,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-components-parameters-schema-type-string-pattern-warn:
+      - spec:schemas
+      - experience:data-modeling
+      - experience:reliability
+  parameter-string-require-pattern:
     description: "Parameters that are of the string schema type must have a pattern
       set, using a regex to define the shape of parameter data passed in with a
       request. It requires the `pattern` field to be present and non-empty
@@ -5898,8 +6777,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-schema-properties-array-items-error:
+      - spec:schemas
+      - experience:data-modeling
+      - experience:reliability
+  schema-array-property-require-items:
     description: 'Schema properties that are of the type array must have an items
       property defined. It requires the `items` field to be present and
       non-empty (evaluated at
@@ -5914,8 +6795,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-schema-properties-array-maxitems-error:
+      - spec:schemas
+      - spec:components
+      - experience:data-modeling
+      - experience:consistency
+  schema-array-property-require-max-items:
     description: 'Schema properties that are of the type array should have a max
       items property defined. It requires the `maxItems` field to be present and
       non-empty (evaluated at
@@ -5930,8 +6814,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-schema-properties-array-minitems-error:
+      - spec:schemas
+      - spec:components
+      - experience:data-modeling
+      - experience:reliability
+  schema-array-property-require-min-items:
     description: 'Schema properties that are of the type array should have a min
       items property defined. It requires the `minItems` field to be present and
       non-empty (evaluated at
@@ -5946,8 +6833,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-schema-properties-define-number-maximum-error:
+      - spec:schemas
+      - spec:components
+      - experience:data-modeling
+      - experience:reliability
+  schema-number-property-require-maximum:
     description: 'Schema properties that are of the type number should have a
       maximum property defined. It requires the `maximum` field to be defined
       (evaluated at `$.components.schemas.*.properties[?(@.type=="number")]`).
@@ -5961,8 +6851,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-schema-properties-define-number-minimum-error:
+      - spec:schemas
+      - spec:components
+      - experience:data-modeling
+      - experience:reliability
+  schema-number-property-require-minimum:
     description: 'Schema properties that are of the type number should have a
       minimum property defined. It requires the `minimum` field to be defined
       (evaluated at `$.components.schemas.*.properties[?(@.type=="number")]`).
@@ -5976,8 +6869,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-schema-properties-string-maxlength-error:
+      - spec:schemas
+      - spec:components
+      - experience:data-modeling
+      - experience:reliability
+  schema-string-property-require-max-length:
     description: "Schema properties that are of the string type have the max length
       applied defining the shape of the property. It requires the `maxLength`
       field to be present and non-empty (evaluated at
@@ -5992,8 +6888,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-schema-properties-string-minlength-error:
+      - spec:schemas
+      - spec:components
+      - experience:data-modeling
+      - experience:reliability
+  schema-string-property-require-min-length:
     description: "Schema properties that are of the string type have the min length
       applied defining the shape of the property. It requires the `minLength`
       field to be present and non-empty (evaluated at
@@ -6008,8 +6907,11 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:security
-  openapi-tags-description-error:
+      - spec:schemas
+      - spec:components
+      - experience:data-modeling
+      - experience:reliability
+  tags-require-description:
     description: "Tags used as part of an OpenAPI should have descriptions,
       providing more of a narrative behind what a tag means when it is applied
       to an API. It requires the `description` field to be present and non-empty
@@ -6023,8 +6925,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-tags-name-error:
+      - spec:tags
+      - experience:documentation
+      - experience:discoverability
+  tags-require-name:
     description: "Tags used as part of an OpenAPI should have names, providing a
       simple key word or phrase that represents the tag being applied to APIs.
       It requires the `name` field to be present and non-empty (evaluated at
@@ -6038,8 +6942,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-tags-object-error:
+      - spec:tags
+      - experience:discoverability
+      - experience:naming
+  require-tags-object:
     description: "There needs to be a central tags object applied to the OpenAPI,
       providing central tags that can be applied across all operations within an
       OpenAPI. It requires the `tags` field to be present and non-empty
@@ -6053,8 +6959,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-tags-one-error:
+      - spec:document
+      - experience:discoverability
+      - experience:consistency
+  require-at-least-one-tag:
     description: "There needs to be at least one tag applied to an OpenAPI,
       providing a key word or phrase that can be applied to API operations. It
       constrains the length of the `tags` field to at least 1 (evaluated at
@@ -6070,8 +6978,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-tags-upper-case-error:
+      - spec:document
+      - experience:discoverability
+      - experience:consistency
+  tag-names-title-case:
     description: "The first letter of each word in a tag being applied to APIs needs
       to be capitalized, keeping the tags being applied across APIs the same
       look and feel for organizing and publishing to documentation. It requires
@@ -6087,8 +6997,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:structure
-  openapi-version-3x-error:
+      - spec:tags
+      - experience:naming
+      - experience:consistency
+  require-openapi-version-3x:
     description: "APIs should use OpenAPI 3.x specification. Analysis of 773 API
       specs shows 97% use OpenAPI 3.x, with 86% on 3.1.0, making it the dominant
       standard for modern API definitions. It requires the `openapi` field to
@@ -6104,8 +7016,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:versioning
-  openapi-servers-defined-error:
+      - spec:document
+      - experience:versioning
+      - experience:governance
+  require-servers-defined:
     description: "Every OpenAPI should define at least one server URL. Analysis
       shows 97.2% of APIs define servers, providing consumers with the base URL
       needed to make requests. It requires the `servers` field to be present and
@@ -6119,8 +7033,10 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:versioning
-  openapi-servers-url-https-error:
+      - spec:document
+      - experience:usability
+      - experience:discoverability
+  server-url-require-https:
     description: "API server URLs should use HTTPS to ensure encrypted communication
       between clients and servers, protecting sensitive data in transit. It
       requires the `url` field to match the pattern `^https://` (evaluated at
@@ -6136,8 +7052,9 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:versioning
-  openapi-no-version-in-path-error:
+      - spec:servers
+      - experience:security
+  paths-no-version-segment:
     description: "API paths should not contain version numbers like v1 or v2. API
       versioning should be handled through headers, query parameters, or server
       URLs rather than embedded in resource paths. It requires the targeted
@@ -6152,4 +7069,6 @@ rules:
     tags:
       - source:api-evangelist
       - format:openapi
-      - category:versioning
+      - spec:paths
+      - experience:versioning
+      - experience:consistency

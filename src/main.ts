@@ -109,9 +109,12 @@ function setArtifact(id: string) {
 }
 
 // ---- rule category lookup (for grouping results) ----------------------------
+// Results group by the rule's primary experience tag (falls back to category, then other).
 function categoryOf(code: string): string {
   const r = ruleDef(code);
   const tags: string[] = Array.isArray(r?.tags) ? r.tags : [];
+  const exp = tags.find((t) => t.startsWith('experience:'));
+  if (exp) return exp.slice('experience:'.length);
   const cat = tags.find((t) => t.startsWith('category:'));
   return cat ? cat.slice('category:'.length) : 'other';
 }
@@ -582,8 +585,10 @@ function rulesForArtifact(a: ArtifactType): Array<{ name: string; category: stri
     if (seen.has(name)) return;
     seen.add(name);
     const tags: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
-    const cat = (tags.find((t) => t.startsWith('category:')) ?? 'category:other').slice('category:'.length);
-    list.push({ name, category: cat });
+    const exp = tags.find((t) => t.startsWith('experience:'))
+      ?? tags.find((t) => t.startsWith('category:'))
+      ?? 'experience:other';
+    list.push({ name, category: exp.split(':').slice(1).join(':') });
   };
   for (const [name, rule] of Object.entries(COMPILED_RULES)) {
     const t: string[] = Array.isArray((rule as any)?.tags) ? (rule as any).tags : [];

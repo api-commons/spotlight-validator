@@ -21,6 +21,8 @@ const toJs = (n) => Array.isArray(n) ? n.map(toJs)
   : n && typeof n === 'object' ? Object.fromEntries(Object.entries(n).map(([k, v]) =>
       k === 'function' && typeof v === 'string' ? [k, FN[v] ?? v] : [k, toJs(v)])) : n;
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const META = (() => { try { return JSON.parse(readFileSync(join(ROOT, 'tools', 'rule-meta.json'), 'utf8')); } catch { return {}; } })();
+const metaTags = (m) => [...(m?.spec ?? []).map((s) => `spec:${s}`), ...(m?.experience ?? []).map((e) => `experience:${e}`)];
 
 // sev: 0 error, 1 warn, 2 info. Each group: { given, item, props: [[field, sev], …] }
 const PROPERTIES = {
@@ -71,7 +73,9 @@ for (const [id, cfg] of Object.entries(PROPERTIES)) {
   for (const g of cfg.groups) {
     for (const [field, sev] of g.props) {
       const prefix = g.item ? `${id}-${g.item}-` : `${id}-`;
-      let key = prefix + sanitize(field);
+      const curSlug = prefix + sanitize(field);
+      const m = META[`${cfg.format}|${curSlug}`];
+      let key = m?.slug ?? curSlug;
       if (used.has(key)) { let i = 2; while (used.has(`${key}-${i}`)) i++; key = `${key}-${i}`; }
       used.add(key);
       const where = g.given === '$' ? '' : ` of each ${g.item}`;
@@ -81,7 +85,7 @@ for (const [id, cfg] of Object.entries(PROPERTIES)) {
         severity: SEV[sev],
         given: g.given,
         then: { field, function: 'truthy' },
-        tags: [`format:${cfg.format}`, `category:${inferCategory(field)}`],
+        tags: [`format:${cfg.format}`, ...metaTags(m), ...(m ? [] : [`category:${inferCategory(field)}`])],
       };
     }
   }

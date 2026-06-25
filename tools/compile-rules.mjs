@@ -15,6 +15,10 @@ import { parse, stringify } from 'yaml';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = join(ROOT, 'rules', 'sources');
+// Curated names + spec:/experience: tags, keyed by `${format}|${currentSlug}`.
+const META_PATH = join(ROOT, 'tools', 'rule-meta.json');
+const META = existsSync(META_PATH) ? JSON.parse(readFileSync(META_PATH, 'utf8')) : {};
+const metaTags = (m) => [...(m?.spec ?? []).map((s) => `spec:${s}`), ...(m?.experience ?? []).map((e) => `experience:${e}`)];
 const FN_DIR = join(ROOT, 'src', 'functions');
 const require = createRequire(import.meta.url);
 const builtins = require('@spotlight-rules/spotlight-functions');
@@ -162,11 +166,14 @@ function addSource(srcId, format, rulesObj, fileHint, dropFn) {
       stats[srcId].merged++;
       continue;
     }
-    let key = cleanName(origName);
+    const curSlug = cleanName(origName);
+    const m = META[`${format}|${curSlug}`];
+    let key = m?.slug ?? curSlug;
     if (used.has(key)) { let i = 2; while (used.has(`${key}-${i}`)) i++; key = `${key}-${i}`; }
     used.add(key); sigMap.set(sig, key);
-    const category = inferCategory(origName, fileHint);
-    const tags = [...new Set([...(rule.tags || []), `source:${srcId}`, `format:${format}`, `category:${category}`])];
+    // curated spec:/experience: tags from rule-meta (fall back to inferred category)
+    const fallback = m ? [] : [`category:${inferCategory(origName, fileHint)}`];
+    const tags = [...new Set([...(rule.tags || []), `source:${srcId}`, `format:${format}`, ...metaTags(m), ...fallback])];
     compiled[key] = { ...clean, tags, description: verboseDescription(origName, clean) };
     stats[srcId].kept++;
   }
