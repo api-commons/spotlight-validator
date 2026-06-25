@@ -1,0 +1,100 @@
+# Agent Skill default ruleset — mirrors spotlight:skill in spotlight-cli
+# (packages/rulesets/src/skill). Governs SKILL.md agent skills: YAML frontmatter
+# metadata + markdown body structure. Used for the rule catalog; the engine ships
+# in spotlight-cli. Run: spotlight lint SKILL.md --ruleset spotlight:skill
+rules:
+  skill-name:
+    description: A skill must declare a name in its frontmatter — it identifies the skill to agents and tooling.
+    message: A skill must declare a name.
+    given: $.frontmatter
+    severity: error
+    then:
+      field: name
+      function: truthy
+    tags:
+      - format:agent-skill
+      - spec:frontmatter
+      - experience:governance
+      - experience:discoverability
+  skill-name-kebab-case:
+    description: Skill name should be lower kebab-case so it matches the skill directory name and stays portable.
+    message: Skill name should be lower kebab-case.
+    given: $.frontmatter.name
+    severity: warn
+    then:
+      function: pattern
+    tags:
+      - format:agent-skill
+      - spec:frontmatter
+      - experience:naming
+  skill-description:
+    description: A skill must declare a description — it is the primary signal an agent uses to decide when to invoke the skill.
+    message: A skill must declare a description.
+    given: $.frontmatter
+    severity: error
+    then:
+      field: description
+      function: truthy
+    tags:
+      - format:agent-skill
+      - spec:frontmatter
+      - experience:discoverability
+  skill-description-length:
+    description: Skill descriptions should be specific enough to drive good selection — at least 40 characters of meaningful intent.
+    message: Skill description should be at least 40 characters.
+    given: $.frontmatter.description
+    severity: warn
+    then:
+      function: length
+    tags:
+      - format:agent-skill
+      - spec:frontmatter
+      - experience:discoverability
+      - experience:usability
+  skill-license:
+    description: A skill should declare a license so consumers know the terms under which they can reuse and redistribute it.
+    message: A skill should declare a license.
+    given: $.frontmatter
+    severity: warn
+    then:
+      field: license
+      function: truthy
+    tags:
+      - format:agent-skill
+      - spec:frontmatter
+      - experience:governance
+  skill-allowed-tools-array:
+    description: If a skill declares allowed-tools, it must be an array of tool names so its capability surface is explicit and auditable.
+    message: allowed-tools must be an array of tool names.
+    given: $.frontmatter['allowed-tools']
+    severity: warn
+    then:
+      function: schema
+    tags:
+      - format:agent-skill
+      - spec:frontmatter
+      - experience:security
+      - experience:governance
+  skill-has-usage-section:
+    description: A skill body should document how to use it under a Usage section, so both humans and agents can see how it is meant to be invoked.
+    message: Skill body should have a "Usage" section.
+    given: $
+    severity: warn
+    then:
+      function: headingPresent
+    tags:
+      - format:agent-skill
+      - spec:body
+      - experience:documentation
+  skill-body-length:
+    description: Skill bodies should stay focused — very long instruction sets degrade agent performance. Keep the body under ~5000 words.
+    message: Skill body is very long (over ~5000 words).
+    given: $.words
+    severity: info
+    then:
+      function: schema
+    tags:
+      - format:agent-skill
+      - spec:body
+      - experience:usability
+      - experience:reliability

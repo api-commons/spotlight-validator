@@ -21,11 +21,13 @@ const FMT_TO_ARTIFACT = {
   openapi: 'openapi', 'apis-json': 'apis-json', asyncapi: 'asyncapi', arazzo: 'arazzo',
   jsonschema: 'json-schema', 'json-structure': 'json-structure', 'json-ld': 'json-ld',
   plans: 'plans', 'rate-limits': 'rate-limits', finops: 'finops', mcp: 'mcp',
+  'agent-skill': 'agent-skill',
 };
 const ARTIFACT_LABEL = {
   'apis-json': 'APIs.json', openapi: 'OpenAPI', mcp: 'MCP', arazzo: 'Arazzo', asyncapi: 'AsyncAPI',
   'json-schema': 'JSON Schema', 'json-structure': 'JSON Structure', 'json-ld': 'JSON-LD',
   plans: 'Plans', 'rate-limits': 'Rate Limits', finops: 'FinOps',
+  'agent-skill': 'Agent Skill',
 };
 const ACR = { api: 'API', apis: 'APIs', oas: 'OAS', url: 'URL', uri: 'URI', http: 'HTTP', https: 'HTTPS', json: 'JSON', ld: 'LD', id: 'ID', jwt: 'JWT', cors: 'CORS', mcp: 'MCP', sdk: 'SDK' };
 const title = (s) => s.split(/[-/_]/).filter(Boolean).filter((w) => !/^oas[23]$/i.test(w)).map((w) => ACR[w.toLowerCase()] ?? w[0].toUpperCase() + w.slice(1)).join(' ');
@@ -68,7 +70,7 @@ for (const [alias, fmt] of [['oas', 'openapi'], ['asyncapi', 'asyncapi'], ['araz
 }
 
 // order: by artifact (as listed), then by experience then slug
-const ARTIFACT_ORDER = ['openapi', 'apis-json', 'asyncapi', 'arazzo', 'json-schema', 'json-structure', 'json-ld', 'mcp', 'plans', 'rate-limits', 'finops'];
+const ARTIFACT_ORDER = ['openapi', 'apis-json', 'asyncapi', 'arazzo', 'json-schema', 'json-structure', 'json-ld', 'mcp', 'plans', 'rate-limits', 'finops', 'agent-skill'];
 const byArtifact = {};
 for (const r of records) (byArtifact[r.artifact] ??= []).push(r);
 const index = {};
