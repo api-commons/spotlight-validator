@@ -3,6 +3,7 @@ import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
 import { lint, builtinDescriptions, builtinRulesByFormat } from './spotlight';
+import { Markdown } from './markdown';
 import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { ARTIFACTS, DEFAULT_RULESETS, SAMPLES, artifactById, type ArtifactType } from './artifacts';
 import { searchSource, loadHit, enabledSources, type Hit, type SourceId, type Tokens } from './sources';
@@ -288,7 +289,10 @@ function scheduleLint() {
 
 async function runLint() {
   const text = docEditor.getValue();
-  const { diagnostics, error } = await lint(text, activeRulesetDef());
+  // Agent skills are markdown (frontmatter + body) — lint them with the markdown parser.
+  const { diagnostics, error } = current.format === 'agent-skill'
+    ? await lint(text, activeRulesetDef(), 'document', Markdown)
+    : await lint(text, activeRulesetDef());
   const model = docEditor.getModel()!;
   if (error) {
     monaco.editor.setModelMarkers(model, 'spotlight', []);

@@ -6,7 +6,12 @@ import type { RulesetDefinition, IRuleResult } from '@spotlight-rules/spotlight-
 import * as Parsers from '@spotlight-rules/spotlight-parsers';
 import { oas, asyncapi, arazzo } from '@spotlight-rules/spotlight-rulesets';
 import * as fmts from '@spotlight-rules/spotlight-formats';
-import { functions as FN_MAP } from './compiled-ruleset';
+import { functions as compiledFunctions } from './compiled-ruleset';
+import * as skillFunctions from './skill-functions';
+
+// Built-in + first-party + agent-skill custom functions, keyed by the name a
+// data-form ruleset references in `then.function`.
+const FN_MAP: Record<string, unknown> = { ...compiledFunctions, ...skillFunctions };
 
 const BUILTIN_RULESETS: Record<string, unknown> = {
   'spotlight:oas': oas,
@@ -108,11 +113,11 @@ function getEngine(): Spotlight {
   return (engine ??= new Spotlight());
 }
 
-export async function lint(documentText: string, rulesetDef: RulesetDefinition, source = 'document'): Promise<LintResult> {
+export async function lint(documentText: string, rulesetDef: RulesetDefinition, source = 'document', parser: unknown = Parsers.Yaml): Promise<LintResult> {
   try {
     const sp = getEngine();
     sp.setRuleset(buildRuleset(rulesetDef));
-    const doc = new Document(documentText, Parsers.Yaml as any, source);
+    const doc = new Document(documentText, parser as typeof Parsers.Yaml, source);
     const diagnostics = await sp.run(doc);
     return { diagnostics };
   } catch (e) {

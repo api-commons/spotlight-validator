@@ -24,17 +24,18 @@ export const ARTIFACTS: ArtifactType[] = [
   { id: 'plans', label: 'Plans', endpoint: 'plans', format: 'plans' },
   { id: 'rate-limits', label: 'Rate Limits', endpoint: 'rate-limits', format: 'rate-limits' },
   { id: 'finops', label: 'FinOps', endpoint: 'finops', format: 'finops' },
+  { id: 'agent-skill', label: 'Agent Skill', endpoint: 'skills', format: 'agent-skill', searchNote: 'Agent skills (SKILL.md) — search GitHub, or APIs.io as it indexes them.' },
 ];
 
 export const artifactById = (id: string): ArtifactType =>
   ARTIFACTS.find((a) => a.id === id) ?? ARTIFACTS[1];
 
 const defaultFiles = import.meta.glob('../rules/defaults/*.yaml', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
-const sampleFiles = import.meta.glob('../samples/*.yaml', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const sampleFiles = import.meta.glob('../samples/*.{yaml,md}', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 
 function byId(files: Record<string, string>): Record<string, string> {
   const out: Record<string, string> = {};
-  for (const [p, raw] of Object.entries(files)) out[p.split('/').pop()!.replace(/\.ya?ml$/, '')] = raw;
+  for (const [p, raw] of Object.entries(files)) out[p.split('/').pop()!.replace(/\.(ya?ml|md)$/, '')] = raw;
   return out;
 }
 
