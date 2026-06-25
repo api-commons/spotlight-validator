@@ -288,8 +288,8 @@ async function runLint() {
     const desc = descriptionFor(code) || d.message;
     return `<li class="${sev}" data-sl="${d.range.start.line + 1}" data-el="${d.range.end.line + 1}" data-code="${escapeHtml(code)}">
       <span class="sev ${sev}" title="${sev}"></span>
-      <span class="rule-name" title="${escapeHtml(code)}">${escapeHtml(titleCase(code))}</span>
-      <span class="msg" title="${escapeHtml(desc)}">${escapeHtml(d.message)}</span>
+      <span class="rule-name">${escapeHtml(titleCase(code))}</span>
+      <span class="msg">${escapeHtml(d.message)}</span>
       <span class="loc">L${d.range.start.line + 1}</span>
       <button class="edit-btn" title="Edit this rule">✎ edit</button>
     </li>`;
@@ -338,6 +338,9 @@ async function runLint() {
     .querySelectorAll<HTMLLIElement>('li[data-code]')
     .forEach((li) => {
       li.addEventListener('click', () => highlightLines(Number(li.dataset.sl), Number(li.dataset.el)));
+      li.addEventListener('mouseenter', (e) => showLintTip(li.dataset.code!, e));
+      li.addEventListener('mousemove', positionTip);
+      li.addEventListener('mouseleave', hideLintTip);
       li.querySelector<HTMLButtonElement>('.edit-btn')?.addEventListener('click', (e) => {
         e.stopPropagation();
         highlightLines(Number(li.dataset.sl), Number(li.dataset.el));
@@ -348,6 +351,33 @@ async function runLint() {
 
 function escapeHtml(s: string): string {
   return s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+}
+
+// ---- rule-description tooltip (prominent, readable) -------------------------
+const lintTip = document.createElement('div');
+lintTip.className = 'lint-tooltip';
+lintTip.hidden = true;
+document.body.appendChild(lintTip);
+function showLintTip(code: string, e: MouseEvent) {
+  const desc = descriptionFor(code);
+  if (!desc) return;
+  lintTip.innerHTML = `<div class="tt-title">${escapeHtml(titleCase(code))}</div><div class="tt-desc">${escapeHtml(desc)}</div>`;
+  lintTip.hidden = false;
+  positionTip(e);
+}
+function positionTip(e: MouseEvent) {
+  if (lintTip.hidden) return;
+  const r = lintTip.getBoundingClientRect();
+  let left = e.clientX - r.width - 16;
+  if (left < 8) left = e.clientX + 18;
+  let top = e.clientY - 8;
+  if (top + r.height > window.innerHeight - 8) top = window.innerHeight - r.height - 8;
+  if (top < 8) top = 8;
+  lintTip.style.left = `${left}px`;
+  lintTip.style.top = `${top}px`;
+}
+function hideLintTip() {
+  lintTip.hidden = true;
 }
 
 // ---- rule editor modal ------------------------------------------------------

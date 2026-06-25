@@ -202,3 +202,9 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .rule-tname { font-size: 0.82rem; color: #cdd9e5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rule-tname.off { text-decoration: line-through; color: var(--muted); }
 .rule-tcat { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+
+/* ---- prominent rule-description tooltip ---- */
+.lint-tooltip { position: fixed; z-index: 200; max-width: 380px; background: #2a2d2e; border: 1px solid var(--accent); border-radius: 7px; padding: 0.65rem 0.8rem; box-shadow: 0 10px 32px rgba(0,0,0,0.65); pointer-events: none; }
+.lint-tooltip[hidden] { display: none; }
+.lint-tooltip .tt-title { font-weight: 700; color: var(--accent); font-size: 0.88rem; margin-bottom: 0.35rem; }
+.lint-tooltip .tt-desc { font-size: 0.83rem; line-height: 1.5; color: #e4e9ef; }
