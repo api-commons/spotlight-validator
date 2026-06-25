@@ -1,0 +1,1245 @@
+{
+ "operation-success-response": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "error-handling",
+   "reliability",
+   "documentation"
+  ]
+ },
+ "operation-operationId-unique": {
+  "format": "openapi",
+  "spec": [
+   "paths"
+  ],
+  "experience": [
+   "consistency",
+   "naming",
+   "reliability"
+  ]
+ },
+ "operation-parameters": {
+  "format": "openapi",
+  "spec": [
+   "parameters"
+  ],
+  "experience": [
+   "consistency",
+   "reliability"
+  ]
+ },
+ "operation-tag-defined": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "discoverability",
+   "consistency"
+  ]
+ },
+ "path-params": {
+  "format": "openapi",
+  "spec": [
+   "paths"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "contact-properties": {
+  "format": "openapi",
+  "spec": [
+   "info"
+  ],
+  "experience": [
+   "documentation",
+   "discoverability"
+  ]
+ },
+ "duplicated-entry-in-enum": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ]
+ },
+ "info-contact": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation",
+   "discoverability"
+  ]
+ },
+ "info-description": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "info-license": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation",
+   "governance"
+  ]
+ },
+ "license-url": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation",
+   "governance"
+  ]
+ },
+ "no-eval-in-markdown": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "security"
+  ]
+ },
+ "no-script-tags-in-markdown": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "security"
+  ]
+ },
+ "openapi-tags-alphabetical": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "consistency",
+   "discoverability"
+  ]
+ },
+ "openapi-tags-uniqueness": {
+  "format": "openapi",
+  "spec": [
+   "tags"
+  ],
+  "experience": [
+   "consistency",
+   "discoverability"
+  ]
+ },
+ "openapi-tags": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "discoverability",
+   "documentation"
+  ]
+ },
+ "operation-description": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "operation-operationId": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "consistency",
+   "usability"
+  ]
+ },
+ "operation-operationId-valid-in-url": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "naming",
+   "usability"
+  ]
+ },
+ "operation-singular-tag": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "consistency",
+   "discoverability"
+  ]
+ },
+ "operation-tags": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "discoverability",
+   "documentation"
+  ]
+ },
+ "path-declarations-must-exist": {
+  "format": "openapi",
+  "spec": [
+   "paths"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "path-keys-no-trailing-slash": {
+  "format": "openapi",
+  "spec": [
+   "paths"
+  ],
+  "experience": [
+   "consistency",
+   "naming"
+  ]
+ },
+ "path-not-include-query": {
+  "format": "openapi",
+  "spec": [
+   "paths"
+  ],
+  "experience": [
+   "consistency",
+   "naming"
+  ]
+ },
+ "tag-description": {
+  "format": "openapi",
+  "spec": [
+   "tags"
+  ],
+  "experience": [
+   "documentation",
+   "discoverability"
+  ]
+ },
+ "no-$ref-siblings": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "array-items": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "typed-enum": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "data-modeling",
+   "consistency"
+  ]
+ },
+ "oas3-api-servers": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "usability",
+   "reliability",
+   "documentation"
+  ]
+ },
+ "oas3-examples-value-or-externalValue": {
+  "format": "openapi",
+  "spec": [
+   "paths",
+   "parameters",
+   "headers",
+   "media-types",
+   "components",
+   "examples"
+  ],
+  "experience": [
+   "documentation",
+   "consistency"
+  ]
+ },
+ "oas3-operation-security-defined": {
+  "format": "openapi",
+  "spec": [
+   "security"
+  ],
+  "experience": [
+   "security",
+   "reliability"
+  ]
+ },
+ "oas3-parameter-description": {
+  "format": "openapi",
+  "spec": [
+   "parameters",
+   "components"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "oas3-server-not-example.com": {
+  "format": "openapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "reliability",
+   "usability"
+  ]
+ },
+ "oas3-server-trailing-slash": {
+  "format": "openapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "consistency",
+   "reliability"
+  ]
+ },
+ "oas3-valid-media-example": {
+  "format": "openapi",
+  "spec": [
+   "parameters",
+   "headers",
+   "media-types",
+   "schemas",
+   "examples"
+  ],
+  "experience": [
+   "data-modeling",
+   "documentation",
+   "reliability"
+  ]
+ },
+ "oas3-valid-schema-example": {
+  "format": "openapi",
+  "spec": [
+   "parameters",
+   "headers",
+   "media-types",
+   "schemas",
+   "components",
+   "examples"
+  ],
+  "experience": [
+   "data-modeling",
+   "documentation",
+   "reliability"
+  ]
+ },
+ "oas3-schema": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "oas3-unused-component": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ]
+ },
+ "oas3-server-variables": {
+  "format": "openapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "oas3-callbacks-in-callbacks": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "oas3_1-servers-in-webhook": {
+  "format": "openapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "oas3_1-callbacks-in-webhook": {
+  "format": "openapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "asyncapi-channel-no-empty-parameter": {
+  "format": "asyncapi",
+  "spec": [
+   "channels"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "asyncapi-3-channel-no-empty-parameter": {
+  "format": "asyncapi",
+  "spec": [
+   "channels"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "asyncapi-channel-no-query-nor-fragment": {
+  "format": "asyncapi",
+  "spec": [
+   "channels"
+  ],
+  "experience": [
+   "consistency",
+   "naming"
+  ]
+ },
+ "asyncapi-3-channel-no-query-nor-fragment": {
+  "format": "asyncapi",
+  "spec": [
+   "channels"
+  ],
+  "experience": [
+   "consistency",
+   "naming"
+  ]
+ },
+ "asyncapi-channel-no-trailing-slash": {
+  "format": "asyncapi",
+  "spec": [
+   "channels"
+  ],
+  "experience": [
+   "consistency",
+   "naming"
+  ]
+ },
+ "asyncapi-3-channel-no-trailing-slash": {
+  "format": "asyncapi",
+  "spec": [
+   "channels"
+  ],
+  "experience": [
+   "consistency",
+   "naming"
+  ]
+ },
+ "asyncapi-channel-parameters": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "components"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "asyncapi-channel-servers": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "asyncapi-3-channel-servers": {
+  "format": "asyncapi",
+  "spec": [
+   "channels"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "asyncapi-headers-schema-type-object": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "messages",
+   "components"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "asyncapi-3-headers-schema-type-object": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "messages",
+   "components"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "asyncapi-info-contact-properties": {
+  "format": "asyncapi",
+  "spec": [
+   "info"
+  ],
+  "experience": [
+   "documentation",
+   "discoverability"
+  ]
+ },
+ "asyncapi-info-contact": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation",
+   "discoverability"
+  ]
+ },
+ "asyncapi-info-description": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "asyncapi-info-license-url": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation",
+   "governance"
+  ]
+ },
+ "asyncapi-info-license": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation",
+   "governance"
+  ]
+ },
+ "asyncapi-latest-version": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "versioning",
+   "consistency"
+  ]
+ },
+ "asyncapi-message-examples": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "messages",
+   "components"
+  ],
+  "experience": [
+   "data-modeling",
+   "documentation",
+   "reliability"
+  ]
+ },
+ "asyncapi-message-messageId-uniqueness": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "consistency",
+   "naming",
+   "reliability"
+  ]
+ },
+ "asyncapi-operation-description": {
+  "format": "asyncapi",
+  "spec": [
+   "channels"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "asyncapi-3-operation-description": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "asyncapi-operation-operationId-uniqueness": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "consistency",
+   "naming",
+   "reliability"
+  ]
+ },
+ "asyncapi-operation-operationId": {
+  "format": "asyncapi",
+  "spec": [
+   "channels"
+  ],
+  "experience": [
+   "consistency",
+   "usability"
+  ]
+ },
+ "asyncapi-operation-security": {
+  "format": "asyncapi",
+  "spec": [
+   "channels"
+  ],
+  "experience": [
+   "security",
+   "reliability"
+  ]
+ },
+ "asyncapi-3-operation-security": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "security",
+   "reliability"
+  ]
+ },
+ "asyncapi-parameter-description": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "components"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "asyncapi-payload-default": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "messages",
+   "components",
+   "schemas"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "asyncapi-payload-examples": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "messages",
+   "components",
+   "schemas"
+  ],
+  "experience": [
+   "data-modeling",
+   "documentation",
+   "reliability"
+  ]
+ },
+ "asyncapi-payload-unsupported-schemaFormat": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "messages",
+   "components"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "asyncapi-3-payload-unsupported-schemaFormat": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "messages",
+   "components"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "asyncapi-payload": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "messages",
+   "components",
+   "schemas"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "asyncapi-schema-default": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "components",
+   "schemas"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "asyncapi-schema-examples": {
+  "format": "asyncapi",
+  "spec": [
+   "channels",
+   "components",
+   "schemas"
+  ],
+  "experience": [
+   "data-modeling",
+   "documentation",
+   "reliability"
+  ]
+ },
+ "asyncapi-schema": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "asyncapi-server-variables": {
+  "format": "asyncapi",
+  "spec": [
+   "servers",
+   "components"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "asyncapi-server-no-empty-variable": {
+  "format": "asyncapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "asyncapi-3-server-no-empty-variable": {
+  "format": "asyncapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "asyncapi-server-no-trailing-slash": {
+  "format": "asyncapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "consistency",
+   "reliability"
+  ]
+ },
+ "asyncapi-3-server-no-trailing-slash": {
+  "format": "asyncapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "consistency",
+   "reliability"
+  ]
+ },
+ "asyncapi-server-not-example-com": {
+  "format": "asyncapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "reliability",
+   "usability"
+  ]
+ },
+ "asyncapi-3-server-not-example-com": {
+  "format": "asyncapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "reliability",
+   "usability"
+  ]
+ },
+ "asyncapi-server-security": {
+  "format": "asyncapi",
+  "spec": [
+   "servers"
+  ],
+  "experience": [
+   "security",
+   "reliability"
+  ]
+ },
+ "asyncapi-servers": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "usability",
+   "reliability",
+   "documentation"
+  ]
+ },
+ "asyncapi-tag-description": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation",
+   "discoverability"
+  ]
+ },
+ "asyncapi-3-tag-description": {
+  "format": "asyncapi",
+  "spec": [
+   "info"
+  ],
+  "experience": [
+   "documentation",
+   "discoverability"
+  ]
+ },
+ "asyncapi-tags-alphabetical": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "consistency",
+   "discoverability"
+  ]
+ },
+ "asyncapi-3-tags-alphabetical": {
+  "format": "asyncapi",
+  "spec": [
+   "info"
+  ],
+  "experience": [
+   "consistency",
+   "discoverability"
+  ]
+ },
+ "asyncapi-tags-uniqueness": {
+  "format": "asyncapi",
+  "spec": [
+   "servers",
+   "channels",
+   "messages",
+   "components"
+  ],
+  "experience": [
+   "consistency",
+   "discoverability"
+  ]
+ },
+ "asyncapi-3-tags-uniqueness": {
+  "format": "asyncapi",
+  "spec": [
+   "info",
+   "servers",
+   "channels",
+   "messages",
+   "components"
+  ],
+  "experience": [
+   "consistency",
+   "discoverability"
+  ]
+ },
+ "asyncapi-tags": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "discoverability",
+   "documentation"
+  ]
+ },
+ "asyncapi-3-tags": {
+  "format": "asyncapi",
+  "spec": [
+   "info"
+  ],
+  "experience": [
+   "discoverability",
+   "documentation"
+  ]
+ },
+ "asyncapi-unused-components-schema": {
+  "format": "asyncapi",
+  "spec": [
+   "components",
+   "schemas"
+  ],
+  "experience": [
+   "consistency",
+   "data-modeling"
+  ]
+ },
+ "asyncapi-unused-components-server": {
+  "format": "asyncapi",
+  "spec": [
+   "servers",
+   "components"
+  ],
+  "experience": [
+   "consistency",
+   "reliability"
+  ]
+ },
+ "asyncapi-3-document-resolved": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "asyncapi-3-document-unresolved": {
+  "format": "asyncapi",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "arazzo-document-schema": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability"
+  ]
+ },
+ "arazzo-workflowId-unique": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "consistency",
+   "naming",
+   "reliability"
+  ]
+ },
+ "arazzo-workflow-output-validation": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability",
+   "consistency"
+  ]
+ },
+ "arazzo-workflow-stepId-unique": {
+  "format": "arazzo",
+  "spec": [
+   "workflows"
+  ],
+  "experience": [
+   "consistency",
+   "naming",
+   "reliability"
+  ]
+ },
+ "arazzo-step-output-validation": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "data-modeling",
+   "reliability",
+   "consistency"
+  ]
+ },
+ "arazzo-step-parameters-validation": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "reliability",
+   "data-modeling"
+  ]
+ },
+ "arazzo-step-failure-actions-validation": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "error-handling",
+   "reliability"
+  ]
+ },
+ "arazzo-step-success-actions-validation": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "arazzo-workflow-depends-on-validation": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "arazzo-step-success-criteria-validation": {
+  "format": "arazzo",
+  "spec": [
+   "workflows"
+  ],
+  "experience": [
+   "reliability",
+   "error-handling"
+  ]
+ },
+ "arazzo-step-request-body-validation": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "reliability",
+   "data-modeling"
+  ]
+ },
+ "arazzo-step-validation": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "arazzo-no-script-tags-in-markdown": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "security"
+  ]
+ },
+ "arazzo-info-description": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "arazzo-info-summary": {
+  "format": "arazzo",
+  "spec": [
+   "document"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "arazzo-source-descriptions-type": {
+  "format": "arazzo",
+  "spec": [
+   "source-descriptions"
+  ],
+  "experience": [
+   "reliability",
+   "consistency"
+  ]
+ },
+ "arazzo-workflow-workflowId": {
+  "format": "arazzo",
+  "spec": [
+   "workflows"
+  ],
+  "experience": [
+   "naming",
+   "consistency"
+  ]
+ },
+ "arazzo-workflow-description": {
+  "format": "arazzo",
+  "spec": [
+   "workflows"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "arazzo-workflow-summary": {
+  "format": "arazzo",
+  "spec": [
+   "workflows"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "arazzo-step-description": {
+  "format": "arazzo",
+  "spec": [
+   "workflows",
+   "steps"
+  ],
+  "experience": [
+   "documentation"
+  ]
+ },
+ "arazzo-step-stepId": {
+  "format": "arazzo",
+  "spec": [
+   "workflows",
+   "steps"
+  ],
+  "experience": [
+   "naming",
+   "consistency"
+  ]
+ },
+ "arazzo-step-operationPath": {
+  "format": "arazzo",
+  "spec": [
+   "workflows",
+   "steps"
+  ],
+  "experience": [
+   "consistency",
+   "usability"
+  ]
+ }
+}

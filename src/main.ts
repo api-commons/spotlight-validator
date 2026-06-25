@@ -7,7 +7,11 @@ import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { ARTIFACTS, DEFAULT_RULESETS, SAMPLES, artifactById, type ArtifactType } from './artifacts';
 import { searchArtifacts, loadArtifactContent, type SearchHit } from './apisio';
 import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, loadRules, upsertRule, removeRule, getRule, clearAll, loadConfig, saveConfig, type SavedDoc, type Config } from './storage';
+import builtinMetaRaw from './builtin-meta.json';
 import './style.css';
+
+// Curated experience/spec tags for the upstream spotlight:* built-in rules.
+const BUILTIN_META = builtinMetaRaw as Record<string, { format: string; spec: string[]; experience: string[] }>;
 
 self.MonacoEnvironment = {
   getWorker(_id, label) {
@@ -115,6 +119,7 @@ function categoryOf(code: string): string {
   const tags: string[] = Array.isArray(r?.tags) ? r.tags : [];
   const exp = tags.find((t) => t.startsWith('experience:'));
   if (exp) return exp.slice('experience:'.length);
+  if (BUILTIN_META[code]?.experience?.[0]) return BUILTIN_META[code].experience[0];
   const cat = tags.find((t) => t.startsWith('category:'));
   return cat ? cat.slice('category:'.length) : 'other';
 }
@@ -585,10 +590,9 @@ function rulesForArtifact(a: ArtifactType): Array<{ name: string; category: stri
     if (seen.has(name)) return;
     seen.add(name);
     const tags: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
-    const exp = tags.find((t) => t.startsWith('experience:'))
-      ?? tags.find((t) => t.startsWith('category:'))
-      ?? 'experience:other';
-    list.push({ name, category: exp.split(':').slice(1).join(':') });
+    let exp = tags.find((t) => t.startsWith('experience:')) ?? tags.find((t) => t.startsWith('category:'));
+    if (!exp && BUILTIN_META[name]?.experience?.[0]) exp = `experience:${BUILTIN_META[name].experience[0]}`;
+    list.push({ name, category: (exp ?? 'experience:other').split(':').slice(1).join(':') });
   };
   for (const [name, rule] of Object.entries(COMPILED_RULES)) {
     const t: string[] = Array.isArray((rule as any)?.tags) ? (rule as any).tags : [];
