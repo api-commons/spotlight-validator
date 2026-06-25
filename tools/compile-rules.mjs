@@ -75,10 +75,12 @@ function resolveFunctions(then, srcId, used) {
   return true;
 }
 
-// strip source-identifying tokens from a rule name (sources bake their name in)
+// strip source-identifying tokens (sources bake their name in) and OAS version
+// tokens (oas2/oas3 — we don't support Swagger and don't want oas3 in names).
 const SOURCE_TOKENS = new Set(['adidas', 'baloise', 'sps', 'tas', 'trimble', 'microcks', 'paystack', 'schwarz', 'italia', 'teamdigitale', 'digitalocean', 'spscommerce']);
+const STRIP_TOKENS = new Set([...SOURCE_TOKENS, 'oas2', 'oas3']);
 function cleanName(name) {
-  const parts = name.split('-').filter((p) => !SOURCE_TOKENS.has(p.toLowerCase()));
+  const parts = name.split('-').filter((p) => !STRIP_TOKENS.has(p.toLowerCase()));
   const r = parts.join('-').replace(/^-+|-+$/g, '').replace(/-{2,}/g, '-');
   return r || name;
 }
@@ -141,8 +143,16 @@ function addSource(srcId, format, rulesObj, fileHint, dropFn) {
     if (rule === false || rule === 'off') continue;
     if (typeof rule !== 'object' || rule === null) continue;
     if (dropFn && dropFn(origName)) { stats[srcId].dropped++; continue; }
+    // We don't support Swagger / OpenAPI 2.0: drop oas2-named rules and strip
+    // oas2 from formats; if a rule was oas2-only, drop it.
+    if (/^oas2[-_]/i.test(origName)) { stats[srcId].dropped++; continue; }
     const clean = {};
     for (const [k, v] of Object.entries(rule)) if (VALID.has(k) || k.startsWith('x-')) clean[k] = structuredClone(v);
+    if (Array.isArray(clean.formats)) {
+      const had = clean.formats.length;
+      clean.formats = clean.formats.filter((f) => !/^oas2(\.0)?$|^swagger/i.test(String(f)));
+      if (had > 0 && clean.formats.length === 0) { stats[srcId].dropped++; continue; }
+    }
     if (clean.then !== undefined && !resolveFunctions(clean.then, srcId, usedCustom)) { stats[srcId].skipped++; continue; }
 
     const sig = JSON.stringify([clean.given, clean.then]);

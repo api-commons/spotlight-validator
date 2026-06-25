@@ -56,6 +56,7 @@ const ACRONYMS: Record<string, string> = {
 };
 function titleCase(code: string): string {
   return code.split(/[-/_]/).filter(Boolean)
+    .filter((w) => !/^oas[23]$/i.test(w)) // scrub OAS2/OAS3 version tokens from display
     .map((w) => ACRONYMS[w.toLowerCase()] ?? w.charAt(0).toUpperCase() + w.slice(1))
     .join(' ');
 }
@@ -130,6 +131,10 @@ function activeRulesetDef(): any {
   // per-type default starter rules
   for (const [name, rule] of Object.entries(defaultRules())) {
     rules[name] = rule;
+  }
+  // we don't support Swagger / OpenAPI 2.0 — turn off any built-in oas2 rules
+  for (const name of builtinRulesByFormat[current.format] ?? []) {
+    if (/^oas2[-_]/i.test(name)) rules[name] = 'off';
   }
   // saved rule overrides for this format take priority over the originals
   const isInline = (name: string) => name in COMPILED_RULES || name in defaultRules();
@@ -555,7 +560,10 @@ function rulesForArtifact(a: ArtifactType): Array<{ name: string; category: stri
     if (t.includes(`format:${a.format}`) && !t.includes('duplicate:true')) add(name, rule);
   }
   for (const [name, rule] of Object.entries(DEFAULT_RULESETS[a.id]?.rules ?? {})) add(name, rule);
-  for (const name of builtinRulesByFormat[a.format] ?? []) add(name, null);
+  for (const name of builtinRulesByFormat[a.format] ?? []) {
+    if (/^oas2[-_]/i.test(name)) continue; // no Swagger support
+    add(name, null);
+  }
   return list.sort((x, y) => x.name.localeCompare(y.name));
 }
 function renderRuleset() {
