@@ -29,6 +29,13 @@ export const builtinDescriptions: Record<string, string> = {
   ...collectDescriptions(arazzo),
 };
 
+// Rule names contributed by each built-in (extended) ruleset, keyed by format.
+export const builtinRulesByFormat: Record<string, string[]> = {
+  openapi: Object.keys((oas as any)?.rules ?? {}),
+  asyncapi: Object.keys((asyncapi as any)?.rules ?? {}),
+  arazzo: Object.keys((arazzo as any)?.rules ?? {}),
+};
+
 // Normalize ruleset format strings to the format-function export names.
 const FORMAT_ALIASES: Record<string, string> = {
   'oas3.0': 'oas3_0', 'oas3.1': 'oas3_1', oas31: 'oas3_1', oas30: 'oas3_0',

@@ -45,6 +45,7 @@
       <section class="pane">
         <div class="tabs" role="tablist">
           <button class="tab active" data-tab="results" type="button">Results</button>
+          <button class="tab" data-tab="ruleset" type="button">Rules</button>
           <button class="tab" data-tab="saved" type="button">Saved Artifacts <span class="badge" id="saved-count">0</span></button>
           <button class="tab" data-tab="rules" type="button">Saved Rules <span class="badge" id="rules-count">0</span></button>
           <button class="tab" data-tab="config" type="button">Config</button>
@@ -57,6 +58,14 @@
             <span class="hint-text">click a result to edit its rule</span>
           </div>
           <div id="results"></div>
+        </div>
+
+        <div class="tab-panel" id="tab-ruleset" hidden>
+          <p class="saved-notice">
+            Enable or disable any rule — disabled rules are skipped whenever you lint that artifact
+            type (stored in this browser). Grouped by artifact.
+          </p>
+          <div id="ruleset-list"></div>
         </div>
 
         <div class="tab-panel" id="tab-saved" hidden>

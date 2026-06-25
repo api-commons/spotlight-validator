@@ -2,7 +2,7 @@ import * as monaco from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
-import { lint, builtinDescriptions } from './spotlight';
+import { lint, builtinDescriptions, builtinRulesByFormat } from './spotlight';
 import { ruleset as compiledRuleset } from './compiled-ruleset';
 import { ARTIFACTS, DEFAULT_RULESETS, SAMPLES, artifactById, type ArtifactType } from './artifacts';
 import { searchArtifacts, loadArtifactContent, type SearchHit } from './apisio';
@@ -527,10 +527,83 @@ function removeSaved(id: string) {
 function switchTab(name: string) {
   document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
   ($('#tab-results') as HTMLElement).hidden = name !== 'results';
+  ($('#tab-ruleset') as HTMLElement).hidden = name !== 'ruleset';
   ($('#tab-saved') as HTMLElement).hidden = name !== 'saved';
   ($('#tab-rules') as HTMLElement).hidden = name !== 'rules';
   ($('#tab-config') as HTMLElement).hidden = name !== 'config';
+  if (name === 'ruleset') renderRuleset();
 }
+
+// ---- Rules tab: every rule grouped by artifact, with enable/disable ----------
+const expandedArtifacts = new Set<string>();
+function isDisabled(name: string, format: string): boolean {
+  const r = getRule(name, format);
+  return !!r && (r.def === 'off' || r.def === false);
+}
+function rulesForArtifact(a: ArtifactType): Array<{ name: string; category: string }> {
+  const list: Array<{ name: string; category: string }> = [];
+  const seen = new Set<string>();
+  const add = (name: string, rule: any) => {
+    if (seen.has(name)) return;
+    seen.add(name);
+    const tags: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
+    const cat = (tags.find((t) => t.startsWith('category:')) ?? 'category:other').slice('category:'.length);
+    list.push({ name, category: cat });
+  };
+  for (const [name, rule] of Object.entries(COMPILED_RULES)) {
+    const t: string[] = Array.isArray((rule as any)?.tags) ? (rule as any).tags : [];
+    if (t.includes(`format:${a.format}`) && !t.includes('duplicate:true')) add(name, rule);
+  }
+  for (const [name, rule] of Object.entries(DEFAULT_RULESETS[a.id]?.rules ?? {})) add(name, rule);
+  for (const name of builtinRulesByFormat[a.format] ?? []) add(name, null);
+  return list.sort((x, y) => x.name.localeCompare(y.name));
+}
+function renderRuleset() {
+  $('#ruleset-list').innerHTML = ARTIFACTS.map((a) => {
+    const rules = rulesForArtifact(a);
+    if (!rules.length) return '';
+    const off = rules.filter((r) => isDisabled(r.name, a.format)).length;
+    const open = expandedArtifacts.has(a.id) ? ' open' : '';
+    const rows = rules
+      .map((r) => {
+        const dis = isDisabled(r.name, a.format);
+        return `<li>
+          <label class="rule-toggle">
+            <input type="checkbox" data-name="${escapeHtml(r.name)}" data-format="${escapeHtml(a.format)}"${dis ? '' : ' checked'}>
+            <span class="rule-tname${dis ? ' off' : ''}" title="${escapeHtml(r.name)}">${escapeHtml(titleCase(r.name))}</span>
+          </label>
+          <span class="rule-tcat">${escapeHtml(r.category)}</span>
+        </li>`;
+      })
+      .join('');
+    return `<details class="rule-group"${open} data-art="${a.id}">
+      <summary><span class="group-name">${escapeHtml(a.label)}</span><span class="group-count">${rules.length} rules${off ? ` · ${off} off` : ''}</span></summary>
+      <ul class="ruleset-rules">${rows}</ul>
+    </details>`;
+  }).join('');
+}
+// delegated handlers (attached once)
+$('#ruleset-list').addEventListener('change', (e) => {
+  const cb = e.target as HTMLInputElement;
+  if (!(cb instanceof HTMLInputElement) || cb.type !== 'checkbox') return;
+  const name = cb.dataset.name!;
+  const fmt = cb.dataset.format!;
+  if (cb.checked) {
+    if (isDisabled(name, fmt)) removeRule(name, fmt); // re-enable = drop the 'off' override
+  } else {
+    upsertRule(name, fmt, 'off'); // disable
+  }
+  cb.closest('li')?.querySelector('.rule-tname')?.classList.toggle('off', !cb.checked);
+  renderSavedRules();
+  runLint();
+});
+// `toggle` doesn't bubble — listen in the capture phase to track expand state
+$('#ruleset-list').addEventListener('toggle', (e) => {
+  const d = e.target as HTMLDetailsElement;
+  if (!(d instanceof HTMLDetailsElement) || !d.dataset.art) return;
+  if (d.open) expandedArtifacts.add(d.dataset.art);
+  else expandedArtifacts.delete(d.dataset.art);
+}, true);
 
 // ---- configuration (API keys / tokens) --------------------------------------
 const CFG_FIELDS: Array<[string, keyof Config]> = [

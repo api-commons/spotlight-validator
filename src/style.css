@@ -192,3 +192,13 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .config-field input { background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 5px; padding: 7px 9px; font-size: 0.85rem; font-family: "SF Mono", Menlo, Consolas, monospace; }
 .config-field input:focus { outline: none; border-color: var(--accent); }
 .config-show { display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 0.75rem; font-size: 0.8rem; color: var(--muted); cursor: pointer; }
+
+/* ---- Rules tab: all rules grouped by artifact, enable/disable ---- */
+#ruleset-list { flex: 1; min-height: 0; overflow-y: auto; }
+.ruleset-rules { list-style: none; margin: 0; padding: 0; }
+.ruleset-rules li { display: flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0.75rem 0.3rem 1.5rem; border-bottom: 1px solid #2a2a2a; }
+.rule-toggle { display: flex; align-items: center; gap: 0.5rem; flex: 1; min-width: 0; cursor: pointer; margin: 0; }
+.rule-toggle input { cursor: pointer; flex: 0 0 auto; accent-color: var(--accent); }
+.rule-tname { font-size: 0.82rem; color: #cdd9e5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rule-tname.off { text-decoration: line-through; color: var(--muted); }
+.rule-tcat { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
