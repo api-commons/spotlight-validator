@@ -24,7 +24,8 @@ export interface Hit { source: SourceId; name: string; repo?: string; path?: str
 const GH_QUALIFIER: Record<string, string> = {
   'apis-json': 'filename:apis.json', openapi: 'openapi extension:yaml', asyncapi: 'asyncapi extension:yaml',
   arazzo: 'arazzo extension:yaml', 'json-schema': '"$schema" extension:json', 'json-structure': '"$schema" extension:json',
-  'json-ld': '"@context"', plans: 'plans extension:yaml', 'rate-limits': 'rate-limits extension:yaml',
+  'json-ld': '"@context"',
+  'agent-skill': 'filename:SKILL.md', plans: 'plans extension:yaml', 'rate-limits': 'rate-limits extension:yaml',
   finops: 'finops extension:yaml', mcp: 'mcp extension:json',
 };
 const b64decode = (s: string) => decodeURIComponent(escape(atob(s.replace(/\s/g, ''))));
