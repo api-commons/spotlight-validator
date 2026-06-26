@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spotlight-rules.com/schema/agent-skill.schema.json",
+  "title": "Agent Skill (SKILL.md frontmatter)",
+  "description": "The YAML frontmatter of an agent skill (Anthropic Agent Skills \"SKILL.md\"). The markdown body follows the frontmatter and is governed by spotlight:skill.",
+  "type": "object",
+  "required": [
+    "name",
+    "description"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "description": "Lower kebab-case; matches the skill directory name."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 1024,
+      "description": "What the skill does and when to use it — drives agent selection."
+    },
+    "license": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+][0-9A-Za-z.-]+)?$",
+      "description": "Semantic version, e.g. 1.0.0."
+    },
+    "allowed-tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tool names the skill may use."
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

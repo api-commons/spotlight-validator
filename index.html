@@ -49,7 +49,19 @@
           <button class="tab" data-tab="ruleset" type="button">Rules</button>
           <button class="tab" data-tab="saved" type="button">Saved Artifacts <span class="badge" id="saved-count">0</span></button>
           <button class="tab" data-tab="rules" type="button">Saved Rules <span class="badge" id="rules-count">0</span></button>
+          <button class="tab" data-tab="repos" type="button">Repos <span class="badge" id="repos-count">0</span></button>
           <button class="tab" data-tab="config" type="button">Config</button>
+        </div>
+
+        <div class="tag-filter" id="tag-filter" hidden>
+          <details id="filter-details">
+            <summary>
+              <span class="filter-summary-label">Filter by tag</span>
+              <span class="filter-active" id="filter-active"></span>
+            </summary>
+            <div class="filter-facets" id="filter-facets"></div>
+          </details>
+          <button class="filter-clear" id="filter-clear" type="button" hidden>clear</button>
         </div>
 
         <div class="tab-panel" id="tab-results">
@@ -57,6 +69,9 @@
             <span id="active-count">0</span> rules active ·
             <span id="result-count">—</span> ·
             <span class="hint-text">click a result to edit its rule</span>
+            <span id="fix-controls" hidden> · <span class="hint-text">AI fix with</span>
+              <select id="fix-provider" class="fix-provider" title="Model used for AI fixes"></select>
+              <label class="fix-precise-label" title="Send only the flagged node to the model and splice the fix back, instead of the whole document"><input type="checkbox" id="fix-precise" checked> precise</label></span>
           </div>
           <div id="results"></div>
         </div>
@@ -85,6 +100,18 @@
           <ul id="saved-rules-list" class="store-list"></ul>
         </div>
 
+        <div class="tab-panel" id="tab-repos" hidden>
+          <p class="saved-notice">
+            Add the GitHub repos you work with — stored in this browser and offered wherever you commit or
+            open a PR (saving artifacts &amp; rulesets to Git is coming soon). Needs a GitHub token (Config).
+          </p>
+          <div class="repos-add">
+            <select id="repo-picker" aria-label="Accessible repositories"></select>
+            <button id="repo-refresh" type="button" title="Reload your repos from GitHub">↻</button>
+            <button id="repo-add" class="save-btn" type="button">Add</button>
+          </div>
+          <ul id="repos-list" class="store-list"></ul>
+        </div>
         <div class="tab-panel" id="tab-config" hidden>
           <p class="saved-notice">
             Stored <strong>only in this browser's local storage</strong> (cleared by Reset or clearing your cache).

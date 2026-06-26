@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spotlight-rules.com/schema/json-ld.schema.json",
+  "title": "JSON-LD Document",
+  "description": "A JSON-LD document. JSON-LD is intentionally open; a valid document carries an @context, and typically @type and @id.",
+  "type": "object",
+  "required": [
+    "@context"
+  ],
+  "properties": {
+    "@context": {
+      "type": [
+        "string",
+        "object",
+        "array"
+      ],
+      "description": "The JSON-LD context (URL, inline object, or array)."
+    },
+    "@type": {
+      "type": [
+        "string",
+        "array"
+      ]
+    },
+    "@id": {
+      "type": "string",
+      "format": "uri-reference"
+    }
+  },
+  "additionalProperties": true
+}

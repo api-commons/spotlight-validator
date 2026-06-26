@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spotlight-rules.com/schema/rate-limits.schema.json",
+  "title": "API Rate Limits",
+  "description": "API Evangelist Rate Limits artifact — the rate limits applied to an API.",
+  "type": "object",
+  "required": [
+    "name",
+    "limits"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "window": {
+            "type": "string",
+            "description": "Time window, e.g. \"60s\", \"1h\"."
+          },
+          "max": {
+            "type": [
+              "integer",
+              "number"
+            ],
+            "description": "Max requests allowed in the window."
+          },
+          "scope": {
+            "type": "string",
+            "description": "What the limit applies to (e.g. ip, key, user)."
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

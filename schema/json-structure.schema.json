@@ -1,0 +1,490 @@
+{
+    "$schema": "https://json-structure.org/meta/core/v0/#",
+    "$id": "https://json-structure.org/meta/core/v0/#",
+    "name": "JSONStructure",
+    "$root": "#/definitions/SchemaDocument",
+    "definitions": {
+        "NoType": {
+            "type": "object",
+            "description": "Description and examples as base for all types",
+            "abstract": true,
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "description": "A description of the type"
+                },
+                "examples": {
+                    "type": "array",
+                    "items": {
+                        "type": "map",
+                        "values": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Examples of the type"
+                }
+            }
+        },
+        "OptionalPrimitiveType": {
+            "type": "object",
+            "abstract": true,
+            "description": "Base for all primitive types",
+            "$extends": "#/definitions/NoType",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "string",
+                        "number",
+                        "integer",
+                        "boolean",
+                        "null",
+                        "binary",
+                        "int32",
+                        "uint32",
+                        "int64",
+                        "uint64",
+                        "int128",
+                        "uint128",
+                        "float",
+                        "double",
+                        "decimal",
+                        "date",
+                        "datetime",
+                        "time",
+                        "duration",
+                        "uuid",
+                        "uri",
+                        "jsonpointer"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "OptionalType": {
+            "type": "object",
+            "$extends": "#/definitions/NoType",
+            "abstract": true,
+            "description": "Base for all types",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "string",
+                        "number",
+                        "integer",
+                        "boolean",
+                        "null",
+                        "binary",
+                        "int32",
+                        "uint32",
+                        "int64",
+                        "uint64",
+                        "int128",
+                        "uint128",
+                        "float",
+                        "double",
+                        "decimal",
+                        "date",
+                        "datetime",
+                        "time",
+                        "duration",
+                        "uuid",
+                        "uri",
+                        "jsonpointer",
+                        "object",
+                        "array",
+                        "map",
+                        "set",
+                        "tuple",
+                        "choice"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "PrimitiveType": {
+            "type": "object",
+            "$extends": "#/definitions/OptionalPrimitiveType",
+            "description": "Base for all schemas where a primitive type is required",
+            "required": [
+                "type"
+            ]
+        },
+        "CompoundType": {
+            "type": "choice",
+            "description": "A discriminated union of all compound types",
+            "$extends": "#/definitions/OptionalType",
+            "selector": "type",
+            "choices": {
+                "object": { "type": { "$ref": "#/definitions/ObjectType" } },
+                "array": { "type": { "$ref": "#/definitions/ArrayType" } },
+                "map": { "type": { "$ref": "#/definitions/MapType" } },
+                "set": { "type": { "$ref": "#/definitions/SetType" } },
+                "tuple": { "type": { "$ref": "#/definitions/TupleType" } },
+                "choice": { "type": { "$ref": "#/definitions/ChoiceType" } }
+            }
+        },
+        "Type": {
+            "type": [
+                {
+                    "$ref": "#/definitions/PrimitiveType"
+                },
+                {
+                    "$ref": "#/definitions/CompoundType"
+                },
+                {
+                    "$ref": "#/definitions/TypeReference"
+                }
+            ],
+            "description": "A type that can be a primitive type, a compound type, or a reference to a type definition"            
+        },
+        "TypeReference": {
+            "type": "object",
+            "description": "A reference to an existing type definition",
+            "properties": {
+                "$ref": {
+                    "type": "jsonpointer",
+                    "description": "A JSON Pointer to an existing type definition within the same schema document"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A description of the reference"
+                }
+            }
+        },
+        "TypeReferenceArray": {
+            "type": "array",
+            "description": "An array of references to existing type definitions for multiple inheritance",
+            "items": {
+                "type": { "$ref": "#/definitions/TypeReference" }
+            }
+        },
+        "PrimitiveOrReference": {
+            "type": [
+                {
+                    "$ref": "#/definitions/TypeReference"
+                },
+                {
+                    "$ref": "#/definitions/PrimitiveType"
+                },
+                {
+                    "$ref": "#/definitions/TypeUnion"
+                }
+            ],
+            "description": "A primitive type or a reference to a type definition"
+        },
+        "ObjectType": {
+            "type": "object",
+            "$extends": "#/definitions/OptionalType",
+            "description": "A schema for an object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "object"
+                    ],
+                    "description": "The type of the schema. Must be 'object'"
+                },
+                "abstract": {
+                    "type": "boolean",
+                    "description": "Whether this object is abstract and cannot be instantiated"
+                },
+                "$extends": {
+                    "type": [
+                        { "$ref": "#/definitions/TypeReference" },
+                        { "$ref": "#/definitions/TypeReferenceArray" }
+                    ],
+                    "description": "The type or types that this object extends. Must be a reference to an abstract object schema"
+                },
+                "properties": {
+                    "type": "map",
+                    "values": {
+                        "type": {
+                            "$ref": "#/definitions/Property"
+                        }
+                    },
+                    "description": "The properties of the object"
+                },
+                "required": {
+                    "type": [
+                        {
+                            "$ref": "#/definitions/PropertyNameArray"
+                        },
+                        {
+                            "$ref": "#/definitions/ArrayOfPropertyNameArray"
+                        }
+                    ],
+                    "description": "The required properties of the object"
+                },
+                "additionalProperties": {
+                    "type": [
+                        "boolean",
+                        {
+                            "$ref": "#/definitions/TypeReference"
+                        }
+                    ],
+                    "description": "Whether additional properties are allowed, and if so, what their schema is"
+                }
+            },
+            "required": [
+                "type",
+                "properties"
+            ]
+        },
+        "ArrayType": {
+            "type": "object",
+            "$extends": "#/definitions/OptionalType",
+            "description": "A schema for an array",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "array"
+                    ],
+                    "description": "The type of the schema. Must be 'array'"
+                },
+                "items": {
+                    "type": {
+                        "$ref": "#/definitions/PrimitiveOrReference"
+                    },
+                    "description": "The schema for the items in the array"
+                }
+            },
+            "required": [
+                "type",
+                "items"
+            ]
+        },
+        "MapType": {
+            "type": "object",
+            "$extends": "#/definitions/OptionalType",
+            "description": "A schema for a map",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "map"
+                    ],
+                    "description": "The type of the schema. Must be 'map'"
+                },
+                "values": {
+                    "type": {
+                        "$ref": "#/definitions/PrimitiveOrReference"
+                    },
+                    "description": "The schema for the values in the map"
+                }
+            },
+            "required": [
+                "type",
+                "values"
+            ]
+        },
+        "SetType": {
+            "type": "object",
+            "$extends": "#/definitions/OptionalType",
+            "description": "A schema for a set",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "set"
+                    ],
+                    "description": "The type of the schema. Must be 'set'"
+                },
+                "items": {
+                    "type": {
+                        "$ref": "#/definitions/PrimitiveOrReference"
+                    },
+                    "description": "The schema for the items in the set"
+                }
+            },
+            "required": [
+                "type",
+                "items"
+            ]
+        },
+        "TupleType": {
+            "type": "object",
+            "$extends": "#/definitions/OptionalType",
+            "description": "A schema for a tuple",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "tuple"
+                    ],
+                    "description": "The type of the schema. Must be 'tuple'"
+                },
+                "abstract": {
+                    "type": "boolean",
+                    "description": "Whether this object is abstract and cannot be instantiated"
+                },
+                "$extends": {
+                    "type": [
+                        { "$ref": "#/definitions/TypeReference" },
+                        { "$ref": "#/definitions/TypeReferenceArray" }
+                    ],
+                    "description": "The type or types that this object extends. Must be a reference to an abstract object schema"
+                },
+                "properties": {
+                    "type": "map",
+                    "values": {
+                        "type": {
+                            "$ref": "#/definitions/Property"
+                        }
+                    },
+                    "description": "The properties of the object"
+                },
+                "tuple": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "The names of the properties in the tuple in the order they must be serialized into the target array"
+                }
+            },
+            "required": [
+                "type",
+                "properties",
+                "tuple"
+            ]
+        },
+        "ChoiceType": {
+            "type": "object",
+            "$extends": "#/definitions/OptionalType",
+            "description": "A tagged or inline union of types",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["choice"],
+                    "description": "The type of the schema. Must be 'choice'"
+                },                
+                "$extends": {
+                    "type": [
+                        { "$ref": "#/definitions/TypeReference" },
+                        { "$ref": "#/definitions/TypeReferenceArray" }
+                    ],
+                    "description": "The shared base type or types for the inline choices. Must be a reference to an abstract object schema"
+                },
+                "choices": {
+                    "type": "map",
+                    "values": { "type": { "$ref": "#/definitions/PrimitiveOrReference" } },
+                    "description": "The choices for the union"
+                },
+                "selector": {
+                    "type": "string",
+                    "description": "The property name to discriminate the inline union"
+                }
+            },
+            "required": ["type", "choices"]
+        },
+        "TypeUnion": {
+            "type": "set",
+            "description": "A union of unique types",
+            "items": {
+                "type": [
+                    {
+                        "$ref": "#/definitions/TypeReference"
+                    },
+                    {
+                        "$ref": "#/definitions/PrimitiveType"
+                    }
+                ]
+            }
+        },
+        "Property": {
+            "type": "object",
+            "description": "A property of an object",
+            "$extends": "#/definitions/NoType",
+            "properties": {
+                "type": {
+                    "type": { "$ref": "#/definitions/Type" },
+                    "description": "The type of the property"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A description of the property"
+                },
+                "examples": {
+                    "type": "array",
+                    "items": {
+                        "type": "map",
+                        "values": {
+                            "type": "any"
+                        }
+                    },
+                    "description": "Examples of the property"
+                }
+            },
+            "required": [
+                "type"
+            ]
+        },
+        "PropertyNameArray": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "ArrayOfPropertyNameArray": {
+            "type": "array",
+            "items": {
+                "type": {
+                    "$ref": "#/definitions/PropertyNameArray"
+                }
+            }
+        },
+        "Namespace": {
+            "type": "map",
+            "values": {
+                "type": [
+                    { "$ref": "#/definitions/CompoundType" },
+                    { "$ref": "#/definitions/Namespace" }
+                ]
+            }
+        },
+        "SchemaDocument": {
+            "type": "object",
+            "$extends": "#/definitions/OptionalType",
+            "properties": {
+                "$schema": {
+                    "type": "uri",
+                    "const": "https://json-structure.org/meta/core/v0/#"
+                },
+                "$id": {
+                    "type": "uri",
+                    "description": "The unique identifier for this schema document"
+                },
+                "$root": {
+                    "type": "jsonpointer",
+                    "description": "The root type of this schema document"
+                },
+                "definitions": {
+                    "type": { "$ref": "#/definitions/Namespace" }
+                },
+                "$offers": {
+                    "type": "map",
+                    "values": {
+                        "type": {
+                            "$ref": "#/definitions/TypeReference"
+                        }
+                    },
+                    "description": "Add-in types offered by this schema"
+                },
+                "$uses": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Names of features or add-ins used by this schema"
+                }
+            },
+            "required": [
+                "$schema"
+            ],
+            "additionalProperties": false
+        }
+    }
+}
+

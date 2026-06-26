@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spotlight-rules.com/schema/finops.schema.json",
+  "title": "API FinOps",
+  "description": "API Evangelist FinOps artifact — the cost/budget profile for operating an API.",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code (e.g. USD)."
+    },
+    "budget": {
+      "type": [
+        "number",
+        "integer"
+      ]
+    },
+    "costs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "service"
+        ],
+        "properties": {
+          "service": {
+            "type": "string"
+          },
+          "monthly": {
+            "type": [
+              "number",
+              "integer"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

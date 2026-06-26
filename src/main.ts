@@ -9,6 +9,9 @@ import { ARTIFACTS, DEFAULT_RULESETS, SAMPLES, artifactById, type ArtifactType }
 import { searchSource, loadHit, enabledSources, type Hit, type SourceId, type Tokens } from './sources';
 import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, loadRules, upsertRule, removeRule, getRule, clearAll, loadConfig, saveConfig, type SavedDoc, type Config } from './storage';
 import builtinMetaRaw from './builtin-meta.json';
+import rulePromptsRaw from './rule-prompts.json';
+import { aiFix, aiFixFragment, generatePrompt, PROVIDERS, type Provider, type Finding } from './fix';
+import { listAccessibleRepos, loadRepos, addRepo, removeRepo, type Repo } from './repos';
 import './style.css';
 
 // Curated experience/spec tags for the upstream spotlight:* built-in rules.
@@ -88,6 +91,12 @@ function descriptionFor(code: string): string {
   const r = ruleDef(code);
   return (r?.description as string) ?? builtinDescriptions[code] ?? '';
 }
+// Curated AI fix prompt from the catalog (all-rules.yaml). Falls back to one
+// generated from the rule the validator actually ran when there's no exact match.
+const RULE_PROMPTS = rulePromptsRaw as Record<string, string>;
+function promptFor(code: string): string {
+  return RULE_PROMPTS[code] || generatePrompt(code, ruleDef(code), descriptionFor(code), labelForFormat(current.format));
+}
 
 // ---- artifact type selector -------------------------------------------------
 const typeSelect = $<HTMLSelectElement>('#artifact-type');
@@ -117,6 +126,104 @@ function gitTokens(): Tokens {
 populateSources();
 sourceSelect.addEventListener('change', () => { currentSource = sourceSelect.value as SourceId; });
 
+// ---- AI fix provider (Claude / Gemini / ChatGPT) ----------------------------
+const fixProviderSelect = $<HTMLSelectElement>('#fix-provider');
+let currentProvider: Provider | null = null;
+let lastDiagnostics: any[] = [];
+let activeFixes = 0; // number of in-flight fixes (block re-render while fixing)
+function configuredProviders(): Provider[] {
+  const c = loadConfig();
+  return (['claude', 'gemini', 'chatgpt'] as Provider[]).filter((p) => (c[p] || '').trim());
+}
+function refreshFixControls() {
+  const provs = configuredProviders();
+  ($('#fix-controls') as HTMLElement).hidden = provs.length === 0;
+  fixProviderSelect.innerHTML = provs.map((p) => `<option value="${p}">${PROVIDERS[p].label}</option>`).join('');
+  if (!currentProvider || !provs.includes(currentProvider)) currentProvider = provs[0] ?? null;
+  if (currentProvider) fixProviderSelect.value = currentProvider;
+}
+fixProviderSelect.addEventListener('change', () => { currentProvider = fixProviderSelect.value as Provider; });
+const fixPrecise = $<HTMLInputElement>('#fix-precise');
+
+// The contiguous full-line span a finding points at (its node in the source).
+function fragmentLines(d: any, lines: string[]): { s0: number; e0: number } {
+  const s0 = Math.max(0, Math.min(lines.length - 1, d.range.start.line));
+  let e0 = d.range.end.line;
+  if (d.range.end.character === 0 && e0 > s0) e0 -= 1; // end sits at col 0 of the next line
+  e0 = Math.min(lines.length - 1, Math.max(s0, e0));
+  return { s0, e0 };
+}
+// Re-indent the model's fragment so its base indentation matches the original
+// (guards against a model that dedents or over-indents what it returns).
+function matchBaseIndent(original: string, corrected: string): string {
+  const base = (s: string) => {
+    const ls = s.split('\n').filter((l) => l.trim());
+    return ls.length ? Math.min(...ls.map((l) => l.match(/^ */)![0].length)) : 0;
+  };
+  const delta = base(original) - base(corrected);
+  if (delta === 0) return corrected;
+  if (delta > 0) return corrected.split('\n').map((l) => (l.trim() ? ' '.repeat(delta) + l : l)).join('\n');
+  return corrected.split('\n').map((l) => (l.trim() ? l.slice(Math.min(l.match(/^ */)![0].length, -delta)) : l)).join('\n');
+}
+function docParses(text: string): boolean {
+  if (current.format === 'agent-skill') return true; // markdown — no structural parse
+  try { docLang === 'json' ? JSON.parse(text) : parseYaml(text); return true; } catch { return false; }
+}
+
+// Precise fix: send ONLY the flagged fragment, splice the corrected fragment
+// back into the same line span. Falls back to nothing-destructive on a bad splice.
+async function fixPreciseOne(d: any, key: string): Promise<void> {
+  const model = docEditor.getModel()!;
+  const lines = model.getValue().split('\n');
+  const { s0, e0 } = fragmentLines(d, lines);
+  const original = lines.slice(s0, e0 + 1).join('\n');
+  const path = Array.isArray(d.path) ? d.path.join('.') : '';
+  let corrected = await aiFixFragment(currentProvider!, key, promptFor(String(d.code)), labelForFormat(current.format), path, original, docLang);
+  if (!corrected.trim()) throw new Error('Model returned an empty fragment');
+  corrected = matchBaseIndent(original, corrected);
+  const newText = [...lines.slice(0, s0), ...corrected.split('\n'), ...lines.slice(e0 + 1)].join('\n');
+  if (!docParses(newText)) throw new Error('Fix produced an invalid document — not applied');
+  const range = new monaco.Range(s0 + 1, 1, e0 + 1, model.getLineMaxColumn(e0 + 1));
+  docEditor.pushUndoStop();
+  docEditor.executeEdits('ai-fix', [{ range, text: corrected, forceMoveMarkers: true }]);
+  docEditor.pushUndoStop();
+}
+// Whole-document fix: send the full artifact, replace it entirely.
+async function fixWholeDoc(code: string, key: string): Promise<void> {
+  const findings: Finding[] = lastDiagnostics
+    .filter((d) => String(d.code) === code)
+    .map((d) => ({ line: d.range.start.line + 1, message: String(d.message) }));
+  const fixed = await aiFix(currentProvider!, key, promptFor(code), findings, docEditor.getValue(), docLang);
+  if (!fixed.trim()) throw new Error('Model returned an empty document');
+  const model = docEditor.getModel()!;
+  docEditor.pushUndoStop();
+  docEditor.executeEdits('ai-fix', [{ range: model.getFullModelRange(), text: fixed, forceMoveMarkers: true }]);
+  docEditor.pushUndoStop();
+}
+async function doFix(di: number, li: HTMLElement) {
+  const d = lastDiagnostics[di];
+  if (!d || !currentProvider) return;
+  const key = (loadConfig()[currentProvider] || '').trim();
+  if (!key) { refreshFixControls(); return; }
+  const btn = li.querySelector<HTMLButtonElement>('.fix-btn');
+  const prev = btn?.textContent ?? '✨ fix';
+  const precise = fixPrecise?.checked ?? true;
+  if (btn) { btn.disabled = true; btn.textContent = precise ? '… fixing node' : '… fixing doc'; btn.title = `Fixing with ${PROVIDERS[currentProvider].label}…`; }
+  activeFixes++;
+  try {
+    if (precise) await fixPreciseOne(d, key);
+    else await fixWholeDoc(String(d.code), key);
+    if (btn) { btn.textContent = '✓ fixed'; btn.title = 'Applied — re-linting'; }
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    if (btn) { btn.textContent = '✗ failed'; btn.title = msg; }
+    console.error('AI fix failed for', d.code, e);
+  } finally {
+    activeFixes--;
+    if (btn) { btn.disabled = false; window.setTimeout(() => { btn.textContent = prev; }, 2500); }
+  }
+}
+
 function setArtifact(id: string) {
   hideResults();
   current = artifactById(id);
@@ -143,6 +250,94 @@ function categoryOf(code: string): string {
 }
 // accordion: only one result group open at a time (its category, or the first group)
 let openResultCat: string | null = null;
+
+// ---- tag filter (shared by Results + Rules) ---------------------------------
+// Uniform tag list for any rule: compiled/default carry a `tags[]`; built-ins
+// derive theirs from BUILTIN_META. This is what both the chips and the filter use.
+function tagsFor(code: string): string[] {
+  const r = ruleDef(code);
+  if (Array.isArray(r?.tags)) return r.tags as string[];
+  const m = BUILTIN_META[code];
+  if (m) return [
+    ...(m.spec || []).map((s) => `spec:${s}`),
+    ...(m.experience || []).map((e) => `experience:${e}`),
+    ...(m.format ? [`format:${m.format}`] : []),
+  ];
+  return [];
+}
+
+// Facets shown in the filter + as row chips. `format`/`source` are intentionally
+// excluded (format = artifact grouping; provenance isn't useful here).
+const FACET_NS = ['experience', 'spec', 'topic', 'owasp'] as const;
+const FILTER_KEY = 'spotlight-validator:filter';
+const activeTags = new Set<string>((() => {
+  try { const v = JSON.parse(localStorage.getItem(FILTER_KEY) || '[]'); return Array.isArray(v) ? v : []; } catch { return []; }
+})());
+let activeTab = 'results';
+function saveFilter() {
+  try { localStorage.setItem(FILTER_KEY, JSON.stringify([...activeTags])); } catch { /* ignore */ }
+}
+// AND across namespaces, OR within a namespace. Empty filter ⇒ keep everything.
+function ruleMatchesFilter(tags: string[]): boolean {
+  if (activeTags.size === 0) return true;
+  const tset = new Set(tags);
+  const byNs: Record<string, string[]> = {};
+  for (const t of activeTags) { const ns = t.split(':')[0]; (byNs[ns] ??= []).push(t); }
+  return Object.values(byNs).every((group) => group.some((t) => tset.has(t)));
+}
+// The consistent chip set rendered on every rule listing (Results + Rules).
+function tagChips(tags: string[]): string {
+  const chips = (FACET_NS as readonly string[]).flatMap((ns) =>
+    tags.filter((t) => t.startsWith(ns + ':')).map((t) => ({ ns, v: t.slice(ns.length + 1), t })));
+  if (!chips.length) return '';
+  return `<span class="chips">${chips.map((c) =>
+    `<button type="button" class="chip chip-${c.ns}${activeTags.has(c.t) ? ' on' : ''}" data-tag="${escapeHtml(c.t)}" title="${c.ns}: ${escapeHtml(c.v)} — click to filter">${escapeHtml(c.v)}</button>`).join('')}</span>`;
+}
+// Build the facet bar from every rule's tags (union across all artifacts).
+function collectFacets(): Record<string, string[]> {
+  const sets: Record<string, Set<string>> = {};
+  for (const ns of FACET_NS) sets[ns] = new Set();
+  const consider = (tags: string[]) => { for (const t of tags) { const ns = t.split(':')[0]; if (sets[ns]) sets[ns].add(t.slice(ns.length + 1)); } };
+  for (const rule of Object.values(COMPILED_RULES)) consider(Array.isArray((rule as any)?.tags) ? (rule as any).tags : []);
+  for (const a of ARTIFACTS) {
+    for (const rule of Object.values(DEFAULT_RULESETS[a.id]?.rules ?? {})) consider(Array.isArray((rule as any)?.tags) ? (rule as any).tags : []);
+    for (const name of builtinRulesByFormat[a.format] ?? []) consider(tagsFor(name));
+  }
+  const out: Record<string, string[]> = {};
+  for (const ns of FACET_NS) if (sets[ns].size) out[ns] = [...sets[ns]].sort();
+  return out;
+}
+let facetsBuilt = false;
+function buildFilterUI() {
+  const facets = collectFacets();
+  $('#filter-facets').innerHTML = Object.entries(facets).map(([ns, vals]) => `
+    <div class="facet">
+      <div class="facet-ns">${ns}</div>
+      <div class="facet-chips">${vals.map((v) => {
+        const t = `${ns}:${v}`;
+        return `<button type="button" class="facet-chip chip-${ns}${activeTags.has(t) ? ' on' : ''}" data-tag="${escapeHtml(t)}">${escapeHtml(v)}</button>`;
+      }).join('')}</div>
+    </div>`).join('');
+  facetsBuilt = true;
+  refreshFilterState();
+}
+function refreshFilterState() {
+  const n = activeTags.size;
+  $('#filter-active').textContent = n ? `${n} active` : '';
+  ($('#filter-clear') as HTMLElement).hidden = n === 0;
+  document.querySelectorAll<HTMLElement>('[data-tag]').forEach((el) => el.classList.toggle('on', activeTags.has(el.dataset.tag!)));
+}
+function toggleTag(tag: string) {
+  if (activeTags.has(tag)) activeTags.delete(tag); else activeTags.add(tag);
+  saveFilter();
+  refreshFilterState();
+  applyFilterToView();
+}
+function clearFilter() { activeTags.clear(); saveFilter(); refreshFilterState(); applyFilterToView(); }
+function applyFilterToView() {
+  if (activeTab === 'ruleset') renderRuleset();
+  else renderResults();
+}
 
 // ---- active ruleset ---------------------------------------------------------
 function activeRulesetDef(): any {
@@ -293,6 +488,8 @@ async function runLint() {
   const { diagnostics, error } = current.format === 'agent-skill'
     ? await lint(text, activeRulesetDef(), 'document', Markdown)
     : await lint(text, activeRulesetDef());
+  diagnostics.forEach((d: any, i: number) => { d._i = i; });
+  lastDiagnostics = diagnostics;
   const model = docEditor.getModel()!;
   if (error) {
     monaco.editor.setModelMarkers(model, 'spotlight', []);
@@ -311,54 +508,63 @@ async function runLint() {
       message: `${d.code}: ${d.message}`,
     })),
   );
+  renderResults();
+}
+
+// Render the results list from lastDiagnostics, honoring the active tag filter.
+function renderResults() {
+  const total = lastDiagnostics.length;
+  const shown = lastDiagnostics.filter((d) => ruleMatchesFilter(tagsFor(String(d.code))));
 
   const renderRow = (d: any) => {
     const sev = sevLabel[d.severity] ?? 'warning';
     const code = String(d.code);
-    const desc = descriptionFor(code) || d.message;
-    return `<li class="${sev}" data-sl="${d.range.start.line + 1}" data-el="${d.range.end.line + 1}" data-code="${escapeHtml(code)}">
+    return `<li class="${sev}" data-sl="${d.range.start.line + 1}" data-el="${d.range.end.line + 1}" data-code="${escapeHtml(code)}" data-di="${d._i}">
       <span class="sev ${sev}" title="${sev}"></span>
       <span class="rule-name">${escapeHtml(titleCase(code))}</span>
+      ${tagChips(tagsFor(code))}
       <span class="msg">${escapeHtml(d.message)}</span>
       <span class="loc">L${d.range.start.line + 1}</span>
+      ${currentProvider ? `<button class="fix-btn" title="Fix with AI (${PROVIDERS[currentProvider].label})">✨ fix</button>` : ''}
       <button class="edit-btn" title="Edit this rule">✎ edit</button>
     </li>`;
   };
 
-  // group diagnostics by the category of the rule that produced them
+  // group the shown diagnostics by the category of the rule that produced them
   const groups = new Map<string, any[]>();
-  for (const d of diagnostics) {
+  for (const d of shown) {
     const cat = categoryOf(String(d.code));
     (groups.get(cat) ?? groups.set(cat, []).get(cat)!).push(d);
   }
-  // groups with errors first, then larger groups first
   const ordered = [...groups.entries()].sort((a, b) => {
     const aErr = a[1].some((d) => d.severity === 0) ? 0 : 1;
     const bErr = b[1].some((d) => d.severity === 0) ? 0 : 1;
     return aErr - bErr || b[1].length - a[1].length || a[0].localeCompare(b[0]);
   });
-
-  // accordion: keep the user's open group if it still exists, else open the first
   const activeCat = (openResultCat && groups.has(openResultCat) ? openResultCat : ordered[0]?.[0]) ?? null;
   openResultCat = activeCat;
-  $('#results').innerHTML = diagnostics.length
-    ? ordered
-        .map(([cat, ds]) => {
-          ds.sort((a, b) => a.range.start.line - b.range.start.line);
-          const errs = ds.filter((d) => d.severity === 0).length;
-          const open = cat === activeCat ? ' open' : '';
-          return `<details class="rule-group"${open} data-cat="${escapeHtml(cat)}">
-            <summary>
-              <span class="group-name">${escapeHtml(titleCase(cat))}</span>
-              <span class="group-count">${ds.length}${errs ? ` · ${errs} error${errs === 1 ? '' : 's'}` : ''}</span>
-            </summary>
-            <ul class="group-results">${ds.map(renderRow).join('')}</ul>
-          </details>`;
-        })
-        .join('')
-    : '<div class="ok">No problems found 🎉</div>';
+  $('#results').innerHTML = !total
+    ? '<div class="ok">No problems found 🎉</div>'
+    : !shown.length
+      ? '<div class="ok">No results match the active tag filter.</div>'
+      : ordered
+          .map(([cat, ds]) => {
+            ds.sort((a, b) => a.range.start.line - b.range.start.line);
+            const errs = ds.filter((d) => d.severity === 0).length;
+            const open = cat === activeCat ? ' open' : '';
+            return `<details class="rule-group"${open} data-cat="${escapeHtml(cat)}">
+              <summary>
+                <span class="group-name">${escapeHtml(titleCase(cat))}</span>
+                <span class="group-count">${ds.length}${errs ? ` · ${errs} error${errs === 1 ? '' : 's'}` : ''}</span>
+              </summary>
+              <ul class="group-results">${ds.map(renderRow).join('')}</ul>
+            </details>`;
+          })
+          .join('');
 
-  $('#result-count').textContent = `${diagnostics.length} problem${diagnostics.length === 1 ? '' : 's'}`;
+  $('#result-count').textContent = activeTags.size && shown.length !== total
+    ? `${shown.length} of ${total} shown`
+    : `${total} problem${total === 1 ? '' : 's'}`;
   $('#results')
     .querySelectorAll<HTMLDetailsElement>('details.rule-group')
     .forEach((dEl) => {
@@ -379,6 +585,10 @@ async function runLint() {
       li.addEventListener('mouseenter', (e) => showLintTip(li.dataset.code!, e));
       li.addEventListener('mousemove', positionTip);
       li.addEventListener('mouseleave', hideLintTip);
+      li.querySelector<HTMLButtonElement>('.fix-btn')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        doFix(Number(li.dataset.di), li);
+      });
       li.querySelector<HTMLButtonElement>('.edit-btn')?.addEventListener('click', (e) => {
         e.stopPropagation();
         highlightLines(Number(li.dataset.sl), Number(li.dataset.el));
@@ -598,12 +808,19 @@ function removeSaved(id: string) {
   }
 }
 function switchTab(name: string) {
+  activeTab = name;
   document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
   ($('#tab-results') as HTMLElement).hidden = name !== 'results';
   ($('#tab-ruleset') as HTMLElement).hidden = name !== 'ruleset';
   ($('#tab-saved') as HTMLElement).hidden = name !== 'saved';
   ($('#tab-rules') as HTMLElement).hidden = name !== 'rules';
+  ($('#tab-repos') as HTMLElement).hidden = name !== 'repos';
   ($('#tab-config') as HTMLElement).hidden = name !== 'config';
+  if (name === 'repos') { renderRepos(); loadAccessibleRepos(); }
+  // the tag filter applies to Results + Rules; build it lazily on first use
+  const filterable = name === 'results' || name === 'ruleset';
+  ($('#tag-filter') as HTMLElement).hidden = !filterable;
+  if (filterable && !facetsBuilt) buildFilterUI();
   if (name === 'ruleset') renderRuleset();
 }
 
@@ -637,33 +854,46 @@ function rulesForArtifact(a: ArtifactType): Array<{ name: string; category: stri
   return list.sort((x, y) => x.name.localeCompare(y.name));
 }
 function renderRuleset() {
-  const arts = ARTIFACTS.map((a) => ({ a, rules: rulesForArtifact(a) })).filter((x) => x.rules.length);
+  // apply the active tag filter, then drop artifacts left with no matching rules
+  const arts = ARTIFACTS
+    .map((a) => ({ a, rules: rulesForArtifact(a).filter((r) => ruleMatchesFilter(tagsFor(r.name))) }))
+    .filter((x) => x.rules.length);
   const validIds = new Set(arts.map((x) => x.a.id));
   // accordion: keep the user's open artifact, else default to the current artifact (or first)
   const activeArt = (openArtifact && validIds.has(openArtifact) ? openArtifact : (validIds.has(current.id) ? current.id : arts[0]?.a.id)) ?? null;
   openArtifact = activeArt;
-  $('#ruleset-list').innerHTML = arts.map(({ a, rules }) => {
-    const off = rules.filter((r) => isDisabled(r.name, a.format)).length;
-    const open = a.id === activeArt ? ' open' : '';
-    const rows = rules
-      .map((r) => {
-        const dis = isDisabled(r.name, a.format);
-        return `<li>
-          <label class="rule-toggle">
-            <input type="checkbox" data-name="${escapeHtml(r.name)}" data-format="${escapeHtml(a.format)}"${dis ? '' : ' checked'}>
-            <span class="rule-tname${dis ? ' off' : ''}" title="${escapeHtml(r.name)}">${escapeHtml(titleCase(r.name))}</span>
-          </label>
-          <span class="rule-tcat">${escapeHtml(r.category)}</span>
-        </li>`;
-      })
-      .join('');
-    return `<details class="rule-group"${open} data-art="${a.id}">
-      <summary><span class="group-name">${escapeHtml(a.label)}</span><span class="group-count">${rules.length} rules${off ? ` · ${off} off` : ''}</span></summary>
-      <ul class="ruleset-rules">${rows}</ul>
-    </details>`;
-  }).join('');
+  $('#ruleset-list').innerHTML = arts.length
+    ? arts.map(({ a, rules }) => {
+        const off = rules.filter((r) => isDisabled(r.name, a.format)).length;
+        const open = a.id === activeArt ? ' open' : '';
+        const rows = rules
+          .map((r) => {
+            const dis = isDisabled(r.name, a.format);
+            return `<li data-name="${escapeHtml(r.name)}" data-format="${escapeHtml(a.format)}">
+              <label class="rule-toggle">
+                <input type="checkbox" data-name="${escapeHtml(r.name)}" data-format="${escapeHtml(a.format)}"${dis ? '' : ' checked'}>
+                <span class="rule-tname${dis ? ' off' : ''}" title="${escapeHtml(r.name)}">${escapeHtml(titleCase(r.name))}</span>
+              </label>
+              ${tagChips(tagsFor(r.name))}
+              <button class="edit-btn rules-edit" type="button" title="Edit this rule">✎ edit</button>
+            </li>`;
+          })
+          .join('');
+        return `<details class="rule-group"${open} data-art="${a.id}">
+          <summary><span class="group-name">${escapeHtml(a.label)}</span><span class="group-count">${rules.length} rules${off ? ` · ${off} off` : ''}</span></summary>
+          <ul class="ruleset-rules">${rows}</ul>
+        </details>`;
+      }).join('')
+    : '<div class="ok">No rules match the active tag filter.</div>';
 }
 // delegated handlers (attached once)
+$('#ruleset-list').addEventListener('click', (e) => {
+  const edit = (e.target as HTMLElement).closest('.rules-edit');
+  if (edit) {
+    const li = edit.closest('li') as HTMLElement;
+    openRuleModal(li.dataset.name!, li.dataset.format!);
+  }
+});
 $('#ruleset-list').addEventListener('change', (e) => {
   const cb = e.target as HTMLInputElement;
   if (!(cb instanceof HTMLInputElement) || cb.type !== 'checkbox') return;
@@ -710,6 +940,7 @@ const CFG_SECRETS = ['cfg-claude', 'cfg-gemini', 'cfg-chatgpt', 'cfg-github', 'c
         if (v) (c[key] as string) = v;
         else delete c[key];
         saveConfig(c);
+        if (key === 'claude' || key === 'gemini' || key === 'chatgpt') { refreshFixControls(); runLint(); }
       }, 300);
     });
   }
@@ -767,12 +998,75 @@ $('#reset-storage').addEventListener('click', () => {
   setArtifact('openapi'); // start fresh from the default
 });
 
+// ---- repos ------------------------------------------------------------------
+let accessibleRepos: Repo[] = [];
+async function loadAccessibleRepos() {
+  const token = (loadConfig().github || '').trim();
+  const picker = $<HTMLSelectElement>('#repo-picker');
+  if (!token) { picker.innerHTML = '<option value="">Add a GitHub token in Config →</option>'; return; }
+  picker.innerHTML = '<option value="">Loading your repos…</option>';
+  try {
+    accessibleRepos = await listAccessibleRepos(token);
+    const saved = new Set(loadRepos().map((r) => r.fullName));
+    const avail = accessibleRepos.filter((r) => !saved.has(r.fullName));
+    picker.innerHTML = avail.length
+      ? avail.map((r) => `<option value="${escapeHtml(r.fullName)}">${escapeHtml(r.fullName)}${r.private ? ' (private)' : ''}</option>`).join('')
+      : '<option value="">All accessible repos already added</option>';
+  } catch (e) {
+    picker.innerHTML = `<option value="">${escapeHtml(e instanceof Error ? e.message : 'Could not load repos')}</option>`;
+  }
+}
+function renderRepos() {
+  const repos = loadRepos();
+  $('#repos-count').textContent = String(repos.length);
+  const list = $('#repos-list');
+  list.innerHTML = repos.length
+    ? repos.map((r) => `<li data-name="${escapeHtml(r.fullName)}">
+        <span class="store-name" title="${escapeHtml(r.fullName)}">${escapeHtml(r.fullName)}</span>
+        <span class="store-meta">${r.private ? 'private' : 'public'} · ${escapeHtml(r.defaultBranch)}</span>
+        <button class="store-del" type="button" title="Remove">&times;</button>
+      </li>`).join('')
+    : '<li class="store-empty">No repos yet — pick one above and Add.</li>';
+  list.querySelectorAll<HTMLLIElement>('li[data-name]').forEach((li) => {
+    li.querySelector<HTMLButtonElement>('.store-del')?.addEventListener('click', () => {
+      removeRepo(li.dataset.name!); renderRepos(); loadAccessibleRepos();
+    });
+  });
+}
+$('#repo-add').addEventListener('click', () => {
+  const full = $<HTMLSelectElement>('#repo-picker').value;
+  if (!full) return;
+  addRepo(accessibleRepos.find((x) => x.fullName === full) ?? { fullName: full, defaultBranch: 'main', private: false });
+  renderRepos();
+  loadAccessibleRepos();
+});
+$('#repo-refresh').addEventListener('click', loadAccessibleRepos);
+
+// ---- tag filter wiring ------------------------------------------------------
+$('#filter-facets').addEventListener('click', (e) => {
+  const b = (e.target as HTMLElement).closest('[data-tag]') as HTMLElement | null;
+  if (b) toggleTag(b.dataset.tag!);
+});
+$('#filter-clear').addEventListener('click', clearFilter);
+// Clicking a tag chip on any rule listing toggles that tag in the filter.
+// Capture phase so it beats the row's own click handler (highlight / edit).
+for (const sel of ['#results', '#ruleset-list']) {
+  $(sel).addEventListener('click', (e) => {
+    const chip = (e.target as HTMLElement).closest('.chip[data-tag]') as HTMLElement | null;
+    if (chip) { e.stopPropagation(); e.preventDefault(); toggleTag(chip.dataset.tag!); }
+  }, true);
+}
+
 // ---- boot -------------------------------------------------------------------
 docEditor.onDidChangeModelContent(() => {
   scheduleLint();
   if (!suppressSave) scheduleSave();
 });
 renderSavedRules();
+refreshFixControls();
+renderRepos();
+buildFilterUI();
+($('#tag-filter') as HTMLElement).hidden = false; // initial tab is Results (filterable)
 const restoreId = getActiveId();
 const restored = restoreId ? getDoc(restoreId) : undefined;
 if (restored) loadDocIntoEditor(restored);
