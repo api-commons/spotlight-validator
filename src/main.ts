@@ -141,8 +141,8 @@ function categoryOf(code: string): string {
   const cat = tags.find((t) => t.startsWith('category:'));
   return cat ? cat.slice('category:'.length) : 'other';
 }
-// categories the user has collapsed — preserved across re-lints
-const collapsedCats = new Set<string>();
+// accordion: only one result group open at a time (its category, or the first group)
+let openResultCat: string | null = null;
 
 // ---- active ruleset ---------------------------------------------------------
 function activeRulesetDef(): any {
@@ -338,12 +338,15 @@ async function runLint() {
     return aErr - bErr || b[1].length - a[1].length || a[0].localeCompare(b[0]);
   });
 
+  // accordion: keep the user's open group if it still exists, else open the first
+  const activeCat = (openResultCat && groups.has(openResultCat) ? openResultCat : ordered[0]?.[0]) ?? null;
+  openResultCat = activeCat;
   $('#results').innerHTML = diagnostics.length
     ? ordered
         .map(([cat, ds]) => {
           ds.sort((a, b) => a.range.start.line - b.range.start.line);
           const errs = ds.filter((d) => d.severity === 0).length;
-          const open = collapsedCats.has(cat) ? '' : ' open';
+          const open = cat === activeCat ? ' open' : '';
           return `<details class="rule-group"${open} data-cat="${escapeHtml(cat)}">
             <summary>
               <span class="group-name">${escapeHtml(titleCase(cat))}</span>
@@ -360,8 +363,13 @@ async function runLint() {
     .querySelectorAll<HTMLDetailsElement>('details.rule-group')
     .forEach((dEl) => {
       dEl.addEventListener('toggle', () => {
-        if (dEl.open) collapsedCats.delete(dEl.dataset.cat!);
-        else collapsedCats.add(dEl.dataset.cat!);
+        if (dEl.open) {
+          openResultCat = dEl.dataset.cat!;
+          // accordion — close every other group
+          $('#results').querySelectorAll<HTMLDetailsElement>('details.rule-group').forEach((o) => { if (o !== dEl) o.open = false; });
+        } else if (openResultCat === dEl.dataset.cat) {
+          openResultCat = null;
+        }
       });
     });
   $('#results')
@@ -600,7 +608,8 @@ function switchTab(name: string) {
 }
 
 // ---- Rules tab: every rule grouped by artifact, with enable/disable ----------
-const expandedArtifacts = new Set<string>();
+// accordion: only one artifact group open at a time
+let openArtifact: string | null = null;
 function isDisabled(name: string, format: string): boolean {
   const r = getRule(name, format);
   return !!r && (r.def === 'off' || r.def === false);
@@ -628,11 +637,14 @@ function rulesForArtifact(a: ArtifactType): Array<{ name: string; category: stri
   return list.sort((x, y) => x.name.localeCompare(y.name));
 }
 function renderRuleset() {
-  $('#ruleset-list').innerHTML = ARTIFACTS.map((a) => {
-    const rules = rulesForArtifact(a);
-    if (!rules.length) return '';
+  const arts = ARTIFACTS.map((a) => ({ a, rules: rulesForArtifact(a) })).filter((x) => x.rules.length);
+  const validIds = new Set(arts.map((x) => x.a.id));
+  // accordion: keep the user's open artifact, else default to the current artifact (or first)
+  const activeArt = (openArtifact && validIds.has(openArtifact) ? openArtifact : (validIds.has(current.id) ? current.id : arts[0]?.a.id)) ?? null;
+  openArtifact = activeArt;
+  $('#ruleset-list').innerHTML = arts.map(({ a, rules }) => {
     const off = rules.filter((r) => isDisabled(r.name, a.format)).length;
-    const open = expandedArtifacts.has(a.id) ? ' open' : '';
+    const open = a.id === activeArt ? ' open' : '';
     const rows = rules
       .map((r) => {
         const dis = isDisabled(r.name, a.format);
@@ -666,12 +678,16 @@ $('#ruleset-list').addEventListener('change', (e) => {
   renderSavedRules();
   runLint();
 });
-// `toggle` doesn't bubble — listen in the capture phase to track expand state
+// `toggle` doesn't bubble — listen in the capture phase. Accordion: opening one closes the rest.
 $('#ruleset-list').addEventListener('toggle', (e) => {
   const d = e.target as HTMLDetailsElement;
   if (!(d instanceof HTMLDetailsElement) || !d.dataset.art) return;
-  if (d.open) expandedArtifacts.add(d.dataset.art);
-  else expandedArtifacts.delete(d.dataset.art);
+  if (d.open) {
+    openArtifact = d.dataset.art;
+    $('#ruleset-list').querySelectorAll<HTMLDetailsElement>('details.rule-group').forEach((o) => { if (o !== d) o.open = false; });
+  } else if (openArtifact === d.dataset.art) {
+    openArtifact = null;
+  }
 }, true);
 
 // ---- configuration (API keys / tokens) --------------------------------------
