@@ -13259,7 +13259,7 @@ json-ld:
     source: spotlight
     description: "@id should be an IRI (https://, urn:, did:) or a blank-node identifier."
     message: "@id should be an IRI."
-    given: $.@id
+    given: "$['@id']"
     severity: info
     then:
       function: pattern
@@ -13328,7 +13328,7 @@ json-ld:
     source: spotlight
     description: "@context should be a URI string, an inline object, or an array of those."
     message: "@context should be a URI, object, or array."
-    given: $.@context
+    given: "$['@context']"
     severity: info
     then:
       function: schema
@@ -13347,7 +13347,7 @@ json-ld:
     source: spotlight
     description: "@type should be a string or an array of type strings."
     message: "@type should be a string or array."
-    given: $.@type
+    given: "$['@type']"
     severity: info
     then:
       function: schema

@@ -4,12 +4,11 @@ import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
 import { lint, builtinDescriptions, builtinRulesByFormat } from './spotlight';
 import { Markdown } from './markdown';
-import { ruleset as compiledRuleset } from './compiled-ruleset';
-import { ARTIFACTS, DEFAULT_RULESETS, SAMPLES, artifactById, type ArtifactType } from './artifacts';
+import { ARTIFACTS, SAMPLES, artifactById, type ArtifactType } from './artifacts';
+import allRulesRaw from './all-rules.json';
 import { searchSource, loadHit, enabledSources, type Hit, type SourceId, type Tokens } from './sources';
 import { loadDocs, saveDocs, upsertDoc, removeDoc, getDoc, findDoc, getActiveId, setActiveId, newId, loadRules, upsertRule, removeRule, getRule, clearAll, loadConfig, saveConfig, type SavedDoc, type Config } from './storage';
 import builtinMetaRaw from './builtin-meta.json';
-import rulePromptsRaw from './rule-prompts.json';
 import { aiFix, aiFixFragment, generatePrompt, PROVIDERS, type Provider, type Finding } from './fix';
 import { listAccessibleRepos, loadRepos, addRepo, removeRepo, type Repo } from './repos';
 import { commitGitHub, openPrGitHub } from './git';
@@ -27,7 +26,18 @@ self.MonacoEnvironment = {
 };
 
 const $ = <T extends HTMLElement>(sel: string) => document.querySelector(sel) as T;
-const COMPILED_RULES: Record<string, any> = (compiledRuleset as any).rules;
+
+// The curated rule catalog (all-rules.yaml), grouped by artifact format — the
+// validator now runs THIS instead of the old compiled ruleset.
+const ALL_RULES = allRulesRaw as Record<string, Record<string, any>>;
+// flat name -> rule (+ its format) for lookups by a finding's code
+const RULE_INDEX: Record<string, any> = {};
+for (const [fmt, rules] of Object.entries(ALL_RULES)) for (const [name, r] of Object.entries(rules)) RULE_INDEX[name] = { ...(r as any), _format: fmt };
+// which engine built-in ruleset each format extends (built-ins run from there,
+// not from the data form; their catalog entries carry source: builtin)
+const EXTENDS_FOR: Record<string, string> = { openapi: 'spotlight:oas', asyncapi: 'spotlight:asyncapi', arazzo: 'spotlight:arazzo' };
+// strip catalog-only metadata the lint engine doesn't understand
+function engineRule(r: any): any { const { source, title, reference, prompt, _format, ...rest } = r; return rest; }
 
 // ---- state ------------------------------------------------------------------
 let current: ArtifactType = artifactById('openapi');
@@ -83,22 +93,17 @@ function highlightLines(startLine: number, endLine: number) {
   docEditor.revealLineInCenter(startLine);
 }
 
-// ---- rule lookups (compiled best-of-breed + per-type defaults + built-ins) ---
-function defaultRules(): Record<string, any> {
-  return (DEFAULT_RULESETS[current.id]?.rules ?? {}) as Record<string, any>;
-}
+// ---- rule lookups (the curated catalog + built-in metadata fallback) --------
 function ruleDef(code: string): any {
-  return COMPILED_RULES[code] ?? defaultRules()[code];
+  return RULE_INDEX[code];
 }
 function descriptionFor(code: string): string {
-  const r = ruleDef(code);
-  return (r?.description as string) ?? builtinDescriptions[code] ?? '';
+  return (RULE_INDEX[code]?.description as string) ?? builtinDescriptions[code] ?? '';
 }
-// Curated AI fix prompt from the catalog (all-rules.yaml). Falls back to one
-// generated from the rule the validator actually ran when there's no exact match.
-const RULE_PROMPTS = rulePromptsRaw as Record<string, string>;
+// Curated AI fix prompt from the catalog; falls back to one generated from the
+// rule definition when a finding's rule has no prompt (rare).
 function promptFor(code: string): string {
-  return RULE_PROMPTS[code] || generatePrompt(code, ruleDef(code), descriptionFor(code), labelForFormat(current.format));
+  return RULE_INDEX[code]?.prompt || generatePrompt(code, ruleDef(code), descriptionFor(code), labelForFormat(current.format));
 }
 
 // ---- artifact type selector -------------------------------------------------
@@ -301,11 +306,8 @@ function collectFacets(): Record<string, string[]> {
   const sets: Record<string, Set<string>> = {};
   for (const ns of FACET_NS) sets[ns] = new Set();
   const consider = (tags: string[]) => { for (const t of tags) { const ns = t.split(':')[0]; if (sets[ns]) sets[ns].add(t.slice(ns.length + 1)); } };
-  for (const rule of Object.values(COMPILED_RULES)) consider(Array.isArray((rule as any)?.tags) ? (rule as any).tags : []);
-  for (const a of ARTIFACTS) {
-    for (const rule of Object.values(DEFAULT_RULESETS[a.id]?.rules ?? {})) consider(Array.isArray((rule as any)?.tags) ? (rule as any).tags : []);
-    for (const name of builtinRulesByFormat[a.format] ?? []) consider(tagsFor(name));
-  }
+  for (const rules of Object.values(ALL_RULES)) for (const rule of Object.values(rules)) consider(Array.isArray((rule as any)?.tags) ? (rule as any).tags : []);
+  for (const a of ARTIFACTS) for (const name of builtinRulesByFormat[a.format] ?? []) consider(tagsFor(name));
   const out: Record<string, string[]> = {};
   for (const ns of FACET_NS) if (sets[ns].size) out[ns] = [...sets[ns]].sort();
   return out;
@@ -345,23 +347,19 @@ function applyFilterToView() {
 // ---- active ruleset ---------------------------------------------------------
 function activeRulesetDef(): any {
   const rules: Record<string, any> = {};
-  // compiled best-of-breed rules for this format
-  for (const [name, rule] of Object.entries(COMPILED_RULES)) {
-    const t: string[] = Array.isArray(rule?.tags) ? rule.tags : [];
-    if (!t.includes(`format:${current.format}`)) continue;
+  // catalog rules for this format (built-ins come via `extends`, not the data form)
+  for (const [name, rule] of Object.entries(ALL_RULES[current.format] || {})) {
+    if ((rule as any).source === 'builtin') continue;
+    const t: string[] = Array.isArray((rule as any).tags) ? (rule as any).tags : [];
     if (t.includes('duplicate:true')) continue;
-    rules[name] = rule;
-  }
-  // per-type default starter rules
-  for (const [name, rule] of Object.entries(defaultRules())) {
-    rules[name] = rule;
+    rules[name] = engineRule(rule);
   }
   // we don't support Swagger / OpenAPI 2.0 — turn off any built-in oas2 rules
   for (const name of builtinRulesByFormat[current.format] ?? []) {
     if (/^oas2[-_]/i.test(name)) rules[name] = 'off';
   }
   // saved rule overrides for this format take priority over the originals
-  const isInline = (name: string) => name in COMPILED_RULES || name in defaultRules();
+  const isInline = (name: string) => !!ALL_RULES[current.format]?.[name] && ALL_RULES[current.format][name].source !== 'builtin';
   for (const r of loadRules()) {
     if (r.format && r.format !== current.format) continue;
     if (r.def === 'off' || r.def === false) {
@@ -376,7 +374,7 @@ function activeRulesetDef(): any {
   }
 
   $('#active-count').textContent = String(Object.keys(rules).length);
-  const ext = DEFAULT_RULESETS[current.id]?.extends;
+  const ext = EXTENDS_FOR[current.format];
   return ext ? { extends: ext, rules } : { rules };
 }
 
@@ -634,9 +632,9 @@ let modalRuleFormat = ''; // format the edited rule belongs to (so overrides are
 function ruleDefForEditing(code: string): any {
   const saved = getRule(code, modalRuleFormat);
   if (saved) return saved.def;
-  const r = ruleDef(code);
+  const r = RULE_INDEX[code];
   if (r) {
-    const { tags: _t, ...rest } = r; // hide tag noise while editing
+    const { tags: _t, title: _ti, reference: _re, prompt: _pr, source: _so, _format: _f, ...rest } = r; // hide metadata while editing
     return rest;
   }
   return 'warn'; // built-in rule (from the extended ruleset) — edit as a severity toggle
@@ -849,14 +847,10 @@ function rulesForArtifact(a: ArtifactType): Array<{ name: string; category: stri
     if (!exp && BUILTIN_META[name]?.experience?.[0]) exp = `experience:${BUILTIN_META[name].experience[0]}`;
     list.push({ name, category: (exp ?? 'experience:other').split(':').slice(1).join(':') });
   };
-  for (const [name, rule] of Object.entries(COMPILED_RULES)) {
-    const t: string[] = Array.isArray((rule as any)?.tags) ? (rule as any).tags : [];
-    if (t.includes(`format:${a.format}`) && !t.includes('duplicate:true')) add(name, rule);
-  }
-  for (const [name, rule] of Object.entries(DEFAULT_RULESETS[a.id]?.rules ?? {})) add(name, rule);
+  for (const [name, rule] of Object.entries(ALL_RULES[a.format] || {})) add(name, rule);
   for (const name of builtinRulesByFormat[a.format] ?? []) {
     if (/^oas2[-_]/i.test(name)) continue; // no Swagger support
-    add(name, null);
+    add(name, RULE_INDEX[name] || null);
   }
   return list.sort((x, y) => x.name.localeCompare(y.name));
 }
