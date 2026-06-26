@@ -3347,7 +3347,7 @@ openapi:
     description: "Check if the delete response does not have any body."
     message: "{{error}}"
     severity: info
-    given: $.paths.*.
+    given: $.paths.*
     then:
       function: trimble:delete-must-not-return-body
     tags:
@@ -3363,7 +3363,7 @@ openapi:
     description: "All APIs returning structured data SHOULD support JSON as the default format."
     message: "{{error}}"
     severity: info
-    given: $.paths.*.
+    given: $.paths.*
     then:
       function: trimble:check-if-response-body-json-in-get-response
     tags:
@@ -3580,9 +3580,8 @@ openapi:
     source: compiled
     description: "HTTP verbs should be not be in URL paths."
     message: "{{property}} has HTTP verb in path: {{error}}"
-    given: $.paths
+    given: $.paths[*]~
     then:
-      field: "@key"
       function: trimble:no-http-verbs-in-path
     tags:
       - format:openapi
@@ -3597,9 +3596,8 @@ openapi:
     description: "Check if the given endpoint has queryparameter."
     message: "{{error}}"
     severity: info
-    given: $.paths.
+    given: $.paths[*]~
     then:
-      field: "@key"
       function: trimble:invalid-symbol-in-path
     tags:
       - format:openapi
@@ -3912,7 +3910,7 @@ openapi:
     description: "Check for the path parameter in the parameter block."
     message: "{{error}}"
     severity: info
-    given: $.paths.
+    given: $.paths
     then:
       function: trimble:check-for-path-parameter
     tags:
@@ -3928,9 +3926,8 @@ openapi:
     description: "Check if the given resource path has queryparameter."
     message: "{{error}}"
     severity: info
-    given: $.paths
+    given: $.paths[*]~
     then:
-      field: "@key"
       function: trimble:check-for-query-parameter-in-every-path
     tags:
       - format:openapi
@@ -4016,7 +4013,7 @@ openapi:
     description: "Check if the response description is appropriate for all requests."
     message: "{{error}}"
     severity: info
-    given: $.paths.*.
+    given: $.paths.*
     then:
       function: trimble:check-description-for-all-success-responses
     tags:
@@ -4075,7 +4072,7 @@ openapi:
     description: "All APIs returning structured data SHOULD support JSON as the default format."
     message: "{{error}}"
     severity: info
-    given: $.paths.*.
+    given: $.paths.*
     then:
       function: trimble:check-if-application-or-json-in-put-and-post-response
     tags:
@@ -4655,7 +4652,7 @@ openapi:
     description: "Check if the get response code 206 has content-type and content-range."
     message: "{{error}}"
     severity: info
-    given: $.paths.*.
+    given: $.paths.*
     then:
       function: trimble:check-content-type-for-206-get-response-code
     tags:
@@ -5191,7 +5188,7 @@ openapi:
     description: "Check if the response description is appropriate for all requests."
     message: "{{error}}"
     severity: info
-    given: $.paths.*.*.responses.
+    given: $.paths.*.*.responses
     then:
       function: trimble:check-description-for-all-error-responses
     tags:
@@ -5230,7 +5227,7 @@ openapi:
     description: "All 4XX and 5XX response codes must follow Trimble API Standard."
     message: "{{error}}"
     severity: info
-    given: $.paths.*.*.responses.
+    given: $.paths.*.*.responses
     then:
       function: trimble:check-standard-for-error-payload
     tags:
