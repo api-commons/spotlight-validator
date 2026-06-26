@@ -58,9 +58,16 @@ const index = {};
 if (existsSync(RULES_DIR)) rmSync(RULES_DIR, { recursive: true, force: true });
 let written = 0;
 for (const art of ARTIFACT_ORDER) {
-  const list = (byArtifact[art] || []).sort((a, b) => (a.experience[0] || 'z').localeCompare(b.experience[0] || 'z') || a.slug.localeCompare(b.slug));
+  // alphabetical by display name (also orders the per-rule prev/next nav)
+  const list = (byArtifact[art] || []).sort((a, b) => a.name.localeCompare(b.name));
   if (!list.length) continue;
-  index[art] = { label: ARTIFACT_LABEL[art] || art, rules: list.map((r) => ({ slug: r.slug, name: r.name, experience: r.experience[0] || 'other', severity: r.severity })) };
+  index[art] = {
+    label: ARTIFACT_LABEL[art] || art,
+    rules: list.map((r) => ({
+      slug: r.slug, name: r.name, severity: r.severity, description: r.description,
+      experience: r.experience, spec: r.spec, topic: r.topic, owasp: r.owasp,
+    })),
+  };
   mkdirSync(join(RULES_DIR, art), { recursive: true });
   for (const r of list) {
     // description goes in front matter (a value Liquid never re-parses) — its
