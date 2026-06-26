@@ -11,7 +11,7 @@ import { parse } from 'yaml';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CLI_SKILL = join(ROOT, '..', 'spotlight-cli', 'packages', 'rulesets', 'src', 'skill', 'index.ts');
-const CATALOG = join(ROOT, 'rules', 'defaults', 'agent-skill.yaml');
+const CATALOG = join(ROOT, 'rules', 'all-rules.yaml');
 
 // Rule name → severity from the cli ruleset (4-space-indented quoted 'skill-*' keys,
 // each block carrying a `severity: '...'`). Default severity is 'warn' when omitted.
@@ -26,7 +26,7 @@ function cliRules(src) {
   return out;
 }
 const catalogRules = (yamlText) =>
-  new Map(Object.entries((parse(yamlText) || {}).rules || {}).map(([k, v]) => [k, v?.severity ?? 'warn']));
+  new Map(Object.entries((parse(yamlText) || {})['agent-skill'] || {}).map(([k, v]) => [k, v?.severity ?? 'warn']));
 
 export function checkSkillSync() {
   if (!existsSync(CLI_SKILL)) {
@@ -39,17 +39,18 @@ export function checkSkillSync() {
     console.warn('skill-sync: parsed 0 rules from the cli ruleset — skipping (check the regex).');
     return true;
   }
+  // Name parity is the invariant: the catalog must list every skill rule the cli
+  // can run, and vice versa. Severities legitimately differ — the catalog ships
+  // everything at `info` (educate-first), the cli ships recommended severities.
   const onlyCli = [...cli.keys()].filter((n) => !catalog.has(n));
   const onlyCatalog = [...catalog.keys()].filter((n) => !cli.has(n));
-  const sevMismatch = [...cli.keys()].filter((n) => catalog.has(n) && cli.get(n) !== catalog.get(n));
-  if (onlyCli.length === 0 && onlyCatalog.length === 0 && sevMismatch.length === 0) {
-    console.log(`skill-sync: OK — ${cli.size} rules match (name + severity) between spotlight:skill and the catalog.`);
+  if (onlyCli.length === 0 && onlyCatalog.length === 0) {
+    console.log(`skill-sync: OK — ${cli.size} rules match by name between spotlight:skill and the catalog.`);
     return true;
   }
-  console.error('skill-sync: DRIFT between spotlight:skill (cli) and rules/defaults/agent-skill.yaml');
+  console.error('skill-sync: DRIFT between spotlight:skill (cli) and the agent-skill catalog (rules/all-rules.yaml)');
   if (onlyCli.length) console.error('  in cli but NOT catalog:', onlyCli.join(', '));
   if (onlyCatalog.length) console.error('  in catalog but NOT cli:', onlyCatalog.join(', '));
-  for (const n of sevMismatch) console.error(`  severity mismatch: ${n} — cli '${cli.get(n)}' vs catalog '${catalog.get(n)}'`);
   return false;
 }
 

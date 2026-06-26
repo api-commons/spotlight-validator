@@ -89,6 +89,6 @@ for (const [a, v] of Object.entries(index)) console.log(`  ${a}: ${v.rules.lengt
 
 // Guard: the agent-skill catalog must mirror the executable spotlight:skill ruleset.
 if (!checkSkillSync()) {
-  console.error('Catalog drift detected — fix rules/defaults/agent-skill.yaml to match spotlight:skill.');
+  console.error('Catalog drift detected — align the agent-skill rules in rules/all-rules.yaml with spotlight:skill.');
   process.exit(1);
 }

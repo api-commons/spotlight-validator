@@ -824,9 +824,9 @@ openapi:
       - experience:documentation
       - experience:discoverability
     prompt: "You are editing an OpenAPI document to satisfy the Spotlight API governance rule 'info-require-title' (Info Require Title). Requirement: Having a intuitive and helpful title for your API using the OpenAPI info title is the first impression you will make on the consumers of your API. To fix: Ensure `title` is present and non-empty at each matching location. This rule is evaluated at the JSONPath `$.info` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid OpenAPI. Return only the complete corrected document, with no commentary."
-  info-require-version:
+  info-skill-require-version:
     title: "Info Require Version"
-    reference: "https://spotlight-rules.com/spec/rules/openapi/info-require-version/"
+    reference: "https://spotlight-rules.com/spec/rules/openapi/info-skill-require-version/"
     source: compiled
     description: "Publishing a version for your OpenAPI technical contract helps you communicate change with consumers using Semantic or date-based versioning published to the info version property."
     message: Info MUST Have Version
@@ -839,7 +839,7 @@ openapi:
       - format:openapi
       - spec:info
       - experience:versioning
-    prompt: "You are editing an OpenAPI document to satisfy the Spotlight API governance rule 'info-require-version' (Info Require Version). Requirement: Publishing a version for your OpenAPI technical contract helps you communicate change with consumers using Semantic or date-based versioning published to the info version property. To fix: Ensure `version` is present and non-empty at each matching location. This rule is evaluated at the JSONPath `$.info` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid OpenAPI. Return only the complete corrected document, with no commentary."
+    prompt: "You are editing an OpenAPI document to satisfy the Spotlight API governance rule 'info-skill-require-version' (Info Require Version). Requirement: Publishing a version for your OpenAPI technical contract helps you communicate change with consumers using Semantic or date-based versioning published to the info version property. To fix: Ensure `version` is present and non-empty at each matching location. This rule is evaluated at the JSONPath `$.info` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid OpenAPI. Return only the complete corrected document, with no commentary."
   info-title-capitalized:
     title: "Info Title Capitalized"
     reference: "https://spotlight-rules.com/spec/rules/openapi/info-title-capitalized/"
@@ -9253,9 +9253,9 @@ apis-json:
       - experience:consistency
       - experience:discoverability
     prompt: "You are editing an APIs.json document to satisfy the Spotlight API governance rule 'api-property-require-valid-url' (API Property Require Valid URL). Requirement: This property ensures that properties of an API or API contract all have valid URLs, checking if any of the URLs are not properly formed, or could be other formats. To fix: Ensure `url` does NOT match the regular expression `^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$`; rename or rewrite any value that does. This rule is evaluated at the JSONPath `$.apis.*.properties.* | $.common.*` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid APIs.json. Return only the complete corrected document, with no commentary."
-  api-property-require-versioning:
+  api-property-skill-require-versioning:
     title: "API Property Require Versioning"
-    reference: "https://spotlight-rules.com/spec/rules/apis-json/api-property-require-versioning/"
+    reference: "https://spotlight-rules.com/spec/rules/apis-json/api-property-skill-require-versioning/"
     source: default
     description: "This property ensures there is a reference to how APIs are versioned, providing a single place where teams can learn about how change is communicated."
     message: Has Versioning for API
@@ -9274,7 +9274,7 @@ apis-json:
       - spec:properties
       - experience:versioning
       - experience:documentation
-    prompt: "You are editing an APIs.json document to satisfy the Spotlight API governance rule 'api-property-require-versioning' (API Property Require Versioning). Requirement: This property ensures there is a reference to how APIs are versioned, providing a single place where teams can learn about how change is communicated. To fix: Ensure `type` does NOT match the regular expression `\\b(versions|Versions|Versioning|versioning)\\b`; rename or rewrite any value that does. This rule is evaluated at the JSONPath `$.apis.*.properties.* | $.common.*` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid APIs.json. Return only the complete corrected document, with no commentary."
+    prompt: "You are editing an APIs.json document to satisfy the Spotlight API governance rule 'api-property-skill-require-versioning' (API Property Require Versioning). Requirement: This property ensures there is a reference to how APIs are versioned, providing a single place where teams can learn about how change is communicated. To fix: Ensure `type` does NOT match the regular expression `\\b(versions|Versions|Versioning|versioning)\\b`; rename or rewrite any value that does. This rule is evaluated at the JSONPath `$.apis.*.properties.* | $.common.*` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid APIs.json. Return only the complete corrected document, with no commentary."
   api-property-require-video:
     title: "API Property Require Video"
     reference: "https://spotlight-rules.com/spec/rules/apis-json/api-property-require-video/"
@@ -13585,9 +13585,9 @@ mcp:
       - experience:versioning
       - experience:consistency
     prompt: "You are editing a MCP document to satisfy the Spotlight API governance rule 'info-require-protocol-version' (Info Require Protocol Version). Requirement: The `protocolVersion` property should be present. To fix: Ensure `protocolVersion` is present and non-empty at each matching location. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid MCP. Return only the complete corrected document, with no commentary."
-  info-require-version:
+  info-skill-require-version:
     title: "Info Require Version"
-    reference: "https://spotlight-rules.com/spec/rules/mcp/info-require-version/"
+    reference: "https://spotlight-rules.com/spec/rules/mcp/info-skill-require-version/"
     source: default
     description: "The `version` property should be present."
     message: version should be present
@@ -13601,7 +13601,7 @@ mcp:
       - spec:servers
       - experience:versioning
       - experience:data-modeling
-    prompt: "You are editing a MCP document to satisfy the Spotlight API governance rule 'info-require-version' (Info Require Version). Requirement: The `version` property should be present. To fix: Ensure `version` is present and non-empty at each matching location. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid MCP. Return only the complete corrected document, with no commentary."
+    prompt: "You are editing a MCP document to satisfy the Spotlight API governance rule 'info-skill-require-version' (Info Require Version). Requirement: The `version` property should be present. To fix: Ensure `version` is present and non-empty at each matching location. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid MCP. Return only the complete corrected document, with no commentary."
 plans:
   document-require-currency:
     title: "Document Require Currency"
@@ -14200,9 +14200,9 @@ finops:
       - experience:governance
     prompt: "You are editing a FinOps document to satisfy the Spotlight API governance rule 'document-finops-require-period' (Document FinOps Require Period). Requirement: A FinOps artifact should declare a period (e.g. monthly, annual) for the budget and costs. To fix: Ensure `period` is present and non-empty at each matching location. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid FinOps. Return only the complete corrected document, with no commentary."
 agent-skill:
-  require-allowed-tools:
-    title: "Require Allowed Tools"
-    reference: "https://spotlight-rules.com/spec/rules/agent-skill/require-allowed-tools/"
+  skill-require-allowed-tools:
+    title: "Skill Require Allowed Tools"
+    reference: "https://spotlight-rules.com/spec/rules/agent-skill/skill-require-allowed-tools/"
     source: spotlight
     description: "agent-skill document should declare a `allowed-tools` property."
     message: "Missing `allowed-tools`."
@@ -14216,10 +14216,10 @@ agent-skill:
       - spec:document
       - experience:governance
       - experience:discoverability
-    prompt: "You are editing an Agent Skill document to satisfy the Spotlight API governance rule 'require-allowed-tools' (Require Allowed Tools). Requirement: agent-skill document should declare a `allowed-tools` property. To fix: Ensure `allowed-tools` is present and non-empty at each matching location. Guidance: Missing `allowed-tools`. This rule is evaluated at the JSONPath `$.frontmatter` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid Agent Skill. Return only the complete corrected document, with no commentary."
-  require-metadata:
-    title: "Require Metadata"
-    reference: "https://spotlight-rules.com/spec/rules/agent-skill/require-metadata/"
+    prompt: "You are editing an Agent Skill document to satisfy the Spotlight API governance rule 'skill-require-allowed-tools' (Require Allowed Tools). Requirement: agent-skill document should declare a `allowed-tools` property. To fix: Ensure `allowed-tools` is present and non-empty at each matching location. Guidance: Missing `allowed-tools`. This rule is evaluated at the JSONPath `$.frontmatter` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid Agent Skill. Return only the complete corrected document, with no commentary."
+  skill-require-metadata:
+    title: "Skill Require Metadata"
+    reference: "https://spotlight-rules.com/spec/rules/agent-skill/skill-require-metadata/"
     source: spotlight
     description: "agent-skill document should declare a `metadata` property."
     message: "Missing `metadata`."
@@ -14233,10 +14233,10 @@ agent-skill:
       - spec:document
       - experience:governance
       - experience:discoverability
-    prompt: "You are editing an Agent Skill document to satisfy the Spotlight API governance rule 'require-metadata' (Require Metadata). Requirement: agent-skill document should declare a `metadata` property. To fix: Ensure `metadata` is present and non-empty at each matching location. Guidance: Missing `metadata`. This rule is evaluated at the JSONPath `$.frontmatter` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid Agent Skill. Return only the complete corrected document, with no commentary."
-  require-version:
-    title: "Require Version"
-    reference: "https://spotlight-rules.com/spec/rules/agent-skill/require-version/"
+    prompt: "You are editing an Agent Skill document to satisfy the Spotlight API governance rule 'skill-require-metadata' (Require Metadata). Requirement: agent-skill document should declare a `metadata` property. To fix: Ensure `metadata` is present and non-empty at each matching location. Guidance: Missing `metadata`. This rule is evaluated at the JSONPath `$.frontmatter` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid Agent Skill. Return only the complete corrected document, with no commentary."
+  skill-require-version:
+    title: "Skill Require Version"
+    reference: "https://spotlight-rules.com/spec/rules/agent-skill/skill-require-version/"
     source: spotlight
     description: "agent-skill document should declare a `version` property."
     message: "Missing `version`."
@@ -14250,7 +14250,7 @@ agent-skill:
       - spec:document
       - experience:governance
       - experience:discoverability
-    prompt: "You are editing an Agent Skill document to satisfy the Spotlight API governance rule 'require-version' (Require Version). Requirement: agent-skill document should declare a `version` property. To fix: Ensure `version` is present and non-empty at each matching location. Guidance: Missing `version`. This rule is evaluated at the JSONPath `$.frontmatter` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid Agent Skill. Return only the complete corrected document, with no commentary."
+    prompt: "You are editing an Agent Skill document to satisfy the Spotlight API governance rule 'skill-require-version' (Require Version). Requirement: agent-skill document should declare a `version` property. To fix: Ensure `version` is present and non-empty at each matching location. Guidance: Missing `version`. This rule is evaluated at the JSONPath `$.frontmatter` — inspect every location it matches and correct only what violates the rule. Make the smallest change that satisfies the rule, leave all unrelated content, key order, comments, and formatting unchanged, and keep the document valid Agent Skill. Return only the complete corrected document, with no commentary."
   skill-allowed-tools-array:
     title: "Skill Allowed Tools Array"
     reference: "https://spotlight-rules.com/spec/rules/agent-skill/skill-allowed-tools-array/"
