@@ -12,6 +12,9 @@ import builtinMetaRaw from './builtin-meta.json';
 import rulePromptsRaw from './rule-prompts.json';
 import { aiFix, aiFixFragment, generatePrompt, PROVIDERS, type Provider, type Finding } from './fix';
 import { listAccessibleRepos, loadRepos, addRepo, removeRepo, type Repo } from './repos';
+import { commitGitHub, openPrGitHub } from './git';
+import { componentizeOpenAPI, splitOpenAPIByTags, extractSchemasFromOpenAPI } from './utilities';
+import { buildApisJson } from './apisjson';
 import './style.css';
 
 // Curated experience/spec tags for the upstream spotlight:* built-in rules.
@@ -521,10 +524,7 @@ function renderResults() {
     const code = String(d.code);
     return `<li class="${sev}" data-sl="${d.range.start.line + 1}" data-el="${d.range.end.line + 1}" data-code="${escapeHtml(code)}" data-di="${d._i}">
       <span class="sev ${sev}" title="${sev}"></span>
-      <span class="rule-name">${escapeHtml(titleCase(code))}</span>
-      ${tagChips(tagsFor(code))}
       <span class="msg">${escapeHtml(d.message)}</span>
-      <span class="loc">L${d.range.start.line + 1}</span>
       ${currentProvider ? `<button class="fix-btn" title="Fix with AI (${PROVIDERS[currentProvider].label})">✨ fix</button>` : ''}
       <button class="edit-btn" title="Edit this rule">✎ edit</button>
     </li>`;
@@ -740,6 +740,8 @@ function renderSaved() {
           <span class="store-name" title="${escapeHtml(d.name)}">${escapeHtml(d.name)}</span>
           <span class="store-meta">${escapeHtml(artifactById(d.type).label)} · ${timeAgo(d.updatedAt)}</span>
           <button class="store-btn" type="button">Load</button>
+          <button class="store-btn git-commit" type="button" title="Commit to the selected repo">Commit ↗</button>
+          <button class="store-btn git-pr" type="button" title="Open a PR on the selected repo">PR ↗</button>
           <button class="store-del" type="button" title="Remove">&times;</button>
         </li>`)
         .join('')
@@ -750,11 +752,14 @@ function renderSaved() {
       const d = getDoc(id);
       if (d) { loadDocIntoEditor(d); switchTab('results'); }
     });
+    li.querySelector<HTMLButtonElement>('.git-commit')?.addEventListener('click', (e) => { e.stopPropagation(); gitSaveDoc(id, 'commit'); });
+    li.querySelector<HTMLButtonElement>('.git-pr')?.addEventListener('click', (e) => { e.stopPropagation(); gitSaveDoc(id, 'pr'); });
     li.querySelector<HTMLButtonElement>('.store-del')?.addEventListener('click', (e) => {
       e.stopPropagation();
       removeSaved(id);
     });
   });
+  populateSavedRepoSelect();
 }
 function renderSavedRules() {
   const rules = loadRules().sort((a, b) => b.updatedAt - a.updatedAt);
@@ -812,6 +817,7 @@ function switchTab(name: string) {
   document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
   ($('#tab-results') as HTMLElement).hidden = name !== 'results';
   ($('#tab-ruleset') as HTMLElement).hidden = name !== 'ruleset';
+  ($('#tab-utilities') as HTMLElement).hidden = name !== 'utilities';
   ($('#tab-saved') as HTMLElement).hidden = name !== 'saved';
   ($('#tab-rules') as HTMLElement).hidden = name !== 'rules';
   ($('#tab-repos') as HTMLElement).hidden = name !== 'repos';
@@ -822,6 +828,7 @@ function switchTab(name: string) {
   ($('#tag-filter') as HTMLElement).hidden = !filterable;
   if (filterable && !facetsBuilt) buildFilterUI();
   if (name === 'ruleset') renderRuleset();
+  if (name === 'utilities') renderUtilities();
 }
 
 // ---- Rules tab: every rule grouped by artifact, with enable/disable ----------
@@ -919,6 +926,16 @@ $('#ruleset-list').addEventListener('toggle', (e) => {
     openArtifact = null;
   }
 }, true);
+// Hover a rule in the listing to see its description (same tooltip as Results).
+$('#ruleset-list').addEventListener('mouseover', (e) => {
+  const li = (e.target as HTMLElement).closest('li[data-name]') as HTMLElement | null;
+  if (li) showLintTip(li.dataset.name!, e);
+});
+$('#ruleset-list').addEventListener('mousemove', positionTip);
+$('#ruleset-list').addEventListener('mouseout', (e) => {
+  const to = (e.relatedTarget as HTMLElement)?.closest?.('li[data-name]');
+  if (!to) hideLintTip();
+});
 
 // ---- configuration (API keys / tokens) --------------------------------------
 const CFG_FIELDS: Array<[string, keyof Config]> = [
@@ -988,6 +1005,21 @@ function saveCurrent() {
 }
 $('#doc-save').addEventListener('click', saveCurrent);
 
+// Download every saved artifact as one APIs.json (0.21, YAML).
+function downloadFile(name: string, text: string, mime = 'application/yaml') {
+  const url = URL.createObjectURL(new Blob([text], { type: mime }));
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+$('#download-apisjson').addEventListener('click', () => {
+  const docs = loadDocs();
+  if (!docs.length) { window.alert('No saved artifacts to export yet.'); return; }
+  const yaml = buildApisJson('Spotlight Validator artifacts', docs.map((d) => ({ name: d.name, content: d.content, lang: d.lang, type: d.type })));
+  downloadFile('apis.yaml', yaml);
+});
+
 // Reset — clears ALL local storage (saved artifacts + rule overrides) after a confirm.
 $('#reset-storage').addEventListener('click', () => {
   if (!window.confirm('Reset local storage? This permanently clears every saved artifact, rule override, and saved API key/token stored in this browser. This cannot be undone.')) return;
@@ -1032,6 +1064,7 @@ function renderRepos() {
       removeRepo(li.dataset.name!); renderRepos(); loadAccessibleRepos();
     });
   });
+  populateSavedRepoSelect();
 }
 $('#repo-add').addEventListener('click', () => {
   const full = $<HTMLSelectElement>('#repo-picker').value;
@@ -1041,6 +1074,121 @@ $('#repo-add').addEventListener('click', () => {
   loadAccessibleRepos();
 });
 $('#repo-refresh').addEventListener('click', loadAccessibleRepos);
+
+// ---- save a stored artifact to a repo (commit / PR) -------------------------
+function populateSavedRepoSelect() {
+  const sel = $<HTMLSelectElement>('#saved-repo-select');
+  const repos = loadRepos();
+  const prev = sel.value;
+  sel.innerHTML = repos.length
+    ? repos.map((r) => `<option value="${escapeHtml(r.fullName)}">${escapeHtml(r.fullName)}</option>`).join('')
+    : '<option value="">— add repos in the Repos tab —</option>';
+  if (repos.some((r) => r.fullName === prev)) sel.value = prev;
+}
+function setGitStatus(html: string, isError = false) {
+  const el = $('#saved-git-status') as HTMLElement;
+  el.innerHTML = html;
+  el.style.color = isError ? '#f14c4c' : '';
+}
+async function gitSaveDoc(id: string, kind: 'commit' | 'pr') {
+  const doc = getDoc(id);
+  if (!doc) return;
+  const token = (loadConfig().github || '').trim();
+  if (!token) return setGitStatus('Add a GitHub token in Config.', true);
+  const repo = $<HTMLSelectElement>('#saved-repo-select').value;
+  if (!repo) return setGitStatus('Add a repo in the Repos tab and pick it above.', true);
+  const ext = doc.lang === 'json' ? 'json' : 'yaml';
+  const defaultPath = `${doc.name.replace(/\.(ya?ml|json)$/i, '').replace(/[^a-z0-9._/-]+/gi, '-')}.${ext}`;
+  const path = window.prompt(`File path in ${repo}:`, defaultPath);
+  if (!path) return;
+  const branch = loadRepos().find((r) => r.fullName === repo)?.defaultBranch || 'main';
+  const message = `${kind === 'pr' ? 'Propose' : 'Update'} ${path} via spotlight-validator`;
+  setGitStatus(kind === 'pr' ? 'Opening PR…' : 'Committing…');
+  try {
+    const url = kind === 'pr'
+      ? await openPrGitHub(token, repo, path, doc.content, message, branch)
+      : await commitGitHub(token, repo, path, doc.content, message, branch);
+    setGitStatus(`${kind === 'pr' ? 'PR opened' : 'Committed'} ✓ <a href="${escapeHtml(url)}" target="_blank" rel="noopener">open ↗</a>`);
+  } catch (e) {
+    setGitStatus(`${kind} failed: ${escapeHtml(e instanceof Error ? e.message : String(e))}`, true);
+  }
+}
+
+// ---- utilities (per-artifact whole-document transforms) ---------------------
+const UTILITIES: Record<string, Array<{ id: string; label: string; desc: string }>> = {
+  openapi: [
+    { id: 'componentize', label: 'Componentize everything', desc: 'Move inline request, response, and parameter schemas into components.schemas and $ref them. Replaces the current document (Ctrl+Z to undo).' },
+    { id: 'split-tags', label: 'Split into OpenAPIs by tag', desc: 'Create a separate OpenAPI per tag, saved as new artifacts. The primary document is kept.' },
+    { id: 'extract-schemas', label: 'Extract JSON Schemas', desc: 'Save every component schema as a standalone JSON Schema artifact. The primary document is kept.' },
+  ],
+};
+function utilBaseName(): string {
+  const d = activeId ? getDoc(activeId) : undefined;
+  return (d?.name || `Untitled ${current.label}`).replace(/\.(ya?ml|json)$/i, '');
+}
+function saveNewDoc(name: string, type: string, content: string) {
+  upsertDoc({ id: newId(), name, type, lang: 'yaml', content, updatedAt: Date.now() });
+}
+function setUtilStatus(msg: string, isError = false) {
+  const el = $('#utilities-status') as HTMLElement;
+  el.textContent = msg;
+  el.style.color = isError ? '#f14c4c' : '';
+}
+// Replace the whole document via an undoable edit (Ctrl+Z reverts; re-lints).
+function replaceDocument(text: string) {
+  const model = docEditor.getModel();
+  if (!model) return;
+  docEditor.pushUndoStop();
+  docEditor.executeEdits('util', [{ range: model.getFullModelRange(), text, forceMoveMarkers: true }]);
+  docEditor.pushUndoStop();
+}
+function runUtility(_format: string, id: string) {
+  const text = docEditor.getValue();
+  try {
+    if (id === 'componentize') {
+      const { doc, count } = componentizeOpenAPI(text);
+      replaceDocument(doc);
+      setUtilStatus(`Componentized — hoisted ${count} inline schema${count === 1 ? '' : 's'} into components. (Ctrl+Z to undo)`);
+    } else if (id === 'split-tags') {
+      const parts = splitOpenAPIByTags(text);
+      if (!parts.length) return setUtilStatus('No tagged operations found to split.', true);
+      const base = utilBaseName();
+      for (const p of parts) saveNewDoc(`${base} — ${p.tag}`, 'openapi', p.doc);
+      renderSaved();
+      setUtilStatus(`Saved ${parts.length} OpenAPI artifact${parts.length === 1 ? '' : 's'} by tag — see Saved Artifacts. Primary kept.`);
+    } else if (id === 'extract-schemas') {
+      const schemas = extractSchemasFromOpenAPI(text);
+      if (!schemas.length) return setUtilStatus('No component schemas found to extract.', true);
+      const base = utilBaseName();
+      for (const s of schemas) saveNewDoc(`${base} — ${s.name}`, 'json-schema', s.doc);
+      renderSaved();
+      setUtilStatus(`Saved ${schemas.length} JSON Schema artifact${schemas.length === 1 ? '' : 's'} — see Saved Artifacts. Primary kept.`);
+    }
+  } catch (e) {
+    setUtilStatus(e instanceof Error ? e.message : String(e), true);
+  }
+}
+function renderUtilities() {
+  const listEl = $('#utilities-list');
+  listEl.innerHTML = ARTIFACTS.map((a) => {
+    const fns = UTILITIES[a.format] || [];
+    const open = a.format === current.format ? ' open' : '';
+    const rows = fns.length
+      ? fns.map((f) => `<li class="util-row" data-art="${escapeHtml(a.format)}" data-fn="${escapeHtml(f.id)}">
+          <button class="util-btn" type="button">${escapeHtml(f.label)}</button>
+          <div class="util-desc small text-muted">${escapeHtml(f.desc)}</div>
+        </li>`).join('')
+      : '<li class="store-empty">No functions yet — coming later.</li>';
+    return `<details class="rule-group"${open} data-art="${a.id}">
+      <summary><span class="group-name">${escapeHtml(a.label)}</span><span class="group-count">${fns.length ? `${fns.length} function${fns.length === 1 ? '' : 's'}` : '—'}</span></summary>
+      <ul class="util-list">${rows}</ul>
+    </details>`;
+  }).join('');
+  listEl.querySelectorAll<HTMLButtonElement>('.util-btn').forEach((btn) => {
+    const li = btn.closest('li.util-row') as HTMLElement;
+    btn.addEventListener('click', () => runUtility(li.dataset.art!, li.dataset.fn!));
+  });
+}
 
 // ---- tag filter wiring ------------------------------------------------------
 $('#filter-facets').addEventListener('click', (e) => {

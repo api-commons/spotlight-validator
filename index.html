@@ -19,6 +19,7 @@
         <a href="https://github.com/api-commons/spotlight-validator" target="_blank" rel="noopener">GitHub</a>
         <a href="https://spotlight-rules.com" target="_blank" rel="noopener">Spotlight Rules</a>
         <a href="https://apievangelist.com" target="_blank" rel="noopener" title="An API Evangelist project">API Evangelist</a>
+        <button id="download-apisjson" class="reset-btn" type="button" title="Assemble all saved artifacts into an APIs.json (YAML) and download">Download as APIs.json</button>
         <button id="reset-storage" class="reset-btn" type="button" title="Clear all saved artifacts and rules stored in this browser">Reset</button>
       </nav>
     </header>
@@ -47,6 +48,7 @@
         <div class="tabs" role="tablist">
           <button class="tab active" data-tab="results" type="button">Results</button>
           <button class="tab" data-tab="ruleset" type="button">Rules</button>
+          <button class="tab" data-tab="utilities" type="button">Utilities</button>
           <button class="tab" data-tab="saved" type="button">Saved Artifacts <span class="badge" id="saved-count">0</span></button>
           <button class="tab" data-tab="rules" type="button">Saved Rules <span class="badge" id="rules-count">0</span></button>
           <button class="tab" data-tab="repos" type="button">Repos <span class="badge" id="repos-count">0</span></button>
@@ -84,11 +86,25 @@
           <div id="ruleset-list"></div>
         </div>
 
+        <div class="tab-panel" id="tab-utilities" hidden>
+          <p class="saved-notice">
+            Apply a transformation to the <strong>current document</strong>, grouped by artifact type.
+            Some create new entries in Saved Artifacts; the primary document is always kept. More functions coming.
+          </p>
+          <div id="utilities-status" class="muted small"></div>
+          <div id="utilities-list"></div>
+        </div>
         <div class="tab-panel" id="tab-saved" hidden>
           <p class="saved-notice">
             Your documents autosave to this browser's local storage as you edit — no account needed.
-            They'll <strong>disappear if you clear your browser cache</strong>. Saving to the cloud is coming soon.
+            They'll <strong>disappear if you clear your browser cache</strong>. Commit or open a PR to save one
+            to a repo from the Repos tab (needs a GitHub token).
           </p>
+          <div class="repos-add saved-git-bar">
+            <span class="muted small">Commit / PR to</span>
+            <select id="saved-repo-select" title="Target repo — manage the list in the Repos tab"></select>
+            <span id="saved-git-status" class="muted small"></span>
+          </div>
           <ul id="saved-list" class="store-list"></ul>
         </div>
 
