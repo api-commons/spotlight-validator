@@ -13,7 +13,7 @@ import rulePromptsRaw from './rule-prompts.json';
 import { aiFix, aiFixFragment, generatePrompt, PROVIDERS, type Provider, type Finding } from './fix';
 import { listAccessibleRepos, loadRepos, addRepo, removeRepo, type Repo } from './repos';
 import { commitGitHub, openPrGitHub } from './git';
-import { componentizeOpenAPI, splitOpenAPIByTags, extractSchemasFromOpenAPI } from './utilities';
+import { utilitiesFor } from './utilities';
 import { buildApisJson } from './apisjson';
 import './style.css';
 
@@ -1115,13 +1115,6 @@ async function gitSaveDoc(id: string, kind: 'commit' | 'pr') {
 }
 
 // ---- utilities (per-artifact whole-document transforms) ---------------------
-const UTILITIES: Record<string, Array<{ id: string; label: string; desc: string }>> = {
-  openapi: [
-    { id: 'componentize', label: 'Componentize everything', desc: 'Move inline request, response, and parameter schemas into components.schemas and $ref them. Replaces the current document (Ctrl+Z to undo).' },
-    { id: 'split-tags', label: 'Split into OpenAPIs by tag', desc: 'Create a separate OpenAPI per tag, saved as new artifacts. The primary document is kept.' },
-    { id: 'extract-schemas', label: 'Extract JSON Schemas', desc: 'Save every component schema as a standalone JSON Schema artifact. The primary document is kept.' },
-  ],
-};
 function utilBaseName(): string {
   const d = activeId ? getDoc(activeId) : undefined;
   return (d?.name || `Untitled ${current.label}`).replace(/\.(ya?ml|json)$/i, '');
@@ -1142,28 +1135,19 @@ function replaceDocument(text: string) {
   docEditor.executeEdits('util', [{ range: model.getFullModelRange(), text, forceMoveMarkers: true }]);
   docEditor.pushUndoStop();
 }
-function runUtility(_format: string, id: string) {
-  const text = docEditor.getValue();
+function runUtility(format: string, id: string) {
+  const util = utilitiesFor(format).find((u) => u.id === id);
+  if (!util) return;
   try {
-    if (id === 'componentize') {
-      const { doc, count } = componentizeOpenAPI(text);
-      replaceDocument(doc);
-      setUtilStatus(`Componentized — hoisted ${count} inline schema${count === 1 ? '' : 's'} into components. (Ctrl+Z to undo)`);
-    } else if (id === 'split-tags') {
-      const parts = splitOpenAPIByTags(text);
-      if (!parts.length) return setUtilStatus('No tagged operations found to split.', true);
+    const out = util.run(docEditor.getValue(), { type: current.id, lang: docLang });
+    if (out.kind === 'replace') { replaceDocument(out.content); setUtilStatus(out.note); }
+    else if (out.kind === 'download') { downloadFile(out.name, out.content, out.mime); setUtilStatus(out.note); }
+    else if (out.kind === 'save') {
       const base = utilBaseName();
-      for (const p of parts) saveNewDoc(`${base} — ${p.tag}`, 'openapi', p.doc);
+      for (const it of out.items) saveNewDoc(`${base} — ${it.name}`, it.type, it.content);
       renderSaved();
-      setUtilStatus(`Saved ${parts.length} OpenAPI artifact${parts.length === 1 ? '' : 's'} by tag — see Saved Artifacts. Primary kept.`);
-    } else if (id === 'extract-schemas') {
-      const schemas = extractSchemasFromOpenAPI(text);
-      if (!schemas.length) return setUtilStatus('No component schemas found to extract.', true);
-      const base = utilBaseName();
-      for (const s of schemas) saveNewDoc(`${base} — ${s.name}`, 'json-schema', s.doc);
-      renderSaved();
-      setUtilStatus(`Saved ${schemas.length} JSON Schema artifact${schemas.length === 1 ? '' : 's'} — see Saved Artifacts. Primary kept.`);
-    }
+      setUtilStatus(`${out.note} See Saved Artifacts.`);
+    } else { setUtilStatus(out.note); }
   } catch (e) {
     setUtilStatus(e instanceof Error ? e.message : String(e), true);
   }
@@ -1171,7 +1155,7 @@ function runUtility(_format: string, id: string) {
 function renderUtilities() {
   const listEl = $('#utilities-list');
   listEl.innerHTML = ARTIFACTS.map((a) => {
-    const fns = UTILITIES[a.format] || [];
+    const fns = utilitiesFor(a.format);
     const open = a.format === current.format ? ' open' : '';
     const rows = fns.length
       ? fns.map((f) => `<li class="util-row" data-art="${escapeHtml(a.format)}" data-fn="${escapeHtml(f.id)}">
