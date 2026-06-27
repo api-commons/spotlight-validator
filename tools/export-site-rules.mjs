@@ -55,12 +55,16 @@ const records = [];
 for (const [fmt, rules] of Object.entries(all)) {
   const artifact = FMT_TO_ARTIFACT[fmt] || fmt;
   for (const [slug, r] of Object.entries(rules)) {
+    // Full rule definition as a copy-pasteable Spotlight/Spectral rule, keyed by
+    // slug; drop the internal provenance tag so what's shown is a valid rule.
+    const { source, ...body } = r;
     records.push({
       artifact, slug, name: r.title || slug, severity: sevOf(r.severity),
       given: givenStr(r.given), message: r.message || '', description: r.description || '',
       experience: tagVals(r.tags, 'experience'), spec: tagVals(r.tags, 'spec'),
       topic: tagVals(r.tags, 'topic'), owasp: tagVals(r.tags, 'owasp'),
       reference: r.reference || '', prompt: r.prompt || '', builtin: r.source === 'builtin',
+      ruleyaml: stringify({ [slug]: body }),
     });
   }
 }
@@ -98,7 +102,7 @@ for (const art of ARTIFACT_ORDER) {
       layout: 'rule', artifact: art, artifact_label: ARTIFACT_LABEL[art] || art, slug: r.slug, title: r.name,
       severity: r.severity, given: r.given, message: r.message, description: r.description,
       experience: r.experience, spec: r.spec, topic: r.topic, owasp: r.owasp,
-      reference: r.reference, prompt: r.prompt, builtin: r.builtin,
+      reference: r.reference, prompt: r.prompt, builtin: r.builtin, ruleyaml: r.ruleyaml,
     }).trimEnd();
     writeFileSync(join(RULES_DIR, art, `${r.slug}.md`), `---\n${fm}\n---\n`);
     written++;
