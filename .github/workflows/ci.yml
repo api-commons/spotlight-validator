@@ -4,7 +4,7 @@ on:
     branches: [main]
   pull_request:
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,6 +13,8 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - name: Invariant gates (catalog in-sync · ruleset construction · skill drift)
-        run: npm run check
-      - run: npm run build
+      - run: npm run lint --if-present
+      - run: npm run typecheck --if-present
+      - run: npm run check --if-present
+      - run: npm test --if-present
+      - run: npm run build --if-present
