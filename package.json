@@ -1,6 +1,6 @@
 {
   "name": "spotlight-validator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Browser-based OpenAPI/AsyncAPI/JSON Schema governance tool powered by Spotlight Rules.",
   "license": "Apache-2.0",
@@ -14,10 +14,10 @@
     "check:rulesets": "tsx tools/check-rulesets.ts"
   },
   "dependencies": {
-    "@spotlight-rules/spotlight-core": "^1.0.0",
-    "@spotlight-rules/spotlight-functions": "^1.0.0",
-    "@spotlight-rules/spotlight-parsers": "^1.0.0",
-    "@spotlight-rules/spotlight-rulesets": "^1.0.0",
+    "@spotlight-rules/spotlight-core": "^1.1.0",
+    "@spotlight-rules/spotlight-functions": "^1.1.0",
+    "@spotlight-rules/spotlight-parsers": "^1.1.0",
+    "@spotlight-rules/spotlight-rulesets": "^1.1.0",
     "monaco-editor": "^0.52.2",
     "yaml": "^2.6.1"
   },
