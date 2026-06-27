@@ -273,3 +273,22 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.85em; }
 .util-btn:hover { filter: brightness(1.08); }
 .util-desc { margin-top: 0.3rem; }
 #utilities-status { padding: 0.25rem 0.75rem; min-height: 1.1rem; }
+
+/* ---- API Evangelist services engagement (engage.ts) ---- */
+.engage-btn { background: var(--accent); color: #1e1e1e; border: none; border-radius: 5px; padding: 4px 12px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+.engage-btn:hover { filter: brightness(1.08); }
+.engage-card { width: min(620px, 94vw); }
+.engage-body { padding: 0.9rem 1.1rem 1.1rem; overflow-y: auto; max-height: 82vh; }
+.engage-intro { color: var(--muted); font-size: 0.9rem; line-height: 1.5; margin: 0 0 1rem; }
+.engage-intro a { color: var(--accent); }
+.engage-services { display: flex; flex-direction: column; gap: 0.5rem; }
+.engage-service { display: flex; align-items: center; gap: 1rem; justify-content: space-between; border: 1px solid var(--line); border-radius: 6px; padding: 0.7rem 0.85rem; }
+.engage-service-text { display: flex; flex-direction: column; gap: 0.2rem; }
+.engage-service-text strong { font-size: 0.92rem; color: var(--fg); }
+.engage-service-text span { color: var(--muted); font-size: 0.82rem; line-height: 1.4; }
+.engage-cta { flex-shrink: 0; background: var(--accent); color: #1e1e1e; text-decoration: none; border-radius: 5px; padding: 5px 12px; font-size: 0.82rem; font-weight: 600; white-space: nowrap; }
+.engage-cta:hover { filter: brightness(1.08); }
+.engage-foot { margin: 1rem 0 0; font-size: 0.85rem; }
+.engage-foot a { color: var(--accent); }
+.engage-close { background: none; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; line-height: 1; }
+.engage-close:hover { color: var(--fg); }

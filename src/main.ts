@@ -14,6 +14,7 @@ import { listAccessibleRepos, loadRepos, addRepo, removeRepo, type Repo } from '
 import { commitGitHub, openPrGitHub } from './git';
 import { utilitiesFor } from './utilities';
 import { buildApisJson } from './apisjson';
+import { initEngage } from './engage';
 import './style.css';
 
 // Curated experience/spec tags for the upstream spotlight:* built-in rules.
@@ -1012,6 +1013,16 @@ $('#download-apisjson').addEventListener('click', () => {
   if (!docs.length) { window.alert('No saved artifacts to export yet.'); return; }
   const yaml = buildApisJson('Spotlight Validator artifacts', docs.map((d) => ({ name: d.name, content: d.content, lang: d.lang, type: d.type })));
   downloadFile('apis.yaml', yaml);
+});
+
+// API Evangelist services — a context-aware "Get a review" front door. Reads the
+// current artifact + finding count at click time so the email starts with detail.
+initEngage(() => {
+  const parts = [`Artifact type: ${labelForFormat(current.format)}`];
+  if (lastDiagnostics.length) parts.push(`Findings currently in view: ${lastDiagnostics.length}`);
+  const saved = loadDocs().length;
+  if (saved) parts.push(`Saved artifacts in this session: ${saved}`);
+  return 'Context from the Spotlight Validator:\n- ' + parts.join('\n- ');
 });
 
 // Reset — clears ALL local storage (saved artifacts + rule overrides) after a confirm.
