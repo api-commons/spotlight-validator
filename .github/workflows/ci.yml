@@ -13,8 +13,6 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - name: Ruleset construction gate
-        run: npm run check:rulesets
-      - name: Agent-skill catalog drift
-        run: npm run check:skill-sync
+      - name: Invariant gates (catalog in-sync · ruleset construction · skill drift)
+        run: npm run check
       - run: npm run build

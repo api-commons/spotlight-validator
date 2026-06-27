@@ -11,7 +11,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "check:skill-sync": "node tools/check-skill-sync.mjs",
-    "check:rulesets": "tsx tools/check-rulesets.ts"
+    "check:rulesets": "tsx tools/check-rulesets.ts",
+    "sync:catalog": "node tools/sync-catalog.mjs",
+    "check:catalog": "node tools/sync-catalog.mjs --check",
+    "export:site": "node tools/export-site-rules.mjs",
+    "check": "npm run check:catalog && npm run check:rulesets && npm run check:skill-sync"
   },
   "dependencies": {
     "@spotlight-rules/spotlight-core": "^1.1.0",
