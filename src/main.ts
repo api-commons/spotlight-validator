@@ -13,6 +13,7 @@ import { aiFix, aiFixFragment, generatePrompt, PROVIDERS, type Provider, type Fi
 import { listAccessibleRepos, loadRepos, addRepo, removeRepo, type Repo } from './repos';
 import { commitGitHub, openPrGitHub } from './git';
 import { utilitiesFor } from './utilities';
+import { renderDocs as renderDocsHtml, renderDocsMarkdown, standaloneDocs, DOCS_CSS } from './docs';
 import { buildApisJson } from './apisjson';
 import { initEngage } from './engage';
 import './style.css';
@@ -57,19 +58,6 @@ const docEditor = monaco.editor.create($('#doc-editor'), {
   fontSize: 13,
   scrollBeyondLastLine: false,
 });
-
-// Created lazily on first modal open — a Monaco editor created inside a
-// display:none container renders nothing until it has real dimensions.
-let ruleEditor: monaco.editor.IStandaloneCodeEditor | null = null;
-function ensureRuleEditor(): monaco.editor.IStandaloneCodeEditor {
-  if (!ruleEditor) {
-    ruleEditor = monaco.editor.create($('#rule-editor'), {
-      value: '', language: 'yaml', theme: 'vs-dark', automaticLayout: true,
-      minimap: { enabled: false }, fontSize: 13, scrollBeyondLastLine: false,
-    });
-  }
-  return ruleEditor;
-}
 
 const ACRONYMS: Record<string, string> = {
   api: 'API', apis: 'APIs', oas: 'OAS', oas2: 'OAS2', oas3: 'OAS3', aas: 'AAS', url: 'URL', uri: 'URI',
@@ -369,8 +357,17 @@ function activeRulesetDef(): any {
       // "Cannot extend non-existing rule" if an inline rule is set to 'off').
       if (isInline(r.name)) delete rules[r.name];
       else rules[r.name] = 'off';
+    } else if (isInline(r.name)) {
+      // Merge the partial override ({severity, message?, description?}) onto the
+      // full base definition so `given`/`then` survive.
+      const base = rules[r.name] && typeof rules[r.name] === 'object'
+        ? rules[r.name]
+        : engineRule(ALL_RULES[current.format][r.name]);
+      const patch = typeof r.def === 'object' ? r.def : { severity: r.def };
+      rules[r.name] = { ...base, ...patch };
     } else {
-      rules[r.name] = r.def;
+      // Built-in (extended) rule: the engine only accepts a severity string here.
+      rules[r.name] = sevOf(r.def) ?? 'warn';
     }
   }
 
@@ -630,28 +627,45 @@ function hideLintTip() {
 // ---- rule editor modal ------------------------------------------------------
 let modalRuleName = '';
 let modalRuleFormat = ''; // format the edited rule belongs to (so overrides are scoped)
-function ruleDefForEditing(code: string): any {
-  const saved = getRule(code, modalRuleFormat);
-  if (saved) return saved.def;
-  const r = RULE_INDEX[code];
-  if (r) {
-    const { tags: _t, title: _ti, reference: _re, prompt: _pr, source: _so, _format: _f, ...rest } = r; // hide metadata while editing
-    return rest;
-  }
-  return 'warn'; // built-in rule (from the extended ruleset) — edit as a severity toggle
+// Inline (curated) rules carry a full definition we own; built-in rules come from
+// the extended ruleset. Only inline rules can have message/description overridden —
+// the engine rejects a partial override of an inherited built-in rule, so those
+// are severity-only.
+function isInlineRule(code: string, format: string): boolean {
+  const r = (ALL_RULES[format] || {})[code];
+  return !!r && (r as any).source !== 'builtin';
+}
+const sevOf = (def: any): string | undefined => (typeof def === 'string' ? def : def?.severity);
+function effectiveRuleFields(code: string, format: string): { severity: string; message: string; description: string } {
+  const saved = getRule(code, format);
+  const savedDef = saved && saved.def !== 'off' && saved.def !== false ? saved.def : undefined;
+  const base = RULE_INDEX[code] || {};
+  const savedObj = savedDef && typeof savedDef === 'object' ? savedDef : {};
+  return {
+    severity: sevOf(savedDef) || base.severity || 'warn',
+    message: savedObj.message ?? base.message ?? '',
+    description: savedObj.description ?? descriptionFor(code) ?? '',
+  };
 }
 function openRuleModal(code: string, format: string = current.format) {
   modalRuleName = code;
   modalRuleFormat = format;
-  const builtin = !ruleDef(code) && !getRule(code, format);
+  const inline = isInlineRule(code, format);
+  const f = effectiveRuleFields(code, format);
   $('#modal-title').textContent = titleCase(code);
-  $('#rule-note').textContent = builtin
-    ? 'Built-in rule from the extended ruleset — edit the severity (error/warn/info/hint/off) or replace with a full rule definition.'
-    : 'Edit this rule. Saving overrides the original when linting.';
+  $('#rule-note').textContent = inline
+    ? 'Edit this rule’s severity, message, and description. Saving overrides the original when linting.'
+    : 'Built-in rule — only its severity can be changed. Message and description come from the built-in ruleset.';
+  $<HTMLSelectElement>('#rule-severity').value = f.severity;
+  const msg = $<HTMLInputElement>('#rule-message');
+  const desc = $<HTMLTextAreaElement>('#rule-description');
+  msg.value = f.message;
+  desc.value = f.description;
+  msg.disabled = desc.disabled = !inline;
+  $('#rf-message-note').textContent = inline ? '' : '(built-in — read only)';
+  $('#rf-desc-note').textContent = inline ? '' : '(built-in — read only)';
   ($('#modal') as HTMLElement).hidden = false;
-  const ed = ensureRuleEditor();
-  ed.setValue(stringifyYaml({ [code]: ruleDefForEditing(code) }));
-  requestAnimationFrame(() => { ed.layout(); ed.focus(); });
+  requestAnimationFrame(() => $<HTMLSelectElement>('#rule-severity').focus());
 }
 function closeModal() {
   ($('#modal') as HTMLElement).hidden = true;
@@ -659,17 +673,21 @@ function closeModal() {
 $('#modal-close').addEventListener('click', closeModal);
 $('#modal').addEventListener('click', (e) => { if (e.target === $('#modal')) closeModal(); });
 $('#rule-apply').addEventListener('click', () => {
-  if (!ruleEditor) return;
-  try {
-    const parsed = parseYaml(ruleEditor.getValue());
-    const entry = parsed && typeof parsed === 'object' ? Object.entries(parsed)[0] : undefined;
-    if (entry) upsertRule(entry[0], modalRuleFormat, entry[1]);
-    closeModal();
-    renderSavedRules();
-    runLint();
-  } catch {
-    $('#rule-note').textContent = 'Invalid YAML — fix and try again.';
+  const severity = $<HTMLSelectElement>('#rule-severity').value;
+  if (isInlineRule(modalRuleName, modalRuleFormat)) {
+    const def: any = { severity };
+    const message = $<HTMLInputElement>('#rule-message').value.trim();
+    const description = $<HTMLTextAreaElement>('#rule-description').value.trim();
+    if (message) def.message = message;
+    if (description) def.description = description;
+    upsertRule(modalRuleName, modalRuleFormat, def);
+  } else {
+    // Built-in rule: the engine only accepts a severity string for an inherited rule.
+    upsertRule(modalRuleName, modalRuleFormat, severity);
   }
+  closeModal();
+  renderSavedRules();
+  runLint();
 });
 $('#rule-reset').addEventListener('click', () => {
   removeRule(modalRuleName, modalRuleFormat);
@@ -768,7 +786,7 @@ function renderSavedRules() {
     ? rules
         .map((r) => {
           const disabled = r.def === 'off' || r.def === false;
-          const state = disabled ? 'disabled' : typeof r.def === 'object' && r.def?.severity ? r.def.severity : 'custom';
+          const state = disabled ? 'disabled' : sevOf(r.def) ?? 'custom';
           return `<li class="${disabled ? 'rule-off' : ''}" data-name="${escapeHtml(r.name)}" data-format="${escapeHtml(r.format)}" data-disabled="${disabled ? '1' : ''}">
             <span class="store-name" title="${escapeHtml(r.name)}">${escapeHtml(titleCase(r.name))}</span>
             <span class="store-meta">${escapeHtml(labelForFormat(r.format))} · ${escapeHtml(String(state))} · ${timeAgo(r.updatedAt)}</span>
@@ -816,6 +834,7 @@ function switchTab(name: string) {
   document.querySelectorAll<HTMLButtonElement>('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
   ($('#tab-results') as HTMLElement).hidden = name !== 'results';
   ($('#tab-ruleset') as HTMLElement).hidden = name !== 'ruleset';
+  ($('#tab-docs') as HTMLElement).hidden = name !== 'docs';
   ($('#tab-utilities') as HTMLElement).hidden = name !== 'utilities';
   ($('#tab-saved') as HTMLElement).hidden = name !== 'saved';
   ($('#tab-rules') as HTMLElement).hidden = name !== 'rules';
@@ -828,6 +847,7 @@ function switchTab(name: string) {
   if (filterable && !facetsBuilt) buildFilterUI();
   if (name === 'ruleset') renderRuleset();
   if (name === 'utilities') renderUtilities();
+  if (name === 'docs') renderDocs();
 }
 
 // ---- Rules tab: every rule grouped by artifact, with enable/disable ----------
@@ -1000,6 +1020,49 @@ function saveCurrent() {
 }
 $('#doc-save').addEventListener('click', saveCurrent);
 
+// ---- upload an artifact from disk -------------------------------------------
+// Detect the artifact type from a parsed document's marker keys; null = unknown.
+function detectArtifactType(text: string, fileName: string): string | null {
+  if (/\.md$/i.test(fileName) || /^\s*---[\s\S]*\bname:/.test(text)) return 'agent-skill';
+  let d: any;
+  try { d = parseYaml(text); } catch { return null; }
+  if (!d || typeof d !== 'object') return null;
+  if (d.openapi || d.swagger) return 'openapi';
+  if (d.asyncapi) return 'asyncapi';
+  if (d.arazzo) return 'arazzo';
+  if (d.specificationVersion || (Array.isArray(d.apis) && d.name)) return 'apis-json';
+  if (d.protocolVersion || d.serverInfo || (d.tools && !d.paths)) return 'mcp';
+  if (d['@context'] || d['@graph']) return 'json-ld';
+  if (Array.isArray(d.plans)) return 'plans';
+  if (Array.isArray(d.limits) || d.rateLimits) return 'rate-limits';
+  if (d.$schema || d.$defs || d.definitions || d.properties || d.$id) return 'json-schema';
+  return null;
+}
+const fileInput = $<HTMLInputElement>('#doc-file');
+$('#doc-upload').addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', async () => {
+  const file = fileInput.files?.[0];
+  if (!file) return;
+  try {
+    const text = await file.text();
+    const isMd = /\.md$/i.test(file.name) || detectArtifactType(text, file.name) === 'agent-skill';
+    const head = (text.charCodeAt(0) === 0xfeff ? text.slice(1) : text).trimStart();
+    const lang: 'yaml' | 'json' = isMd ? 'yaml' : (/\.json$/i.test(file.name) || head.startsWith('{') || head.startsWith('[') ? 'json' : 'yaml');
+    const type = detectArtifactType(text, file.name) ?? current.id; // fall back to the current type
+    const name = file.name.replace(/\.(ya?ml|json|md|txt)$/i, '') || `Uploaded ${artifactById(type).label}`;
+    let doc = findDoc(type, name);
+    if (doc) Object.assign(doc, { content: text, lang, updatedAt: Date.now() });
+    else doc = { id: newId(), name, type, lang, content: text, updatedAt: Date.now() };
+    upsertDoc(doc);
+    loadDocIntoEditor(doc);
+    switchTab('results');
+  } catch (e) {
+    window.alert(`Could not read that file: ${e instanceof Error ? e.message : String(e)}`);
+  } finally {
+    fileInput.value = ''; // let the same file be re-selected later
+  }
+});
+
 // Download every saved artifact as one APIs.json (0.21, YAML).
 function downloadFile(name: string, text: string, mime = 'application/yaml') {
   const url = URL.createObjectURL(new Blob([text], { type: mime }));
@@ -1013,6 +1076,62 @@ $('#download-apisjson').addEventListener('click', () => {
   if (!docs.length) { window.alert('No saved artifacts to export yet.'); return; }
   const yaml = buildApisJson('Spotlight Validator artifacts', docs.map((d) => ({ name: d.name, content: d.content, lang: d.lang, type: d.type })));
   downloadFile('apis.yaml', yaml);
+});
+
+// ---- Docs tab: generate documentation for the current document --------------
+// Load the doc stylesheet, then remap its colour variables to the dark app
+// palette so the preview blends in. (Downloads keep the light defaults.)
+(function injectDocsStyle() {
+  const el = document.createElement('style');
+  el.textContent = `${DOCS_CSS}
+#docs-view { padding: 0.25rem 0.25rem 1rem; overflow: auto; }
+#docs-view.doc-view {
+  --dc-fg: var(--fg);
+  --dc-muted: var(--muted);
+  --dc-faint: var(--muted);
+  --dc-line: var(--line);
+  --dc-soft: var(--panel);
+  --dc-th: #2b2b2c;
+  --dc-code: rgba(255,255,255,0.09);
+  --dc-accent: var(--info);
+  --dc-border: var(--line);
+}`;
+  document.head.appendChild(el);
+})();
+function currentDocName(): string {
+  const d = activeId ? getDoc(activeId) : undefined;
+  return (d?.name || `Untitled ${current.label}`).replace(/\.(ya?ml|json|md)$/i, '');
+}
+function renderDocs() {
+  const { html, error } = renderDocsHtml(current.format, docEditor.getValue());
+  $('#docs-view').innerHTML = error
+    ? `<div class="err">${escapeHtml(error)}</div>`
+    : (html || '<div class="ok">Nothing to document yet.</div>');
+}
+let docsTimer: number | undefined;
+function scheduleDocs() {
+  clearTimeout(docsTimer);
+  docsTimer = window.setTimeout(() => { if (activeTab === 'docs') renderDocs(); }, 300);
+}
+$('#docs-download-html').addEventListener('click', () => {
+  const { html, error } = renderDocsHtml(current.format, docEditor.getValue());
+  if (error) { window.alert(error); return; }
+  downloadFile(`${currentDocName()}-docs.html`, standaloneDocs(currentDocName(), html), 'text/html');
+});
+$('#docs-download-md').addEventListener('click', () => {
+  const { markdown, error } = renderDocsMarkdown(current.format, docEditor.getValue());
+  if (error) { window.alert(error); return; }
+  downloadFile(`${currentDocName()}-docs.md`, markdown, 'text/markdown');
+});
+$('#docs-print').addEventListener('click', () => {
+  const { html, error } = renderDocsHtml(current.format, docEditor.getValue());
+  if (error) { window.alert(error); return; }
+  const w = window.open('', '_blank');
+  if (!w) { window.alert('Allow pop-ups to open the printable view.'); return; }
+  w.document.write(standaloneDocs(currentDocName(), html));
+  w.document.close();
+  w.focus();
+  window.setTimeout(() => w.print(), 350);
 });
 
 // API Evangelist services — a context-aware "Get a review" front door. Reads the
@@ -1197,6 +1316,7 @@ for (const sel of ['#results', '#ruleset-list']) {
 // ---- boot -------------------------------------------------------------------
 docEditor.onDidChangeModelContent(() => {
   scheduleLint();
+  scheduleDocs();
   if (!suppressSave) scheduleSave();
 });
 renderSavedRules();

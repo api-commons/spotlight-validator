@@ -29,7 +29,7 @@
         <a href="https://github.com/api-commons/spotlight-validator/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener" title="Rule sources &amp; licenses">Credits</a>
         <a href="https://github.com/api-commons/spotlight-validator" target="_blank" rel="noopener">GitHub</a>
         <a href="https://spotlight-rules.com" target="_blank" rel="noopener">Spotlight Rules</a>
-        <button id="engage-ae" class="engage-btn" type="button" title="Work with API Evangelist on a governance review or service">Get a review</button>
+        <button id="engage-ae" class="engage-btn" type="button" title="Work with API Evangelist on governance, reusability, and more">Get Help</button>
         <button id="download-apisjson" class="reset-btn" type="button" title="Assemble all saved artifacts into an APIs.json (YAML) and download">Download as APIs.json</button>
         <button id="reset-storage" class="reset-btn" type="button" title="Clear all saved artifacts and rules stored in this browser">Reset</button>
       </nav>
@@ -49,6 +49,8 @@
             <button id="lang-yaml" class="active" type="button">YAML</button>
             <button id="lang-json" type="button">JSON</button>
           </div>
+          <button id="doc-upload" class="upload-btn" type="button" title="Upload an artifact from your computer">Upload</button>
+          <input id="doc-file" type="file" accept=".yaml,.yml,.json,.md,.txt,application/json,text/yaml" hidden />
           <button id="doc-save" class="save-btn" type="button" title="Save to this browser's local storage">Save</button>
         </div>
         <div id="doc-status" class="muted small doc-status"></div>
@@ -59,6 +61,7 @@
         <div class="tabs" role="tablist">
           <button class="tab active" data-tab="results" type="button">Results</button>
           <button class="tab" data-tab="ruleset" type="button">Rules</button>
+          <button class="tab" data-tab="docs" type="button">Docs</button>
           <button class="tab" data-tab="utilities" type="button">Utilities</button>
           <button class="tab" data-tab="saved" type="button">Saved Artifacts <span class="badge" id="saved-count">0</span></button>
           <button class="tab" data-tab="rules" type="button">Saved Rules <span class="badge" id="rules-count">0</span></button>
@@ -97,6 +100,15 @@
           <div id="ruleset-list"></div>
         </div>
 
+        <div class="tab-panel" id="tab-docs" hidden>
+          <div class="repos-add docs-bar">
+            <span class="muted small">Live documentation for the <strong>current document</strong></span>
+            <button id="docs-download-html" class="save-btn" type="button" title="Download as a standalone HTML page">Download HTML</button>
+            <button id="docs-download-md" class="upload-btn" type="button" title="Download as a Markdown file">Download Markdown</button>
+            <button id="docs-print" class="upload-btn" type="button" title="Open a printable view (Save as PDF)">Print</button>
+          </div>
+          <div id="docs-view" class="doc-view"></div>
+        </div>
         <div class="tab-panel" id="tab-utilities" hidden>
           <p class="saved-notice">
             Apply a transformation to the <strong>current document</strong>, grouped by artifact type.
@@ -213,7 +225,25 @@
           <button id="modal-close" aria-label="Close">&times;</button>
         </div>
         <p id="rule-note" class="muted small"></p>
-        <div id="rule-editor" class="editor"></div>
+        <div class="rule-fields">
+          <label class="rule-field">
+            <span class="rf-label">Severity</span>
+            <select id="rule-severity">
+              <option value="error">error</option>
+              <option value="warn">warn</option>
+              <option value="info">info</option>
+              <option value="hint">hint</option>
+            </select>
+          </label>
+          <label class="rule-field">
+            <span class="rf-label">Message <span id="rf-message-note" class="rf-note"></span></span>
+            <input id="rule-message" type="text" autocomplete="off" spellcheck="false" placeholder="Text shown on each finding" />
+          </label>
+          <label class="rule-field">
+            <span class="rf-label">Description <span id="rf-desc-note" class="rf-note"></span></span>
+            <textarea id="rule-description" rows="3" spellcheck="false" placeholder="What this rule checks (shown in the tooltip)"></textarea>
+          </label>
+        </div>
         <div class="modal-actions">
           <button id="rule-apply" class="primary">Apply &amp; lint</button>
           <button id="rule-reset">Reset to default</button>
