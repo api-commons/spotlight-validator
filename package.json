@@ -22,7 +22,7 @@
     "@spotlight-rules/spotlight-functions": "^1.1.0",
     "@spotlight-rules/spotlight-parsers": "^1.1.0",
     "@spotlight-rules/spotlight-rulesets": "^1.1.0",
-    "monaco-editor": "^0.52.2",
+    "monaco-editor": "^0.56.0",
     "yaml": "^2.6.1"
   },
   "devDependencies": {
