@@ -2213,14 +2213,14 @@ rules:
       Enforcing a consistent schema for errors between different APIs, enables
       client to properly implement an error management strategy, with positive
       impacts for users. Error responses should return one of the media-type
-      defined in RFC7807: - `application/problem+json` -
+      defined in RFC 9457: - `application/problem+json` -
       `application/problem+xml` An example of a valid response: ``` responses:
       "503": content: application/problem+json: schema: ... ```. It requires the
       targeted value to be one of
       ["application/problem+xml","application/problem+json"] (evaluated at
       `$.paths.[*].responses[?(@property.match(/^(4|5|default)/))].content.*~`).
       Severity: error.'
-    message: Error responses should support RFC7807 in {{path}}.
+    message: Error responses should support RFC 9457 in {{path}}.
     formats:
       - oas3
     severity: error
@@ -2245,14 +2245,14 @@ rules:
       a consistent schema for errors between different APIs, enables client to
       properly implement an error management strategy, with positive impacts for
       users. This rule inspects the schema returned by an error response and
-      verifies whether it contains the main properties defined in RFC7807:
+      verifies whether it contains the main properties defined in RFC 9457:
       `status`, `title` and `detail`. An example of a valid payload is ``` {
       "title": "Not Found", "status": 404, "detail": "Book does not exist; id:
       123" } ``` See recommendation RAC_REST_NAME_007. It validates the targeted
       value against a JSON Schema (evaluated at
       `$.paths.[*].responses[?(@property.match(/^(4|5|default)/))][[schema]]`).
       Severity: hint.'
-    message: Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
+    message: Your schema doesn't seem to match RFC 9457. Are you sure it is ok? {{path}}
     formats:
       - oas3
     severity: hint
@@ -2283,10 +2283,10 @@ rules:
       Error management is a key enabler of a resilient API ecosystem. Enforcing
       a consistent schema for errors between different APIs, enables client to
       properly implement an error management strategy, with positive impacts for
-      users. Errors should return RFC7807 objects. Instead, this schema seems to
+      users. Errors should return RFC 9457 objects. Instead, this schema seems to
       use non standard properties such as: `message`, `msg` and `code`. An error
       of the following form ``` { "msg": "Book with id: 123 does not exist.",
-      "code": 6063 } ``` can be expressed in RFC7807 with ``` { "detail": "Book
+      "code": 6063 } ``` can be expressed in RFC 9457 with ``` { "detail": "Book
       with id: 123 does not exist.", "type":
       "https://api.example/v1/errors/6063", "status": 404, "title": "Not Found"
       } ``` Returning an URI in `type`, instead of an opaque `code` can help the
@@ -2296,7 +2296,7 @@ rules:
       requires the `@key` field not to match `message|code|msg` (evaluated at
       `$.[responses][?(@property.match(/^(4|5|default)/))][[schema]][properties].*~`).
       Severity: hint.'
-    message: Error response doesn't seem to match RFC7807. Are you sure it is ok?
+    message: Error response doesn't seem to match RFC 9457. Are you sure it is ok?
       {{path}}
     formats:
       - oas3
@@ -3507,7 +3507,7 @@ rules:
       - experience:consistency
       - experience:usability
   error-response-use-problem-type-2:
-    description: 'Every error response SHOULD support RFC 7807. It requires the
+    description: 'Every error response SHOULD support RFC 9457. It requires the
       targeted value to be one of
       ["application/problem+xml","application/problem+json"] (evaluated at
       `$.paths...responses[?(@property.match(/^(4|5)/))].content.*~`). Severity:
